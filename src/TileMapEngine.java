@@ -6,16 +6,14 @@ import java.util.List;
  * Created by lmweav on 23/10/2017.
  */
 public class TileMapEngine {
-    static File map = new File("resources/test.txt");
 
-
-    public static List<List<Character>> readMap(File map) {
+    public static List<List<Character>> readMap(File txtFile) {
         String line;
         List<List<Character>> matrix = new ArrayList<>();
 
         FileReader fr;
         try {
-            fr = new FileReader(map);
+            fr = new FileReader(txtFile);
         }
         catch (FileNotFoundException e) {
             System.out.println("cannot find file");
@@ -41,12 +39,6 @@ public class TileMapEngine {
         }
 
         return matrix;
-    }
-
-    public static void main(String[] args) {
-        List<List<Character>> matrix = readMap(map);
-        matrix.forEach(System.out::println);
-
     }
 
 }
