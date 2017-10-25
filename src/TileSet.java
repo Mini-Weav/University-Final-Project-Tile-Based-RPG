@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class TileSet {
 
-    public static TreeMap<Character, Tile> readTileSet(int rows, int cols, String fname) {
+    public static List<BufferedImage> readTileSet(int rows, int cols, String fname) {
         List<BufferedImage> images = new ArrayList<>();
         BufferedImage ts;
         try {
@@ -26,19 +26,7 @@ public class TileSet {
             }
         }
 
-        TreeMap<Character, Tile> tiles = new TreeMap<>();
-        for (int i = 0; i<images.size(); i++) {
-            switch (i) {
-                case 0: tiles.put('W',new Tile(images.get(i),true)) ;
-                    break;
-                case 1: tiles.put('0',new Tile(images.get(i),true));
-                    break;
-                case 2: tiles.put('B',new Tile(images.get(i),true));
-                    break;
-            }
-        }
-
-        return tiles;
+        return images;
     }
 
 }
