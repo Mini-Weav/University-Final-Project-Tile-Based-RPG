@@ -10,9 +10,9 @@ import java.util.TreeMap;
 public class TileMap extends JComponent {
     private Game game;
 
-    public static final int FRAME_WIDTH = 480, FRAME_HEIGHT = 480;
+    public static final int FRAME_WIDTH = 224, FRAME_HEIGHT = 224;
     public static final Dimension FRAME_SIZE = new Dimension(FRAME_WIDTH, FRAME_HEIGHT );
-    public static int MAX_X, MAX_Y;
+    public static int maxX, maxY;
     public static TreeMap<Character, Tile> tiles;
 
     public File txtFile;
@@ -22,20 +22,29 @@ public class TileMap extends JComponent {
         this.game = game;
         this.txtFile = new File("resources/"+txtFile+".txt");
         matrix = TileMapEngine.readMap(this.txtFile);
-        MAX_X = matrix.get(0).size()-1;
-        MAX_Y = matrix.size()-1;
+        maxX = matrix.get(0).size()-1;
+        maxY = matrix.size()-1;
         tiles = MapTileSet.readTileSet("resources/tilesets/"+tileFile+".png");
     }
 
     public void paintComponent(Graphics g) {
-        for (int j = 0; j<matrix.size(); j++) {
-            for (int i = 0; i<matrix.get(0).size(); i++) {
-                Tile tile = tiles.get(matrix.get(j).get(i));
-                g.drawImage(tile.img,i*32,j*32,32,32,null);
+        for (int j = 0; j< Camera.sizeY; j++) {
+            for (int i = 0; i<Camera.sizeX; i++) {
+                try {
+                    Tile tile = tiles.get(matrix.get(Game.camera.y+j).get(Game.camera.x+i));
+                    g.drawImage(tile.img,i*32,j*32,32,32,null);
+                } catch (IndexOutOfBoundsException e) {
+                    Tile tile = tiles.get('B');
+                    g.drawImage(tile.img,i*32,j*32,32,32,null);
+                }
+
             }
         }
         for (GameObject object : game.objects) {
-            object.paintComponent(g);
+            if (object.x >= Game.camera.x && object.x <= Game.camera.x + Camera.sizeX &&
+                    object.y >= Game.camera.y && object.y <= Game.camera.y + Camera.sizeY) {
+                object.paintComponent(g);
+            }
         }
     }
 

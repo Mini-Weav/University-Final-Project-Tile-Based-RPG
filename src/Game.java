@@ -9,6 +9,7 @@ public class Game {
     public TileMap map;
     public List<GameObject> objects;
     public static List<List<Character>> gameMatrix;
+    public static Camera camera;
     public Keys ctrl;
 
     public Game() {
@@ -44,6 +45,8 @@ public class Game {
                 gameMatrix.get(i).add(aLine);
             }
         }
+        camera = new Camera(this.player.x-(TileMap.FRAME_WIDTH/64),this.player.y-(TileMap.FRAME_HEIGHT/64), gameMatrix);
+
 
         for (GameObject object : objects) {
             object.update();
