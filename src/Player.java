@@ -11,7 +11,7 @@ public class Player extends GameObject {
 
     public Controller ctrl;
     public long lastStep = System.currentTimeMillis();
-    public boolean moving;
+
 
     public Player(Tile tile, int x, int y, Controller ctrl) {
         super(tile, x, y);
@@ -39,14 +39,24 @@ public class Player extends GameObject {
             if (action.right && this.x < TileMap.maxX &&
                     !TileMap.tiles.get(Game.gameMatrix.get(this.y).get(this.x+1)).collision) {
                 Game.camera.x++;
-                this.x++; }
-            lastStep = System.currentTimeMillis();
+                this.x++;
+            }
+            this.lastStep = System.currentTimeMillis();
         }
         moving = action.up || action.down || action.left || action.right;
+
+        if (TileMap.tiles.get(Game.gameMatrix.get(this.y).get(this.x)) instanceof DoorTile) {
+            Point doorPoints = DoorTile.points.get(new Point(this.x,this.y));
+            this.x = doorPoints.x;
+            this.y = doorPoints.y;
+            Game.camera.x = this.x-(TileMap.FRAME_WIDTH/64);
+            Game.camera.y = this.y-(TileMap.FRAME_HEIGHT/64);
+        }
+
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(TILES.get(0).img,(x-Game.camera.x)*32,(y-Game.camera.y)*32,32,32,null);
+        g.drawImage(TILES.get(0).img,(this.x-Game.camera.x)*32,(this.y-Game.camera.y)*32,32,32,null);
     }
 
 

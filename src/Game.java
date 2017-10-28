@@ -15,22 +15,23 @@ public class Game {
     public Game() {
         objects = new ArrayList<>();
         ctrl = new Keys();
-        player = new Player(Player.TILES.get(0),11,3,ctrl);
+        player = new Player(Player.TILES.get(0),9,22,ctrl);
         objects.add(player);
     }
 
     public static void main(String[] args) throws Exception {
         Game game = new Game();
-        TileMap test = new TileMap(game,"test","classroom");
+        TileMap test = new TileMap(game,"map","school");
         game.map = test;
         gameMatrix = new ArrayList<>(game.map.matrix.size());
+        DoorTile.initialisePoints();
 
         new JEasyFrame(test,"test").addKeyListener(game.ctrl);
 
         while (true) {
             game.update();
-            //System.out.println(game.player.x+","+game.player.y);
             test.repaint();
+            Thread.sleep(20);
         }
 
     }

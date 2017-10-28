@@ -27,7 +27,7 @@ public class TileMapEngine {
                 List<Character> row = new ArrayList<>();
 
                 for (char ch : line.toCharArray()) {
-                    if (ch != ',') { row.add(ch); }
+                    row.add(ch);
                 }
                 matrix.add(row);
 
