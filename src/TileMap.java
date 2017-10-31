@@ -28,14 +28,14 @@ public class TileMap extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        for (int j = 0; j< Camera.sizeY; j++) {
-            for (int i = 0; i<Camera.sizeX; i++) {
+        for (int j = -1; j< Camera.sizeY+2; j++) {
+            for (int i = -1; i<Camera.sizeX+2; i++) {
                 try {
                     Tile tile = tiles.get(matrix.get(Game.camera.y+j).get(Game.camera.x+i));
-                    g.drawImage(tile.img,i*32,j*32,32,32,null);
+                    g.drawImage(tile.img,i*32-Game.camera.diffX,j*32-Game.camera.diffY,32,32,null);
                 } catch (IndexOutOfBoundsException e) {
                     Tile tile = tiles.get('B');
-                    g.drawImage(tile.img,i*32,j*32,32,32,null);
+                    g.drawImage(tile.img,i*32-Game.camera.diffX,j*32-Game.camera.diffY,32,32,null);
                 }
 
             }
@@ -45,6 +45,9 @@ public class TileMap extends JComponent {
                     object.y >= Game.camera.y && object.y <= Game.camera.y + Camera.sizeY) {
                 object.paintComponent(g);
             }
+        }
+        if (Game.transition) {
+            g.fillRect(0,0,FRAME_WIDTH+16,FRAME_HEIGHT+16);
         }
     }
 

@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,8 @@ public class Game {
     public List<GameObject> objects;
     public static List<List<Character>> gameMatrix;
     public static Camera camera;
+    public static boolean transition;
+    public static long transitionTime;
     public Keys ctrl;
 
     public Game() {
@@ -24,14 +28,26 @@ public class Game {
         TileMap test = new TileMap(game,"map","school");
         game.map = test;
         gameMatrix = new ArrayList<>(game.map.matrix.size());
+        camera = new Camera(game.player.x-(TileMap.FRAME_WIDTH/64),game.player.y-(TileMap.FRAME_HEIGHT/64),
+                game.map.matrix);
+        System.out.println(camera.maxX);
         DoorTile.initialisePoints();
 
-        new JEasyFrame(test,"test").addKeyListener(game.ctrl);
+        JFrame frame = new JFrame("Game");
+        frame.add(test, BorderLayout.CENTER);
+        frame.addKeyListener(game.ctrl);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setPreferredSize(TileMap.FRAME_SIZE );
+
 
         while (true) {
             game.update();
             test.repaint();
-            Thread.sleep(20);
+            Thread.sleep(70);
         }
 
     }
@@ -46,13 +62,15 @@ public class Game {
                 gameMatrix.get(i).add(aLine);
             }
         }
-        camera = new Camera(this.player.x-(TileMap.FRAME_WIDTH/64),this.player.y-(TileMap.FRAME_HEIGHT/64), gameMatrix);
+
 
 
         for (GameObject object : objects) {
             object.update();
             gameMatrix.get(object.y).set(object.x,object.tile.key);
         }
+
+        camera.update();
 
     }
 }

@@ -1,7 +1,6 @@
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * Created by Luke on 25/10/2017.
@@ -21,28 +20,28 @@ public class CharacterTileSet extends TileSet {
                     case 0: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
-                    //Up0
+                    //Down1
                     case 1: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
-                    //Left0
-                    case 2: tile = new Tile(images.get(i),false,key);
+                    //Down2
+                    case 2: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
                     //Right0
                     case 3: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
-                    //Down1
+                    //Right1
                     case 4: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
-                    //Down2
+                    //Up0
                     case 5: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
                     //Up1
-                    case 6: tile = new Tile(images.get(i),false,key);
+                    case 6: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
                     //Up2
@@ -53,8 +52,8 @@ public class CharacterTileSet extends TileSet {
                     case 8: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
-                    //Right1
-                    case 9: tile = new Tile(images.get(i),true,'P');
+                    //Left2
+                    case 9: tile = new Tile(images.get(i),true,key);
                         tiles.add(tile);
                         break;
                 }
