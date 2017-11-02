@@ -1,3 +1,7 @@
+package objects;
+
+import utilities.Tile;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;

@@ -1,3 +1,7 @@
+package utilities;
+
+import utilities.Tile;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,7 +26,7 @@ public class TileSet {
 
         for(int i=0; i<rows; i++) {
             for(int j=0; j<cols; j++) {
-                images.add((i*cols)+j,ts.getSubimage(j*Tile.WIDTH, i*Tile.HEIGHT, Tile.WIDTH, Tile.HEIGHT));
+                images.add((i*cols)+j,ts.getSubimage(j* Tile.WIDTH, i*Tile.HEIGHT, Tile.WIDTH, Tile.HEIGHT));
             }
         }
 

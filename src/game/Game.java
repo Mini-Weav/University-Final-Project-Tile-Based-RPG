@@ -1,3 +1,13 @@
+package game;
+
+import controllers.Keys;
+import objects.DoorTile;
+import objects.GameObject;
+import objects.InteractiveTile;
+import objects.Player;
+import utilities.GameFont;
+import utilities.TextBox;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,10 +18,11 @@ import java.util.List;
  */
 public class Game {
     public Player player;
-    public TileMap map;
     public List<GameObject> objects;
-    public static List<List<Character>> gameMatrix;
+    public static TileMapView map;
     public static Camera camera;
+    public static TextBox textBox;
+    public static List<List<Character>> gameMatrix;
     public static boolean transition;
     public static long transitionTime;
     public Keys ctrl;
@@ -25,15 +36,15 @@ public class Game {
 
     public static void main(String[] args) throws Exception {
         Game game = new Game();
-        TileMap test = new TileMap(game,"map","school");
-        game.map = test;
-        gameMatrix = new ArrayList<>(game.map.matrix.size());
-        camera = new Camera(game.player.x-(TileMap.FRAME_WIDTH/64),game.player.y-(TileMap.FRAME_HEIGHT/64),
-                game.map.matrix);
-        System.out.println(camera.maxX);
+        TileMapView test = new TileMapView(game,"map","school");
+        map = test;
+        gameMatrix = new ArrayList<>(map.matrix.size());
+        camera = new Camera(game.player.x-(TileMapView.FRAME_WIDTH/64),game.player.y-(TileMapView.FRAME_HEIGHT/64), map.matrix);
         DoorTile.initialisePoints();
+        InteractiveTile.initialisePoints();
+        GameFont.loadFont();
 
-        JFrame frame = new JFrame("Game");
+        JFrame frame = new JFrame("game.Game");
         frame.add(test, BorderLayout.CENTER);
         frame.addKeyListener(game.ctrl);
         frame.pack();
@@ -41,7 +52,7 @@ public class Game {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setPreferredSize(TileMap.FRAME_SIZE );
+        frame.setPreferredSize(TileMapView.FRAME_SIZE );
 
 
         while (true) {

@@ -1,10 +1,12 @@
+package game;
+
 import java.util.List;
 
 /**
  * Created by lmweav on 26/10/2017.
  */
 public class Camera {
-    public static int sizeX = TileMap.FRAME_WIDTH/32, sizeY = TileMap.FRAME_WIDTH/32;
+    public static int sizeX = TileMapView.FRAME_WIDTH/32, sizeY = TileMapView.FRAME_WIDTH/32;
     public int x, y, gX, gY, maxX, maxY;
     public  int diffX = gX-(x*32), diffY = gY-(y*32);
 

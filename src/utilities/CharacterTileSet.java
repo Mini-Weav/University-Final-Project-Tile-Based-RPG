@@ -1,3 +1,8 @@
+package utilities;
+
+import utilities.Tile;
+import utilities.TileSet;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;

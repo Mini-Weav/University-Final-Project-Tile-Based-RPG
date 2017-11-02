@@ -1,3 +1,7 @@
+package objects;
+
+import utilities.Tile;
+
 import java.awt.*;
 
 /**
@@ -14,6 +18,7 @@ public abstract class GameObject {
         this.y = y;
         this.gX = x*32;
         this.gY = y*32;
+        this.moving = false;
     }
 
     public abstract void update();

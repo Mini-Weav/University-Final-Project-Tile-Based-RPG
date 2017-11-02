@@ -1,5 +1,17 @@
+package game;
+
+import game.Camera;
+import game.Game;
+import objects.GameObject;
+import objects.InteractiveTile;
+import utilities.MapTileSet;
+import utilities.TextBox;
+import utilities.Tile;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.List;
 import java.util.TreeMap;
@@ -7,7 +19,7 @@ import java.util.TreeMap;
 /**
  * Created by lmweav on 23/10/2017.
  */
-public class TileMap extends JComponent {
+public class TileMapView extends JComponent implements MouseListener {
     private Game game;
 
     public static final int FRAME_WIDTH = 480, FRAME_HEIGHT = 480;
@@ -18,13 +30,14 @@ public class TileMap extends JComponent {
     public File txtFile;
     public List<List<Character>> matrix;
 
-    public TileMap(Game game, String txtFile, String tileFile) {
+    public TileMapView(Game game, String txtFile, String tileFile) {
         this.game = game;
         this.txtFile = new File("resources/"+txtFile+".txt");
         matrix = TileMapEngine.readMap(this.txtFile);
         maxX = matrix.get(0).size()-1;
         maxY = matrix.size()-1;
         tiles = MapTileSet.readTileSet("resources/tilesets/"+tileFile+".png");
+        addMouseListener(this);
     }
 
     public void paintComponent(Graphics g) {
@@ -49,9 +62,35 @@ public class TileMap extends JComponent {
         if (Game.transition) {
             g.fillRect(0,0,FRAME_WIDTH+16,FRAME_HEIGHT+16);
         }
+        if (Game.textBox != null) {
+            Game.textBox.paintComponent(g);
+        }
     }
 
     public Dimension getPreferredSize() {
         return FRAME_SIZE;
+    }
+
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+        try {
+            if (Game.textBox == null) {
+                int x = (int)game.player.direction.getX();
+                int y = (int)game.player.direction.getY();
+                if (tiles.get(matrix.get(y).get(x)) instanceof InteractiveTile) {
+                    Game.textBox = new TextBox(InteractiveTile.points.get(new Point(x,y)));
+                }
+                else { Game.textBox = new TextBox("There's nothing here.");}
+            }
+            else {
+                Game.textBox = null;
+            }
+
+        }
+        catch (IndexOutOfBoundsException e1) { /*empty*/ }
+
     }
 }

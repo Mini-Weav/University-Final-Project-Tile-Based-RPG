@@ -1,3 +1,8 @@
+package utilities;
+
+import objects.DoorTile;
+import objects.InteractiveTile;
+
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.TreeMap;
@@ -28,16 +33,16 @@ public class MapTileSet extends TileSet {
                     case 2: tile = new Tile(images.get(i),true,'B');
                         tiles.put(tile.key,tile);
                         break;
-                    //Blackboard 1
-                    case 3: tile = new Tile(images.get(i),true,'x');
+                    //Whiteboard 1
+                    case 3: tile = new InteractiveTile(images.get(i),true,'x');
                         tiles.put(tile.key,tile);
                         break;
-                    //Blackboard 2
-                    case 4: tile = new Tile(images.get(i),true,'y');
+                    //Whiteboard 2
+                    case 4: tile = new InteractiveTile(images.get(i),true,'y');
                         tiles.put(tile.key,tile);
                         break;
-                    //Blackboard 3
-                    case 5: tile = new Tile(images.get(i),true,'z');
+                    //Whiteboard 3
+                    case 5: tile = new InteractiveTile(images.get(i),true,'z');
                         tiles.put(tile.key,tile);
                         break;
                     //Door
@@ -69,7 +74,7 @@ public class MapTileSet extends TileSet {
                         tiles.put(tile.key,tile);
                         break;
                     //Bookcase bottom
-                    case 13: tile = new Tile(images.get(i),true,'A');
+                    case 13: tile = new InteractiveTile(images.get(i),true,'A');
                         tiles.put(tile.key,tile);
                         break;
                     //Up staircase
@@ -89,15 +94,15 @@ public class MapTileSet extends TileSet {
                         tiles.put(tile.key,tile);
                         break;
                     //Fridge bottom
-                    case 18: tile = new Tile(images.get(i),true,'F');
+                    case 18: tile = new InteractiveTile(images.get(i),true,'F');
                         tiles.put(tile.key,tile);
                         break;
                     //Sink
-                    case 19: tile = new Tile(images.get(i),true,'S');
+                    case 19: tile = new InteractiveTile(images.get(i),true,'S');
                         tiles.put(tile.key,tile);
                         break;
                     //Oven
-                    case 20: tile = new Tile(images.get(i),true,'O');
+                    case 20: tile = new InteractiveTile(images.get(i),true,'O');
                         tiles.put(tile.key,tile);
                         break;
                     //Invisible door
@@ -113,27 +118,27 @@ public class MapTileSet extends TileSet {
                         tiles.put(tile.key,tile);
                         break;
                     //Tool shelf bottom 1
-                    case 24: tile = new Tile(images.get(i),true,'U');
+                    case 24: tile = new InteractiveTile(images.get(i),true,'U');
                         tiles.put(tile.key,tile);
                         break;
                     //Tool shelf bottom 2
-                    case 25: tile = new Tile(images.get(i),true,'I');
+                    case 25: tile = new InteractiveTile(images.get(i),true,'I');
                         tiles.put(tile.key,tile);
                         break;
                     //Tool desk top 1
-                    case 26: tile = new Tile(images.get(i),true,'h');
+                    case 26: tile = new InteractiveTile(images.get(i),true,'h');
                         tiles.put(tile.key,tile);
                         break;
                     //Tool desk top 2
-                    case 27: tile = new Tile(images.get(i),true,'j');
+                    case 27: tile = new InteractiveTile(images.get(i),true,'j');
                         tiles.put(tile.key,tile);
                         break;
                     //Tool desk bottom 1
-                    case 28: tile = new Tile(images.get(i),true,'H');
+                    case 28: tile = new InteractiveTile(images.get(i),true,'H');
                         tiles.put(tile.key,tile);
                         break;
                     //Tool desk bottom 2
-                    case 29: tile = new Tile(images.get(i),true,'J');
+                    case 29: tile = new InteractiveTile(images.get(i),true,'J');
                         tiles.put(tile.key,tile);
                         break;
                     //Canteen desk bottom 1
@@ -209,7 +214,7 @@ public class MapTileSet extends TileSet {
                         tiles.put(tile.key,tile);
                         break;
                     //Sign
-                    case 48: tile = new Tile(images.get(i),true,'?');
+                    case 48: tile = new InteractiveTile(images.get(i),true,'?');
                         tiles.put(tile.key,tile);
                         break;
                     //Top left fence
@@ -310,6 +315,10 @@ public class MapTileSet extends TileSet {
                         break;
                     //Invisible roof door
                     case 73: tile = new DoorTile(images.get(i),'=');
+                        tiles.put(tile.key,tile);
+                        break;
+                    //Outdoor Sign
+                    case 74: tile = new InteractiveTile(images.get(i),true,'"');
                         tiles.put(tile.key,tile);
                         break;
                 }
