@@ -1,4 +1,4 @@
-package utilities;
+package objects;
 
 import java.awt.image.BufferedImage;
 
@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
  */
 public class Tile {
     public BufferedImage img;
-    public static final int WIDTH=16, HEIGHT=16;
     public boolean collision;
     public char key;
 

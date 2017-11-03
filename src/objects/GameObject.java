@@ -1,14 +1,13 @@
 package objects;
 
-import utilities.Tile;
-
 import java.awt.*;
 
 /**
  * Created by Luke on 25/10/2017.
  */
 public abstract class GameObject {
-    public int x, y, gX, gY;
+    public int x, y;
+    public int gX, gY;
     public boolean moving, up, down, left, right;
     public Tile tile;
 
@@ -16,8 +15,8 @@ public abstract class GameObject {
         this.tile = tile;
         this.x = x;
         this.y = y;
-        this.gX = x*32;
-        this.gY = y*32;
+        this.gX = x * 32;
+        this.gY = y * 32;
         this.moving = false;
     }
 

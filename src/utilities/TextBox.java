@@ -1,8 +1,6 @@
 package utilities;
 
-import game.TileMapView;
-import utilities.GameFont;
-
+import game.Constants;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,8 +11,8 @@ import java.io.IOException;
  * Created by lmweav on 01/11/2017.
  */
 public class TextBox {
-    public static BufferedImage img;
     public String text;
+    public static BufferedImage img;
 
     public TextBox(String text) {
         loadImage();
@@ -22,21 +20,19 @@ public class TextBox {
     }
 
     public static void loadImage() {
-        try {
-            img = ImageIO.read(new File("resources/textbox.png"));
-        } catch (IOException e) {
+        try { img = ImageIO.read(new File("resources/textbox.png")); }
+        catch (IOException e) {
             System.out.println("cannot find file");
             e.printStackTrace();
-            return;
         }
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(img,4, TileMapView.FRAME_HEIGHT-88,null);
+        g.drawImage(img, 0, Constants.FRAME_HEIGHT - 94, null);
         g.setFont(GameFont.font);
         int lineIndex = 0;
         for (String line : text.split("\n")) {
-            g.drawString(line,12,(TileMapView.FRAME_HEIGHT-64+(g.getFontMetrics().getHeight()+2)*lineIndex));
+            g.drawString(line, 8, (Constants.FRAME_HEIGHT - 70 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
             lineIndex++;
         }
     }
