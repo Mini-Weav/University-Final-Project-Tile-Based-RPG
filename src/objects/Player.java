@@ -168,7 +168,7 @@ public class Player extends GameObject {
         moving = this.up || this.down || this.left || this.right;
         Action action = ctrl.action();
 
-        if (!moving && !Game.transition && Game.textBox == null) {
+        if (!moving && !Game.transition && Game.textBox == null && Game.menu == null) {
             if (action.up && this.y > 0 &&
                     !TileMapView.tiles.get(Game.gameMatrix.get(this.y - 1).get(this.x)).collision) { this.up = true; }
             if (action.down && this.y < Game.map.maxY &&
@@ -180,7 +180,7 @@ public class Player extends GameObject {
         }
         this.move();
 
-        if (!this.moving && !Game.transition && Game.textBox == null) {
+        if (!this.moving && !Game.transition && Game.textBox == null && Game.menu == null) {
             if (action.up) { rotate(0); }
             if (action.down) { rotate(1); }
             if (action.left) { rotate(2); }

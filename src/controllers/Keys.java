@@ -1,6 +1,7 @@
 package controllers;
 
-import controllers.Action;
+import game.Game;
+import utilities.Menu;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -41,6 +42,15 @@ public class Keys extends KeyAdapter implements Controller {
                 action.down = false;
                 action.left = false;
                 action.right = true;
+                break;
+            case KeyEvent.VK_M:
+                Menu.hotKeyAccess(1);
+                break;
+            case KeyEvent.VK_F:
+                Menu.hotKeyAccess(2);
+                break;
+            case KeyEvent.VK_E:
+                Menu.hotKeyAccess(3);
                 break;
         }
     }

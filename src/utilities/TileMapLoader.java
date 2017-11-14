@@ -18,13 +18,13 @@ public class TileMapLoader {
 
     public static void loadMaps() {
         tileMaps = new ArrayList<>();
-        tileMaps.add(new TileMap(0, 0,"hall_g","school_hall"));
-        tileMaps.add(new TileMap(1, 0,"hall_1f","school_hall"));
-        tileMaps.add(new TileMap(2, 1,"classroom_dt","school_classroom"));
-        tileMaps.add(new TileMap(3, 1,"classroom_ft","school_classroom"));
-        tileMaps.add(new TileMap(4, 1,"classroom_1f","school_classroom"));
-        tileMaps.add(new TileMap(5, 2,"canteen","school_canteen"));
-        tileMaps.add(new TileMap(6, 3,"yard","school_yard"));
+        tileMaps.add(new TileMap(0, 0,"hall_g","school_hall", 0, 126, 132));
+        tileMaps.add(new TileMap(1, 0,"hall_1f","school_hall", 1, 128, 180));
+        tileMaps.add(new TileMap(2, 1,"classroom_dt","school_classroom", 0, 88, 132));
+        tileMaps.add(new TileMap(3, 1,"classroom_ft","school_classroom", 0, 164, 132));
+        tileMaps.add(new TileMap(4, 1,"classroom_1f","school_classroom", 1, 128, 160));
+        tileMaps.add(new TileMap(5, 2,"canteen","school_canteen", 0, 126, 176));
+        tileMaps.add(new TileMap(6, 3,"yard","school_yard", 0, 126, 80));
     }
 
     public static TreeMap<Character, Tile> readTileSet(int id, String fname) {

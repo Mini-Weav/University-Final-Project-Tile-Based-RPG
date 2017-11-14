@@ -22,17 +22,17 @@ public class TextBox {
     public static void loadImage() {
         try { img = ImageIO.read(new File("resources/textbox.png")); }
         catch (IOException e) {
-            System.out.println("cannot find file");
+            System.out.println("Cannot find textbox image.");
             e.printStackTrace();
         }
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(img, 0, Constants.FRAME_HEIGHT - 94, null);
+        g.drawImage(img, 0, Constants.FRAME_HEIGHT - 136, img.getWidth() * 2, img.getHeight() * 3, null);
         g.setFont(GameFont.font);
         int lineIndex = 0;
         for (String line : text.split("\n")) {
-            g.drawString(line, 8, (Constants.FRAME_HEIGHT - 70 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
+            g.drawString(line, 24, (Constants.FRAME_HEIGHT - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
             lineIndex++;
         }
     }
