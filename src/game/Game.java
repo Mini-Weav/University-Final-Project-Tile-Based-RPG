@@ -42,13 +42,15 @@ public class Game {
         frame.setResizable(false);
         frame.add(map, BorderLayout.CENTER);
         frame.addKeyListener(this.ctrl);
-        frame.setUndecorated(true);
+        //frame.setUndecorated(true);
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
     }
+
+
+
     public void update() {
         gameMatrix.clear();
         gameMatrix = new ArrayList<>(map.matrix.size());
