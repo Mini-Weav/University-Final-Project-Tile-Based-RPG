@@ -6,6 +6,7 @@ import game.Constants;
 import game.Game;
 import game.TileMap;
 import game.TileMapView;
+import lessons.PE;
 import utilities.CharacterTileSet;
 import utilities.TileMapLoader;
 
@@ -21,7 +22,7 @@ public class Player extends GameObject {
     public boolean flip;
     public Point direction;
     public Controller ctrl;
-    public static final char KEY = 'P';
+    public static final char KEY = 'U';
     public static final List<Tile> TILES = CharacterTileSet.readTileSet("resources/tilesets/player.png", KEY);
     public static final List<BufferedImage> UP_SPRITES1;
     public static final List<BufferedImage> UP_SPRITES2;
@@ -42,25 +43,25 @@ public class Player extends GameObject {
     public Player(Tile tile, int x, int y, Controller ctrl) {
         super(tile, x, y);
         this.ctrl = ctrl;
-        this.flip = true;
-        this.direction = new Point(this.x, this.y + 1);
+        flip = true;
+        direction = new Point(this.x, this.y + 1);
     }
 
     public void walkAnimation(int direction, int index) {
         switch (direction) {
             case 0:
-                if (flip) { this.tile.img = UP_SPRITES1.get(index); }
-                else { this.tile.img = UP_SPRITES2.get(index); }
+                if (flip) { tile.img = UP_SPRITES1.get(index); }
+                else { tile.img = UP_SPRITES2.get(index); }
                 break;
             case 1:
-                if (flip) { this.tile.img = DOWN_SPRITES2.get(index); }
-                else { this.tile.img = DOWN_SPRITES1.get(index); }
+                if (flip) { tile.img = DOWN_SPRITES2.get(index); }
+                else { tile.img = DOWN_SPRITES1.get(index); }
                 break;
             case 2:
-                this.tile.img = LEFT_SPRITES.get(index);
+                tile.img = LEFT_SPRITES.get(index);
                 break;
             case 3:
-                this.tile.img = RIGHT_SPRITES.get(index);
+                tile.img = RIGHT_SPRITES.get(index);
                 break;
         }
     }
@@ -68,75 +69,75 @@ public class Player extends GameObject {
     public void rotate(int direction) {
         switch (direction) {
             case 0:
-                this.tile.img = UP_SPRITES1.get(0);
-                this.direction.setLocation(this.x,this.y-1);
+                tile.img = UP_SPRITES1.get(0);
+                this.direction.setLocation(x, y - 1);
                 break;
             case 1:
-                this.tile.img = DOWN_SPRITES1.get(0);
-                this.direction.setLocation(this.x,this.y+1);
+                tile.img = DOWN_SPRITES1.get(0);
+                this.direction.setLocation(x, y + 1);
                 break;
             case 2:
-                this.tile.img = LEFT_SPRITES.get(0);
-                this.direction.setLocation(this.x-1,this.y);
+                tile.img = LEFT_SPRITES.get(0);
+                this.direction.setLocation(x - 1, y);
                 break;
             case 3:
-                this.tile.img = RIGHT_SPRITES.get(0);
-                this.direction.setLocation(this.x+1,this.y);
+                tile.img = RIGHT_SPRITES.get(0);
+                this.direction.setLocation(x + 1, y);
                 break;
         }
     }
 
     public void move() {
         int i;
-        if (this.up) {
+        if (up) {
             Game.camera.gY -= 8;
-            this.gY -= 8;
-            i = (this.gY%32)/8;
+            gY -= 8;
+            i = (gY % 32) / 8;
             walkAnimation(0, i);
-            if (this.gY%32 == 0 || TileMapView.tiles.get(Game.gameMatrix.get(this.y-1).get(this.x)) instanceof DoorTile) {
+            if (gY % 32 == 0 || TileMapView.tiles.get(Game.tileMatrix[y - 1][x]) instanceof DoorTile) {
                 Game.camera.y--;
-                this.y--;
-                this.up = false;
+                y--;
+                up = false;
                 flip = !flip;
-                direction.setLocation(this.x,this.y-1);
+                direction.setLocation(x, y - 1);
             }
         }
-        if (this.down) {
+        if (down) {
             Game.camera.gY += 8;
-            this.gY += 8;
-            i = (this.gY%32)/16;
+            gY += 8;
+            i = (gY % 32) / 16;
             walkAnimation(1, i);
-            if (this.gY%32 == 0 || TileMapView.tiles.get(Game.gameMatrix.get(this.y+1).get(this.x)) instanceof DoorTile) {
+            if (gY % 32 == 0 || TileMapView.tiles.get(Game.tileMatrix[y + 1][x]) instanceof DoorTile) {
                 Game.camera.y++;
-                this.y++;
-                this.down = false;
+                y++;
+                down = false;
                 flip = !flip;
-                direction.setLocation(this.x,this.y+1);
+                direction.setLocation(x, y + 1);
 
             }
         }
-        if (this.left) {
+        if (left) {
             Game.camera.gX -= 8;
-            this.gX -= 8;
-            i = (this.gX%32)/8;
+            gX -= 8;
+            i = (gX % 32) / 8;
             walkAnimation(2, i);
-            if (this.gX%32 == 0) {
+            if (gX % 32 == 0) {
                 Game.camera.x--;
-                this.x--;
-                this.left = false;
-                direction.setLocation(this.x-1,this.y);
+                x--;
+                left = false;
+                direction.setLocation(x - 1, y);
             }
         }
-        if (this.right) {
+        if (right) {
             Game.camera.gX += 8;
-            this.gX += 8;
-            i = (this.gX%32)/16;
+            gX += 8;
+            i = (gX % 32)/16;
             walkAnimation(3, i);
-            if (this.gX%32 == 0) {
+            if (gX % 32 == 0) {
                 Game.camera.x++;
-                this.x++;
-                this.right = false;
-                direction.setLocation(this.x+1,this.y);
+                x++;
+                right = false;
+                direction.setLocation(x + 1, y);
             }
         }
     }
@@ -145,38 +146,55 @@ public class Player extends GameObject {
         Game.transition = true;
         Game.transitionTime = System.currentTimeMillis();
 
-        Point doorPoints = TileMapLoader.tileMaps.get(Game.map.currentId).doorPoints.get(new Point(this.x, this.y)).s;
-        //if (Game.gameMatrix.get(this.y).get(this.x) =='^') { this.tile.img = DOWN_SPRITES1.get(0); }
-        //if (Game.gameMatrix.get(this.y).get(this.x) =='v') { this.tile.img = DOWN_SPRITES1.get(0); }
+        Point doorPoints = TileMapLoader.tileMaps.get(Game.map.currentId).doorPoints.get(new Point(x, y)).s;
+        //if (Game.tileMatrix.get(this.y).get(this.x) =='^') { this.tile.img = downSprites1.get(0); }
+        //if (Game.tileMatrix.get(this.y).get(this.x) =='v') { this.tile.img = downSprites1.get(0); }
 
         TileMap currentMap = TileMapLoader.tileMaps.get(Game.map.currentId);
-        int nextId = currentMap.doorPoints.get(new Point(this.x, this.y)).t;
+        for (NPC npc : currentMap.NPCs.get(Game.time)) {
+            npc.resetDirection(npc.defaultDirection);
+        }
+        int nextId = currentMap.doorPoints.get(new Point(x, y)).t;
         Game.map.loadMap(TileMapLoader.tileMaps.get(nextId));
 
-        this.x = doorPoints.x;
-        this.y = doorPoints.y;
-        this.gX = x*32;
-        this.gY = y*32;
+        x = doorPoints.x;
+        y = doorPoints.y;
+        gX = x * 32;
+        gY = y * 32;
 
-        Game.camera.x = this.x-(Constants.FRAME_WIDTH/64);
-        Game.camera.y = this.y-(Constants.FRAME_HEIGHT/64);
-        Game.camera.gX = Game.camera.x*32;
-        Game.camera.gY = Game.camera.y*32;
+        Game.camera.x = x-(Constants.FRAME_WIDTH / 64);
+        Game.camera.y = y-(Constants.FRAME_HEIGHT / 64);
+        Game.camera.gX = Game.camera.x * 32;
+        Game.camera.gY = Game.camera.y * 32;
     }
 
     public void update() {
-        moving = this.up || this.down || this.left || this.right;
+        moving = up || down || left || right;
         Action action = ctrl.action();
 
+        TileMap currentMap = TileMapLoader.tileMaps.get(Game.map.currentId);
+
+        if (currentMap.id == 6 && x >= 19 && x <= 31 && y >= 8 && y <= 15) {
+            PE.movingScript(this);
+        }
+
+
         if (!moving && !Game.transition && Game.textBox == null && Game.menu == null) {
-            if (action.up && this.y > 0 &&
-                    !TileMapView.tiles.get(Game.gameMatrix.get(this.y - 1).get(this.x)).collision) { this.up = true; }
-            if (action.down && this.y < Game.map.maxY &&
-                    !TileMapView.tiles.get(Game.gameMatrix.get(this.y + 1).get(this.x)).collision) { this.down = true; }
-            if (action.left && this.x > 0 &&
-                    !TileMapView.tiles.get(Game.gameMatrix.get(this.y).get(this. x- 1)).collision) { this.left = true; }
-            if (action.right && this.x < Game.map.maxX &&
-                    !TileMapView.tiles.get(Game.gameMatrix.get(this.y).get(this.x + 1)).collision) { this.right = true; }
+            if (action.up && y > 0 &&
+                    Game.objectMatrix[y - 1][x] == null &&
+                    !TileMapView.tiles.get(Game.tileMatrix[y - 1][x]).collision) { up = true; }
+
+            if (action.down && y < Game.map.maxY &&
+                    Game.objectMatrix[y + 1][x] == null &&
+                    !TileMapView.tiles.get(Game.tileMatrix[y + 1][x]).collision) { down = true; }
+
+            if (action.left && x > 0 &&
+                    Game.objectMatrix[y][x - 1] == null &&
+                    !TileMapView.tiles.get(Game.tileMatrix[y][x - 1]).collision) { left = true; }
+
+            if (action.right && x < Game.map.maxX &&
+                    Game.objectMatrix[y][x + 1] == null &&
+                    !TileMapView.tiles.get(Game.tileMatrix[y][x + 1]).collision) { right = true; }
         }
         this.move();
 
@@ -187,12 +205,12 @@ public class Player extends GameObject {
             if (action.right) { rotate(3); }
         }
 
-        if (TileMapView.tiles.get(Game.gameMatrix.get(this.y).get(this.x)) instanceof DoorTile) { this.transition(); }
+        if (TileMapView.tiles.get(Game.tileMatrix[y][x]) instanceof DoorTile) { transition(); }
         if (Game.transition && System.currentTimeMillis() - Game.transitionTime > 1000 / 5) { Game.transition = false; }
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(this.tile.img, this.gX - Game.camera.gX, this.gY - Game.camera.gY, 32, 32, null);
+        g.drawImage(tile.img, gX - Game.camera.gX, gY - Game.camera.gY, 32, 32, null);
     }
 
 

@@ -1,5 +1,8 @@
 package lessons;
 
+import game.Game;
+import utilities.TextBox;
+
 import java.util.Scanner;
 
 /**
@@ -7,6 +10,31 @@ import java.util.Scanner;
  */
 public class Lesson {
     static int grade, numberOfDrinks;
+
+    public static void startLesson(int id) {
+        Game.textBox = new TextBox(3, "Look at the command line.");
+        grade = (Game.gradeValues[id] % 10) + 1;
+        numberOfDrinks = Game.items[0][0];
+        switch (id) {
+            case 0:
+            case 1:
+                lesson2(grade);
+                break;
+            case 2:
+                lesson3(grade);
+                break;
+            case 3:
+                lesson1(0, grade);
+                break;
+            case 4:
+                lesson1(1, grade);
+                break;
+        }
+        Game.items[0][0] = numberOfDrinks;
+        Game.textBox = null;
+        Game.menu = null;
+        Game.time++;
+    }
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -91,7 +119,7 @@ public class Lesson {
             while (!answered) {
                 System.out.println(questionsLeft + " questions left, "+ numberOfDrinks + " drinks left\n"
                         + "Attention span: "+ attentionSpan + " Concentration: " + concentration);
-                System.out.println("1 Write answer\n2 Think\n3 Drink energy drink\n4 Bathroom break");
+                System.out.println("1 Write answer\n2 Concentrate\n3 Drink energy drink\n4 Bathroom break");
                 System.out.print(">>");
                 int action = input.nextInt();
                 switch (action) {
@@ -159,8 +187,9 @@ public class Lesson {
                         score += result;
                         if (result > 0) {
                             completed = true;
-                            time -= 5;
+
                         }
+                        time -= 5;
                         break;
                     case 2:
                         if (time > 5) {

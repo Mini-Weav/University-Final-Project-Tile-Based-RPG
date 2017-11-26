@@ -36,7 +36,7 @@ public class TileMapLoader {
 
                 /*School Halls*/
                 case 0:
-                    images = TileSet.readTileSet(4, 3, fname);
+                    images = TileSet.readTileSet(5, 3, fname);
                     for (int i = 0; i < images.size(); i++) {
                         switch (i) {
 
@@ -112,6 +112,11 @@ public class TileMapLoader {
                                 tiles.put(tile.key, tile);
                                 break;
 
+                            /*Air Vent*/
+                            case 12:
+                                tile = new InteractiveTile(images.get(i), true, 'A');
+                                tiles.put(tile.key, tile);
+                                break;
                         }
                     }
                     break;

@@ -3,10 +3,8 @@ package game;
 import controllers.Keys;
 import objects.GameObject;
 import objects.Player;
-import utilities.GameFont;
+import utilities.*;
 import utilities.Menu;
-import utilities.TextBox;
-import utilities.TileMapLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,23 +14,30 @@ import java.util.List;
 /**
  * Created by Luke on 23/10/2017.
  */
+
+
+
 public class Game {
     public Player player;
     public List<GameObject> objects;
     public Keys ctrl;
+    public static int time;
+    public final static String[] timePeriods = new String[] { "MORNING\n", "LUNCH\n", "AFTER\nSCHOOL" };
     public static TileMapView map;
     public static Camera camera;
     public static TextBox textBox;
     public static Menu menu;
-    public static List<List<Character>> gameMatrix;
-    public static List<Integer> friendValues, gradeValues;
+    public static char[][] tileMatrix;
+    public static Object[][] objectMatrix;
+    public static int[] friendValues, gradeValues;
+    public static int[][] items;
     public static boolean transition;
     public static long transitionTime;
 
     public Game() {
         objects = new ArrayList<>();
         ctrl = new Keys();
-        player = new Player(Player.TILES.get(0), Constants.START_X, Constants.START_Y,ctrl);
+        player = new Player(Player.TILES.get(0), Constants.START_X, Constants.START_Y, ctrl);
         objects.add(player);
 
     }
@@ -52,43 +57,94 @@ public class Game {
 
 
     public void update() {
-        gameMatrix.clear();
-        gameMatrix = new ArrayList<>(map.matrix.size());
+
+        tileMatrix = new char[map.matrix.size()][map.matrix.get(0).size()];
+        objectMatrix = new Object[map.matrix.size()][map.matrix.get(0).size()];
 
         for (int i = 0; i < map.matrix.size(); i++) {
             List<Character> line = map.matrix.get(i);
-            gameMatrix.add(new ArrayList<>(line.size()));
-            for (Character aLine : line) { gameMatrix.get(i).add(aLine); }
+            for (int j = 0; j < map.matrix.get(0).size(); j++) {
+                tileMatrix[i][j] = line.get(j);
+            }
         }
         for (GameObject object : objects) {
-            gameMatrix.get(object.y).set(object.x, object.tile.key);
             object.update();
+            tileMatrix[object.y][object.x] = object.tile.key;
+            objectMatrix[object.y][object.x]  = object;
         }
         camera.update();
+        synchronized (Game.class) {
+            objects.clear();
+            objects.addAll(TileMapLoader.tileMaps.get(map.currentId).NPCs.get(time));
+            objects.add(player);
+        }
+    }
+
+    public static boolean hasCraft() {
+        for (int i = 0; i < items[1].length - 1; i++) {
+            if (items[1][i] != 0) { return true;}
+        }
+        return false;
+    }
+
+    public static boolean hasFood() {
+        for (int i = 0; i < items[2].length - 1; i++) {
+            if (items[2][i] != 0) { return true;}
+        }
+        return false;
+    }
+
+    public static boolean hasStinkBomb() {
+        return items[0][1] == 0;
+    }
+
+    public static boolean hasLockPick() {
+        return items[1][4] == 0;
+    }
+
+    public static boolean hasSuperCake() {
+        return items[2][4] == 0;
     }
 
     public static void main(String[] args) throws Exception {
         Game game = new Game();
+        time = 0;
 
+        TextBox.loadImages();
+        Menu.loadImages();
         TileMapLoader.loadMaps();
         map = new TileMapView(game, TileMapLoader.tileMaps.get(0));
 
         camera = new Camera(game.player.x - (Constants.FRAME_WIDTH / 64), game.player.y - (Constants.FRAME_HEIGHT / 64),
                 map.matrix);
 
-        friendValues = new ArrayList<>(5);
-        friendValues.add(0,21);
-        friendValues.add(1,11);
-        friendValues.add(2,1);
-        friendValues.add(3,0);
-        friendValues.add(4,1);
+        /* start of testing values */
 
-        gradeValues = new ArrayList<>(5);
-        gradeValues.add(0,10);
-        gradeValues.add(1,20);
-        gradeValues.add(2,0);
-        gradeValues.add(3,30);
-        gradeValues.add(4,0);
+        items = new int[3][];
+        items[0] = new int[2];
+        items[1] = new int[4];
+        items[2] = new int[4];
+        items[0][0] = 4;
+        items[1][0] = 1;
+        items[2][0] = 3;
+        items[2][1] = 2;
+        items[2][2] = 1;
+
+        friendValues = new int[5];
+        friendValues[0] = 21;
+        friendValues[1] = 11;
+        friendValues[2]= 1;
+        friendValues[3] = 0;
+        friendValues[4] = 1;
+
+        gradeValues = new int[5];
+        gradeValues[0] = 10;
+        gradeValues[1] = 20;
+        gradeValues[2] = 0;
+        gradeValues[3] = 30;
+        gradeValues[4] = 0;
+
+        /* end of testing values */
 
         GameFont.loadFont();
         game.createFrame();

@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 
 /**
  * Created by lmweav on 03/11/2017.
@@ -19,6 +18,7 @@ public class Menu {
     public static Point iconPoint;
     public static int minimapId, tick = 0;
     public static String text, friendText, gradeText;
+    public static BufferedImage[] imgs, mapImgs, friendImgs, gradeImgs;
     public static BufferedImage img, mapImg, iconImg, friendImg, gradeImg;
 
 
@@ -28,36 +28,52 @@ public class Menu {
         this.currentId = id;
         friendImg = null;
         gradeImg = null;
-        loadImage(id);
+        setUp(id);
     }
 
 
-    public static void loadImage(int id) {
-        try {
-            switch (id) {
-                case 0:
-                    img = ImageIO.read(new File("resources/menus/menu_3row.png"));
-                    text = "GRADES\nFRIENDS\nMAP";
-                    break;
-                case 1:
-                    img = ImageIO.read(new File("resources/menus/menu_2row_thin.png"));
-                    loadMapImage(Game.map.minimapId);
-                    text = "G\n1F";
-                    break;
-                case 2:
-                    img = ImageIO.read(new File("resources/menus/menu_5row.png"));
-                    text = "ATHLETE\nCLASSMATE\nNERD\nDELINQUENT\nTUTEE";
-                    break;
-                case 3:
-                    img = ImageIO.read(new File("resources/menus/menu_5row.png"));
-                    text = "CHEMISTRY\nICT\nDT\nFOOD TECH\nPE";
-                    break;
-
-            }
-        }
-        catch (IOException e) {
-            System.out.println("Cannot find menu image.");
-            e.printStackTrace();
+    public static void setUp(int id) {
+        switch (id) {
+            case 0:
+                img = imgs[0];
+                text = "GRADES\nFRIENDS\nMAP\nITEMS";
+                break;
+            case 1:
+                img = imgs[1];
+                loadMapImage(Game.map.minimapId);
+                text = "G\n1F";
+                break;
+            case 2:
+                img = imgs[2];
+                text = "ATHLETE\nCLASSMATE\nNERD\nDELINQUENT\nTUTEE";
+                break;
+            case 3:
+                img = imgs[2];
+                text = "CHEMISTRY\nICT\nDT\nFOOD TECH\nPE";
+                break;
+            case 4:
+                img = imgs[3];
+                text =    "ENERGY DRINK  ×" + Game.items[0][0] + "\nSTINK BOMB    ×" + Game.items[0][1] +
+                        "\nD GRADE CRAFT ×" + Game.items[1][0] + "\nC GRADE CRAFT ×" + Game.items[1][1] +
+                        "\nB GRADE CRAFT ×" + Game.items[1][2] + "\nSUPER KEY     ×" + Game.items[1][3] +
+                        "\nD GRADE FOOD  ×" + Game.items[2][0] + "\nC GRADE FOOD  ×" + Game.items[2][1] +
+                        "\nB GRADE FOOD  ×" + Game.items[2][2] + "\nSUPER CAKE    ×" + Game.items[2][3];
+                break;
+            case 5:
+                img = imgs[1];
+                text = "YES\nNO";
+                break;
+            case 6:
+                img = imgs[4];
+                text =    "D GRADE FOOD  ×" + Game.items[2][0] + "\nC GRADE FOOD  ×" + Game.items[2][1] +
+                        "\nB GRADE FOOD  ×" + Game.items[2][2] + "\nSUPER CAKE    ×" + Game.items[2][3] +
+                        "\nNEVER MIND";
+                break;
+            case 7:
+                img = imgs[5];
+                text =    "D GRADE CRAFT ×" + Game.items[1][0] + "\nC GRADE CRAFT ×" + Game.items[1][1] +
+                        "\nB GRADE CRAFT ×" + Game.items[1][2] + "\nNEVER MIND";
+                break;
         }
     }
 
@@ -65,14 +81,7 @@ public class Menu {
         try {
             iconImg = ImageIO.read(new File("resources/minimaps/minimap_icon.png"));
             minimapId = id;
-            switch (id) {
-                case 0:
-                    mapImg = ImageIO.read(new File("resources/minimaps/minimap1.png"));
-                    break;
-                case 1:
-                    mapImg = ImageIO.read(new File("resources/minimaps/minimap2.png"));
-                    break;
-            }
+            mapImg = mapImgs[id];
         }
         catch (IOException e) {
             System.out.println("Cannot find map image.");
@@ -81,34 +90,11 @@ public class Menu {
     }
 
     public static void loadFriend(int id) {
-        try {
-            switch (id) {
-                case 0:
-                    friendImg = ImageIO.read(new File("resources/friendImages/friend1.png"));
-                    break;
-                case 1:
-                    friendImg = ImageIO.read(new File("resources/friendImages/friend2.png"));
-                    break;
-                case 2:
-                    friendImg = ImageIO.read(new File("resources/friendImages/friend3.png"));
-                    break;
-                case 3:
-                    friendImg = ImageIO.read(new File("resources/friendImages/friend4.png"));
-                    break;
-                case 4:
-                    friendImg = ImageIO.read(new File("resources/friendImages/friend5.png"));
-                    break;
-            }
-        }
-        catch (IOException e) {
-            System.out.println("Cannot find friend image.");
-            e.printStackTrace();
-        }
+        friendImg = friendImgs[id];
         setFriendValue(id);
     }
 
     public static void loadGrade(int id) {
-
         switch (id) {
             case 0:
                 gradeText = "Chemistry";
@@ -132,7 +118,7 @@ public class Menu {
     }
 
     public static void setFriendValue(int index) {
-        int fp = Game.friendValues.get(index);
+        int fp = Game.friendValues[index];
         if (fp == 0) { friendText = "Don't know"; }
         if (fp > 0) { friendText = "Acquaintance"; }
         if (fp > 10) { friendText = "Friend"; }
@@ -140,17 +126,43 @@ public class Menu {
     }
 
     public static void setGradeValue(int index) {
+        int gp = Game.gradeValues[index];
+        if (gp >= 0) { gradeImg = gradeImgs[0]; }
+        if (gp > 9) { gradeImg = gradeImgs[1]; }
+        if (gp > 19) { gradeImg = gradeImgs[2]; }
+        if (gp > 29) { gradeImg = gradeImgs[3]; }
+    }
+
+    public static void loadImages() {
         try {
-            int gp = Game.gradeValues.get(index);
-            if (gp >= 0) { gradeImg = ImageIO.read(new File("resources/gradeImages/grade_d.png")); }
-            if (gp > 9) { gradeImg = ImageIO.read(new File("resources/gradeImages/grade_c.png")); }
-            if (gp > 19) { gradeImg = ImageIO.read(new File("resources/gradeImages/grade_b.png")); }
-            if (gp > 29) { gradeImg = ImageIO.read(new File("resources/gradeImages/grade_a.png")); }
-        }
-        catch (IOException e) {
+            imgs = new BufferedImage[8];
+            imgs[0] = ImageIO.read(new File("resources/menus/menu_4row.png"));
+            imgs[1] = ImageIO.read(new File("resources/menus/menu_2row_thin.png"));
+            imgs[2] = ImageIO.read(new File("resources/menus/menu_5row.png"));
+            imgs[3] = ImageIO.read(new File("resources/menus/menu_10row_wide.png"));
+            imgs[4] = ImageIO.read(new File("resources/menus/menu_5row_wide.png"));
+            imgs[5] = ImageIO.read(new File("resources/menus/menu_4row_wide.png"));
+            imgs[6] = ImageIO.read(new File("resources/menus/menu_3row.png"));
+            mapImgs = new BufferedImage[2];
+            mapImgs[0] = ImageIO.read(new File("resources/minimaps/minimap1.png"));
+            mapImgs[1] = ImageIO.read(new File("resources/minimaps/minimap2.png"));
+            friendImgs = new BufferedImage[5];
+            friendImgs[0] = ImageIO.read(new File("resources/friendImages/friend1.png"));
+            friendImgs[1] = ImageIO.read(new File("resources/friendImages/friend2.png"));
+            friendImgs[2] = ImageIO.read(new File("resources/friendImages/friend3.png"));
+            friendImgs[3] = ImageIO.read(new File("resources/friendImages/friend4.png"));
+            friendImgs[4] = ImageIO.read(new File("resources/friendImages/friend5.png"));
+            gradeImgs = new BufferedImage[4];
+            gradeImgs[0] = ImageIO.read(new File("resources/gradeImages/grade_d.png"));
+            gradeImgs[1] = ImageIO.read(new File("resources/gradeImages/grade_c.png"));
+            gradeImgs[2] = ImageIO.read(new File("resources/gradeImages/grade_b.png"));
+            gradeImgs[3] = ImageIO.read(new File("resources/gradeImages/grade_a.png"));
+
+        } catch (IOException e) {
             System.out.println("Cannot find grade image.");
             e.printStackTrace();
         }
+
     }
 
     public void paintSubMenu(Graphics g, int id) {
@@ -185,7 +197,7 @@ public class Menu {
     public void paintComponent(Graphics g) {
         g.drawImage(img, Constants.FRAME_WIDTH - ((img.getWidth() * 2) + 16), 16,
                 img.getWidth() * 2, img.getHeight() * 2, null);
-        g.setFont(GameFont.font);
+        g.setFont(GameFont.bigFont);
         int lineIndex = 0;
         for (String line : text.split("\n")) {
             g.drawString(line, Constants.FRAME_WIDTH - ((img.getWidth() * 2)), 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);

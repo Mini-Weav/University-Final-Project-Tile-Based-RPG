@@ -23,33 +23,33 @@ public class DoorTile extends Tile {
 
             /*School Hall G*/
             case 0:
-                points.put(new Point(10, 0), new Pair<>(6, new Point(25, 23)));
-                points.put(new Point(3, 4), new Pair<>(2, new Point(13, 9)));
-                points.put(new Point(17, 4), new Pair<>(3, new Point(5, 9)));
-                points.put(new Point(5, 16), new Pair<>(5, new Point(3, 9)));
-                points.put(new Point(9, 16), new Pair<>(1, new Point(9, 12)));
-                points.put(new Point(10, 16), new Pair<>(1, new Point(10, 12)));
-                points.put(new Point(15, 16), new Pair<>(5, new Point(22, 9)));
+                points.put(new Point(10, 1), new Pair<>(6, new Point(25, 23)));
+                points.put(new Point(3, 5), new Pair<>(2, new Point(13, 9)));
+                points.put(new Point(17, 5), new Pair<>(3, new Point(5, 9)));
+                points.put(new Point(5, 17), new Pair<>(5, new Point(3, 9)));
+                points.put(new Point(9, 17), new Pair<>(1, new Point(9, 12)));
+                points.put(new Point(10, 17), new Pair<>(1, new Point(10, 12)));
+                points.put(new Point(15, 17), new Pair<>(5, new Point(22, 9)));
                 break;
 
             /*School Hall 1F*/
             case 1:
                 points.put(new Point(4, 10), new Pair<>(4, new Point(2, 8)));
-                points.put(new Point(9, 13), new Pair<>(0, new Point(9, 17)));
-                points.put(new Point(10, 13), new Pair<>(0, new Point(10, 17)));
+                points.put(new Point(9, 13), new Pair<>(0, new Point(9, 18)));
+                points.put(new Point(10, 13), new Pair<>(0, new Point(10, 18)));
                 points.put(new Point(15, 10), new Pair<>(4, new Point(18, 8)));
                 break;
 
             /*Design Tech Classroom*/
             case 2:
-                points.put(new Point(12, 10), new Pair<>(0, new Point(3, 5)));
-                points.put(new Point(13, 10), new Pair<>(0, new Point(3, 5)));
+                points.put(new Point(12, 10), new Pair<>(0, new Point(3, 6)));
+                points.put(new Point(13, 10), new Pair<>(0, new Point(3, 6)));
                 break;
 
             /*Food Tech Classroom*/
             case 3:
-                points.put(new Point(5, 10), new Pair<>(0, new Point(17, 5)));
-                points.put(new Point(6, 10), new Pair<>(0, new Point(17, 5)));
+                points.put(new Point(5, 10), new Pair<>(0, new Point(17, 6)));
+                points.put(new Point(6, 10), new Pair<>(0, new Point(17, 6)));
                 break;
 
             /*1F Classrooms*/
@@ -62,16 +62,16 @@ public class DoorTile extends Tile {
 
             /*Canteen*/
             case 5:
-                points.put(new Point(3, 10), new Pair<>(0, new Point(5, 17)));
-                points.put(new Point(4, 10), new Pair<>(0, new Point(5, 17)));
-                points.put(new Point(21, 10), new Pair<>(0, new Point(15, 17)));
-                points.put(new Point(22, 10), new Pair<>(0, new Point(15, 17)));
+                points.put(new Point(3, 10), new Pair<>(0, new Point(5, 18)));
+                points.put(new Point(4, 10), new Pair<>(0, new Point(5, 18)));
+                points.put(new Point(21, 10), new Pair<>(0, new Point(15, 18)));
+                points.put(new Point(22, 10), new Pair<>(0, new Point(15, 18)));
                 break;
 
             /*Yard*/
             case 6:
-                points.put(new Point(25, 24), new Pair<>(0, new Point(10, 1)));
-                points.put(new Point(26, 24), new Pair<>(0, new Point(10, 1)));
+                points.put(new Point(25, 24), new Pair<>(0, new Point(10, 2)));
+                points.put(new Point(26, 24), new Pair<>(0, new Point(10, 2)));
                 break;
         }
         return points;

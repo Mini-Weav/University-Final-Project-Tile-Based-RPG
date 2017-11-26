@@ -15,9 +15,9 @@ public abstract class GameObject {
         this.tile = tile;
         this.x = x;
         this.y = y;
-        this.gX = x * 32;
-        this.gY = y * 32;
-        this.moving = false;
+        gX = x * 32;
+        gY = y * 32;
+        moving = false;
     }
 
     public abstract void update();

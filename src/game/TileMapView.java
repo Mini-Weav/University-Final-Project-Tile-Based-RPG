@@ -2,6 +2,8 @@ package game;
 
 import objects.GameObject;
 import objects.InteractiveTile;
+import objects.NPC;
+import utilities.GameFont;
 import utilities.TextBox;
 import objects.Tile;
 import utilities.Menu;
@@ -12,6 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,6 @@ import java.util.TreeMap;
  */
 public class TileMapView extends JComponent implements MouseListener, MouseMotionListener {
     private Game game;
-    private boolean click;
     public int currentId, minimapId;
     public int maxX, maxY;
     public List<List<Character>> matrix;
@@ -58,7 +60,8 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
             tiles = map.tiles;
             this.currentId = map.id;
             this.minimapId = map.minimapId;
-            Game.gameMatrix = new ArrayList<>(this.matrix.size());
+            Game.tileMatrix = new char[matrix.size()][matrix.get(0).size()];
+            Game.objectMatrix = new Object[matrix.size()][matrix.get(0).size()];
             Menu.iconPoint = new Point(map.iconPoint);
         } catch (FileNotFoundException e) {
             System.out.println("Cannot find file.");
@@ -81,14 +84,25 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                 }
             }
         }
-        for (GameObject object : game.objects) {
-            if (object.x >= Game.camera.x && object.x <= Game.camera.x + Constants.CAMERA_SIZE_X &&
-                    object.y >= Game.camera.y && object.y <= Game.camera.y + Constants.CAMERA_SIZE_Y) {
-                object.paintComponent(g); }
+        synchronized (Game.class) {
+            for (GameObject object : game.objects) {
+                if (object.x >= Game.camera.x - 1 && object.x <= Game.camera.x + Constants.CAMERA_SIZE_X + 1 &&
+                        object.y >= Game.camera.y - 1 && object.y <= Game.camera.y + Constants.CAMERA_SIZE_Y + 1) {
+                    object.paintComponent(g); }
+            }
+            BufferedImage statusImg = Menu.imgs[6];
+            g.drawImage(statusImg, 16, 16, statusImg.getWidth() * 2, statusImg.getHeight() * 2, null);
+            g.setFont(GameFont.bigFont);
+            int lineIndex = 0;
+            String text = Game.timePeriods[Game.time] + "\nPP: " + 0;
+            for (String line : text.split("\n")) {
+                g.drawString(line, 26, 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
+                lineIndex++;
+            }
+            if (Game.transition) { g.fillRect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT); }
+            if (Game.textBox != null) { Game.textBox.paintComponent(g); }
+            if (Game.menu != null) { Game.menu.paintComponent(g); }
         }
-        if (Game.transition) { g.fillRect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT); }
-        if (Game.textBox != null) { Game.textBox.paintComponent(g); }
-        if (Game.menu != null) { Game.menu.paintComponent(g); }
     }
 
     public Dimension getPreferredSize() { return Constants.FRAME_SIZE; }
@@ -108,38 +122,76 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     int y = (int)game.player.direction.getY();
                     if (tiles.get(matrix.get(y).get(x)) instanceof InteractiveTile) {
                         TileMap currentMap = TileMapLoader.tileMaps.get(Game.map.currentId);
-                        String text = currentMap.interactivePoints.get(new Point(x, y));
-                        Game.textBox = new TextBox(text);
+                        Game.textBox = currentMap.interactivePoints.get(new Point(x, y));
                     }
-                    else { Game.textBox = new TextBox("There's nothing here.");}
+                    else if (Game.tileMatrix[y][x] == 'N') {
+                        NPC npc = (NPC) Game.objectMatrix[y][x];
+                        npc.rotate(game.player);
+                        npc.interaction(Game.time);
+                    }
+                    else { Game.textBox = new TextBox(0, "There's nothing here.");}
                 }
-                else { Game.textBox = null; }
+                else if (Game.textBox.skip) { Game.textBox = null; }
             }
             else {
-                if (Game.menu.currentId == 0) {
-                    /*Go to map*/
-                    if ( curX > 328 && curX < 380 && curY > 96 && curY < 116) { Game.menu = new Menu(1); }
-                    if (curX > 328 && curX < 440 && curY > 64 && curY < 80) { Game.menu = new Menu(2); }
-                    if (curX > 328 && curX < 428 && curY > 32 && curY < 48) { Game.menu = new Menu(3); }
-                    return;
-                }
-                if (Game.menu.currentId == 1) {
-                    if ( curX > 404 && curX < 424 && curY > 32 && curY < 52) { Menu.loadMapImage(0); }
-                    if ( curX > 404 && curX < 436 && curY > 64 && curY < 84) { Menu.loadMapImage(1); }
-                }
-                if (Game.menu.currentId == 2) {
-                    if (curX > 280 && curX < 392 && curY > 32 && curY < 48 ){ Menu.loadFriend(0); }
-                    if (curX > 280 && curX < 424 && curY > 64 && curY < 80){ Menu.loadFriend(1); }
-                    if (curX > 280 && curX < 344 && curY > 96 && curY < 116){ Menu.loadFriend(2); }
-                    if (curX > 280 && curX < 440 && curY > 128 && curY < 144){ Menu.loadFriend(3); }
-                    if (curX > 280 && curX < 360 && curY > 160 && curY < 176){ Menu.loadFriend(4); }
-                }
-                if (Game.menu.currentId == 3) {
-                    if (curX > 280 && curX < 424 && curY > 32 && curY < 48 ){ Menu.loadGrade(0); }
-                    if (curX > 280 && curX < 328 && curY > 64 && curY < 80){ Menu.loadGrade(1); }
-                    if (curX > 280 && curX < 312 && curY > 96 && curY < 116){ Menu.loadGrade(2); }
-                    if (curX > 280 && curX < 420 && curY > 128 && curY < 144){ Menu.loadGrade(3); }
-                    if (curX > 280 && curX < 308 && curY > 160 && curY < 176){ Menu.loadGrade(4); }
+                switch (Game.menu.currentId) {
+                    case 0:
+                        if ( curX > 328 && curX < 380 && curY > 96 && curY < 116) { Game.menu = new Menu(1); }
+                        if (curX > 328 && curX < 440 && curY > 64 && curY < 80) { Game.menu = new Menu(2); }
+                        if (curX > 328 && curX < 428 && curY > 32 && curY < 48) { Game.menu = new Menu(3); }
+                        if (curX > 328 && curX < 408 && curY > 128 && curY < 146) { Game.menu = new Menu(4); }
+                        return;
+                    case 1:
+                        if ( curX > 404 && curX < 424 && curY > 32 && curY < 52) { Menu.loadMapImage(0); }
+                        if ( curX > 404 && curX < 436 && curY > 64 && curY < 84) { Menu.loadMapImage(1); }
+                        break;
+                    case 2:
+                        if (curX > 280 && curX < 392 && curY > 32 && curY < 48 ){ Menu.loadFriend(0); }
+                        if (curX > 280 && curX < 424 && curY > 64 && curY < 80){ Menu.loadFriend(1); }
+                        if (curX > 280 && curX < 344 && curY > 96 && curY < 116){ Menu.loadFriend(2); }
+                        if (curX > 280 && curX < 440 && curY > 128 && curY < 144){ Menu.loadFriend(3); }
+                        if (curX > 280 && curX < 360 && curY > 160 && curY < 176){ Menu.loadFriend(4); }
+                        break;
+                    case 3:
+                        if (curX > 280 && curX < 424 && curY > 32 && curY < 48 ){ Menu.loadGrade(0); }
+                        if (curX > 280 && curX < 328 && curY > 64 && curY < 80){ Menu.loadGrade(1); }
+                        if (curX > 280 && curX < 312 && curY > 96 && curY < 116){ Menu.loadGrade(2); }
+                        if (curX > 280 && curX < 420 && curY > 128 && curY < 144){ Menu.loadGrade(3); }
+                        if (curX > 280 && curX < 308 && curY > 160 && curY < 176){ Menu.loadGrade(4); }
+                        break;
+                    case 5:
+                        int x = (int)game.player.direction.getX();
+                        int y = (int)game.player.direction.getY();
+                        NPC npc = (NPC) Game.objectMatrix[y][x];
+                        if (npc.id < 5) {
+                            if (curX > 404 && curX < 452 && curY > 32 && curY < 48) { npc.gift(true); }
+                            if (curX > 404 && curX < 438 && curY > 64 && curY < 80) { npc.gift(false); }
+                        }
+                        else {
+                            if (curX > 404 && curX < 452 && curY > 32 && curY < 48) { npc.lesson(true); }
+                            if (curX > 404 && curX < 438 && curY > 64 && curY < 80) { npc.lesson(false); }
+                        }
+
+                        break;
+                    case 6:
+                        x = (int)game.player.direction.getX();
+                        y = (int)game.player.direction.getY();
+                        npc = (NPC) Game.objectMatrix[y][x];
+                        if (curX > 196 && curX < 384 && curY > 32 && curY < 48 && Game.items[2][0] > 0) { npc.gift(0); }
+                        if (curX > 196 && curX < 384 && curY > 64 && curY < 80 && Game.items[2][1] > 0) { npc.gift(1); }
+                        if (curX > 196 && curX < 384 && curY > 96 && curY < 116 && Game.items[2][2] > 0) { npc.gift(2); }
+                        if (curX > 196 && curX < 356 && curY > 128 && curY < 144 && Game.items[2][3] > 0) { npc.gift(3); }
+                        if (curX > 196 && curX < 356 && curY > 160 && curY < 176) { npc.gift(false); }
+                        break;
+                    case 7:
+                        x = (int)game.player.direction.getX();
+                        y = (int)game.player.direction.getY();
+                        npc = (NPC) Game.objectMatrix[y][x];
+                        if (curX > 196 && curX < 404 && curY > 32 && curY < 48 && Game.items[1][0] > 0) { npc.gift(0); }
+                        if (curX > 196 && curX < 404 && curY > 64 && curY < 80 && Game.items[1][1] > 0) { npc.gift(1); }
+                        if (curX > 196 && curX < 404 && curY > 96 && curY < 116 && Game.items[1][2] > 0) { npc.gift(2); }
+                        if (curX > 196 && curX < 356 && curY > 128 && curY < 144) { npc.gift(false); }
+                        break;
                 }
             }
         }
@@ -154,34 +206,54 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
 
     public void mouseDragged(MouseEvent e) {}
     public void mouseMoved(MouseEvent e) {
-        click = false;
+        boolean click = false;
         try {
             int curX = e.getX();
             int curY = e.getY();
 
-            if (Game.menu.currentId == 0) {
-                click = curX > 328 && curX < 428 && curY > 32 && curY < 48 ||
-                        curX > 328 && curX < 440 && curY > 64 && curY < 80 ||
-                        curX > 328 && curX < 380 && curY > 96 && curY < 116;
+            switch (Game.menu.currentId) {
+                case 0:
+                    click = curX > 328 && curX < 428 && curY > 32 && curY < 48 ||
+                            curX > 328 && curX < 440 && curY > 64 && curY < 80 ||
+                            curX > 328 && curX < 380 && curY > 96 && curY < 116 ||
+                            curX > 328 && curX < 408 && curY > 128 && curY < 146;
+                    break;
+                case 1:
+                    click = curX > 404 && curX < 424 && curY > 32 && curY < 48 ||
+                            curX > 404 && curX < 436 && curY > 64 && curY < 80;
+                    break;
+                case 2:
+                    click = curX > 280 && curX < 392 && curY > 32 && curY < 48 ||
+                            curX > 280 && curX < 424 && curY > 64 && curY < 80 ||
+                            curX > 280 && curX < 344 && curY > 96 && curY < 116 ||
+                            curX > 280 && curX < 440 && curY > 128 && curY < 144 ||
+                            curX > 280 && curX < 360 && curY > 160 && curY < 176;
+                    break;
+                case 3:
+                    click = curX > 280 && curX < 424 && curY > 32 && curY < 48 ||
+                            curX > 280 && curX < 328 && curY > 64 && curY < 80 ||
+                            curX > 280 && curX < 312 && curY > 96 && curY < 116 ||
+                            curX > 280 && curX < 420 && curY > 128 && curY < 144 ||
+                            curX > 280 && curX < 308 && curY > 160 && curY < 176;
+                    break;
+                case 5:
+                    click = curX > 404 && curX < 452 && curY > 32 && curY < 48 ||
+                            curX > 404 && curX < 438 && curY > 64 && curY < 80;
+                    break;
+                case 6:
+                    click = curX > 196 && curX < 384 && curY > 32 && curY < 48 && Game.items[2][0] > 0 ||
+                            curX > 196 && curX < 384 && curY > 64 && curY < 80 && Game.items[2][1] > 0 ||
+                            curX > 196 && curX < 384 && curY > 96 && curY < 116 && Game.items[2][2] > 0 ||
+                            curX > 196 && curX < 356 && curY > 128 && curY < 144 && Game.items[2][3] > 0 ||
+                            curX > 196 && curX < 356 && curY > 160 && curY < 176;
+                    break;
+                case 7:
+                    click = curX > 196 && curX < 404 && curY > 32 && curY < 48 && Game.items[1][0] > 0 ||
+                            curX > 196 && curX < 404 && curY > 64 && curY < 80 && Game.items[1][1] > 0 ||
+                            curX > 196 && curX < 404 && curY > 96 && curY < 116 && Game.items[1][2] > 0 ||
+                            curX > 196 && curX < 356 && curY > 128 && curY < 144;
             }
-            else if (Game.menu.currentId == 1) {
-                click = curX > 404 && curX < 424 && curY > 32 && curY < 48 ||
-                        curX > 404 && curX < 436 && curY > 64 && curY < 80;
-            }
-            else if (Game.menu.currentId == 2) {
-                click = curX > 280 && curX < 392 && curY > 32 && curY < 48 ||
-                        curX > 280 && curX < 424 && curY > 64 && curY < 80 ||
-                        curX > 280 && curX < 344 && curY > 96 && curY < 116 ||
-                        curX > 280 && curX < 440 && curY > 128 && curY < 144 ||
-                        curX > 280 && curX < 360 && curY > 160 && curY < 176;
-            }
-            else if (Game.menu.currentId == 3) {
-                click = curX > 280 && curX < 424 && curY > 32 && curY < 48 ||
-                        curX > 280 && curX < 328 && curY > 64 && curY < 80 ||
-                        curX > 280 && curX < 312 && curY > 96 && curY < 116 ||
-                        curX > 280 && curX < 420 && curY > 128 && curY < 144 ||
-                        curX > 280 && curX < 308 && curY > 160 && curY < 176;
-            }
+
 
         } catch (NullPointerException e1) {
             //out of frame
