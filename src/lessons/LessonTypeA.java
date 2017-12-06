@@ -10,7 +10,7 @@ public class LessonTypeA extends Lesson {
     public int attentionSpan, concentration, questionsLeft;
     int id, startingConcentration, questionId;
     double lv1, lv2;
-    boolean answered, toilet;
+    boolean toilet;
 
     public LessonTypeA(int id, int grade) {
         super(grade);
@@ -71,7 +71,8 @@ public class LessonTypeA extends Lesson {
                     Game.doTransition();
                     attentionSpan++;
                     toilet = true;
-                    answered = true;
+                    questionId = generateQuestion(id, lv1, lv2);
+                    questionsLeft--;
                     feedbackText = "You take a break... Your#attention has improved!#...However, you missed the#last question!";
                 }
                 else { feedbackText = "You've already been to the#toilet! The teacher won't#let you go again."; }
