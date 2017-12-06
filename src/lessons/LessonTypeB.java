@@ -33,6 +33,7 @@ public class LessonTypeB extends Lesson {
                 if (result > 0) {
                     questionId = generateInstruction(grade);
                     tasksLeft--;
+                    reread = false;
                 }
                 time -= 5;
                 break;
@@ -43,6 +44,7 @@ public class LessonTypeB extends Lesson {
                     if (result > 0) {
                         questionId = generateInstruction(grade);
                         tasksLeft--;
+                        reread = false;
                     }
                     time -= 10;
                 }
