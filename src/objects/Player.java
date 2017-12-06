@@ -6,7 +6,7 @@ import game.Constants;
 import game.Game;
 import game.TileMap;
 import game.TileMapView;
-import lessons.PE;
+import lessons.LessonTypeC;
 import utilities.CharacterTileSet;
 import utilities.TileMapLoader;
 
@@ -143,8 +143,7 @@ public class Player extends GameObject {
     }
 
     public void transition() {
-        Game.transition = true;
-        Game.transitionTime = System.currentTimeMillis();
+        Game.doTransition();
 
         Point doorPoints = TileMapLoader.tileMaps.get(Game.map.currentId).doorPoints.get(new Point(x, y)).s;
         //if (Game.tileMatrix.get(this.y).get(this.x) =='^') { this.tile.img = downSprites1.get(0); }
@@ -172,12 +171,50 @@ public class Player extends GameObject {
         moving = up || down || left || right;
         Action action = ctrl.action();
 
-        TileMap currentMap = TileMapLoader.tileMaps.get(Game.map.currentId);
-
-        if (currentMap.id == 6 && x >= 19 && x <= 31 && y >= 8 && y <= 15) {
-            PE.movingScript(this);
+        if (Game.isLesson) {
+            boolean isScript = false;
+            switch (Game.time) {
+                case 3:
+                    x = 4;
+                    y = 6;
+                    rotate(1);
+                    break;
+                case 4:
+                    x = 14;
+                    y = 7;
+                    rotate(0);
+                    break;
+                case 5:
+                    if (!((LessonTypeC) Game.lesson).started) {
+                        x = 19;
+                        y = 11;
+                        rotate(1);
+                    }
+                    else if (!Game.lesson.finished) {
+                        LessonTypeC.movingScript(this);
+                        isScript = true;
+                    }
+                    break;
+                case 6:
+                    x = 6;
+                    y = 7;
+                    rotate(0);
+                    break;
+                case 7:
+                    x = 14;
+                    y = 7;
+                    rotate(0);
+                    break;
+            }
+            if (!isScript) {
+                gX = x * 32;
+                gY = y * 32;
+                Game.camera.x = x-(Constants.FRAME_WIDTH / 64);
+                Game.camera.y = y-(Constants.FRAME_HEIGHT / 64);
+                Game.camera.gX = Game.camera.x * 32;
+                Game.camera.gY = Game.camera.y * 32;
+            }
         }
-
 
         if (!moving && !Game.transition && Game.textBox == null && Game.menu == null) {
             if (action.up && y > 0 &&
@@ -196,7 +233,7 @@ public class Player extends GameObject {
                     Game.objectMatrix[y][x + 1] == null &&
                     !TileMapView.tiles.get(Game.tileMatrix[y][x + 1]).collision) { right = true; }
         }
-        this.move();
+        move();
 
         if (!this.moving && !Game.transition && Game.textBox == null && Game.menu == null) {
             if (action.up) { rotate(0); }
@@ -206,13 +243,9 @@ public class Player extends GameObject {
         }
 
         if (TileMapView.tiles.get(Game.tileMatrix[y][x]) instanceof DoorTile) { transition(); }
-        if (Game.transition && System.currentTimeMillis() - Game.transitionTime > 1000 / 5) { Game.transition = false; }
     }
 
     public void paintComponent(Graphics g) {
         g.drawImage(tile.img, gX - Game.camera.gX, gY - Game.camera.gY, 32, 32, null);
     }
-
-
-
 }

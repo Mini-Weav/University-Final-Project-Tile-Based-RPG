@@ -49,17 +49,16 @@ public class TextBox {
             case 3:
             case 4:
                 skip = false;
-                img = imgs[2];
+                img = imgs[0];
                 break;
         }
     }
 
     public static void loadImages() {
         try {
-            imgs = new BufferedImage[3];
+            imgs = new BufferedImage[2];
             imgs[0] = ImageIO.read(new File("resources/textboxes/textbox.png"));
             imgs[1] = ImageIO.read(new File("resources/textboxes/textbox_big.png"));
-            imgs[2] = ImageIO.read(new File("resources/textboxes/textbox.png"));
             npcImgs = new BufferedImage[10];
             npcImgs[0] = ImageIO.read(new File("resources/friendImages/friend1.png"));
             npcImgs[1] = ImageIO.read(new File("resources/friendImages/friend2.png"));
@@ -85,7 +84,7 @@ public class TextBox {
                 g.drawImage(img, 0, Constants.FRAME_HEIGHT - 136, img.getWidth() * 2, img.getHeight() * 3, null);
                 g.setFont(GameFont.bigFont);
                 lineIndex = 0;
-                for (String line : text.split("\n")) {
+                for (String line : text.split("#")) {
                     g.drawString(line, 24, (Constants.FRAME_HEIGHT - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
                     lineIndex++;
                 }
@@ -94,7 +93,7 @@ public class TextBox {
                 g.drawImage(img, 0, 0, img.getWidth() * 2, img.getHeight() * 3, null);
                 g.setFont(GameFont.medFont);
                 lineIndex = 0;
-                for (String line : text.split("\n")) {
+                for (String line : text.split("#")) {
                     g.drawString(line, 24, (26 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
                     lineIndex++;
                 }

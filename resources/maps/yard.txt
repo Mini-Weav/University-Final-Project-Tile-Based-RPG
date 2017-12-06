@@ -15,7 +15,7 @@ TTTTTTTTTTTTTTTTT(G~GGGGGGGGGGG~G)TTTTTTTTTTTTTTTTT
 ttttttttttttttttt(G~GGGGGGGGGGG~G)ttttttttttttttttt
 TTTTTTTTTTTTTTTTT(G~~~~~~~~~~~~~G)TTTTTTTTTTTTTTTTT
 ttttttttttttttttt(GGGGGGGGGGGGGGG)ttttttttttttttttt
-TTTTTTTTTTTTTTTTT(<=>?+++--++++++]TTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTT(<=>?+++-+++++++]TTTTTTTTTTTTTTTTT
 ttttttttttttttttt(/_\------------)ttttttttttttttttt
 TTTTTTTTTTTTTTTTT(123------------)TTTTTTTTTTTTTTTTT
 ttttttttttttttttt(789------------)ttttttttttttttttt

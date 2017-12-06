@@ -1,5 +1,8 @@
 package game;
 
+import lessons.LessonTypeA;
+import lessons.LessonTypeB;
+import lessons.LessonTypeC;
 import objects.GameObject;
 import objects.InteractiveTile;
 import objects.NPC;
@@ -90,22 +93,79 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         object.y >= Game.camera.y - 1 && object.y <= Game.camera.y + Constants.CAMERA_SIZE_Y + 1) {
                     object.paintComponent(g); }
             }
-            BufferedImage statusImg = Menu.imgs[6];
-            g.drawImage(statusImg, 16, 16, statusImg.getWidth() * 2, statusImg.getHeight() * 2, null);
-            g.setFont(GameFont.bigFont);
-            int lineIndex = 0;
-            String text = Game.timePeriods[Game.time] + "\nPP: " + 0;
-            for (String line : text.split("\n")) {
-                g.drawString(line, 26, 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
-                lineIndex++;
+
+            if (!Game.isLesson) {
+                BufferedImage statusImg = Menu.imgs[6];
+                g.drawImage(statusImg, 16, 16, statusImg.getWidth() * 2, statusImg.getHeight() * 2, null);
+                g.setFont(GameFont.bigFont);
+                int lineIndex = 0;
+                String text = Game.timePeriods[Game.time] + "\nPP: " + 0;
+                for (String line : text.split("\n")) {
+                    g.drawString(line, 26, 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
+                    lineIndex++;
+                }
             }
-            if (Game.transition) { g.fillRect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT); }
+            else {
+                BufferedImage statusImg;
+                int lineIndex;
+                String text;
+                switch (Game.time) {
+                    case 3:
+                    case 4:
+                        statusImg = Menu.imgs[7];
+                        g.drawImage(statusImg, 16, 16, statusImg.getWidth() * 2, statusImg.getHeight() * 2, null);
+                        g.setFont(GameFont.bigFont);
+                        lineIndex = 0;
+                        text = "TASKS:        " + ((LessonTypeB) Game.lesson).tasksLeft +
+                             "\nTIME:         " + ((LessonTypeB) Game.lesson).time +
+                             "\nREREAD:    " + ((LessonTypeB) Game.lesson).reread;
+                        for (String line : text.split("\n")) {
+                            g.drawString(line, 26, 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
+                            lineIndex++;
+                        }
+                        break;
+                    case 5:
+                        statusImg = Menu.imgs[5];
+                        g.drawImage(statusImg, 16, 16, statusImg.getWidth() * 2, statusImg.getHeight() * 2, null);
+                        g.setFont(GameFont.bigFont);
+                        lineIndex = 0;
+                        text = "LAPS:       " + ((LessonTypeC) Game.lesson).score +
+                             "\nTIME:         " + ((LessonTypeC) Game.lesson).time +
+                             "\nDRINKS:       " + Game.items[0][0] +
+                             "\nENERGY:       " + ((LessonTypeC) Game.lesson).energy;
+                        for (String line : text.split("\n")) {
+                            g.drawString(line, 26, 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
+                            lineIndex++;
+                        }
+                        break;
+                    case 6:
+                    case 7:
+                        statusImg = Menu.imgs[5];
+                        g.drawImage(statusImg, 16, 16, statusImg.getWidth() * 2, statusImg.getHeight() * 2, null);
+                        g.setFont(GameFont.bigFont);
+                        lineIndex = 0;
+                        text = "QUESTIONS:    " + ((LessonTypeA) Game.lesson).questionsLeft +
+                             "\nDRINKS:       " + Game.items[0][0] +
+                             "\nATTENTION:    " + ((LessonTypeA) Game.lesson).attentionSpan +
+                             "\nCONCENTRATION:" + ((LessonTypeA) Game.lesson).concentration;
+                        for (String line : text.split("\n")) {
+                            g.drawString(line, 26, 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
+                            lineIndex++;
+                        }
+                        break;
+                }
+
+                if (Game.lesson.feedback) { Game.textBox = new TextBox(0, Game.lesson.feedbackText); }
+                else {
+                    if (Game.lesson.finished) { Game.lesson.finish(); }
+                    else { Game.textBox = new TextBox(0, Game.lesson.questionText); }
+                }
+            }
             if (Game.textBox != null) { Game.textBox.paintComponent(g); }
             if (Game.menu != null) { Game.menu.paintComponent(g); }
+            if (Game.transition) { g.fillRect(0, 0, Constants.FRAME_WIDTH * 2, Constants.FRAME_HEIGHT * 2); }
         }
     }
-
-    public Dimension getPreferredSize() { return Constants.FRAME_SIZE; }
 
     public void mousePressed(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
@@ -136,14 +196,14 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
             else {
                 switch (Game.menu.currentId) {
                     case 0:
-                        if ( curX > 328 && curX < 380 && curY > 96 && curY < 116) { Game.menu = new Menu(1); }
+                        if (curX > 328 && curX < 380 && curY > 96 && curY < 116) { Game.menu = new Menu(1); }
                         if (curX > 328 && curX < 440 && curY > 64 && curY < 80) { Game.menu = new Menu(2); }
                         if (curX > 328 && curX < 428 && curY > 32 && curY < 48) { Game.menu = new Menu(3); }
                         if (curX > 328 && curX < 408 && curY > 128 && curY < 146) { Game.menu = new Menu(4); }
                         return;
                     case 1:
-                        if ( curX > 404 && curX < 424 && curY > 32 && curY < 52) { Menu.loadMapImage(0); }
-                        if ( curX > 404 && curX < 436 && curY > 64 && curY < 84) { Menu.loadMapImage(1); }
+                        if (curX > 404 && curX < 424 && curY > 32 && curY < 52) { Menu.loadMapImage(0); }
+                        if (curX > 404 && curX < 436 && curY > 64 && curY < 84) { Menu.loadMapImage(1); }
                         break;
                     case 2:
                         if (curX > 280 && curX < 392 && curY > 32 && curY < 48 ){ Menu.loadFriend(0); }
@@ -153,11 +213,11 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         if (curX > 280 && curX < 360 && curY > 160 && curY < 176){ Menu.loadFriend(4); }
                         break;
                     case 3:
-                        if (curX > 280 && curX < 424 && curY > 32 && curY < 48 ){ Menu.loadGrade(0); }
-                        if (curX > 280 && curX < 328 && curY > 64 && curY < 80){ Menu.loadGrade(1); }
+                        if (curX > 280 && curX < 312 && curY > 32 && curY < 48 ){ Menu.loadGrade(0); }
+                        if (curX > 280 && curX < 424 && curY > 64 && curY < 80){ Menu.loadGrade(1); }
                         if (curX > 280 && curX < 312 && curY > 96 && curY < 116){ Menu.loadGrade(2); }
-                        if (curX > 280 && curX < 420 && curY > 128 && curY < 144){ Menu.loadGrade(3); }
-                        if (curX > 280 && curX < 308 && curY > 160 && curY < 176){ Menu.loadGrade(4); }
+                        if (curX > 280 && curX < 424 && curY > 128 && curY < 144){ Menu.loadGrade(3); }
+                        if (curX > 280 && curX < 328 && curY > 160 && curY < 176){ Menu.loadGrade(4); }
                         break;
                     case 5:
                         int x = (int)game.player.direction.getX();
@@ -191,6 +251,49 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         if (curX > 196 && curX < 404 && curY > 64 && curY < 80 && Game.items[1][1] > 0) { npc.gift(1); }
                         if (curX > 196 && curX < 404 && curY > 96 && curY < 116 && Game.items[1][2] > 0) { npc.gift(2); }
                         if (curX > 196 && curX < 356 && curY > 128 && curY < 144) { npc.gift(false); }
+                        break;
+                    case 8:
+                        if (Game.lesson.feedback) {
+                            Game.lesson.feedback = false;
+                        }
+                        else {
+                            if (curX > 328 && curX < 424 && curY > 32 && curY < 48) { Game.lesson.doAction(0); }
+                            if (curX > 328 && curX < 408 && curY > 64 && curY < 80) { Game.lesson.doAction(1); }
+                            if (curX > 328 && curX < 408 && curY > 96 && curY < 116) { Game.lesson.doAction(2); }
+                            if (curX > 328 && curX < 424 && curY > 128 && curY < 146) { Game.lesson.doAction(3); }
+                        }
+                        break;
+                    case 9:
+                        if (Game.lesson.feedback) {
+                            Game.lesson.feedback = false;
+                        }
+                        else {
+                            if (curX > 328 && curX < 440 && curY > 32 && curY < 48) { Game.lesson.doAction(0); }
+                            if (curX > 328 && curX < 456 && curY > 64 && curY < 80) { Game.lesson.doAction(1); }
+                            if (curX > 328 && curX < 428 && curY > 96 && curY < 116) { Game.lesson.doAction(2); }
+                        }
+                        break;
+                    case 10:
+                        if (Game.lesson.feedback) {
+                            Game.lesson.feedback = false;
+                        }
+                        else {
+                            if (curX > 328 && curX < 440 && curY > 32 && curY < 48) { Game.lesson.doAction(0); }
+                            if (curX > 328 && curX < 408 && curY > 64 && curY < 80) { Game.lesson.doAction(1); }
+                            if (curX > 328 && curX < 408 && curY > 96 && curY < 116) { Game.lesson.doAction(2); }
+                        }
+                        break;
+                    case 11:
+                        if (Game.lesson.feedback) {
+                            Game.lesson.feedback = false;
+                        }
+                        else {
+                            if (curX > 328 && curX < 376 && curY > 32 && curY < 48) { Game.lesson.doAction(0); }
+                            if (curX > 328 && curX < 376 && curY > 64 && curY < 80) { Game.lesson.doAction(1); }
+                            if (curX > 328 && curX < 428 && curY > 96 && curY < 116) { Game.lesson.doAction(2); }
+                            if (curX > 328 && curX < 392 && curY > 128 && curY < 144) { Game.lesson.doAction(3); }
+                            if (curX > 328 && curX < 408 && curY > 160 && curY < 176) { Game.lesson.doAction(4); }
+                        }
                         break;
                 }
             }
@@ -230,11 +333,11 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             curX > 280 && curX < 360 && curY > 160 && curY < 176;
                     break;
                 case 3:
-                    click = curX > 280 && curX < 424 && curY > 32 && curY < 48 ||
-                            curX > 280 && curX < 328 && curY > 64 && curY < 80 ||
+                    click = curX > 280 && curX < 312 && curY > 32 && curY < 48 ||
+                            curX > 280 && curX < 424 && curY > 64 && curY < 80 ||
                             curX > 280 && curX < 312 && curY > 96 && curY < 116 ||
-                            curX > 280 && curX < 420 && curY > 128 && curY < 144 ||
-                            curX > 280 && curX < 308 && curY > 160 && curY < 176;
+                            curX > 280 && curX < 422 && curY > 128 && curY < 144 ||
+                            curX > 280 && curX < 328 && curY > 160 && curY < 176;
                     break;
                 case 5:
                     click = curX > 404 && curX < 452 && curY > 32 && curY < 48 ||
@@ -252,6 +355,30 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             curX > 196 && curX < 404 && curY > 64 && curY < 80 && Game.items[1][1] > 0 ||
                             curX > 196 && curX < 404 && curY > 96 && curY < 116 && Game.items[1][2] > 0 ||
                             curX > 196 && curX < 356 && curY > 128 && curY < 144;
+                    break;
+                case 8:
+                    click = (curX > 328 && curX < 424 && curY > 32 && curY < 48 ||
+                             curX > 328 && curX < 408 && curY > 64 && curY < 80 ||
+                             curX > 328 && curX < 408 && curY > 96 && curY < 116 ||
+                             curX > 328 && curX < 424 && curY > 128 && curY < 146) && !Game.lesson.feedback;
+                    break;
+                case 9:
+                    click = (curX > 328 && curX < 440 && curY > 32 && curY < 48 ||
+                             curX > 328 && curX < 456 && curY > 64 && curY < 80 ||
+                             curX > 328 && curX < 428 && curY > 96 && curY < 116) && !Game.lesson.feedback;
+                    break;
+                case 10:
+                    click =  (curX > 328 && curX < 440 && curY > 32 && curY < 48 ||
+                              curX > 328 && curX < 408 && curY > 64 && curY < 80 ||
+                              curX > 328 && curX < 408 && curY > 96 && curY < 116) && !Game.lesson.feedback;
+                    break;
+                case 11:
+                    click = (curX > 328 && curX < 376 && curY > 32 && curY < 48 ||
+                             curX > 328 && curX < 376 && curY > 64 && curY < 80 ||
+                             curX > 328 && curX < 428 && curY > 96 && curY < 116 ||
+                             curX > 328 && curX < 392 && curY > 128 && curY < 144 ||
+                             curX > 328 && curX < 408 && curY > 160 && curY < 176) && !Game.lesson.feedback;
+                    break;
             }
 
 
@@ -262,5 +389,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
         if (click) { this.setCursor(new Cursor(Cursor.HAND_CURSOR)); }
         else { this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
     }
+
+    public Dimension getPreferredSize() { return Constants.FRAME_SIZE; }
 
 }

@@ -1,13 +1,17 @@
 package game;
 
 import controllers.Keys;
+import lessons.Lesson;
 import objects.GameObject;
+import objects.InteractiveTile;
+import objects.NPC;
 import objects.Player;
 import utilities.*;
 import utilities.Menu;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +26,17 @@ public class Game {
     public List<GameObject> objects;
     public Keys ctrl;
     public static int time;
-    public final static String[] timePeriods = new String[] { "MORNING\n", "LUNCH\n", "AFTER\nSCHOOL" };
+    public final static String[] timePeriods = new String[] { "MORNING\n", "LUNCH\n", "AFTER\nSCHOOL", "DT", "FOOD", "PE", "CHEM", "ICT" };
     public static TileMapView map;
     public static Camera camera;
     public static TextBox textBox;
     public static Menu menu;
+    public static Lesson lesson;
     public static char[][] tileMatrix;
     public static Object[][] objectMatrix;
     public static int[] friendValues, gradeValues;
     public static int[][] items;
-    public static boolean transition;
+    public static boolean transition, isLesson;
     public static long transitionTime;
 
     public Game() {
@@ -73,6 +78,7 @@ public class Game {
             objectMatrix[object.y][object.x]  = object;
         }
         camera.update();
+        if (Game.transition && System.currentTimeMillis() - Game.transitionTime > 1000 / 5) { Game.transition = false; }
         synchronized (Game.class) {
             objects.clear();
             objects.addAll(TileMapLoader.tileMaps.get(map.currentId).NPCs.get(time));
@@ -106,10 +112,16 @@ public class Game {
         return items[2][4] == 0;
     }
 
+    public static void doTransition() {
+        Game.transition = true;
+        Game.transitionTime = System.currentTimeMillis();
+    }
+
     public static void main(String[] args) throws Exception {
         Game game = new Game();
         time = 0;
 
+        FileReader.readFiles();
         TextBox.loadImages();
         Menu.loadImages();
         TileMapLoader.loadMaps();
@@ -132,7 +144,7 @@ public class Game {
 
         friendValues = new int[5];
         friendValues[0] = 21;
-        friendValues[1] = 11;
+        friendValues[1] = 19;
         friendValues[2]= 1;
         friendValues[3] = 0;
         friendValues[4] = 1;

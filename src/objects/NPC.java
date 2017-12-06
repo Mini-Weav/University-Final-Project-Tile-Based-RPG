@@ -41,7 +41,7 @@ public class NPC extends GameObject{
         tiles.add(CharacterTileSet.readTileSet("resources/tilesets/teacher_pe.png", KEY));
         tiles.add(CharacterTileSet.readTileSet("resources/tilesets/teacher_science.png", KEY));
         tiles.add(CharacterTileSet.readTileSet("resources/tilesets/teacher_ict.png", KEY));
-        names = new String[] { "Jack", "Emily", "Alexander", "Nathan", "Ella", "Mr Reeves", "Ms Welfle", "Mr Lees", "Mr Nickson", "Ms Williams" };
+        names = new String[] { "Jack", "Emily", "Alexander", "Nathan", "Frankie", "Mr Reeves", "Ms Welfle", "Mr Lees", "Mr Nickson", "Ms Williams" };
         text.add("Yo, what's up?");
         text.add("Hiya! Do you like your new\nschool?");
         text.add("... Do you want something?");
@@ -83,14 +83,14 @@ public class NPC extends GameObject{
                 break;
             case 1:
                 if (Game.hasFood()) {
-                    Game.textBox = new TextBox(3, "You have an item you can\ngive to " + name + ".");
+                    Game.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
                     Game.menu = new Menu(5);
                 }
                 else { Game.textBox = new TextBox(NPC.text.get(id), this, true); }
                 break;
             case 3:
                 if (Game.hasCraft()) {
-                    Game.textBox = new TextBox(3, "You have an item you can\ngive to " + name + ".");
+                    Game.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
                     Game.menu = new Menu(5);
                 }
                 else { Game.textBox = new TextBox(NPC.text.get(id), this, true); }
@@ -136,6 +136,14 @@ public class NPC extends GameObject{
 
     public void lesson(boolean yes) {
         if (yes) {
+            Game.doTransition();
+            Game.isLesson = true;
+            switch (id - 5) {
+                case 3:
+                case 4:
+                    Game.menu = new Menu(8);
+
+            }
             Lesson.startLesson(id - 5);
         }
         else {

@@ -49,15 +49,15 @@ public class Menu {
                 break;
             case 3:
                 img = imgs[2];
-                text = "CHEMISTRY\nICT\nDT\nFOOD TECH\nPE";
+                text = "DT\nFOOD TECH\nPE\nCHEMISTRY\nICT";
                 break;
             case 4:
                 img = imgs[3];
-                text =    "ENERGY DRINK  ×" + Game.items[0][0] + "\nSTINK BOMB    ×" + Game.items[0][1] +
-                        "\nD GRADE CRAFT ×" + Game.items[1][0] + "\nC GRADE CRAFT ×" + Game.items[1][1] +
-                        "\nB GRADE CRAFT ×" + Game.items[1][2] + "\nSUPER KEY     ×" + Game.items[1][3] +
-                        "\nD GRADE FOOD  ×" + Game.items[2][0] + "\nC GRADE FOOD  ×" + Game.items[2][1] +
-                        "\nB GRADE FOOD  ×" + Game.items[2][2] + "\nSUPER CAKE    ×" + Game.items[2][3];
+                text =    "ENERGY DRINK ×" + Game.items[0][0] + "\nSTINK BOMB   ×" + Game.items[0][1] +
+                        "\nD GRADE CRAFT×" + Game.items[1][0] + "\nC GRADE CRAFT×" + Game.items[1][1] +
+                        "\nB GRADE CRAFT×" + Game.items[1][2] + "\nSUPER KEY    ×" + Game.items[1][3] +
+                        "\nD GRADE FOOD ×" + Game.items[2][0] + "\nC GRADE FOOD ×" + Game.items[2][1] +
+                        "\nB GRADE FOOD ×" + Game.items[2][2] + "\nSUPER CAKE   ×" + Game.items[2][3];
                 break;
             case 5:
                 img = imgs[1];
@@ -73,6 +73,22 @@ public class Menu {
                 img = imgs[5];
                 text =    "D GRADE CRAFT ×" + Game.items[1][0] + "\nC GRADE CRAFT ×" + Game.items[1][1] +
                         "\nB GRADE CRAFT ×" + Game.items[1][2] + "\nNEVER MIND";
+                break;
+            case 8:
+                img = imgs[0];
+                text = "ANSWER\nTHINK\nDRINK\nTOILET";
+                break;
+            case 9:
+                img = imgs[6];
+                text = "DO TASK\nDO TASK+\nREREAD";
+                break;
+            case 10:
+                img = imgs[6];
+                text = "WARM UP\nSTART\nDRINK";
+                break;
+            case 11:
+                img = imgs[8];
+                text = "JOG\nRUN\nSPRINT\nREST\nDRINK";
                 break;
         }
     }
@@ -97,19 +113,19 @@ public class Menu {
     public static void loadGrade(int id) {
         switch (id) {
             case 0:
-                gradeText = "Chemistry";
-                break;
-            case 1:
-                gradeText = "ICT";
-                break;
-            case 2:
                 gradeText = "DT";
                 break;
-            case 3:
+            case 1:
                 gradeText = "Food Tech";
                 break;
-            case 4:
+            case 2:
                 gradeText = "PE";
+                break;
+            case 3:
+                gradeText = "Chemistry";
+                break;
+            case 4:
+                gradeText = "ICT";
                 break;
         }
 
@@ -135,7 +151,7 @@ public class Menu {
 
     public static void loadImages() {
         try {
-            imgs = new BufferedImage[8];
+            imgs = new BufferedImage[9];
             imgs[0] = ImageIO.read(new File("resources/menus/menu_4row.png"));
             imgs[1] = ImageIO.read(new File("resources/menus/menu_2row_thin.png"));
             imgs[2] = ImageIO.read(new File("resources/menus/menu_5row.png"));
@@ -143,6 +159,8 @@ public class Menu {
             imgs[4] = ImageIO.read(new File("resources/menus/menu_5row_wide.png"));
             imgs[5] = ImageIO.read(new File("resources/menus/menu_4row_wide.png"));
             imgs[6] = ImageIO.read(new File("resources/menus/menu_3row.png"));
+            imgs[7] = ImageIO.read(new File("resources/menus/menu_3row_wide.png"));
+            imgs[8] = ImageIO.read(new File("resources/menus/menu_5row_medium.png"));
             mapImgs = new BufferedImage[2];
             mapImgs[0] = ImageIO.read(new File("resources/minimaps/minimap1.png"));
             mapImgs[1] = ImageIO.read(new File("resources/minimaps/minimap2.png"));
@@ -204,8 +222,6 @@ public class Menu {
             lineIndex++;
         }
         switch (currentId) {
-            case 0:
-                break;
             case 1:
                 tick++;
                 if (tick == 5) {
