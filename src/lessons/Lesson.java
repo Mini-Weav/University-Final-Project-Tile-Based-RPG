@@ -1,6 +1,6 @@
 package lessons;
 
-import game.Game;
+import static game.Game.GAME;
 
 /**
  * Created by Luke on 14/11/2017.
@@ -19,33 +19,33 @@ public abstract class Lesson {
     public abstract void doAction(int action);
 
     public static void startLesson(int id) {
-        int grade = (Game.gradeValues[id] / 10) + 1;
-        oldTime = Game.time;
-        Game.time = id + 3;
+        int grade = (GAME.gradeValues[id] / 10) + 1;
+        oldTime = GAME.time;
+        GAME.time = id + 3;
 
         switch (id) {
             case 0:
             case 1:
-                Game.lesson = new LessonTypeB(id + 1, grade);
+                GAME.lesson = new LessonTypeB(id + 1, grade);
                 break;
             case 2:
-                Game.lesson = new LessonTypeC(grade);
+                GAME.lesson = new LessonTypeC(grade);
                 break;
             case 3:
             case 4:
-                Game.lesson = new LessonTypeA(id - 3, grade);
+                GAME.lesson = new LessonTypeA(id - 3, grade);
                 break;
         }
 
     }
 
     public void finish() {
-        Game.textBox = null;
-        Game.menu = null;
-        Game.isLesson = false;
-        Game.lesson = null;
-        Game.time = oldTime + 1;
-        Game.doTransition();
+        GAME.textBox = null;
+        GAME.menu = null;
+        GAME.isLesson = false;
+        GAME.lesson = null;
+        GAME.time = oldTime + 1;
+        GAME.doTransition();
     }
 
     public static int setStart(int grade) {

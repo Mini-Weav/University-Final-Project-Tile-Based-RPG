@@ -1,6 +1,7 @@
 package utilities;
 
 import game.Constants;
+import game.Game;
 import objects.NPC;
 
 import javax.imageio.ImageIO;
@@ -81,11 +82,11 @@ public class TextBox {
         switch (id) {
             case 0:
             case 3:
-                g.drawImage(img, 0, Constants.FRAME_HEIGHT - 136, img.getWidth() * 2, img.getHeight() * 3, null);
+                g.drawImage(img, 0, Game.height - 136, img.getWidth() * 2, img.getHeight() * 3, null);
                 g.setFont(GameFont.bigFont);
                 lineIndex = 0;
                 for (String line : text.split("#")) {
-                    g.drawString(line, 24, (Constants.FRAME_HEIGHT - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
+                    g.drawString(line, 24, (Game.height - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
                     lineIndex++;
                 }
                 break;
@@ -100,17 +101,17 @@ public class TextBox {
                 break;
             case 2:
             case 4:
-                g.drawImage(img, 0, Constants.FRAME_HEIGHT - 136, img.getWidth() * 2, img.getHeight() * 3, null);
-                g.drawImage(npcImg, 10, Constants.FRAME_HEIGHT - (126 + npcImg.getHeight() * 2), npcImg.getWidth() * 2, npcImg.getHeight() * 2, null);
+                g.drawImage(img, 0, Game.height - 136, img.getWidth() * 2, img.getHeight() * 3, null);
+                g.drawImage(npcImg, 10, Game.height - (126 + npcImg.getHeight() * 2), npcImg.getWidth() * 2, npcImg.getHeight() * 2, null);
                 g.setFont(GameFont.bigFont);
                 lineIndex = 0;
                 for (String line : text.split("\n")) {
-                    g.drawString(line, 24, (Constants.FRAME_HEIGHT - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
+                    g.drawString(line, 24, (Game.height - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
                     lineIndex++;
                 }
                 g.setFont(GameFont.smallFont);
                 int textWidth = g.getFontMetrics(GameFont.smallFont).stringWidth(npcName);
-                g.drawString(npcName, 10 + (npcImg.getWidth())- (textWidth / 2), Constants.FRAME_HEIGHT - 137);
+                g.drawString(npcName, 10 + (npcImg.getWidth())- (textWidth / 2), Game.height - 137);
 
 
         }

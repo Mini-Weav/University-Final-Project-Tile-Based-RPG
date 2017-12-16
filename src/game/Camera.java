@@ -17,8 +17,8 @@ public class Camera {
         this.y = y;
         this.gX = x * 32;
         this.gY = y * 32;
-        this.maxX = matrix.get(0).size() - Constants.CAMERA_SIZE_X;
-        this.maxY = matrix.size() - Constants.CAMERA_SIZE_Y;
+        this.maxX = matrix.get(0).size() - Game.cameraWidth;
+        this.maxY = matrix.size() - Game.cameraHeight;
     }
 
     public void update() {

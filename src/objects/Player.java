@@ -15,6 +15,8 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
 
+import static game.Game.GAME;
+
 /**
  * Created by Luke on 25/10/2017.
  */
@@ -90,12 +92,12 @@ public class Player extends GameObject {
     public void move() {
         int i;
         if (up) {
-            Game.camera.gY -= 8;
+            GAME.camera.gY -= 8;
             gY -= 8;
             i = (gY % 32) / 8;
             walkAnimation(0, i);
-            if (gY % 32 == 0 || TileMapView.tiles.get(Game.tileMatrix[y - 1][x]) instanceof DoorTile) {
-                Game.camera.y--;
+            if (gY % 32 == 0 || TileMapView.tiles.get(GAME.tileMatrix[y - 1][x]) instanceof DoorTile) {
+                GAME.camera.y--;
                 y--;
                 up = false;
                 flip = !flip;
@@ -103,12 +105,12 @@ public class Player extends GameObject {
             }
         }
         if (down) {
-            Game.camera.gY += 8;
+            GAME.camera.gY += 8;
             gY += 8;
             i = (gY % 32) / 16;
             walkAnimation(1, i);
-            if (gY % 32 == 0 || TileMapView.tiles.get(Game.tileMatrix[y + 1][x]) instanceof DoorTile) {
-                Game.camera.y++;
+            if (gY % 32 == 0 || TileMapView.tiles.get(GAME.tileMatrix[y + 1][x]) instanceof DoorTile) {
+                GAME.camera.y++;
                 y++;
                 down = false;
                 flip = !flip;
@@ -117,24 +119,24 @@ public class Player extends GameObject {
             }
         }
         if (left) {
-            Game.camera.gX -= 8;
+            GAME.camera.gX -= 8;
             gX -= 8;
             i = (gX % 32) / 8;
             walkAnimation(2, i);
             if (gX % 32 == 0) {
-                Game.camera.x--;
+                GAME.camera.x--;
                 x--;
                 left = false;
                 direction.setLocation(x - 1, y);
             }
         }
         if (right) {
-            Game.camera.gX += 8;
+            GAME.camera.gX += 8;
             gX += 8;
             i = (gX % 32)/16;
             walkAnimation(3, i);
             if (gX % 32 == 0) {
-                Game.camera.x++;
+                GAME.camera.x++;
                 x++;
                 right = false;
                 direction.setLocation(x + 1, y);
@@ -143,37 +145,37 @@ public class Player extends GameObject {
     }
 
     public void transition() {
-        Game.doTransition();
+        GAME.doTransition();
 
-        Point doorPoints = TileMapLoader.tileMaps.get(Game.map.currentId).doorPoints.get(new Point(x, y)).s;
-        //if (Game.tileMatrix.get(this.y).get(this.x) =='^') { this.tile.img = downSprites1.get(0); }
-        //if (Game.tileMatrix.get(this.y).get(this.x) =='v') { this.tile.img = downSprites1.get(0); }
+        Point doorPoints = TileMapLoader.tileMaps.get(GAME.map.currentId).doorPoints.get(new Point(x, y)).s;
+        //if (GAME.tileMatrix.get(this.y).get(this.x) =='^') { this.tile.img = downSprites1.get(0); }
+        //if (GAME.tileMatrix.get(this.y).get(this.x) =='v') { this.tile.img = downSprites1.get(0); }
 
-        TileMap currentMap = TileMapLoader.tileMaps.get(Game.map.currentId);
-        for (NPC npc : currentMap.NPCs.get(Game.time)) {
+        TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
+        for (NPC npc : currentMap.NPCs.get(GAME.time)) {
             npc.resetDirection(npc.defaultDirection);
         }
         int nextId = currentMap.doorPoints.get(new Point(x, y)).t;
-        Game.map.loadMap(TileMapLoader.tileMaps.get(nextId));
+        GAME.map.loadMap(TileMapLoader.tileMaps.get(nextId));
 
         x = doorPoints.x;
         y = doorPoints.y;
         gX = x * 32;
         gY = y * 32;
 
-        Game.camera.x = x-(Constants.FRAME_WIDTH / 64);
-        Game.camera.y = y-(Constants.FRAME_HEIGHT / 64);
-        Game.camera.gX = Game.camera.x * 32;
-        Game.camera.gY = Game.camera.y * 32;
+        GAME.camera.x = x-(Game.width / 64);
+        GAME.camera.y = y-(Game.height / 64);
+        GAME.camera.gX = GAME.camera.x * 32;
+        GAME.camera.gY = GAME.camera.y * 32;
     }
 
     public void update() {
         moving = up || down || left || right;
         Action action = ctrl.action();
 
-        if (Game.isLesson) {
+        if (GAME.isLesson) {
             boolean isScript = false;
-            switch (Game.time) {
+            switch (GAME.time) {
                 case 3:
                     x = 4;
                     y = 6;
@@ -185,12 +187,12 @@ public class Player extends GameObject {
                     rotate(0);
                     break;
                 case 5:
-                    if (!((LessonTypeC) Game.lesson).started) {
-                        x = 19;
-                        y = 11;
+                    if (!((LessonTypeC) GAME.lesson).started) {
+                        x = 24;
+                        y = 16;
                         rotate(1);
                     }
-                    else if (!Game.lesson.finished) {
+                    else if (!GAME.lesson.finished) {
                         LessonTypeC.movingScript(this);
                         isScript = true;
                     }
@@ -209,43 +211,43 @@ public class Player extends GameObject {
             if (!isScript) {
                 gX = x * 32;
                 gY = y * 32;
-                Game.camera.x = x-(Constants.FRAME_WIDTH / 64);
-                Game.camera.y = y-(Constants.FRAME_HEIGHT / 64);
-                Game.camera.gX = Game.camera.x * 32;
-                Game.camera.gY = Game.camera.y * 32;
+                GAME.camera.x = x-(Game.width / 64);
+                GAME.camera.y = y-(Game.height / 64);
+                GAME.camera.gX = GAME.camera.x * 32;
+                GAME.camera.gY = GAME.camera.y * 32;
             }
         }
 
-        if (!moving && !Game.transition && Game.textBox == null && Game.menu == null) {
+        if (!moving && !GAME.transition && GAME.textBox == null && GAME.menu == null) {
             if (action.up && y > 0 &&
-                    Game.objectMatrix[y - 1][x] == null &&
-                    !TileMapView.tiles.get(Game.tileMatrix[y - 1][x]).collision) { up = true; }
+                    GAME.objectMatrix[y - 1][x] == null &&
+                    !TileMapView.tiles.get(GAME.tileMatrix[y - 1][x]).collision) { up = true; }
 
-            if (action.down && y < Game.map.maxY &&
-                    Game.objectMatrix[y + 1][x] == null &&
-                    !TileMapView.tiles.get(Game.tileMatrix[y + 1][x]).collision) { down = true; }
+            if (action.down && y < GAME.map.maxY &&
+                    GAME.objectMatrix[y + 1][x] == null &&
+                    !TileMapView.tiles.get(GAME.tileMatrix[y + 1][x]).collision) { down = true; }
 
             if (action.left && x > 0 &&
-                    Game.objectMatrix[y][x - 1] == null &&
-                    !TileMapView.tiles.get(Game.tileMatrix[y][x - 1]).collision) { left = true; }
+                    GAME.objectMatrix[y][x - 1] == null &&
+                    !TileMapView.tiles.get(GAME.tileMatrix[y][x - 1]).collision) { left = true; }
 
-            if (action.right && x < Game.map.maxX &&
-                    Game.objectMatrix[y][x + 1] == null &&
-                    !TileMapView.tiles.get(Game.tileMatrix[y][x + 1]).collision) { right = true; }
+            if (action.right && x < GAME.map.maxX &&
+                    GAME.objectMatrix[y][x + 1] == null &&
+                    !TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]).collision) { right = true; }
         }
         move();
 
-        if (!this.moving && !Game.transition && Game.textBox == null && Game.menu == null) {
+        if (!this.moving && !GAME.transition && GAME.textBox == null && GAME.menu == null) {
             if (action.up) { rotate(0); }
             if (action.down) { rotate(1); }
             if (action.left) { rotate(2); }
             if (action.right) { rotate(3); }
         }
 
-        if (TileMapView.tiles.get(Game.tileMatrix[y][x]) instanceof DoorTile) { transition(); }
+        if (TileMapView.tiles.get(GAME.tileMatrix[y][x]) instanceof DoorTile) { transition(); }
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(tile.img, gX - Game.camera.gX, gY - Game.camera.gY, 32, 32, null);
+        g.drawImage(tile.img, gX - GAME.camera.gX, gY - GAME.camera.gY, 32, 32, null);
     }
 }

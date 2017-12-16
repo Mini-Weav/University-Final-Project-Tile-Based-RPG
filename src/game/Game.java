@@ -1,5 +1,6 @@
 package game;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import controllers.Keys;
 import lessons.Lesson;
 import objects.GameObject;
@@ -22,36 +23,44 @@ import java.util.List;
 
 
 public class Game {
+    public final static Game GAME = new Game();
+
     public Player player;
     public List<GameObject> objects;
+    public JFrame frame;
     public Keys ctrl;
-    public static int time;
-    public final static String[] timePeriods = new String[] { "MORNING\n", "LUNCH\n", "AFTER\nSCHOOL", "DT", "FOOD", "PE", "CHEM", "ICT" };
-    public static TileMapView map;
-    public static Camera camera;
-    public static TextBox textBox;
-    public static Menu menu;
-    public static Lesson lesson;
-    public static char[][] tileMatrix;
-    public static Object[][] objectMatrix;
-    public static int[] friendValues, gradeValues;
-    public static int[][] items;
-    public static boolean transition, isLesson;
-    public static long transitionTime;
+    public int time;
+    public TileMapView map;
+    public Camera camera;
+    public TextBox textBox;
+    public Menu menu;
+    public StatusMenu statusMenu;
+    public TitleScreen titleScreen;
+    public Lesson lesson;
+    public char[][] tileMatrix;
+    public GameObject[][] objectMatrix;
+    public int[] friendValues, gradeValues;
+    public int[][] items;
+    public boolean transition, isLesson, intro, fullScreen, isTitle = true;
+    public long transitionTime;
 
-    public Game() {
+    public static int height, width, cameraHeight, cameraWidth;
+
+    public final static String[] TIME_PERIODS = new String[] { "MORNING\n", "LUNCH\n", "AFTER\nSCHOOL", "DT", "FOOD", "PE", "CHEM", "ICT" };
+
+    private Game() {
         objects = new ArrayList<>();
         ctrl = new Keys();
-        player = new Player(Player.TILES.get(0), Constants.START_X, Constants.START_Y, ctrl);
-        objects.add(player);
-
+        height = Constants.FRAME_HEIGHT;
+        width = Constants.FRAME_WIDTH;
+        cameraHeight = height / 32;
+        cameraWidth = width / 32;
     }
 
     public void createFrame() {
-        JFrame frame = new JFrame("Game");
+        frame = new JFrame("Brooklands Academy");
         frame.setResizable(false);
-        frame.add(map, BorderLayout.CENTER);
-        frame.addKeyListener(this.ctrl);
+        frame.add(titleScreen, BorderLayout.CENTER);
         //frame.setUndecorated(true);
         frame.pack();
         frame.setVisible(true);
@@ -64,7 +73,33 @@ public class Game {
     public void update() {
 
         tileMatrix = new char[map.matrix.size()][map.matrix.get(0).size()];
-        objectMatrix = new Object[map.matrix.size()][map.matrix.get(0).size()];
+        objectMatrix = new GameObject[map.matrix.size()][map.matrix.get(0).size()];
+
+        if (!isLesson) {
+            statusMenu.currentId = 0;
+            StatusMenu.setUp(statusMenu.currentId);
+        }
+        else {
+            switch (time) {
+                case 3:
+                case 4:
+                    statusMenu.currentId = 1;
+                    break;
+                case 5:
+                    statusMenu.currentId = 2;
+                    break;
+                case 6:
+                case 7:
+                    statusMenu.currentId = 3;
+                    break;
+            }
+            StatusMenu.setUp(statusMenu.currentId);
+            if (lesson.feedback) { textBox = new TextBox(0, GAME.lesson.feedbackText); }
+            else {
+                if (lesson.finished) { lesson.finish(); }
+                else { textBox = new TextBox(0, lesson.questionText); }
+            }
+        }
 
         for (int i = 0; i < map.matrix.size(); i++) {
             List<Character> line = map.matrix.get(i);
@@ -78,7 +113,7 @@ public class Game {
             objectMatrix[object.y][object.x]  = object;
         }
         camera.update();
-        if (Game.transition && System.currentTimeMillis() - Game.transitionTime > 1000 / 5) { Game.transition = false; }
+        if (GAME.transition && System.currentTimeMillis() - GAME.transitionTime > 1000 / 5) { GAME.transition = false; }
         synchronized (Game.class) {
             objects.clear();
             objects.addAll(TileMapLoader.tileMaps.get(map.currentId).NPCs.get(time));
@@ -86,52 +121,59 @@ public class Game {
         }
     }
 
-    public static boolean hasCraft() {
+    public boolean hasCraft() {
         for (int i = 0; i < items[1].length - 1; i++) {
             if (items[1][i] != 0) { return true;}
         }
         return false;
     }
 
-    public static boolean hasFood() {
+    public boolean hasFood() {
         for (int i = 0; i < items[2].length - 1; i++) {
             if (items[2][i] != 0) { return true;}
         }
         return false;
     }
 
-    public static boolean hasStinkBomb() {
+    public boolean hasStinkBomb() {
         return items[0][1] == 0;
     }
 
-    public static boolean hasLockPick() {
+    public boolean hasLockPick() {
         return items[1][4] == 0;
     }
 
-    public static boolean hasSuperCake() {
+    public boolean hasSuperCake() {
         return items[2][4] == 0;
     }
 
-    public static void doTransition() {
-        Game.transition = true;
-        Game.transitionTime = System.currentTimeMillis();
+    public void doTransition() {
+        GAME.transition = true;
+        GAME.transitionTime = System.currentTimeMillis();
     }
 
-    public static void main(String[] args) throws Exception {
-        Game game = new Game();
-        time = 0;
+    public void newGame() {
+        player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
+        objects.add(player);
 
-        FileReader.readFiles();
-        TextBox.loadImages();
-        Menu.loadImages();
-        TileMapLoader.loadMaps();
-        map = new TileMapView(game, TileMapLoader.tileMaps.get(0));
+        items = new int[3][];
+        items[0] = new int[2];
+        items[1] = new int[4];
+        items[2] = new int[4];
 
-        camera = new Camera(game.player.x - (Constants.FRAME_WIDTH / 64), game.player.y - (Constants.FRAME_HEIGHT / 64),
-                map.matrix);
+        friendValues = new int[5];
+
+        gradeValues = new int[5];
+
+        intro = true;
+        isTitle = false;
+    }
+
+    public void load() {
+        player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
+        objects.add(player);
 
         /* start of testing values */
-
         items = new int[3][];
         items[0] = new int[2];
         items[1] = new int[4];
@@ -155,16 +197,78 @@ public class Game {
         gradeValues[2] = 0;
         gradeValues[3] = 30;
         gradeValues[4] = 0;
-
         /* end of testing values */
 
+        isTitle = false;
+    }
+
+    public void windowScreen() {
+        frame.dispose();
+        frame.setUndecorated(false);
+        height = Constants.FRAME_HEIGHT;
+        width = Constants.FRAME_WIDTH;
+        cameraHeight = height / 32;
+        cameraWidth = width / 32;
+        frame.getContentPane().setSize(width, height);
+        frame.setSize(width + Constants.DEC_WIDTH, height + Constants.DEC_HEIGHT);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        GAME.fullScreen = false;
+    }
+
+    public void fullScreen() {
+        frame.dispose();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
+        height = Constants.FULL_HEIGHT;
+        width = Constants.FULL_WIDTH;
+        cameraHeight = height / 32;
+        cameraWidth = width / 32;
+        frame.setSize(width, height);
+        frame.getContentPane().setSize(width, height);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        GAME.fullScreen = true;
+    }
+
+    public void switchScreen() {
+        if (GAME.fullScreen) { windowScreen(); }
+        else { fullScreen(); }
+
+        GAME.camera.x = GAME.player.x - (Game.width / 64);
+        GAME.camera.y = GAME.player.y - (Game.height / 64);
+        GAME.camera.gX = GAME.camera.x * 32;
+        GAME.camera.gY = GAME.camera.y * 32;
+    }
+
+    public static void main(String[] args) throws Exception {
+        FileReader.readFiles();
+        TextBox.loadImages();
+        Menu.loadImages();
+        TileMapLoader.loadMaps();
         GameFont.loadFont();
-        game.createFrame();
+        GAME.titleScreen = new TitleScreen();
+        GAME.createFrame();
+
+        while (GAME.isTitle) {
+            GAME.titleScreen.repaint();
+        }
+        GAME.frame.remove(GAME.titleScreen);
+        GAME.time = 0;
+        GAME.map = new TileMapView(TileMapLoader.tileMaps.get(0));
+
+        GAME.camera = new Camera(GAME.player.x - (cameraWidth / 2), GAME.player.y - (cameraHeight / 2),
+                GAME.map.matrix);
+
+        GAME.statusMenu = new StatusMenu(0);
+        GAME.frame.add(GAME.map, BorderLayout.CENTER);
+        GAME.frame.addKeyListener(GAME.ctrl);
+        GAME.frame.revalidate();
 
         /*Game loop*/
         while (true) {
-            game.update();
-            map.repaint();
+            GAME.update();
+            GAME.map.repaint();
             Thread.sleep(70);
         }
     }

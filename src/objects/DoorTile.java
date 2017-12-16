@@ -23,7 +23,7 @@ public class DoorTile extends Tile {
 
             /*School Hall G*/
             case 0:
-                points.put(new Point(10, 1), new Pair<>(6, new Point(25, 23)));
+                points.put(new Point(10, 1), new Pair<>(6, new Point(30, 28)));
                 points.put(new Point(3, 5), new Pair<>(2, new Point(13, 9)));
                 points.put(new Point(17, 5), new Pair<>(3, new Point(5, 9)));
                 points.put(new Point(5, 17), new Pair<>(5, new Point(3, 9)));
@@ -70,8 +70,8 @@ public class DoorTile extends Tile {
 
             /*Yard*/
             case 6:
-                points.put(new Point(25, 24), new Pair<>(0, new Point(10, 2)));
-                points.put(new Point(26, 24), new Pair<>(0, new Point(10, 2)));
+                points.put(new Point(30, 29), new Pair<>(0, new Point(10, 2)));
+                points.put(new Point(31, 29), new Pair<>(0, new Point(10, 2)));
                 break;
         }
         return points;

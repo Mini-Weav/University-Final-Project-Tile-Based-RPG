@@ -3,6 +3,8 @@ package lessons;
 import game.Game;
 import utilities.Menu;
 
+import static game.Game.GAME;
+
 /**
  * Created by Luke on 06/12/2017.
  */
@@ -21,7 +23,7 @@ public class LessonTypeB extends Lesson {
         this.id = id;
         questionId = generateInstruction(grade);
 
-        Game.menu = new Menu(9);
+        GAME.menu = new Menu(9);
 
     }
 
@@ -69,10 +71,10 @@ public class LessonTypeB extends Lesson {
         if (time == 0 || tasksLeft == 0) {
             if (tasksLeft == 0) {
                 feedbackText = "You finished every task#and made an item!";
-                Game.items[id][grade - 1]++;
+                GAME.items[id][grade - 1]++;
             }
             else { feedbackText = "You're out of time!"; }
-            feedbackText += "#You got a score of "+(int)((score/rounds)*50) + "!";
+            feedbackText += "#You got a score of "+(int)((score / rounds) * 50) + "!";
             finished = true;
         }
     }

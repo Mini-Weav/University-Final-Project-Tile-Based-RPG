@@ -1,6 +1,5 @@
 package objects;
 
-import game.Game;
 import lessons.Lesson;
 import utilities.*;
 import utilities.Menu;
@@ -9,6 +8,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
+
+import static game.Game.GAME;
 
 /**
  * Created by lmweav on 25/11/2017.
@@ -79,76 +80,76 @@ public class NPC extends GameObject{
             case 0:
             case 2:
             case 4:
-                Game.textBox = new TextBox(NPC.text.get(id), this, true);
+                GAME.textBox = new TextBox(NPC.text.get(id), this, true);
                 break;
             case 1:
-                if (Game.hasFood()) {
-                    Game.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
-                    Game.menu = new Menu(5);
+                if (GAME.hasFood()) {
+                    GAME.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
+                    GAME.menu = new Menu(5);
                 }
-                else { Game.textBox = new TextBox(NPC.text.get(id), this, true); }
+                else { GAME.textBox = new TextBox(NPC.text.get(id), this, true); }
                 break;
             case 3:
-                if (Game.hasCraft()) {
-                    Game.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
-                    Game.menu = new Menu(5);
+                if (GAME.hasCraft()) {
+                    GAME.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
+                    GAME.menu = new Menu(5);
                 }
-                else { Game.textBox = new TextBox(NPC.text.get(id), this, true); }
+                else { GAME.textBox = new TextBox(NPC.text.get(id), this, true); }
                 break;
             case 5:
             case 6:
             case 7:
             case 8:
             case 9:
-                Game.textBox = new TextBox(NPC.text.get(id), this, false);
-                Game.menu = new Menu(5);
+                GAME.textBox = new TextBox(NPC.text.get(id), this, false);
+                GAME.menu = new Menu(5);
         }
     }
 
     public void gift(boolean yes) {
         if (yes) {
-            if (id == 1) { Game.menu = new Menu(6); }
-            if (id == 3) { Game.menu = new Menu(7); }
+            if (id == 1) { GAME.menu = new Menu(6); }
+            if (id == 3) { GAME.menu = new Menu(7); }
         }
         else {
-            Game.menu = null;
-            Game.textBox = new TextBox(NPC.text.get(id), this, true);
+            GAME.menu = null;
+            GAME.textBox = new TextBox(NPC.text.get(id), this, true);
         }
     }
 
     public void gift(int index) {
-        System.out.println(name + "\nBefore FP = " + Game.friendValues[id]);
+        System.out.println(name + "\nBefore FP = " + GAME.friendValues[id]);
         switch (id) {
             case 1:
-                Game.items[2][index]--;
-                Game.textBox = new TextBox("Wow thanks!", this, true);
+                GAME.items[2][index]--;
+                GAME.textBox = new TextBox("Wow thanks!", this, true);
                 break;
             case 3:
-                Game.items[1][index]--;
-                Game.textBox = new TextBox("...Thanks. Have an energy\ndrink, on me.", this, true);
-                Game.items[0][0]++;
+                GAME.items[1][index]--;
+                GAME.textBox = new TextBox("...Thanks. Have an energy\ndrink, on me.", this, true);
+                GAME.items[0][0]++;
         }
-        Game.menu = null;
-        Game.friendValues[id] += (index + 1);
-        System.out.println(name + "\nAfter FP = " + Game.friendValues[id]);
+        GAME.menu = null;
+        GAME.friendValues[id] += (index + 1);
+        System.out.println(name + "\nAfter FP = " + GAME.friendValues[id]);
 
     }
 
     public void lesson(boolean yes) {
         if (yes) {
-            Game.doTransition();
-            Game.isLesson = true;
+            GAME.doTransition();
             switch (id - 5) {
                 case 3:
                 case 4:
-                    Game.menu = new Menu(8);
+                    GAME.menu = new Menu(8);
 
             }
             Lesson.startLesson(id - 5);
+            GAME.isLesson = true;
         }
         else {
-            Game.menu = null;
-            Game.textBox = null;
+            GAME.menu = null;
+            GAME.textBox = null;
         }
     }
 
@@ -191,6 +192,6 @@ public class NPC extends GameObject{
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(tile.img, gX - Game.camera.gX, gY - Game.camera.gY, 32, 32, null);
+        g.drawImage(tile.img, gX - GAME.camera.gX, gY - GAME.camera.gY, 32, 32, null);
     }
 }

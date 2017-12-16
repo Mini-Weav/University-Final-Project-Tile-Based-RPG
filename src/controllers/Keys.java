@@ -6,6 +6,8 @@ import utilities.Menu;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import static game.Game.GAME;
+
 /**
  * Created by lmweav on 25/10/2017.
  */
@@ -51,6 +53,12 @@ public class Keys extends KeyAdapter implements Controller {
                 break;
             case KeyEvent.VK_E:
                 Menu.hotKeyAccess(3);
+                break;
+            case KeyEvent.VK_C:
+                Menu.hotKeyAccess(4);
+                break;
+            case KeyEvent.VK_ESCAPE:
+                GAME.switchScreen();
                 break;
         }
     }

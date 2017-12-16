@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static game.Game.GAME;
+
 /**
  * Created by lmweav on 03/11/2017.
  */
@@ -19,7 +21,7 @@ public class Menu {
     public static int minimapId, tick = 0;
     public static String text, friendText, gradeText;
     public static BufferedImage[] imgs, mapImgs, friendImgs, gradeImgs;
-    public static BufferedImage img, mapImg, iconImg, friendImg, gradeImg;
+    public static BufferedImage img, mapImg, iconImg, friendImg, gradeImg, titleImg;
 
 
 
@@ -40,7 +42,7 @@ public class Menu {
                 break;
             case 1:
                 img = imgs[1];
-                loadMapImage(Game.map.minimapId);
+                loadMapImage(GAME.map.minimapId);
                 text = "G\n1F";
                 break;
             case 2:
@@ -53,11 +55,11 @@ public class Menu {
                 break;
             case 4:
                 img = imgs[3];
-                text =    "ENERGY DRINK ×" + Game.items[0][0] + "\nSTINK BOMB   ×" + Game.items[0][1] +
-                        "\nD GRADE CRAFT×" + Game.items[1][0] + "\nC GRADE CRAFT×" + Game.items[1][1] +
-                        "\nB GRADE CRAFT×" + Game.items[1][2] + "\nSUPER KEY    ×" + Game.items[1][3] +
-                        "\nD GRADE FOOD ×" + Game.items[2][0] + "\nC GRADE FOOD ×" + Game.items[2][1] +
-                        "\nB GRADE FOOD ×" + Game.items[2][2] + "\nSUPER CAKE   ×" + Game.items[2][3];
+                text =    "ENERGY DRINK ×" + GAME.items[0][0] + "\nSTINK BOMB   ×" + GAME.items[0][1] +
+                        "\nD GRADE CRAFT×" + GAME.items[1][0] + "\nC GRADE CRAFT×" + GAME.items[1][1] +
+                        "\nB GRADE CRAFT×" + GAME.items[1][2] + "\nSUPER KEY    ×" + GAME.items[1][3] +
+                        "\nD GRADE FOOD ×" + GAME.items[2][0] + "\nC GRADE FOOD ×" + GAME.items[2][1] +
+                        "\nB GRADE FOOD ×" + GAME.items[2][2] + "\nSUPER CAKE   ×" + GAME.items[2][3];
                 break;
             case 5:
                 img = imgs[1];
@@ -65,14 +67,14 @@ public class Menu {
                 break;
             case 6:
                 img = imgs[4];
-                text =    "D GRADE FOOD  ×" + Game.items[2][0] + "\nC GRADE FOOD  ×" + Game.items[2][1] +
-                        "\nB GRADE FOOD  ×" + Game.items[2][2] + "\nSUPER CAKE    ×" + Game.items[2][3] +
+                text =    "D GRADE FOOD  ×" + GAME.items[2][0] + "\nC GRADE FOOD  ×" + GAME.items[2][1] +
+                        "\nB GRADE FOOD  ×" + GAME.items[2][2] + "\nSUPER CAKE    ×" + GAME.items[2][3] +
                         "\nNEVER MIND";
                 break;
             case 7:
                 img = imgs[5];
-                text =    "D GRADE CRAFT ×" + Game.items[1][0] + "\nC GRADE CRAFT ×" + Game.items[1][1] +
-                        "\nB GRADE CRAFT ×" + Game.items[1][2] + "\nNEVER MIND";
+                text =    "D GRADE CRAFT ×" + GAME.items[1][0] + "\nC GRADE CRAFT ×" + GAME.items[1][1] +
+                        "\nB GRADE CRAFT ×" + GAME.items[1][2] + "\nNEVER MIND";
                 break;
             case 8:
                 img = imgs[0];
@@ -89,6 +91,10 @@ public class Menu {
             case 11:
                 img = imgs[8];
                 text = "JOG\nRUN\nSPRINT\nREST\nDRINK";
+                break;
+            case 12:
+                img = imgs[9];
+                text = "NEW GAME\nCONTINUE\nQUIT";
                 break;
         }
     }
@@ -134,7 +140,7 @@ public class Menu {
     }
 
     public static void setFriendValue(int index) {
-        int fp = Game.friendValues[index];
+        int fp = GAME.friendValues[index];
         if (fp == 0) { friendText = "Don't know"; }
         if (fp > 0) { friendText = "Acquaintance"; }
         if (fp > 10) { friendText = "Friend"; }
@@ -142,7 +148,7 @@ public class Menu {
     }
 
     public static void setGradeValue(int index) {
-        int gp = Game.gradeValues[index];
+        int gp = GAME.gradeValues[index];
         if (gp >= 0) { gradeImg = gradeImgs[0]; }
         if (gp > 9) { gradeImg = gradeImgs[1]; }
         if (gp > 19) { gradeImg = gradeImgs[2]; }
@@ -151,7 +157,7 @@ public class Menu {
 
     public static void loadImages() {
         try {
-            imgs = new BufferedImage[9];
+            imgs = new BufferedImage[10];
             imgs[0] = ImageIO.read(new File("resources/menus/menu_4row.png"));
             imgs[1] = ImageIO.read(new File("resources/menus/menu_2row_thin.png"));
             imgs[2] = ImageIO.read(new File("resources/menus/menu_5row.png"));
@@ -161,6 +167,7 @@ public class Menu {
             imgs[6] = ImageIO.read(new File("resources/menus/menu_3row.png"));
             imgs[7] = ImageIO.read(new File("resources/menus/menu_3row_wide.png"));
             imgs[8] = ImageIO.read(new File("resources/menus/menu_5row_medium.png"));
+            imgs[9] = ImageIO.read(new File("resources/menus/menu_3row(title).png"));
             mapImgs = new BufferedImage[2];
             mapImgs[0] = ImageIO.read(new File("resources/minimaps/minimap1.png"));
             mapImgs[1] = ImageIO.read(new File("resources/minimaps/minimap2.png"));
@@ -175,9 +182,10 @@ public class Menu {
             gradeImgs[1] = ImageIO.read(new File("resources/gradeImages/grade_c.png"));
             gradeImgs[2] = ImageIO.read(new File("resources/gradeImages/grade_b.png"));
             gradeImgs[3] = ImageIO.read(new File("resources/gradeImages/grade_a.png"));
+            titleImg = ImageIO.read(new File("resources/titlescreen.png"));
 
         } catch (IOException e) {
-            System.out.println("Cannot find grade image.");
+            System.out.println("Cannot find image.");
             e.printStackTrace();
         }
 
@@ -195,7 +203,7 @@ public class Menu {
             subText = gradeText;
         }
         try {
-            int subX = (Constants.FRAME_WIDTH - (subImg.getWidth() * 4)) / 2;
+            int subX = Game.width - (((img.getWidth() + subImg.getWidth()) * 2) + 24);
             g.drawImage(subImg, subX, 16, subImg.getWidth() * 2, subImg.getHeight() * 2, null);
 
             g.setFont(GameFont.smallFont);
@@ -207,18 +215,18 @@ public class Menu {
     }
 
     public static void hotKeyAccess(int id) {
-        if (Game.menu == null) { Game.menu = new Menu(id); }
-        else if (Game.menu.currentId != id) { Game.menu = new Menu(id); }
-        else  { Game.menu = null; }
+        if (GAME.menu == null) { GAME.menu = new Menu(id); }
+        else if (GAME.menu.currentId != id) { GAME.menu = new Menu(id); }
+        else  { GAME.menu = null; }
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(img, Constants.FRAME_WIDTH - ((img.getWidth() * 2) + 16), 16,
+        g.drawImage(img, Game.width - ((img.getWidth() * 2) + 16), 16,
                 img.getWidth() * 2, img.getHeight() * 2, null);
         g.setFont(GameFont.bigFont);
         int lineIndex = 0;
         for (String line : text.split("\n")) {
-            g.drawString(line, Constants.FRAME_WIDTH - ((img.getWidth() * 2)), 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
+            g.drawString(line, Game.width - ((img.getWidth() * 2)), 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
             lineIndex++;
         }
         switch (currentId) {
@@ -228,10 +236,10 @@ public class Menu {
                     blink = !blink;
                     tick = 0;
                 }
-                int mapX = (Constants.FRAME_WIDTH - (mapImg.getWidth() * 4)) / 2;
-                int mapY = (Constants.FRAME_HEIGHT - (mapImg.getHeight() * 4)) / 2;
+                int mapX = (Game.width - (mapImg.getWidth() * 4)) / 2;
+                int mapY = (Game.height - (mapImg.getHeight() * 4)) / 2;
                 g.drawImage(mapImg, mapX, mapY, mapImg.getWidth() * 4, mapImg.getHeight() * 4, null);
-                if (blink && minimapId == Game.map.minimapId) {
+                if (blink && minimapId == GAME.map.minimapId) {
                     g.drawImage(iconImg, mapX + Menu.iconPoint.x, mapY + Menu.iconPoint.y, iconImg.getWidth() * 2, iconImg.getHeight()* 2, null);
                 }
                 break;

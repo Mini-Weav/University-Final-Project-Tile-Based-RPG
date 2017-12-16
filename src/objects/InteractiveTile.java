@@ -124,7 +124,7 @@ public class InteractiveTile extends Tile {
 
             /*Yard*/
             case 6:
-                points.put(new Point(21, 17), new TextBox(1, FileReader.interactiveStrings[2]));//3
+                points.put(new Point(26, 21), new TextBox(1, FileReader.interactiveStrings[2]));//3
                 break;
         }
         return points;

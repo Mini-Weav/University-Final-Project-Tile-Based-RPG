@@ -8,7 +8,7 @@ import java.io.IOException;
  * Created by lmweav on 01/11/2017.
  */
 public class GameFont {
-    public static Font bigFont, smallFont, medFont;
+    public static Font bigFont, smallFont, medFont, titleFont;
 
     public static void loadFont() {
         try {
@@ -17,6 +17,7 @@ public class GameFont {
             bigFont = new Font("Pokemon GB", 0, 16);
             smallFont = new Font("Pokemon GB", 0, 10);
             medFont = new Font("Pokemon GB", 0, 14);
+            titleFont = new Font("Pokemon GB", 0, 28);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }

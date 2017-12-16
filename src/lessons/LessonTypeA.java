@@ -1,7 +1,8 @@
 package lessons;
 
-import game.Game;
 import utilities.Menu;
+
+import static game.Game.GAME;
 
 /**
  * Created by Luke on 05/12/2017.
@@ -33,7 +34,7 @@ public class LessonTypeA extends Lesson {
             lv2 = 0.6;
         }
 
-        Game.menu = new Menu(8);
+        GAME.menu = new Menu(8);
 
     }
 
@@ -46,7 +47,7 @@ public class LessonTypeA extends Lesson {
                 questionId = generateQuestion(id, lv1, lv2);
                 if (questionsLeft == 0) {
                     finished = true;
-                    feedbackText = "The lesson is over!#You got a score of " + (int)((score/ rounds)*100) + "!";
+                    feedbackText = "The lesson is over!#You got a score of " + (int)((score / rounds) * 100) + "!";
                 }
                 break;
             case 1:
@@ -55,20 +56,20 @@ public class LessonTypeA extends Lesson {
                     concentration++;
                     feedbackText = "You stop and think...#Your concentration has#improved!";
                 }
-                else { feedbackText = "You struggle to concentrate!"; }
+                else { feedbackText = "You struggle to#concentrate!"; }
                 break;
             case 2:
-                if (Game.items[0][0] > 0) {
+                if (GAME.items[0][0] > 0) {
                     attentionSpan++;
                     concentration++;
-                    Game.items[0][0]--;
+                    GAME.items[0][0]--;
                     feedbackText = "You drink a powerful energy#drink...#Your attention and#concentration has improved!";
                 }
                 else { feedbackText = "You're out of energy#drinks!"; }
                 break;
             case 3:
                 if (!toilet) {
-                    Game.doTransition();
+                    GAME.doTransition();
                     attentionSpan++;
                     toilet = true;
                     questionId = generateQuestion(id, lv1, lv2);

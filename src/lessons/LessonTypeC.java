@@ -1,8 +1,9 @@
 package lessons;
 
-import game.Game;
 import objects.Player;
 import utilities.Menu;
+
+import static game.Game.GAME;
 
 /**
  * Created by Luke on 06/12/2017.
@@ -19,7 +20,7 @@ public class LessonTypeC extends Lesson {
         time = 60;
         questionText = "What will you do?";
 
-        Game.menu = new Menu(10);
+        GAME.menu = new Menu(10);
     }
 
     public void doAction(int action) {
@@ -31,15 +32,15 @@ public class LessonTypeC extends Lesson {
                     time -= 5;
                     break;
                 case 1:
-                    Game.doTransition();
+                    GAME.doTransition();
                     feedbackText = "You start running...";
-                    Game.menu = new Menu(11);
+                    GAME.menu = new Menu(11);
                     started = true;
                     break;
                 case 2:
-                    if (Game.items[0][0] > 0) {
+                    if (GAME.items[0][0] > 0) {
                         energy++;
-                        Game.items[0][0]--;
+                        GAME.items[0][0]--;
                         feedbackText = "You drink a powerful energy#drink... Your energy has#increased!";
                     }
                     else { feedbackText = "You're out of energy#drinks!"; }
@@ -90,7 +91,7 @@ public class LessonTypeC extends Lesson {
                         time -= 5;
                         break;
                     case 3:
-                        Game.doTransition();
+                        GAME.doTransition();
                         feedbackText = "You take a moment to#rest... You've regained#some energy!";
                         energy++;
                         consecutiveRun = 0;
@@ -98,9 +99,9 @@ public class LessonTypeC extends Lesson {
                         feedback = true;
                         break;
                     case 4:
-                        if (Game.items[0][0] > 0) {
+                        if (GAME.items[0][0] > 0) {
                             energy++;
-                            Game.items[0][0]--;
+                            GAME.items[0][0]--;
                             feedbackText = "You drink a powerful energy#drink... Your energy has#increased!";
                             consecutiveRun = 0;
                         }
@@ -110,14 +111,14 @@ public class LessonTypeC extends Lesson {
             }
         }
         if (time == 0) {
-            feedbackText = "The lesson is over!#You got a score of " + ((score+bonusScore)*10) + "!";
+            feedbackText = "The lesson is over!#You got a score of " + ((score + bonusScore) * 10) + "!";
             feedback = true;
             finished = true;
         }
     }
 
     public static void movingScript(Player player) {
-        int lowX = 19, highX = 31, lowY = 8, highY = 15;
+        int lowX = 24, highX = 36, lowY = 13, highY = 20;
         if (player.x == lowX && player.y < highY) {
             player.down = true;
             player.move();

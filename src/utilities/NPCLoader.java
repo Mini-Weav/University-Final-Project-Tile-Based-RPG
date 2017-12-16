@@ -95,14 +95,14 @@ public class NPCLoader {
 
         /* Yard */
         NPCs.put(6, new ArrayList<>());
-        NPCs.get(6).add(Arrays.asList(new NPC(29, 19, 0, Constants.DOWN), new NPC(22, 18, 7, Constants.DOWN)));
-        NPCs.get(6).add(Collections.singletonList(new NPC(22, 18, 7, Constants.DOWN)));
-        NPCs.get(6).add(Collections.singletonList(new NPC(29, 19, 0, Constants.DOWN)));
+        NPCs.get(6).add(Arrays.asList(new NPC(34, 24, 0, Constants.DOWN), new NPC(27, 23, 7, Constants.DOWN)));
+        NPCs.get(6).add(Collections.singletonList(new NPC(27, 23, 7, Constants.DOWN)));
+        NPCs.get(6).add(Collections.singletonList(new NPC(34, 24, 0, Constants.DOWN)));
 
         NPCs.get(6).add(Collections.emptyList());
         NPCs.get(6).add(Collections.emptyList());
-        NPCs.get(6).add(Arrays.asList(new NPC(27, 12, 0, Constants.UP), new NPC(18, 7, 2, Constants.LEFT),
-                new NPC(22, 13, 7, Constants.LEFT)));
+        NPCs.get(6).add(Arrays.asList(new NPC(32, 17, 0, Constants.UP), new NPC(23, 12, 2, Constants.LEFT),
+                new NPC(27, 16, 7, Constants.LEFT)));
         NPCs.get(6).add(Collections.emptyList());
         NPCs.get(6).add(Collections.emptyList());
 
