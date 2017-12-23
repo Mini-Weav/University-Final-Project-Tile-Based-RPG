@@ -21,6 +21,8 @@ public class LessonTypeB extends Lesson {
         time = 60;
 
         this.id = id;
+        if (GAME.condition == 1) { grade++; }
+        if (GAME.condition == 2 && grade > 0) { grade--; }
         questionId = generateInstruction(grade);
 
         GAME.menu = new Menu(9);
@@ -154,6 +156,10 @@ public class LessonTypeB extends Lesson {
             case 4:
                 lv1 = 0.5;
                 lv2 = 0.9;
+                break;
+            case 5:
+                lv1 = 0.6;
+                lv2 = 1.0;
         }
         return generateQuestion(3, lv1, lv2);
     }

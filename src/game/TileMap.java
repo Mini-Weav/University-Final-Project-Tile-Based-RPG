@@ -39,5 +39,4 @@ public class TileMap {
         iconPoint = new Point(x, y);
         NPCs = NPCLoader.NPCs.get(id);
     }
-
 }

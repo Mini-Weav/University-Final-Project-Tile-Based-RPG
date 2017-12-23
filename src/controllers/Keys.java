@@ -1,6 +1,4 @@
 package controllers;
-
-import game.Game;
 import utilities.Menu;
 
 import java.awt.event.KeyAdapter;
@@ -22,28 +20,19 @@ public class Keys extends KeyAdapter implements Controller {
         int key = e.getKeyCode();
         switch (key) {
             case KeyEvent.VK_W:
-                action.up = true;
-                action.down = false;
-                action.left = false;
-                action.right = false;
+                action.direction = 0;
                 break;
             case KeyEvent.VK_S:
-                action.up = false;
-                action.down = true;
-                action.left = false;
-                action.right = false;
+                action.direction = 1;
                 break;
             case KeyEvent.VK_A:
-                action.up = false;
-                action.down = false;
-                action.left = true;
-                action.right = false;
+                action.direction = 2;
                 break;
             case KeyEvent.VK_D:
-                action.up = false;
-                action.down = false;
-                action.left = false;
-                action.right = true;
+                action.direction = 3;
+                break;
+            case KeyEvent.VK_SHIFT:
+                action.stop = true;
                 break;
             case KeyEvent.VK_M:
                 Menu.hotKeyAccess(1);
@@ -67,16 +56,19 @@ public class Keys extends KeyAdapter implements Controller {
         int key = e.getKeyCode();
         switch (key) {
             case KeyEvent.VK_W:
-                action.up = false;
+                action.direction = -1;
                 break;
             case KeyEvent.VK_S:
-                action.down = false;
+                action.direction = -1;
                 break;
             case KeyEvent.VK_A:
-                action.left = false;
+                action.direction = -1;
                 break;
             case KeyEvent.VK_D:
-                action.right = false;
+                action.direction = -1;
+                break;
+            case KeyEvent.VK_SHIFT:
+                action.stop = false;
                 break;
         }
     }

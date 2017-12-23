@@ -1,10 +1,8 @@
 package game;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import controllers.Keys;
 import lessons.Lesson;
 import objects.GameObject;
-import objects.InteractiveTile;
 import objects.NPC;
 import objects.Player;
 import utilities.*;
@@ -12,7 +10,6 @@ import utilities.Menu;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class Game {
     public List<GameObject> objects;
     public JFrame frame;
     public Keys ctrl;
-    public int time;
+    public int time, condition, day = 1;
     public TileMapView map;
     public Camera camera;
     public TextBox textBox;
@@ -41,12 +38,13 @@ public class Game {
     public GameObject[][] objectMatrix;
     public int[] friendValues, gradeValues;
     public int[][] items;
-    public boolean transition, isLesson, intro, fullScreen, isTitle = true;
+    public boolean transition, newGame, fullScreen, isTitle = true;
     public long transitionTime;
 
     public static int height, width, cameraHeight, cameraWidth;
 
-    public final static String[] TIME_PERIODS = new String[] { "MORNING\n", "LUNCH\n", "AFTER\nSCHOOL", "DT", "FOOD", "PE", "CHEM", "ICT" };
+    public final static String[] TIME_PERIODS = new String[] { "MORNING", "LUNCH", "AFT SCH", "DT", "FOOD", "PE", "CHEM", "ICT" },
+            CONDITIONS = new String[] { "NORMAL", "GREAT", "UNWELL"};
 
     private Game() {
         objects = new ArrayList<>();
@@ -71,11 +69,10 @@ public class Game {
 
 
     public void update() {
-
         tileMatrix = new char[map.matrix.size()][map.matrix.get(0).size()];
         objectMatrix = new GameObject[map.matrix.size()][map.matrix.get(0).size()];
 
-        if (!isLesson) {
+        if (lesson == null) {
             statusMenu.currentId = 0;
             StatusMenu.setUp(statusMenu.currentId);
         }
@@ -108,16 +105,17 @@ public class Game {
             }
         }
         for (GameObject object : objects) {
-            object.update();
             tileMatrix[object.y][object.x] = object.tile.key;
             objectMatrix[object.y][object.x]  = object;
         }
+        for (GameObject object : objects) { object.update(); }
         camera.update();
-        if (GAME.transition && System.currentTimeMillis() - GAME.transitionTime > 1000 / 5) { GAME.transition = false; }
+        if (transition && System.currentTimeMillis() - transitionTime > 1000 / 5) { transition = false; }
+
         synchronized (Game.class) {
             objects.clear();
             objects.addAll(TileMapLoader.tileMaps.get(map.currentId).NPCs.get(time));
-            objects.add(player);
+            objects.add(GAME.player);
         }
     }
 
@@ -148,13 +146,27 @@ public class Game {
     }
 
     public void doTransition() {
-        GAME.transition = true;
-        GAME.transitionTime = System.currentTimeMillis();
+        transition = true;
+        transitionTime = System.currentTimeMillis();
+    }
+
+    public void goHome(boolean yes) {
+        if (yes) {
+            doTransition();
+            time = 0;
+            condition = 0;
+            TileMap nextMap = TileMapLoader.tileMaps.get(0);
+            for (NPC npc : nextMap.NPCs.get(GAME.time)) { npc.reset(); }
+            player.rotate(0);
+            map.loadMap(nextMap);
+            day++;
+        }
+        textBox = null;
+        menu = null;
     }
 
     public void newGame() {
-        player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
-        objects.add(player);
+        player = new Player(Player.TILES.get(Constants.UP), Constants.START_X, Constants.START_Y, ctrl);
 
         items = new int[3][];
         items[0] = new int[2];
@@ -165,13 +177,12 @@ public class Game {
 
         gradeValues = new int[5];
 
-        intro = true;
+        newGame = true;
         isTitle = false;
     }
 
     public void load() {
         player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
-        objects.add(player);
 
         /* start of testing values */
         items = new int[3][];
@@ -213,7 +224,7 @@ public class Game {
         frame.setSize(width + Constants.DEC_WIDTH, height + Constants.DEC_HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        GAME.fullScreen = false;
+        fullScreen = false;
     }
 
     public void fullScreen() {
@@ -228,17 +239,17 @@ public class Game {
         frame.getContentPane().setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        GAME.fullScreen = true;
+        fullScreen = true;
     }
 
     public void switchScreen() {
-        if (GAME.fullScreen) { windowScreen(); }
+        if (fullScreen) { windowScreen(); }
         else { fullScreen(); }
 
-        GAME.camera.x = GAME.player.x - (Game.width / 64);
-        GAME.camera.y = GAME.player.y - (Game.height / 64);
-        GAME.camera.gX = GAME.camera.x * 32;
-        GAME.camera.gY = GAME.camera.y * 32;
+        camera.x = player.x - (Game.width / 64);
+        camera.y = player.y - (Game.height / 64);
+        camera.gX = camera.x * 32;
+        camera.gY = camera.y * 32;
     }
 
     public static void main(String[] args) throws Exception {
@@ -250,9 +261,7 @@ public class Game {
         GAME.titleScreen = new TitleScreen();
         GAME.createFrame();
 
-        while (GAME.isTitle) {
-            GAME.titleScreen.repaint();
-        }
+        while (GAME.isTitle) { GAME.titleScreen.repaint(); }
         GAME.frame.remove(GAME.titleScreen);
         GAME.time = 0;
         GAME.map = new TileMapView(TileMapLoader.tileMaps.get(0));

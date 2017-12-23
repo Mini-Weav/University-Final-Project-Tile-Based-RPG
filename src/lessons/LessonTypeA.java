@@ -17,6 +17,8 @@ public class LessonTypeA extends Lesson {
         super(grade);
         this.id = id;
         startingConcentration = setStart(grade);
+        if (GAME.condition == 1) { startingConcentration++; }
+        if (GAME.condition == 2 && startingConcentration > 0) { startingConcentration--; }
         concentration = startingConcentration;
         rounds = setNumberOfQuestions(grade);
         questionsLeft = rounds;

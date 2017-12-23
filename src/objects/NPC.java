@@ -1,5 +1,11 @@
 package objects;
 
+import controllers.Action;
+import controllers.Controller;
+import controllers.Patrol;
+import controllers.RandomMovement;
+import game.Game;
+import game.TileMapView;
 import lessons.Lesson;
 import utilities.*;
 import utilities.Menu;
@@ -15,55 +21,69 @@ import static game.Game.GAME;
  * Created by lmweav on 25/11/2017.
  */
 public class NPC extends GameObject{
-    public int id, defaultDirection;
-    public boolean flip;
-    public static final char KEY = 'N';
-
-    public static List<List<Tile>> tiles = new ArrayList<>();
-    public static List<String> text = new ArrayList<>();
-    public List<BufferedImage> upSprites1;
-    public List<BufferedImage> upSprites2;
-    public List<BufferedImage> downSprites1;
-    public List<BufferedImage> downSprites2;
-    public List<BufferedImage> leftSprites;
-    public List<BufferedImage> rightSprites;
-
+    public int id, defaultDirection, defaultX, defaultY;
     public String name;
-    public static String[] names;
+
+    public static TreeMap<Integer, List<Tile>> tiles = new TreeMap<>();
+    public static TreeMap<Integer, String[]> text = new TreeMap<>();
+    public static String[] names, lessons;
 
     static {
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/friend_athlete.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/friend_classmate.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/friend_nerd.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/friend_delinquent.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/friend_tutee.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/teacher_dt.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/teacher_ft.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/teacher_pe.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/teacher_science.png", KEY));
-        tiles.add(CharacterTileSet.readTileSet("resources/tilesets/teacher_ict.png", KEY));
-        names = new String[] { "Jack", "Emily", "Alexander", "Nathan", "Frankie", "Mr Reeves", "Ms Welfle", "Mr Lees", "Mr Nickson", "Ms Williams" };
-        text.add("Yo, what's up?");
-        text.add("Hiya! Do you like your new\nschool?");
-        text.add("... Do you want something?");
-        text.add("What do you want?");
-        text.add("Oh hey! How's it goin'?");
-        text.add("GONNA STUDY DT?");
-        text.add("Hello, are you joining us? ");
-        text.add("Wanna do some runnin'?");
-        text.add("You're late... So, are you\njoining us?");
-        text.add("Are you attending this\nclass??");
+        tiles.put(0, CharacterTileSet.readTileSet("resources/tilesets/friend_athlete.png", KEY));
+        tiles.put(1, CharacterTileSet.readTileSet("resources/tilesets/friend_classmate.png", KEY));
+        tiles.put(2, CharacterTileSet.readTileSet("resources/tilesets/friend_nerd.png", KEY));
+        tiles.put(3, CharacterTileSet.readTileSet("resources/tilesets/friend_delinquent.png", KEY));
+        tiles.put(4, CharacterTileSet.readTileSet("resources/tilesets/friend_tutee.png", KEY));
+        tiles.put(5, CharacterTileSet.readTileSet("resources/tilesets/teacher_dt.png", KEY));
+        tiles.put(6, CharacterTileSet.readTileSet("resources/tilesets/teacher_ft.png", KEY));
+        tiles.put(7, CharacterTileSet.readTileSet("resources/tilesets/teacher_pe.png", KEY));
+        tiles.put(8, CharacterTileSet.readTileSet("resources/tilesets/teacher_science.png", KEY));
+        tiles.put(9, CharacterTileSet.readTileSet("resources/tilesets/teacher_ict.png", KEY));
+        tiles.put(10, CharacterTileSet.readTileSet("resources/tilesets/student_boy.png", KEY));
+        tiles.put(20, CharacterTileSet.readTileSet("resources/tilesets/student_girl.png", KEY));
+        tiles.put(30, CharacterTileSet.readTileSet("resources/tilesets/dinner_lady.png", KEY));
+
+        names = new String[] { "Jack", "Emily", "Alexander", "Nathan", "Frankie", "Mr Hardman", "Ms Mason", "Mr Rodgers", "Mr Burgess", "Ms McCarthy" };
+        lessons = new String[] { "DT", "food tech", "PE", "chemistry", "ICT" };
+
+        /* Friend students*/
+        text.put(0, FileReader.jackStrings);
+        text.put(1, FileReader.emilyStrings);
+        text.put(2, FileReader.alexanderStrings);
+        text.put(3, FileReader.nathanStrings);
+        text.put(4, FileReader.frankieStrings);
+        /* Generic boy students */
+        text.put(10, FileReader.boyStrings);
+        /* Generic girl students */
+        text.put(20, FileReader.girlStrings);
+        text.put(30, FileReader.lunchStrings);
     }
 
 
-    public NPC(int x, int y, int id, int direction) {
+    public NPC(int x, int y, int id, int direction, Controller ctrl) {
         super(tiles.get(id).get(direction), x, y);
         defaultDirection = direction;
-        setSprites(id);
-        name = names[id];
+        defaultX = x;
+        defaultY = y;
         this.id = id;
+        name = names[id];
+        setSprites(id);
+        this.ctrl = ctrl;
+        if (ctrl instanceof Patrol) { ((Patrol) ctrl).object = this; }
         flip = true;
-        //rotate(direction);
+    }
+
+    public NPC(int x, int y, int id, int subId, int direction, Controller ctrl) {
+        super(tiles.get(id).get(direction), x, y);
+        defaultDirection = direction;
+        defaultX = x;
+        defaultY = y;
+        this.id = id + subId;
+        name = "";
+        setSprites(id);
+        this.ctrl = ctrl;
+        if (ctrl instanceof Patrol) { ((Patrol) ctrl).object = this; }
+        flip = true;
     }
 
     public void setSprites(int id) {
@@ -80,29 +100,40 @@ public class NPC extends GameObject{
             case 0:
             case 2:
             case 4:
-                GAME.textBox = new TextBox(NPC.text.get(id), this, true);
+                friendTextBox();
                 break;
             case 1:
-                if (GAME.hasFood()) {
+                if (GAME.hasFood() && GAME.friendValues[id] > 0) {
                     GAME.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
                     GAME.menu = new Menu(5);
                 }
-                else { GAME.textBox = new TextBox(NPC.text.get(id), this, true); }
+                else { friendTextBox(); }
                 break;
             case 3:
-                if (GAME.hasCraft()) {
+                if (GAME.hasCraft() && GAME.friendValues[id] > 0) {
                     GAME.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
                     GAME.menu = new Menu(5);
                 }
-                else { GAME.textBox = new TextBox(NPC.text.get(id), this, true); }
+                else { friendTextBox(); }
                 break;
             case 5:
             case 6:
             case 7:
             case 8:
             case 9:
-                GAME.textBox = new TextBox(NPC.text.get(id), this, false);
+                GAME.textBox = new TextBox(3, "Should I attend " + lessons[id - 5] + "?");
                 GAME.menu = new Menu(5);
+                break;
+            case 30:
+                if (GAME.condition == 0 && time == 1) {
+                    GAME.textBox = new TextBox(3, "Should I eat lunch?");
+                    GAME.menu = new Menu(5);
+                }
+                else { GAME.textBox = new TextBox(NPC.text.get(id)[time], this, true); }
+                break;
+            default:
+                GAME.textBox = new TextBox(NPC.text.get((id / 10) * 10)[id % 10], this, true);
+                break;
         }
     }
 
@@ -113,26 +144,23 @@ public class NPC extends GameObject{
         }
         else {
             GAME.menu = null;
-            GAME.textBox = new TextBox(NPC.text.get(id), this, true);
+            friendTextBox();
         }
     }
 
     public void gift(int index) {
-        System.out.println(name + "\nBefore FP = " + GAME.friendValues[id]);
         switch (id) {
             case 1:
                 GAME.items[2][index]--;
-                GAME.textBox = new TextBox("Wow thanks!", this, true);
+                GAME.textBox = new TextBox(text.get(1)[4], this, true);
                 break;
             case 3:
                 GAME.items[1][index]--;
-                GAME.textBox = new TextBox("...Thanks. Have an energy\ndrink, on me.", this, true);
+                GAME.textBox = new TextBox(text.get(3)[4], this, true);
                 GAME.items[0][0]++;
         }
         GAME.menu = null;
         GAME.friendValues[id] += (index + 1);
-        System.out.println(name + "\nAfter FP = " + GAME.friendValues[id]);
-
     }
 
     public void lesson(boolean yes) {
@@ -145,11 +173,42 @@ public class NPC extends GameObject{
 
             }
             Lesson.startLesson(id - 5);
-            GAME.isLesson = true;
         }
         else {
             GAME.menu = null;
             GAME.textBox = null;
+        }
+    }
+
+    public void lunch(boolean yes) {
+        if (yes) {
+            double r = Math.random();
+            if (r < 0.7) {
+                GAME.condition = 1;
+                GAME.textBox = new TextBox(0, "The lunch is good! You feel #recharged and ready for the #next class!");
+            } else {
+                GAME.condition = 2;
+                GAME.textBox = new TextBox(0, "The lunch is bad! You don't #feel very well...");
+            }
+        }
+        else { GAME.textBox = null; }
+        GAME.menu = null;
+    }
+
+    public void rotate(int direction) {
+        switch (direction) {
+            case 0:
+                tile.img = upSprites1.get(0);
+                break;
+            case 1:
+                tile.img = downSprites1.get(0);
+                break;
+            case 2:
+                tile.img = leftSprites.get(0);
+                break;
+            case 3:
+                tile.img = rightSprites.get(0);
+                break;
         }
     }
 
@@ -162,15 +221,59 @@ public class NPC extends GameObject{
             }
         }
         if (player.y == y) {
-            if (player.x < x) {
-                tile.img = leftSprites.get(0);
-            } else {
-                tile.img = rightSprites.get(0);
+            if (player.x < x) { tile.img = leftSprites.get(0); }
+            else { tile.img = rightSprites.get(0); }
+        }
+    }
+
+    public void move() {
+        int i;
+        if (up) {
+            if (y * 32 == gY) { y--; }
+            gY -= 8;
+            i = (gY % 32) / 8;
+            walkAnimation(0, i);
+            if (gY % 32 == 0) {
+                up = false;
+                flip = !flip;
+            }
+        }
+        if (down) {
+            if (y * 32 == gY) { y++; }
+            gY += 8;
+            i = (gY % 32) / 16;
+            walkAnimation(1, i);
+            if (gY % 32 == 0) {
+                down = false;
+                flip = !flip;
+
+            }
+        }
+        if (left) {
+            if (x * 32 == gX) { x--; }
+            gX -= 8;
+            i = (gX % 32) / 8;
+            walkAnimation(2, i);
+            if (gX % 32 == 0) {
+                left = false;
+            }
+        }
+        if (right) {
+            if (x * 32 == gX) { x++; }
+            gX += 8;
+            i = (gX % 32)/16;
+            walkAnimation(3, i);
+            if (gX % 32 == 0) {
+                right = false;
             }
         }
     }
 
-    public void resetDirection(int defaultDirection) {
+    public void reset() {
+        x = defaultX;
+        y = defaultY;
+        this.gX = x * 32;
+        this.gY = y * 32;
         switch (defaultDirection) {
             case 0:
                 tile.img = downSprites1.get(0);
@@ -187,8 +290,42 @@ public class NPC extends GameObject{
         }
     }
 
-    public void update() {
+    public void friendTextBox() {
+        int fp = 0;
+        if (GAME.friendValues[id] > 0) { fp = (GAME.friendValues[id] / 10) + 1; }
+        else { GAME.friendValues[id]++; }
+        GAME.textBox = new TextBox(NPC.text.get(id)[fp], this, true);
+    }
 
+    public void update() {
+        inPlay = !GAME.transition && GAME.textBox == null && GAME.menu == null;
+        moving = up || down || left || right;
+        if (ctrl != null && inPlay) {
+            Action action = ctrl.action();
+            rotate(action.direction);
+            if (!moving && !action.stop) {
+                if (action.direction == 0 && y > 0 &&
+                        GAME.objectMatrix[y - 1][x] == null &&
+                        !TileMapView.tiles.get(GAME.tileMatrix[y - 1][x]).collision &&
+                        !(TileMapView.tiles.get(GAME.tileMatrix[y - 1][x]) instanceof DoorTile)){ up = true; }
+
+                if (action.direction == 1 && y < GAME.map.maxY &&
+                        GAME.objectMatrix[y + 1][x] == null &&
+                        !TileMapView.tiles.get(GAME.tileMatrix[y + 1][x]).collision &&
+                        !(TileMapView.tiles.get(GAME.tileMatrix[y + 1][x]) instanceof DoorTile)){ down = true; }
+
+                if (action.direction == 2 && x > 0 &&
+                        GAME.objectMatrix[y][x - 1] == null &&
+                        !TileMapView.tiles.get(GAME.tileMatrix[y][x - 1]).collision &&
+                        !(TileMapView.tiles.get(GAME.tileMatrix[y][x - 1]) instanceof DoorTile)){ left = true; }
+
+                if (action.direction == 3 && x < GAME.map.maxX &&
+                        GAME.objectMatrix[y][x + 1] == null &&
+                        !TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]).collision &&
+                        !(TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]) instanceof DoorTile)){ right = true; }
+            }
+            move();
+        }
     }
 
     public void paintComponent(Graphics g) {

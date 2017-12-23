@@ -1,6 +1,5 @@
 package utilities;
 
-import game.Constants;
 import game.Game;
 import objects.NPC;
 
@@ -9,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by lmweav on 01/11/2017.
@@ -28,12 +26,18 @@ public class TextBox {
     }
 
     public TextBox(String text, NPC npc, boolean skip) {
-        if (skip) { this.id = 2; }
-        else { this.id = 4; }
+        if (npc.id >= 10) {
+            if (skip) { this.id = 0; }
+            else { this.id = 3;}
+        }
+        else {
+            if (skip) { this.id = 2; }
+            else { this.id = 4; }
+            npcImg = npcImgs[npc.id];
+            npcName = npc.name;
+        }
         setUp(id);
         this.text = text;
-        npcImg = npcImgs[npc.id];
-        npcName = npc.name;
     }
 
     public void setUp(int id) {
@@ -105,7 +109,7 @@ public class TextBox {
                 g.drawImage(npcImg, 10, Game.height - (126 + npcImg.getHeight() * 2), npcImg.getWidth() * 2, npcImg.getHeight() * 2, null);
                 g.setFont(GameFont.bigFont);
                 lineIndex = 0;
-                for (String line : text.split("\n")) {
+                for (String line : text.split("#")) {
                     g.drawString(line, 24, (Game.height - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
                     lineIndex++;
                 }

@@ -117,6 +117,12 @@ public class TileMapLoader {
                                 tile = new InteractiveTile(images.get(i), true, 'A');
                                 tiles.put(tile.key, tile);
                                 break;
+
+                            /*Go home door*/
+                            case 13:
+                                tile = new DoorTile(images.get(i), '£');
+                                tiles.put(tile.key, tile);
+                                break;
                         }
                     }
                     break;
@@ -307,7 +313,7 @@ public class TileMapLoader {
 
                 /*Canteen*/
                 case 2:
-                    images = TileSet.readTileSet(7, 3, fname);
+                    images = TileSet.readTileSet(8, 3, fname);
                     for (int i = 0; i < images.size(); i++) {
                         switch (i) {
 
@@ -437,6 +443,11 @@ public class TileMapLoader {
                                 tiles.put(tile.key, tile);
                                 break;
 
+                            /*Counter 5*/
+                            case 21:
+                                tile = new Tile(images.get(i), true, '!');
+                                tiles.put(tile.key, tile);
+                                break;
                         }
                     }
                     break;

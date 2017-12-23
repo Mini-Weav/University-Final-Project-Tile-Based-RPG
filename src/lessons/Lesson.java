@@ -42,9 +42,9 @@ public abstract class Lesson {
     public void finish() {
         GAME.textBox = null;
         GAME.menu = null;
-        GAME.isLesson = false;
         GAME.lesson = null;
         GAME.time = oldTime + 1;
+        GAME.condition = 0;
         GAME.doTransition();
     }
 

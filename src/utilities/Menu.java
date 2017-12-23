@@ -62,6 +62,7 @@ public class Menu {
                         "\nB GRADE FOOD ×" + GAME.items[2][2] + "\nSUPER CAKE   ×" + GAME.items[2][3];
                 break;
             case 5:
+            case 13:
                 img = imgs[1];
                 text = "YES\nNO";
                 break;
