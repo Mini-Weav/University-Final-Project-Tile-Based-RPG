@@ -26,7 +26,7 @@ public class Game {
     public List<GameObject> objects;
     public JFrame frame;
     public Keys ctrl;
-    public int time, condition, day = 1;
+    public int time, day = 1;
     public TileMapView map;
     public Camera camera;
     public TextBox textBox;
@@ -38,12 +38,13 @@ public class Game {
     public GameObject[][] objectMatrix;
     public int[] friendValues, gradeValues;
     public int[][] items;
-    public boolean transition, newGame, fullScreen, isTitle = true;
+    public boolean transition, isNewGame, isNewDay, fullScreen, isTitle = true;
     public long transitionTime;
+    public String newDayText;
 
     public static int height, width, cameraHeight, cameraWidth;
 
-    public final static String[] TIME_PERIODS = new String[] { "MORNING", "LUNCH", "AFT SCH", "DT", "FOOD", "PE", "CHEM", "ICT" },
+    public final static String[] TIME_PERIODS = new String[] { "MORNING", "LUNCH", "AFT SCH", "DT", "FOOD", "PE", "CHEM", "ICT", "NIGHT" },
             CONDITIONS = new String[] { "NORMAL", "GREAT", "UNWELL"};
 
     private Game() {
@@ -150,16 +151,42 @@ public class Game {
         transitionTime = System.currentTimeMillis();
     }
 
+    public void newDay() {
+        time = 0;
+        TileMap nextMap = TileMapLoader.tileMaps.get(0);
+        for (NPC npc : nextMap.NPCs.get(GAME.time)) { npc.reset(); }
+        player.setLocation(Constants.START_X, Constants.START_Y);
+        player.rotate(0);
+        map.loadMap(nextMap);
+        day++;
+    }
+
+    public void newDayFeedback(int... id) {
+        isNewDay = true;
+        switch (id[0]) {
+            case 0:
+                newDayText = FileReader.newDayStrings[id[1]];
+                break;
+            case 1:
+                newDayText = FileReader.newDayStrings[id[1] + 5];
+                break;
+            case 2:
+                newDayText = FileReader.newDayStrings[7];
+                break;
+        }
+    }
+
     public void goHome(boolean yes) {
         if (yes) {
             doTransition();
-            time = 0;
-            condition = 0;
-            TileMap nextMap = TileMapLoader.tileMaps.get(0);
-            for (NPC npc : nextMap.NPCs.get(GAME.time)) { npc.reset(); }
-            player.rotate(0);
+            objects.clear();
+            objects.add(GAME.player);
+            time = 8;
+            TileMap nextMap = TileMapLoader.tileMaps.get(7);
+            player.setLocation(6, 2);
+            player.rotate(1);
+            player.condition = 0;
             map.loadMap(nextMap);
-            day++;
         }
         textBox = null;
         menu = null;
@@ -177,7 +204,7 @@ public class Game {
 
         gradeValues = new int[5];
 
-        newGame = true;
+        isNewGame = true;
         isTitle = false;
     }
 

@@ -25,6 +25,7 @@ public class TileMapLoader {
         tileMaps.add(new TileMap(4, 1,"classroom_1f","school_classroom", 1, 128, 160));
         tileMaps.add(new TileMap(5, 2,"canteen","school_canteen", 0, 126, 176));
         tileMaps.add(new TileMap(6, 3,"yard","school_yard", 0, 126, 80));
+        tileMaps.add(new TileMap(7, 4, "bedroom", "bedroom", 2, 0, 0));
     }
 
     public static TreeMap<Character, Tile> readTileSet(int id, String fname) {
@@ -54,7 +55,7 @@ public class TileMapLoader {
 
                             /*Window*/
                             case 2:
-                                tile = new InteractiveTile(images.get(i), true, 'w');
+                                tile = new InteractiveTile(images.get(i), true, 'w', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -102,7 +103,7 @@ public class TileMapLoader {
 
                             /*Sign*/
                             case 10:
-                                tile = new InteractiveTile(images.get(i), true, '?');
+                                tile = new InteractiveTile(images.get(i), true, '?', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -114,7 +115,7 @@ public class TileMapLoader {
 
                             /*Air Vent*/
                             case 12:
-                                tile = new InteractiveTile(images.get(i), true, 'A');
+                                tile = new InteractiveTile(images.get(i), true, 'A', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -147,19 +148,19 @@ public class TileMapLoader {
 
                             /*Whiteboard 1*/
                             case 2:
-                                tile = new InteractiveTile(images.get(i), true, '[');
+                                tile = new InteractiveTile(images.get(i), true, '[', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Whiteboard 2*/
                             case 3:
-                                tile = new InteractiveTile(images.get(i), true, '=');
+                                tile = new InteractiveTile(images.get(i), true, '=', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Whiteboard 3*/
                             case 4:
-                                tile = new InteractiveTile(images.get(i), true, ']');
+                                tile = new InteractiveTile(images.get(i), true, ']', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -207,7 +208,7 @@ public class TileMapLoader {
 
                             /*Bookcase Bottom*/
                             case 12:
-                                tile = new InteractiveTile(images.get(i), true, 'H');
+                                tile = new InteractiveTile(images.get(i), true, 'H', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -219,19 +220,19 @@ public class TileMapLoader {
 
                             /*Fridge Bottom*/
                             case 14:
-                                tile = new InteractiveTile(images.get(i), true, 'F');
+                                tile = new InteractiveTile(images.get(i), true, 'F', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Sink*/
                             case 15:
-                                tile = new InteractiveTile(images.get(i), true, 'S');
+                                tile = new InteractiveTile(images.get(i), true, 'S', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Oven*/
                             case 16:
-                                tile = new InteractiveTile(images.get(i), true, 'O');
+                                tile = new InteractiveTile(images.get(i), true, 'O', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -249,49 +250,49 @@ public class TileMapLoader {
 
                             /*Tool Shelf Bottom L*/
                             case 19:
-                                tile = new InteractiveTile(images.get(i), true, '3');
+                                tile = new InteractiveTile(images.get(i), true, '3', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Tool Shelf Bottom R*/
                             case 20:
-                                tile = new InteractiveTile(images.get(i), true, '4');
+                                tile = new InteractiveTile(images.get(i), true, '4', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Work Bench Top L*/
                             case 21:
-                                tile = new InteractiveTile(images.get(i), true, '5');
+                                tile = new InteractiveTile(images.get(i), true, '5', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Work Bench Top R*/
                             case 22:
-                                tile = new InteractiveTile(images.get(i), true, '6');
+                                tile = new InteractiveTile(images.get(i), true, '6', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Work Bench Bottom L*/
                             case 23:
-                                tile = new InteractiveTile(images.get(i), true, '7');
+                                tile = new InteractiveTile(images.get(i), true, '7', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Work Bench Bottom R*/
                             case 24:
-                                tile = new InteractiveTile(images.get(i), true, '8');
+                                tile = new InteractiveTile(images.get(i), true, '8', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Computer Desk Top L*/
                             case 25:
-                                tile = new InteractiveTile(images.get(i), true, 'p');
+                                tile = new InteractiveTile(images.get(i), true, 'p', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Computer Desk Top R*/
                             case 26:
-                                tile = new InteractiveTile(images.get(i), true, 'c');
+                                tile = new InteractiveTile(images.get(i), true, 'c', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -427,19 +428,19 @@ public class TileMapLoader {
 
                             /*Fridge Bottom*/
                             case 18:
-                                tile = new InteractiveTile(images.get(i), true, 'F');
+                                tile = new InteractiveTile(images.get(i), true, 'F', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Sink*/
                             case 19:
-                                tile = new InteractiveTile(images.get(i), true, 'S');
+                                tile = new InteractiveTile(images.get(i), true, 'S', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
                             /*Oven*/
                             case 20:
-                                tile = new InteractiveTile(images.get(i), true, 'O');
+                                tile = new InteractiveTile(images.get(i), true, 'O', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -545,7 +546,7 @@ public class TileMapLoader {
 
                             /*Sign*/
                             case 14:
-                                tile = new InteractiveTile(images.get(i), true, '?');
+                                tile = new InteractiveTile(images.get(i), true, '?', false);
                                 tiles.put(tile.key, tile);
                                 break;
 
@@ -649,6 +650,101 @@ public class TileMapLoader {
                         }
                     }
                     break;
+
+                /*Bedroom*/
+                case 4:
+                    images = TileSet.readTileSet(5, 3, fname);
+                    for (int i = 0; i < images.size(); i++) {
+                        switch (i) {
+
+                            /*Black Space*/
+                            case 0:
+                                tile = new Tile(images.get(i), true, '#');
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Wall*/
+                            case 1:
+                                tile = new Tile(images.get(i), true, 'W');
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Computer Top*/
+                            case 2:
+                                tile = new Tile(images.get(i), true, 'P');
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*TV top*/
+                            case 3:
+                                tile = new Tile(images.get(i), true, 'T');
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Bookcase Top*/
+                            case 4:
+                                tile = new Tile(images.get(i), true, 'B');
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Floor*/
+                            case 5:
+                                tile = new Tile(images.get(i), false, '-');
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Computer Bottom*/
+                            case 6:
+                                tile = new InteractiveTile(images.get(i), true, 'C', true);
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Chair*/
+                            case 7:
+                                tile = new Tile(images.get(i), false, 'h');
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Game*/
+                            case 8:
+                                tile = new InteractiveTile(images.get(i), true, 'G', true);
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*TV Bottom*/
+                            case 9:
+                                tile = new Tile(images.get(i), true, 'V');
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Bookcase Bottom*/
+                            case 10:
+                                tile = new InteractiveTile(images.get(i), true, 'c', true);
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Door*/
+                            case 11:
+                                tile = new InteractiveTile(images.get(i), true, 'D', false);
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Bed Top*/
+                            case 12:
+                                tile = new InteractiveTile(images.get(i), true, 'n', true);
+                                tiles.put(tile.key, tile);
+                                break;
+
+                            /*Bed Bottom*/
+                            case 13:
+                                tile = new InteractiveTile(images.get(i), true, 'U', true);
+                                tiles.put(tile.key, tile);
+                                break;
+
+                        }
+                    }
+                    break;
+
             }
             return tiles;
         }

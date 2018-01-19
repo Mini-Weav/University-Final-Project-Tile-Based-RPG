@@ -5,6 +5,7 @@ import utilities.TextBox;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.HashMap;
 
 /**
@@ -13,8 +14,11 @@ import java.util.HashMap;
 public class InteractiveTile extends Tile {
     public static HashMap<Point, TextBox> points;
 
-    public InteractiveTile(BufferedImage img, boolean collision, char key) {
+    public boolean menu;
+
+    public InteractiveTile(BufferedImage img, boolean collision, char key, boolean menu) {
         super(img, collision, key);
+        this.menu = menu;
     }
 
     public static HashMap<Point, TextBox> initialisePoints(int mapID) {
@@ -126,6 +130,15 @@ public class InteractiveTile extends Tile {
             case 6:
                 points.put(new Point(26, 21), new TextBox(1, FileReader.interactiveStrings[2]));//3
                 break;
+
+            /*Bedroom*/
+            case 7:
+                points.put(new Point(1, 2), new TextBox(3, FileReader.interactiveStrings[23]));
+                points.put(new Point(3, 3), new TextBox(3, FileReader.interactiveStrings[24]));
+                points.put(new Point(1, 4), new TextBox(3, FileReader.interactiveStrings[25]));
+                points.put(new Point(1, 4), new TextBox(3, FileReader.interactiveStrings[25]));
+                points.put(new Point(4, 2), new TextBox(0, FileReader.interactiveStrings[26]));
+                points.put(new Point(6, 1), new TextBox(0, FileReader.interactiveStrings[27]));
         }
         return points;
 

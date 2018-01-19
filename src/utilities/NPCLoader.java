@@ -13,7 +13,7 @@ import java.util.List;
  * Created by lmweav on 25/11/2017.
  */
 public class NPCLoader {
-    //public static NPC[/*map*/][/*time*/] NPCs = new NPC[7][3];
+
     public static Map<Integer, List<List<NPC>>> NPCs = new TreeMap<>();
 
     static {
@@ -32,6 +32,7 @@ public class NPCLoader {
         NPCs.get(0).add(Collections.emptyList());
         NPCs.get(0).add(Collections.emptyList());
 
+        NPCs.get(0).add(Collections.emptyList());
 
         /* School Hall 1F */
         NPCs.put(1, new ArrayList<>());
@@ -39,12 +40,6 @@ public class NPCLoader {
                 new NPC(12, 11, 4, Constants.UP, new RandomMovement(false)),
                 new NPC(2, 12, 10, 1, Constants.RIGHT, new RandomMovement(false))));
         NPCs.get(1).add(Collections.singletonList(new NPC(2, 7, 20, 1, Constants.DOWN, new RandomMovement(false))));
-        NPCs.get(1).add(Collections.emptyList());
-
-        NPCs.get(1).add(Collections.emptyList());
-        NPCs.get(1).add(Collections.emptyList());
-        NPCs.get(1).add(Collections.emptyList());
-        NPCs.get(1).add(Collections.emptyList());
         NPCs.get(1).add(Collections.emptyList());
 
         /* Design Tech Classroom */
@@ -56,10 +51,6 @@ public class NPCLoader {
         NPCs.get(2).add(Arrays.asList(new NPC(1, 4, 0, Constants.RIGHT, null), new NPC(2, 3, 1, Constants.DOWN, null),
                 new NPC(3, 3, 4, Constants.DOWN, null), new NPC(5, 6, 2, Constants.DOWN, null),
                 new NPC(3, 7, 3, Constants.RIGHT, null), new NPC(5, 4, 5, Constants.DOWN, null)));
-        NPCs.get(2).add(Collections.emptyList());
-        NPCs.get(2).add(Collections.emptyList());
-        NPCs.get(2).add(Collections.emptyList());
-        NPCs.get(2).add(Collections.emptyList());
 
         /* Food Tech Classroom */
         NPCs.put(3, new ArrayList<>());
@@ -71,9 +62,6 @@ public class NPCLoader {
         NPCs.get(3).add(Arrays.asList(new NPC(13, 5, 0, Constants.UP, null), new NPC(13, 7, 1, Constants.UP, null),
                 new NPC(14, 5, 4, Constants.UP, null), new NPC(14, 9, 2, Constants.UP, null),
                 new NPC(13, 3, 6, Constants.DOWN, null)));
-        NPCs.get(3).add(Collections.emptyList());
-        NPCs.get(3).add(Collections.emptyList());
-        NPCs.get(3).add(Collections.emptyList());
 
         /* 1F Classrooms */
         NPCs.put(4, new ArrayList<>());
@@ -103,12 +91,6 @@ public class NPCLoader {
         NPCs.get(5).add(Arrays.asList(new NPC(8, 4, 30, 0, Constants.DOWN, null),
                 new NPC(9, 3, 30, 1, Constants.DOWN, new Patrol(new Point(9, 3),new Point(13, 3), new Point(16, 3)))));
 
-        NPCs.get(5).add(Collections.emptyList());
-        NPCs.get(5).add(Collections.emptyList());
-        NPCs.get(5).add(Collections.emptyList());
-        NPCs.get(5).add(Collections.emptyList());
-        NPCs.get(5).add(Collections.emptyList());
-
         /* Yard */
         NPCs.put(6, new ArrayList<>());
         NPCs.get(6).add(Arrays.asList(new NPC(34, 24, 0, Constants.DOWN, new RandomMovement(false)),
@@ -121,8 +103,20 @@ public class NPCLoader {
         NPCs.get(6).add(Collections.emptyList());
         NPCs.get(6).add(Arrays.asList(new NPC(32, 17, 0, Constants.UP, null), new NPC(23, 12, 2, Constants.LEFT, null),
                 new NPC(27, 16, 7, Constants.LEFT, null)));
-        NPCs.get(6).add(Collections.emptyList());
-        NPCs.get(6).add(Collections.emptyList());
+
+        /* Bedroom */
+        NPCs.put(7, new ArrayList<>());
+        NPCs.get(7).add(Collections.emptyList());
+        NPCs.get(7).add(Collections.emptyList());
+        NPCs.get(7).add(Collections.emptyList());
+
+        NPCs.get(7).add(Collections.emptyList());
+        NPCs.get(7).add(Collections.emptyList());
+        NPCs.get(7).add(Collections.emptyList());
+        NPCs.get(7).add(Collections.emptyList());
+        NPCs.get(7).add(Collections.emptyList());
+
+        NPCs.get(7).add(Collections.emptyList());
 
     }
 }

@@ -49,6 +49,9 @@ public class Keys extends KeyAdapter implements Controller {
             case KeyEvent.VK_ESCAPE:
                 GAME.switchScreen();
                 break;
+            case KeyEvent.VK_1:
+                GAME.goHome(true);
+                break;
         }
     }
 

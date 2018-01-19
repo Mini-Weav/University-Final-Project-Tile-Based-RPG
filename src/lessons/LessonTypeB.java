@@ -21,8 +21,8 @@ public class LessonTypeB extends Lesson {
         time = 60;
 
         this.id = id;
-        if (GAME.condition == 1) { grade++; }
-        if (GAME.condition == 2 && grade > 0) { grade--; }
+        if (GAME.player.condition == 1) { grade++; }
+        if (GAME.player.condition == 2 && grade > 0) { grade--; }
         questionId = generateInstruction(grade);
 
         GAME.menu = new Menu(9);
@@ -33,7 +33,7 @@ public class LessonTypeB extends Lesson {
         switch (action) {
             case 0:
                 result = doTask(false, reread, questionId);
-                score += result;
+                score += (result / 2);
                 if (result > 0) {
                     questionId = generateInstruction(grade);
                     tasksLeft--;
@@ -44,7 +44,7 @@ public class LessonTypeB extends Lesson {
             case 1:
                 if (time > 5) {
                     result = doTask(true, reread, questionId);
-                    score += result;
+                    score += (result / 2);
                     if (result > 0) {
                         questionId = generateInstruction(grade);
                         tasksLeft--;
@@ -76,7 +76,7 @@ public class LessonTypeB extends Lesson {
                 GAME.items[id][grade - 1]++;
             }
             else { feedbackText = "You're out of time!"; }
-            feedbackText += "#You got a score of "+(int)((score / rounds) * 50) + "!";
+            feedbackText += "#You got a score of "+(int)((score / rounds) * 100) + "!";
             finished = true;
         }
     }

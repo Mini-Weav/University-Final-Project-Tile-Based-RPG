@@ -71,9 +71,16 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
     }
 
     public void paintComponent(Graphics g) {
-        if (GAME.newGame) {
+        if (GAME.isNewGame) {
             g.fillRect(0, 0, Game.width * 2, Game.height * 2);
             GAME.textBox = new TextBox(0, "Today is my first day at#Brooklands Academy... I#hope it will be okay...");
+            GAME.textBox.paintComponent(g);
+            return;
+        }
+        if (GAME.isNewDay) {
+            GAME.menu = null;
+            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
+            GAME.textBox = new TextBox(0, GAME.newDayText);
             GAME.textBox.paintComponent(g);
             return;
         }
@@ -108,15 +115,17 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
     public void mouseClicked(MouseEvent e) {
         int curX = e.getX();
         int curY = e.getY();
+        int x = (int)GAME.player.direction.getX();
+        int y = (int)GAME.player.direction.getY();
+        Tile dirTile = tiles.get(matrix.get(y).get(x));
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (GAME.menu == null) {
                 if (GAME.textBox == null) {
-                    int x = (int)GAME.player.direction.getX();
-                    int y = (int)GAME.player.direction.getY();
-                    if (tiles.get(matrix.get(y).get(x)) instanceof InteractiveTile) {
+                    if (dirTile instanceof InteractiveTile) {
                         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
                         GAME.textBox = currentMap.interactivePoints.get(new Point(x, y));
+                        if ((((InteractiveTile) dirTile).menu)) { GAME.menu = new Menu(14); }
                     }
                     else if (GAME.tileMatrix[y][x] == '*') {
                         NPC npc = (NPC) GAME.objectMatrix[y][x];
@@ -126,10 +135,13 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     else { GAME.textBox = new TextBox(0, "There's nothing here.");}
                 }
                 else if (GAME.textBox.skip) {
-                    if (GAME.newGame) {
-                        GAME.newGame = false;
+                    if (GAME.isNewGame) { GAME.isNewGame = false; }
+                    if (GAME.isNewDay) {
+                        GAME.isNewDay = false;
+                        GAME.newDay();
                     }
-                    GAME.textBox = null; }
+                    GAME.textBox = null;
+                }
             }
             else {
                 switch (GAME.menu.currentId) {
@@ -174,8 +186,6 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                 && curY > 160 && curY < 176){ Menu.loadGrade(4); }
                         break;
                     case 5:
-                        int x = (int)GAME.player.direction.getX();
-                        int y = (int)GAME.player.direction.getY();
                         NPC npc = (NPC) GAME.objectMatrix[y][x];
                         if (npc.id < 5) {
                             if (curX > Game.width - 76 && curX < Game.width - 28
@@ -288,12 +298,76 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                 && curY > 32 && curY < 48) { GAME.goHome(true); }
                         if (curX > Game.width - 76 && curX < Game.width - 42
                                 && curY > 64 && curY < 80) { GAME.goHome(false); }
+                        break;
+                    case 14:
+                        if (curX > Game.width - 76 && curX < Game.width - 28
+                                && curY > 32 && curY < 48) {
+                            switch (GAME.map.currentId) {
+                                case 7:
+                                    switch (dirTile.key) {
+                                        case 'C':
+                                            GAME.player.study();
+                                            break;
+                                        case 'G':
+                                            GAME.player.game();
+                                            break;
+                                        case 'n':
+                                        case 'U':
+                                            GAME.player.sleep();
+                                            break;
+                                        case 'c':
+                                            GAME.menu = null;
+                                            GAME.textBox = null;
+                                            try {
+                                                File manual = new File("resources/manual.pdf");
+                                                Desktop.getDesktop().open(manual);
+                                            } catch (IOException e1) {
+                                                System.out.println("Unable to open manual");
+                                            }
+                                            break;
+                                    }
+                            }
+                        }
+                        if (curX > Game.width - 76 && curX < Game.width - 42
+                                && curY > 64 && curY < 80) {
+                            GAME.menu = null;
+                            GAME.textBox = null;
+                        }
+                        break;
+                    case 15:
+                        int score = (int) ((Math.random() * 2) + 1);
+                        if (curX > Game.width - 200 && curX < Game.width - 168
+                                && curY > 32 && curY < 48 ) {
+                            GAME.gradeValues[0] += score;
+                            GAME.newDayFeedback(0, 0);
+                        }
+                        if (curX > Game.width - 200 && curX < Game.width - 56
+                                && curY > 64 && curY < 80) {
+                            GAME.gradeValues[1] += score;
+                            GAME.newDayFeedback(0, 1);
+                        }
+                        if (curX > Game.width - 200 && curX < Game.width - 168
+                                && curY > 96 && curY < 116) {
+                            GAME.gradeValues[2] += score;
+                            GAME.newDayFeedback(0, 2);
+                        }
+                        if (curX > Game.width - 200 && curX < Game.width - 56
+                                && curY > 128 && curY < 144) {
+                            GAME.gradeValues[3] += score;
+                            GAME.newDayFeedback(0, 3);
+                        }
+                        if (curX > Game.width - 200 && curX < Game.width - 152
+                                && curY > 160 && curY < 176) {
+                            GAME.gradeValues[4] += score;
+                            GAME.newDayFeedback(0, 4);
+                        }
+                        break;
                 }
             }
         }
 
         if (e.getButton() == MouseEvent.BUTTON3 && GAME.textBox == null) {
-            if (GAME.menu == null || GAME.menu.currentId != 0) { GAME.menu = new Menu(0); }
+            if (GAME.menu == null || (GAME.menu.currentId != 0 && GAME.menu.currentId != 15)) { GAME.menu = new Menu(0); }
             else  { GAME.menu = null; }
         }
     }
@@ -324,6 +398,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             curX > Game.width - 200 && curX < Game.width - 120 && curY > 160 && curY < 176;
                     break;
                 case 3:
+                case 15:
                     click = curX > Game.width - 200 && curX < Game.width - 168 && curY > 32 && curY < 48 ||
                             curX > Game.width - 200 && curX < Game.width - 56 && curY > 64 && curY < 80 ||
                             curX > Game.width - 200 && curX < Game.width - 168 && curY > 96 && curY < 116 ||
@@ -332,6 +407,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     break;
                 case 5:
                 case 13:
+                case 14:
                     click = curX > Game.width - 76 && curX < Game.width - 28 && curY > 32 && curY < 48 ||
                             curX > Game.width - 76 && curX < Game.width - 42 && curY > 64 && curY < 80;
                     break;

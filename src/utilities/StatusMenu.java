@@ -24,7 +24,7 @@ public class StatusMenu {
         switch (id) {
             case 0:
                 img = Menu.imgs[0];
-                text = "DAY " + GAME.day + "\n" + Game.TIME_PERIODS[GAME.time] + "\n" + Game.CONDITIONS[GAME.condition] + "\nPP: " + 0;
+                text = "DAY " + GAME.day + "\n" + Game.TIME_PERIODS[GAME.time] + "\n" + Game.CONDITIONS[GAME.player.condition] + "\nPP: " + 0;
                 break;
             case 1:
                 img = Menu.imgs[7];

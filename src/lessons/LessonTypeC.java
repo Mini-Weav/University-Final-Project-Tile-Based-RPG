@@ -17,8 +17,8 @@ public class LessonTypeC extends Lesson {
     public LessonTypeC(int grade) {
         super(grade);
         energy = setStart(grade);
-        if (GAME.condition == 1) { energy += 2; }
-        if (GAME.condition == 2) {
+        if (GAME.player.condition == 1) { energy += 2; }
+        if (GAME.player.condition == 2) {
             if (energy > 1) { energy -= 2; }
             if (energy == 1) { energy--; }
         }

@@ -6,7 +6,7 @@ import static game.Game.GAME;
  * Created by Luke on 14/11/2017.
  */
 public abstract class Lesson {
-    int grade, rounds;
+    int grade, rounds, id;
     public static int oldTime;
     double score;
     public boolean feedback, finished;
@@ -36,15 +36,17 @@ public abstract class Lesson {
                 GAME.lesson = new LessonTypeA(id - 3, grade);
                 break;
         }
+        GAME.lesson.id = id;
 
     }
 
     public void finish() {
+        GAME.gradeValues[id] += (int)((score / rounds) * 5);
         GAME.textBox = null;
         GAME.menu = null;
         GAME.lesson = null;
         GAME.time = oldTime + 1;
-        GAME.condition = 0;
+        GAME.player.condition = 0;
         GAME.doTransition();
     }
 

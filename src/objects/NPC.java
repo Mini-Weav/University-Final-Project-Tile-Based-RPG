@@ -125,7 +125,7 @@ public class NPC extends GameObject{
                 GAME.menu = new Menu(5);
                 break;
             case 30:
-                if (GAME.condition == 0 && time == 1) {
+                if (GAME.player.condition == 0 && time == 1) {
                     GAME.textBox = new TextBox(3, "Should I eat lunch?");
                     GAME.menu = new Menu(5);
                 }
@@ -184,10 +184,10 @@ public class NPC extends GameObject{
         if (yes) {
             double r = Math.random();
             if (r < 0.7) {
-                GAME.condition = 1;
+                GAME.player.condition = 1;
                 GAME.textBox = new TextBox(0, "The lunch is good! You feel #recharged and ready for the #next class!");
             } else {
-                GAME.condition = 2;
+                GAME.player.condition = 2;
                 GAME.textBox = new TextBox(0, "The lunch is bad! You don't #feel very well...");
             }
         }

@@ -50,6 +50,7 @@ public class Menu {
                 text = "ATHLETE\nCLASSMATE\nNERD\nDELINQUENT\nTUTEE";
                 break;
             case 3:
+            case 15:
                 img = imgs[2];
                 text = "DT\nFOOD TECH\nPE\nCHEMISTRY\nICT";
                 break;
@@ -63,6 +64,7 @@ public class Menu {
                 break;
             case 5:
             case 13:
+            case 14:
                 img = imgs[1];
                 text = "YES\nNO";
                 break;
@@ -109,6 +111,10 @@ public class Menu {
         catch (IOException e) {
             System.out.println("Cannot find map image.");
             e.printStackTrace();
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            minimapId = 0;
+            mapImg = mapImgs[0];
         }
     }
 

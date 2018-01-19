@@ -7,6 +7,7 @@ import game.TileMap;
 import game.TileMapView;
 import lessons.LessonTypeC;
 import utilities.*;
+import utilities.Menu;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import static game.Game.GAME;
  */
 public class Player extends GameObject {
     public Point direction;
+    public int condition;
 
     public static final List<Tile> TILES = CharacterTileSet.readTileSet("resources/tilesets/player.png", KEY);
 
@@ -125,15 +127,40 @@ public class Player extends GameObject {
         int nextId = currentMap.doorPoints.get(new Point(x, y)).t;
         GAME.map.loadMap(TileMapLoader.tileMaps.get(nextId));
 
-        x = doorPoints.x;
-        y = doorPoints.y;
+        setLocation(doorPoints.x, doorPoints.y);
+    }
+
+    public void setLocation(int x, int y) {
+        this.x = x;
+        this.y = y;
         gX = x * 32;
         gY = y * 32;
-
-        GAME.camera.x = x-(Game.width / 64);
-        GAME.camera.y = y-(Game.height / 64);
+        GAME.camera.x = x - (Game.width / 64);
+        GAME.camera.y = y - (Game.height / 64);
         GAME.camera.gX = GAME.camera.x * 32;
         GAME.camera.gY = GAME.camera.y * 32;
+    }
+
+    public void sleep() {
+        condition = 0;
+        GAME.newDayFeedback(2);
+    }
+
+    public void study() {
+        GAME.textBox = null;
+        GAME.menu = new Menu(15);
+    }
+
+    public void game() {
+        double r = Math.random();
+        if (r < 0.75) {
+            condition =  1;
+            GAME.newDayFeedback(1, 0);
+        }
+        else {
+            condition = 2;
+            GAME.newDayFeedback(1, 1);
+        }
     }
 
     public void update() {
