@@ -79,6 +79,10 @@ public class NPCLoader {
                 new NPC(16, 5, 4, Constants.UP, null), new NPC(12, 7, 2, Constants.UP, null),
                 new NPC(16, 2, 9, Constants.DOWN, null)));
 
+        NPCs.get(4).add(Collections.emptyList());
+
+        NPCs.get(4).add(Arrays.asList(new NPC(8, 7, 2, Constants.UP, null), new NPC(16, 5, 4, Constants.UP, null)));
+
         /* Canteen */
         NPCs.put(5, new ArrayList<>());
         NPCs.get(5).add(Arrays.asList(new NPC(8, 4, 30, 0, Constants.DOWN, null),
@@ -103,6 +107,12 @@ public class NPCLoader {
         NPCs.get(6).add(Collections.emptyList());
         NPCs.get(6).add(Arrays.asList(new NPC(32, 17, 0, Constants.UP, null), new NPC(23, 12, 2, Constants.LEFT, null),
                 new NPC(27, 16, 7, Constants.LEFT, null)));
+        NPCs.get(6).add(Collections.emptyList());
+        NPCs.get(6).add(Collections.emptyList());
+
+        NPCs.get(6).add(Collections.emptyList());
+
+        NPCs.get(6).add(Arrays.asList(new NPC(32, 17, 0, Constants.UP, null), new NPC(28, 18, 10, 4, Constants.LEFT, null)));
 
         /* Bedroom */
         NPCs.put(7, new ArrayList<>());

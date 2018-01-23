@@ -82,6 +82,7 @@ public class TextBox {
     }
 
     public void paintComponent(Graphics g) {
+        g.setColor(Color.black);
         int lineIndex;
         switch (id) {
             case 0:

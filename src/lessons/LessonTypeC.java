@@ -1,5 +1,6 @@
 package lessons;
 
+import objects.GameObject;
 import objects.Player;
 import utilities.Menu;
 
@@ -114,23 +115,23 @@ public class LessonTypeC extends Lesson {
         }
     }
 
-    public static void movingScript(Player player) {
+    public static void movingScript(GameObject obj) {
         int lowX = 24, highX = 36, lowY = 13, highY = 20;
-        if (player.x == lowX && player.y < highY) {
-            player.down = true;
-            player.move();
+        if (obj.x == lowX && obj.y < highY) {
+            obj.down = true;
+            obj.move();
         }
-        if (player.x == highX && player.y > lowY) {
-            player.up = true;
-            player.move();
+        if (obj.x == highX && obj.y > lowY) {
+            obj.up = true;
+            obj.move();
         }
-        if (player.y == lowY && player.x > lowX) {
-            player.left = true;
-            player.move();
+        if (obj.y == lowY && obj.x > lowX) {
+            obj.left = true;
+            obj.move();
         }
-        if (player.y== highY && player.x < highX) {
-            player.right = true;
-            player.move();
+        if (obj.y== highY && obj.x < highX) {
+            obj.right = true;
+            obj.move();
         }
 
     }

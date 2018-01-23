@@ -84,6 +84,17 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
             GAME.textBox.paintComponent(g);
             return;
         }
+        if (GAME.isAfterActivity) {
+            GAME.menu = null;
+            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
+            GAME.textBox = new TextBox(0, GAME.activity.afterText);
+            GAME.textBox.paintComponent(g);
+            return;
+        }
+        if (GAME.transition) {
+            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
+            return;
+        }
         for (int j = -1; j < Game.cameraHeight + 2; j++) {
             for (int i = -1; i < Game.cameraWidth + 2; i++) {
                 try {
@@ -104,7 +115,6 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
             GAME.statusMenu.paintComponent(g);
             if (GAME.textBox != null) { GAME.textBox.paintComponent(g); }
             if (GAME.menu != null) { GAME.menu.paintComponent(g); }
-            if (GAME.transition) { g.fillRect(0, 0, Game.width * 2, Game.height * 2); }
         }
     }
 
@@ -140,6 +150,12 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         GAME.isNewDay = false;
                         GAME.newDay();
                     }
+                    if (GAME.isAfterActivity) {
+                        GAME.activity = null;
+                        GAME.isAfterActivity = false;
+                        GAME.goHome(true);
+                    }
+                    if (GAME.activity != null) { GAME.activity.finish(); }
                     GAME.textBox = null;
                 }
             }
@@ -188,10 +204,18 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     case 5:
                         NPC npc = (NPC) GAME.objectMatrix[y][x];
                         if (npc.id < 5) {
-                            if (curX > Game.width - 76 && curX < Game.width - 28
-                                    && curY > 32 && curY < 48) { npc.gift(true); }
-                            if (curX > Game.width - 76 && curX < Game.width - 42
-                                    && curY > 64 && curY < 80) { npc.gift(false); }
+                            if (npc.id % 2 == 0) {
+                                if (curX > Game.width - 76 && curX < Game.width - 28
+                                        && curY > 32 && curY < 48) { npc.activity(true); }
+                                if (curX > Game.width - 76 && curX < Game.width - 42
+                                        && curY > 64 && curY < 80) { npc.activity(false); }
+                            }
+                            else {
+                                if (curX > Game.width - 76 && curX < Game.width - 28
+                                        && curY > 32 && curY < 48) { npc.gift(true); }
+                                if (curX > Game.width - 76 && curX < Game.width - 42
+                                        && curY > 64 && curY < 80) { npc.gift(false); }
+                            }
                         }
                         else if (npc.id < 10) {
                             if (curX > Game.width - 76 && curX < Game.width - 28
@@ -212,13 +236,13 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         y = (int)GAME.player.direction.getY();
                         npc = (NPC) GAME.objectMatrix[y][x];
                         if (curX > Game.width - 284 && curX < Game.width - 96
-                                && curY > 32 && curY < 48 && GAME.items[2][0] > 0) { npc.gift(0); }
+                                && curY > 32 && curY < 48 && GAME.items[2][0] > 0) { npc.giftTextBox(0); }
                         if (curX > Game.width - 284 && curX < Game.width - 96
-                                && curY > 64 && curY < 80 && GAME.items[2][1] > 0) { npc.gift(1); }
+                                && curY > 64 && curY < 80 && GAME.items[2][1] > 0) { npc.giftTextBox(1); }
                         if (curX > Game.width - 284 && curX < Game.width - 96
-                                && curY > 96 && curY < 116 && GAME.items[2][2] > 0) { npc.gift(2); }
+                                && curY > 96 && curY < 116 && GAME.items[2][2] > 0) { npc.giftTextBox(2); }
                         if (curX > Game.width - 284 && curX < Game.width - 124
-                                && curY > 128 && curY < 144 && GAME.items[2][3] > 0) { npc.gift(3); }
+                                && curY > 128 && curY < 144 && GAME.items[2][3] > 0) { npc.giftTextBox(3); }
                         if (curX > Game.width - 284 && curX < Game.width - 124
                                 && curY > 160 && curY < 176) { npc.gift(false); }
                         break;
@@ -227,11 +251,11 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         y = (int)GAME.player.direction.getY();
                         npc = (NPC) GAME.objectMatrix[y][x];
                         if (curX > Game.width - 284 && curX < Game.width - 76
-                                && curY > 32 && curY < 48 && GAME.items[1][0] > 0) { npc.gift(0); }
+                                && curY > 32 && curY < 48 && GAME.items[1][0] > 0) { npc.giftTextBox(0); }
                         if (curX > Game.width - 284 && curX < Game.width - 76
-                                && curY > 64 && curY < 80 && GAME.items[1][1] > 0) { npc.gift(1); }
+                                && curY > 64 && curY < 80 && GAME.items[1][1] > 0) { npc.giftTextBox(1); }
                         if (curX > Game.width - 284 && curX < Game.width - 76
-                                && curY > 96 && curY < 116 && GAME.items[1][2] > 0) { npc.gift(2); }
+                                && curY > 96 && curY < 116 && GAME.items[1][2] > 0) { npc.giftTextBox(2); }
                         if (curX > Game.width - 284 && curX < Game.width - 124
                                 && curY > 128 && curY < 144) { npc.gift(false); }
                         break;

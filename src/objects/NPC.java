@@ -4,6 +4,7 @@ import controllers.Action;
 import controllers.Controller;
 import controllers.Patrol;
 import controllers.RandomMovement;
+import game.Activity;
 import game.Game;
 import game.TileMapView;
 import lessons.Lesson;
@@ -100,7 +101,8 @@ public class NPC extends GameObject{
             case 0:
             case 2:
             case 4:
-                friendTextBox();
+                if (GAME.time == 2 && GAME.friendValues[id] > 0) { activityTextBox();}
+                else { friendTextBox(); }
                 break;
             case 1:
                 if (GAME.hasFood() && GAME.friendValues[id] > 0) {
@@ -148,7 +150,7 @@ public class NPC extends GameObject{
         }
     }
 
-    public void gift(int index) {
+    public void giftTextBox(int index) {
         switch (id) {
             case 1:
                 GAME.items[2][index]--;
@@ -166,12 +168,6 @@ public class NPC extends GameObject{
     public void lesson(boolean yes) {
         if (yes) {
             GAME.doTransition();
-            switch (id - 5) {
-                case 3:
-                case 4:
-                    GAME.menu = new Menu(8);
-
-            }
             Lesson.startLesson(id - 5);
         }
         else {
@@ -295,6 +291,68 @@ public class NPC extends GameObject{
         if (GAME.friendValues[id] > 0) { fp = (GAME.friendValues[id] / 10) + 1; }
         else { GAME.friendValues[id]++; }
         GAME.textBox = new TextBox(NPC.text.get(id)[fp], this, true);
+    }
+
+    public void activityTextBox() {
+        switch (id) {
+            case 0:
+                if (GAME.gradeValues[2] > 9) {
+                    GAME.textBox = new TextBox(text.get(0)[4], this, false);
+                    GAME.menu = new Menu(5);
+                }
+                else { friendTextBox(); }
+                break;
+            case 2:
+                if (GAME.gradeValues[3] > 9) {
+                    GAME.textBox = new TextBox(text.get(2)[4], this, false);
+                    GAME.menu = new Menu(5);
+                }
+                else { friendTextBox(); }
+                break;
+            case 4:
+                if (GAME.gradeValues[4] > 9) {
+                    GAME.textBox = new TextBox(text.get(4)[4], this, false);
+                    GAME.menu = new Menu(5);
+                }
+                else { friendTextBox(); }
+                break;
+            default:
+                friendTextBox();
+                break;
+        }
+    }
+
+    public void activity(boolean yes) {
+        if (yes) {
+            int activityId = -1;
+            int gradeId = -1;
+            GAME.doTransition();
+            switch (id) {
+                case 0:
+                    activityId = 0;
+                    gradeId = 2;
+                    break;
+                case 2:
+                    activityId = 1;
+                    gradeId = 3;
+                    break;
+                case 4:
+                    activityId = 2;
+                    gradeId = 4;
+                    break;
+                default:
+                    GAME.textBox = null;
+                    GAME.menu = null;
+                    return;
+            }
+            GAME.friendValues[id] += ((GAME.gradeValues[gradeId] % 10) + 1);
+            Activity.startActivity(activityId);
+        }
+        else {
+            GAME.textBox = null;
+            GAME.menu = null;
+        }
+
     }
 
     public void update() {

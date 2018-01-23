@@ -169,47 +169,53 @@ public class Player extends GameObject {
         Action action = ctrl.action();
 
         if (GAME.lesson != null) {
-            boolean isScript = false;
             switch (GAME.time) {
                 case 3:
-                    x = 4;
-                    y = 6;
+                    setLocation(4, 6);
                     rotate(1);
                     break;
                 case 4:
-                    x = 14;
-                    y = 7;
+                    setLocation(14, 7);
                     rotate(0);
                     break;
                 case 5:
                     if (!((LessonTypeC) GAME.lesson).started) {
-                        x = 24;
-                        y = 16;
+                        setLocation(24, 16);
                         rotate(1);
                     }
                     else if (!GAME.lesson.finished) {
                         LessonTypeC.movingScript(this);
-                        isScript = true;
                     }
                     break;
                 case 6:
-                    x = 6;
-                    y = 7;
+                    setLocation(6, 7);
                     rotate(0);
                     break;
                 case 7:
-                    x = 14;
-                    y = 7;
+                    setLocation(14, 7);
                     rotate(0);
                     break;
             }
-            if (!isScript) {
-                gX = x * 32;
-                gY = y * 32;
-                GAME.camera.x = x-(Game.width / 64);
-                GAME.camera.y = y-(Game.height / 64);
-                GAME.camera.gX = GAME.camera.x * 32;
-                GAME.camera.gY = GAME.camera.y * 32;
+        }
+
+        if (GAME.activity != null) {
+            switch (GAME.activity.id) {
+                case 0:
+                    if (!GAME.activity.started) {
+                        setLocation(24, 16);
+                        rotate(1);
+                        GAME.activity.started = true;
+                    }
+                    else if (!GAME.isAfterActivity){ LessonTypeC.movingScript(this); }
+                    break;
+                case 1:
+                    setLocation(7, 7);
+                    rotate(0);
+                    break;
+                case 2:
+                    setLocation(17, 5);
+                    rotate(0);
+                    break;
             }
         }
 

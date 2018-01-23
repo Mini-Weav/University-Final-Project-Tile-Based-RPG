@@ -51,6 +51,7 @@ public class StatusMenu {
     }
 
     public void paintComponent(Graphics g) {
+        g.setColor(Color.black);
         g.drawImage(img, 16, 16, img.getWidth() * 2, img.getHeight() * 2, null);
         g.setFont(GameFont.bigFont);
         int lineIndex = 0;

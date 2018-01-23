@@ -34,17 +34,18 @@ public class Game {
     public StatusMenu statusMenu;
     public TitleScreen titleScreen;
     public Lesson lesson;
+    public Activity activity;
     public char[][] tileMatrix;
     public GameObject[][] objectMatrix;
     public int[] friendValues, gradeValues;
     public int[][] items;
-    public boolean transition, isNewGame, isNewDay, fullScreen, isTitle = true;
+    public boolean transition, isNewGame, isNewDay, isAfterActivity, fullScreen, isTitle = true;
     public long transitionTime;
     public String newDayText;
 
     public static int height, width, cameraHeight, cameraWidth;
 
-    public final static String[] TIME_PERIODS = new String[] { "MORNING", "LUNCH", "AFT SCH", "DT", "FOOD", "PE", "CHEM", "ICT", "NIGHT" },
+    public final static String[] TIME_PERIODS = new String[] { "MORNING", "LUNCH", "AFT SCH", "DT", "FOOD", "PE", "CHEM", "ICT", "NIGHT", "ACTIVITY" },
             CONDITIONS = new String[] { "NORMAL", "GREAT", "UNWELL"};
 
     private Game() {
@@ -232,9 +233,9 @@ public class Game {
         gradeValues = new int[5];
         gradeValues[0] = 10;
         gradeValues[1] = 20;
-        gradeValues[2] = 0;
+        gradeValues[2] = 10;
         gradeValues[3] = 30;
-        gradeValues[4] = 0;
+        gradeValues[4] = 10;
         /* end of testing values */
 
         isTitle = false;
