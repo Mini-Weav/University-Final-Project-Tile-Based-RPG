@@ -10,8 +10,8 @@ import java.util.Scanner;
  */
 public class FileReader {
     public static String[] interactiveStrings, npcStrings, newDayStrings, activityStrings,
-            jackStrings = new String[5], emilyStrings = new String[5], alexanderStrings = new String[5],
-            nathanStrings = new String[5], frankieStrings = new String[5], boyStrings = new String[5],
+            jackStrings = new String[3], emilyStrings = new String[3], alexanderStrings = new String[3],
+            nathanStrings = new String[3], frankieStrings = new String[3], boyStrings = new String[5],
             girlStrings = new String[5], lunchStrings = new String[3];
 
     public static String[] readFile(String file) {
@@ -35,16 +35,18 @@ public class FileReader {
     public static void readFiles() {
         interactiveStrings = readFile("interactive_tiles");
         npcStrings = readFile("npcs");
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             jackStrings[i] = npcStrings[i];
-            emilyStrings[i] = npcStrings[i + 6];
-            alexanderStrings[i] = npcStrings[i + 12];
-            nathanStrings[i] = npcStrings[i + 18];
-            frankieStrings[i] = npcStrings[i + 24];
-            boyStrings[i] = npcStrings[i + 30];
-            girlStrings[i] = npcStrings[i + 36];
+            emilyStrings[i] = npcStrings[i + 4];
+            alexanderStrings[i] = npcStrings[i + 8];
+            nathanStrings[i] = npcStrings[i + 12];
+            frankieStrings[i] = npcStrings[i + 16];
         }
-        System.arraycopy(npcStrings, 42, lunchStrings, 0, 3);
+        for (int i = 0; i < 5; i++) {
+            boyStrings[i] = npcStrings[i + 20];
+            girlStrings[i] = npcStrings[i + 26];
+        }
+        System.arraycopy(npcStrings, 32, lunchStrings, 0, 3);
         newDayStrings = readFile("new_day_feedback");
         activityStrings = readFile("activities");
     }

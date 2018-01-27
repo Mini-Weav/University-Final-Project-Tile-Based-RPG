@@ -119,11 +119,13 @@ public class Menu {
     }
 
     public static void loadFriend(int id) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         friendImg = friendImgs[id];
         setFriendValue(id);
     }
 
     public static void loadGrade(int id) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         switch (id) {
             case 0:
                 gradeText = "DT";
@@ -222,9 +224,12 @@ public class Menu {
     }
 
     public static void hotKeyAccess(int id) {
-        if (GAME.menu == null) { GAME.menu = new Menu(id); }
-        else if (GAME.menu.currentId != id) { GAME.menu = new Menu(id); }
-        else  { GAME.menu = null; }
+        if (GAME.textBox == null) {
+            GameAudio.playSfx(GameAudio.sfx_menu);
+            if (GAME.menu == null) { GAME.menu = new Menu(id); }
+            else if (GAME.menu.currentId != id) { GAME.menu = new Menu(id); }
+            else  { GAME.menu = null; }
+        }
     }
 
     public void paintComponent(Graphics g) {

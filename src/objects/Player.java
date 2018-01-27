@@ -115,15 +115,12 @@ public class Player extends GameObject {
 
     public void transition() {
         GAME.doTransition();
+        GameAudio.playSfx(GameAudio.sfx_door);
 
         Point doorPoints = TileMapLoader.tileMaps.get(GAME.map.currentId).doorPoints.get(new Point(x, y)).s;
-        //if (GAME.tileMatrix.get(this.y).get(this.x) =='^') { this.tile.img = downSprites1.get(0); }
-        //if (GAME.tileMatrix.get(this.y).get(this.x) =='v') { this.tile.img = downSprites1.get(0); }
 
         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
-        for (NPC npc : currentMap.NPCs.get(GAME.time)) {
-            npc.reset();
-        }
+        for (NPC npc : currentMap.NPCs.get(GAME.time)) { npc.reset(); }
         int nextId = currentMap.doorPoints.get(new Point(x, y)).t;
         GAME.map.loadMap(TileMapLoader.tileMaps.get(nextId));
 
@@ -154,10 +151,12 @@ public class Player extends GameObject {
     public void game() {
         double r = Math.random();
         if (r < 0.75) {
+            GameAudio.playSfx(GameAudio.sfx_buff);
             condition =  1;
             GAME.newDayFeedback(1, 0);
         }
         else {
+            GameAudio.playSfx(GameAudio.sfx_debuff);
             condition = 2;
             GAME.newDayFeedback(1, 1);
         }

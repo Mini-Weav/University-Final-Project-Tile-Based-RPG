@@ -8,6 +8,7 @@ import objects.Player;
 import utilities.*;
 import utilities.Menu;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Game {
     public List<GameObject> objects;
     public JFrame frame;
     public Keys ctrl;
-    public int time, day = 1;
+    public int time, day = 1, points;
     public TileMapView map;
     public Camera camera;
     public TextBox textBox;
@@ -39,9 +40,10 @@ public class Game {
     public GameObject[][] objectMatrix;
     public int[] friendValues, gradeValues;
     public int[][] items;
-    public boolean transition, isNewGame, isNewDay, isAfterActivity, fullScreen, isTitle = true;
+    public boolean transition, isNewGame, isNewDay, isAfterActivity, givenDrink, fullScreen, isTitle = true;
     public long transitionTime;
     public String newDayText;
+    public Clip music;
 
     public static int height, width, cameraHeight, cameraWidth;
 
@@ -59,11 +61,10 @@ public class Game {
 
     public void createFrame() {
         frame = new JFrame("Brooklands Academy");
+        frame.getContentPane().add(titleScreen);
         frame.setResizable(false);
-        frame.add(titleScreen, BorderLayout.CENTER);
-        //frame.setUndecorated(true);
-        frame.pack();
         frame.setVisible(true);
+        frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -154,15 +155,16 @@ public class Game {
 
     public void newDay() {
         time = 0;
+        givenDrink = false;
         TileMap nextMap = TileMapLoader.tileMaps.get(0);
-        for (NPC npc : nextMap.NPCs.get(GAME.time)) { npc.reset(); }
+        map.loadMap(nextMap);
         player.setLocation(Constants.START_X, Constants.START_Y);
         player.rotate(0);
-        map.loadMap(nextMap);
         day++;
     }
 
     public void newDayFeedback(int... id) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         isNewDay = true;
         switch (id[0]) {
             case 0:
@@ -179,15 +181,18 @@ public class Game {
 
     public void goHome(boolean yes) {
         if (yes) {
+            GameAudio.playSfx(GameAudio.sfx_click);
             doTransition();
             objects.clear();
-            objects.add(GAME.player);
             time = 8;
             TileMap nextMap = TileMapLoader.tileMaps.get(7);
+            map.loadMap(nextMap);
+            GameAudio.playSfx(GameAudio.sfx_door);
+            GameAudio.startMusic(GameAudio.music_bedroom);
+            objects.add(GAME.player);
             player.setLocation(6, 2);
             player.rotate(1);
             player.condition = 0;
-            map.loadMap(nextMap);
         }
         textBox = null;
         menu = null;
@@ -205,6 +210,8 @@ public class Game {
 
         gradeValues = new int[5];
 
+        points = 0;
+
         isNewGame = true;
         isTitle = false;
     }
@@ -212,30 +219,32 @@ public class Game {
     public void load() {
         player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
 
+        day = 15;
+
         /* start of testing values */
         items = new int[3][];
         items[0] = new int[2];
         items[1] = new int[4];
         items[2] = new int[4];
-        items[0][0] = 4;
+        items[0][0] = 5;
         items[1][0] = 1;
-        items[2][0] = 3;
-        items[2][1] = 2;
-        items[2][2] = 1;
+        items[2][0] = 0;
+        items[2][1] = 0;
+        items[2][2] = 0;
 
         friendValues = new int[5];
-        friendValues[0] = 21;
-        friendValues[1] = 19;
-        friendValues[2]= 1;
-        friendValues[3] = 0;
-        friendValues[4] = 1;
+        friendValues[0] = 1;
+        friendValues[1] = 9;
+        friendValues[2]= 22;
+        friendValues[3] = 30;
+        friendValues[4] = 30;
 
         gradeValues = new int[5];
-        gradeValues[0] = 10;
-        gradeValues[1] = 20;
-        gradeValues[2] = 10;
-        gradeValues[3] = 30;
-        gradeValues[4] = 10;
+        gradeValues[0] = 30;
+        gradeValues[1] = 18;
+        gradeValues[2] = 22;
+        gradeValues[3] = 35;
+        gradeValues[4] = 30;
         /* end of testing values */
 
         isTitle = false;
@@ -249,9 +258,12 @@ public class Game {
         cameraHeight = height / 32;
         cameraWidth = width / 32;
         frame.getContentPane().setSize(width, height);
-        frame.setSize(width + Constants.DEC_WIDTH, height + Constants.DEC_HEIGHT);
-        frame.setLocationRelativeTo(null);
+        frame.setSize(width, height);
+        frame.setResizable(false);
         frame.setVisible(true);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         fullScreen = false;
     }
 
@@ -263,7 +275,6 @@ public class Game {
         width = Constants.FULL_WIDTH;
         cameraHeight = height / 32;
         cameraWidth = width / 32;
-        frame.setSize(width, height);
         frame.getContentPane().setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -280,7 +291,19 @@ public class Game {
         camera.gY = camera.y * 32;
     }
 
+    public void increasePoints(int id, int index, int increase) {
+        switch(id) {
+            case 0:
+                points += 2 * (Math.pow((increase * ((friendValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                break;
+            case 1:
+                points += 2 * (Math.pow((increase * ((gradeValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                break;
+        }
+    }
+
     public static void main(String[] args) throws Exception {
+        GameAudio.loadSounds();
         FileReader.readFiles();
         TextBox.loadImages();
         Menu.loadImages();
@@ -289,7 +312,10 @@ public class Game {
         GAME.titleScreen = new TitleScreen();
         GAME.createFrame();
 
+        GameAudio.startMusic(GameAudio.music_title);
+
         while (GAME.isTitle) { GAME.titleScreen.repaint(); }
+
         GAME.frame.remove(GAME.titleScreen);
         GAME.time = 0;
         GAME.map = new TileMapView(TileMapLoader.tileMaps.get(0));
@@ -298,7 +324,7 @@ public class Game {
                 GAME.map.matrix);
 
         GAME.statusMenu = new StatusMenu(0);
-        GAME.frame.add(GAME.map, BorderLayout.CENTER);
+        GAME.frame.getContentPane().add(GAME.map);
         GAME.frame.addKeyListener(GAME.ctrl);
         GAME.frame.revalidate();
 

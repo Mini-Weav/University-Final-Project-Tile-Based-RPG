@@ -40,8 +40,16 @@ public class TitleScreen extends JComponent implements MouseListener, MouseMotio
         int curY = e.getY();
 
         if (e.getButton() == MouseEvent.BUTTON1) {
-            if (curX > Game.width - 164 && curX < Game.width - 36 && curY > 32 && curY < 48) { GAME.newGame(); }
-            if (curX > Game.width - 164 && curX < Game.width - 36 && curY > 64 && curY < 80) { GAME.load(); }
+            if (curX > Game.width - 164 && curX < Game.width - 36 && curY > 32 && curY < 48) {
+                GameAudio.playSfx(GameAudio.sfx_click);
+                GAME.newGame();
+                GameAudio.stopMusic();
+            }
+            if (curX > Game.width - 164 && curX < Game.width - 36 && curY > 64 && curY < 80) {
+                GameAudio.playSfx(GameAudio.sfx_click);
+                GAME.load();
+                GameAudio.startMusic(GameAudio.music_school);
+            }
             if (curX > Game.width - 164 && curX < Game.width - 100 && curY > 96 && curY < 116) { System.exit(0); }
         }
     }

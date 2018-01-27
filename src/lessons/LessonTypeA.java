@@ -1,5 +1,6 @@
 package lessons;
 
+import utilities.GameAudio;
 import utilities.Menu;
 
 import static game.Game.GAME;
@@ -41,6 +42,7 @@ public class LessonTypeA extends Lesson {
     }
 
     public void doAction(int action) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         switch (action) {
             case 0:
                 score += answer(concentration, questionId);
@@ -62,6 +64,7 @@ public class LessonTypeA extends Lesson {
                 break;
             case 2:
                 if (GAME.items[0][0] > 0) {
+                    GameAudio.playSfx(GameAudio.sfx_buff);
                     attentionSpan++;
                     concentration++;
                     GAME.items[0][0]--;
@@ -70,7 +73,8 @@ public class LessonTypeA extends Lesson {
                 else { feedbackText = "You're out of energy#drinks!"; }
                 break;
             case 3:
-                if (!toilet) {
+                if (!toilet && questionsLeft > 1) {
+                    GameAudio.playSfx(GameAudio.sfx_buff);
                     GAME.doTransition();
                     attentionSpan++;
                     toilet = true;
@@ -78,7 +82,8 @@ public class LessonTypeA extends Lesson {
                     questionsLeft--;
                     feedbackText = "You take a break... Your#attention has improved!#...However, you missed the#last question!";
                 }
-                else { feedbackText = "You've already been to the#toilet! The teacher won't#let you go again."; }
+                else if (toilet){ feedbackText = "You've already been to the#toilet! The teacher won't#let you go again."; }
+                else { feedbackText = "You don't have time to go#to the toilet!";}
                 break;
         }
         feedback = true;

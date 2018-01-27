@@ -116,6 +116,9 @@ public class NPC extends GameObject{
                     GAME.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
                     GAME.menu = new Menu(5);
                 }
+                else if (GAME.friendValues[id] >= 30 && !GAME.givenDrink) {
+                    freeDrink();
+                }
                 else { friendTextBox(); }
                 break;
             case 5:
@@ -140,32 +143,45 @@ public class NPC extends GameObject{
     }
 
     public void gift(boolean yes) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
             if (id == 1) { GAME.menu = new Menu(6); }
             if (id == 3) { GAME.menu = new Menu(7); }
         }
         else {
             GAME.menu = null;
-            friendTextBox();
+            if (id == 3 && GAME.friendValues[id] >= 30 && !GAME.givenDrink) { freeDrink(); }
+            else { friendTextBox(); }
         }
     }
 
     public void giftTextBox(int index) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         switch (id) {
             case 1:
                 GAME.items[2][index]--;
-                GAME.textBox = new TextBox(text.get(1)[4], this, true);
+                GAME.textBox = new TextBox(text.get(1)[2], this, true);
                 break;
             case 3:
                 GAME.items[1][index]--;
-                GAME.textBox = new TextBox(text.get(3)[4], this, true);
+                GAME.textBox = new TextBox(text.get(3)[2], this, true);
                 GAME.items[0][0]++;
+                GameAudio.playSfx(GameAudio.sfx_item);
         }
         GAME.menu = null;
         GAME.friendValues[id] += (index + 1);
+        GAME.increasePoints(0, id, index + 1);
+    }
+
+    public void freeDrink() {
+        GAME.textBox = new TextBox(text.get(3)[2], this, true);
+        GAME.items[0][0]++;
+        GAME.givenDrink = true;
+        GameAudio.playSfx(GameAudio.sfx_item);
     }
 
     public void lesson(boolean yes) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
             GAME.doTransition();
             Lesson.startLesson(id - 5);
@@ -177,12 +193,15 @@ public class NPC extends GameObject{
     }
 
     public void lunch(boolean yes) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
             double r = Math.random();
             if (r < 0.7) {
+                GameAudio.playSfx(GameAudio.sfx_buff);
                 GAME.player.condition = 1;
                 GAME.textBox = new TextBox(0, "The lunch is good! You feel #recharged and ready for the #next class!");
             } else {
+                GameAudio.playSfx(GameAudio.sfx_debuff);
                 GAME.player.condition = 2;
                 GAME.textBox = new TextBox(0, "The lunch is bad! You don't #feel very well...");
             }
@@ -284,12 +303,16 @@ public class NPC extends GameObject{
                 tile.img = leftSprites.get(0);
                 break;
         }
+        if (this.ctrl instanceof Patrol) { ((Patrol) this.ctrl).reset(); }
     }
 
     public void friendTextBox() {
         int fp = 0;
-        if (GAME.friendValues[id] > 0) { fp = (GAME.friendValues[id] / 10) + 1; }
-        else { GAME.friendValues[id]++; }
+        if (GAME.friendValues[id] > 0) { fp = 1; }
+        else {
+            GAME.friendValues[id]++;
+            GAME.increasePoints(0, id, 1);
+        }
         GAME.textBox = new TextBox(NPC.text.get(id)[fp], this, true);
     }
 
@@ -297,21 +320,21 @@ public class NPC extends GameObject{
         switch (id) {
             case 0:
                 if (GAME.gradeValues[2] > 9) {
-                    GAME.textBox = new TextBox(text.get(0)[4], this, false);
+                    GAME.textBox = new TextBox(text.get(0)[2], this, false);
                     GAME.menu = new Menu(5);
                 }
                 else { friendTextBox(); }
                 break;
             case 2:
                 if (GAME.gradeValues[3] > 9) {
-                    GAME.textBox = new TextBox(text.get(2)[4], this, false);
+                    GAME.textBox = new TextBox(text.get(2)[2], this, false);
                     GAME.menu = new Menu(5);
                 }
                 else { friendTextBox(); }
                 break;
             case 4:
                 if (GAME.gradeValues[4] > 9) {
-                    GAME.textBox = new TextBox(text.get(4)[4], this, false);
+                    GAME.textBox = new TextBox(text.get(4)[2], this, false);
                     GAME.menu = new Menu(5);
                 }
                 else { friendTextBox(); }
@@ -323,9 +346,10 @@ public class NPC extends GameObject{
     }
 
     public void activity(boolean yes) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
-            int activityId = -1;
-            int gradeId = -1;
+            int activityId;
+            int gradeId;
             GAME.doTransition();
             switch (id) {
                 case 0:
@@ -345,7 +369,9 @@ public class NPC extends GameObject{
                     GAME.menu = null;
                     return;
             }
-            GAME.friendValues[id] += ((GAME.gradeValues[gradeId] % 10) + 1);
+            int increase = (GAME.gradeValues[gradeId] / 10) + 1;
+            GAME.friendValues[id] += increase;
+            GAME.increasePoints(0, id, increase);
             Activity.startActivity(activityId);
         }
         else {

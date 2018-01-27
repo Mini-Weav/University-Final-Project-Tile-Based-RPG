@@ -3,6 +3,7 @@ package game;
 import objects.GameObject;
 import objects.InteractiveTile;
 import objects.NPC;
+import utilities.GameAudio;
 import utilities.TextBox;
 import objects.Tile;
 import utilities.Menu;
@@ -131,6 +132,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (GAME.menu == null) {
+                if (!GAME.isTitle) { GameAudio.playSfx(GameAudio.sfx_click); }
                 if (GAME.textBox == null) {
                     if (dirTile instanceof InteractiveTile) {
                         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
@@ -145,10 +147,13 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     else { GAME.textBox = new TextBox(0, "There's nothing here.");}
                 }
                 else if (GAME.textBox.skip) {
-                    if (GAME.isNewGame) { GAME.isNewGame = false; }
+                    if (GAME.isNewGame) {
+                        GAME.isNewGame = false;
+                        GameAudio.startMusic(GameAudio.music_school);}
                     if (GAME.isNewDay) {
                         GAME.isNewDay = false;
                         GAME.newDay();
+                        GameAudio.startMusic(GameAudio.music_school);
                     }
                     if (GAME.isAfterActivity) {
                         GAME.activity = null;
@@ -163,19 +168,35 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                 switch (GAME.menu.currentId) {
                     case 0:
                         if (curX > Game.width - 152 && curX < Game.width - 100
-                                && curY > 96 && curY < 116) { GAME.menu = new Menu(1); }
+                                && curY > 96 && curY < 116) {
+                            GAME.menu = new Menu(1);
+                            GameAudio.playSfx(GameAudio.sfx_click);
+                        }
                         if (curX > Game.width - 152 && curX < Game.width - 40
-                                && curY > 64 && curY < 80) { GAME.menu = new Menu(2); }
+                                && curY > 64 && curY < 80) {
+                            GAME.menu = new Menu(2);
+                            GameAudio.playSfx(GameAudio.sfx_click);
+                        }
                         if (curX > Game.width - 152 && curX < Game.width - 52
-                                && curY > 32 && curY < 48) { GAME.menu = new Menu(3); }
+                                && curY > 32 && curY < 48) {
+                            GAME.menu = new Menu(3);
+                            GameAudio.playSfx(GameAudio.sfx_click);
+                        }
                         if (curX > Game.width - 152 && curX < Game.width - 72
-                                && curY > 128 && curY < 146) { GAME.menu = new Menu(4); }
+                                && curY > 128 && curY < 146) {
+                            GAME.menu = new Menu(4);
+                            GameAudio.playSfx(GameAudio.sfx_click);
+                        }
                         return;
                     case 1:
                         if (curX > Game.width - 76 && curX < Game.width - 56
-                                && curY > 32 && curY < 52) { Menu.loadMapImage(0); }
+                                && curY > 32 && curY < 52) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
+                            Menu.loadMapImage(0); }
                         if (curX > Game.width - 76 && curX < Game.width - 44
-                                && curY > 64 && curY < 84) { Menu.loadMapImage(1); }
+                                && curY > 64 && curY < 84) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
+                            Menu.loadMapImage(1); }
                         break;
                     case 2:
                         if (curX > Game.width - 200 && curX < Game.width - 88
@@ -261,6 +282,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         break;
                     case 8:
                         if (GAME.lesson.feedback) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.feedback = false;
                         }
                         else {
@@ -276,6 +298,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         break;
                     case 9:
                         if (GAME.lesson.feedback) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.feedback = false;
                         }
                         else {
@@ -289,6 +312,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         break;
                     case 10:
                         if (GAME.lesson.feedback) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.feedback = false;
                         }
                         else {
@@ -302,6 +326,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         break;
                     case 11:
                         if (GAME.lesson.feedback) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.feedback = false;
                         }
                         else {
@@ -331,6 +356,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                     switch (dirTile.key) {
                                         case 'C':
                                             GAME.player.study();
+                                            GameAudio.playSfx(GameAudio.sfx_click);
                                             break;
                                         case 'G':
                                             GAME.player.game();
@@ -354,6 +380,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         }
                         if (curX > Game.width - 76 && curX < Game.width - 42
                                 && curY > 64 && curY < 80) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.menu = null;
                             GAME.textBox = null;
                         }
@@ -391,6 +418,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
         }
 
         if (e.getButton() == MouseEvent.BUTTON3 && GAME.textBox == null) {
+            GameAudio.playSfx(GameAudio.sfx_menu);
             if (GAME.menu == null || (GAME.menu.currentId != 0 && GAME.menu.currentId != 15)) { GAME.menu = new Menu(0); }
             else  { GAME.menu = null; }
         }

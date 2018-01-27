@@ -1,5 +1,10 @@
 package lessons;
 
+import game.TileMap;
+import objects.NPC;
+import utilities.GameAudio;
+import utilities.TileMapLoader;
+
 import static game.Game.GAME;
 
 /**
@@ -19,9 +24,12 @@ public abstract class Lesson {
     public abstract void doAction(int action);
 
     public static void startLesson(int id) {
+        TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
+        for (NPC npc : currentMap.NPCs.get(GAME.time)) { npc.reset(); }
         int grade = (GAME.gradeValues[id] / 10) + 1;
         oldTime = GAME.time;
         GAME.time = id + 3;
+        GameAudio.startMusic(GameAudio.music_lesson);
 
         switch (id) {
             case 0:
@@ -41,13 +49,18 @@ public abstract class Lesson {
     }
 
     public void finish() {
-        GAME.gradeValues[id] += (int)((score / rounds) * 5);
+        int increase = (int)((score / rounds) * 5);
+        GAME.gradeValues[id] += increase;
+        GAME.increasePoints(1, id, increase);
+        GAME.time = oldTime;
+
+        GAME.time++;
         GAME.textBox = null;
         GAME.menu = null;
         GAME.lesson = null;
-        GAME.time = oldTime + 1;
         GAME.player.condition = 0;
         GAME.doTransition();
+        GameAudio.startMusic(GameAudio.music_school);
     }
 
     public static int setStart(int grade) {

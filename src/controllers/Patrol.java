@@ -55,4 +55,10 @@ public class Patrol implements Controller {
         }
         return action;
     }
+
+    public void reset() {
+        this.goBack = false;
+        index = 0;
+        step = 0;
+    }
 }

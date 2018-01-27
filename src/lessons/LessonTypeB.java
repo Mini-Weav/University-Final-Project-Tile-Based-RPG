@@ -1,6 +1,7 @@
 package lessons;
 
 import game.Game;
+import utilities.GameAudio;
 import utilities.Menu;
 
 import static game.Game.GAME;
@@ -30,12 +31,15 @@ public class LessonTypeB extends Lesson {
     }
 
     public void doAction(int action) {
+        GameAudio.playSfx(GameAudio.sfx_click);
         switch (action) {
             case 0:
                 result = doTask(false, reread, questionId);
                 score += (result / 2);
                 if (result > 0) {
-                    questionId = generateInstruction(grade);
+                    if (GAME.player.condition == 1) { questionId = generateInstruction(grade + 1); }
+                    else if (GAME.player.condition == 2 && grade > 0) { questionId = generateInstruction(grade - 1); }
+                    else { questionId = generateInstruction(grade); }
                     tasksLeft--;
                     reread = false;
                 }
@@ -46,7 +50,9 @@ public class LessonTypeB extends Lesson {
                     result = doTask(true, reread, questionId);
                     score += (result / 2);
                     if (result > 0) {
-                        questionId = generateInstruction(grade);
+                        if (GAME.player.condition == 1) { questionId = generateInstruction(grade + 1); }
+                        else if (GAME.player.condition == 2 && grade > 0) { questionId = generateInstruction(grade - 1); }
+                        else { questionId = generateInstruction(grade); }
                         tasksLeft--;
                         reread = false;
                     }
@@ -72,8 +78,12 @@ public class LessonTypeB extends Lesson {
         feedback = true;
         if (time == 0 || tasksLeft == 0) {
             if (tasksLeft == 0) {
+                GameAudio.playSfx(GameAudio.sfx_item);
                 feedbackText = "You finished every task#and made an item!";
-                GAME.items[id][grade - 1]++;
+                if (id == 1){
+                    if (GAME.items[1][3] > 0) { GAME.items[id][2]++; }
+                    else { GAME.items[1][grade - 1]++;}
+                } else { GAME.items[2][grade - 1]++; }
             }
             else { feedbackText = "You're out of time!"; }
             feedbackText += "#You got a score of "+(int)((score / rounds) * 100) + "!";

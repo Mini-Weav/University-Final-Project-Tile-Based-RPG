@@ -24,7 +24,8 @@ public class StatusMenu {
         switch (id) {
             case 0:
                 img = Menu.imgs[0];
-                text = "DAY " + GAME.day + "\n" + Game.TIME_PERIODS[GAME.time] + "\n" + Game.CONDITIONS[GAME.player.condition] + "\nPP: " + 0;
+                text = "DAY " + GAME.day + "\n" + Game.TIME_PERIODS[GAME.time] + "\n" + Game.CONDITIONS[GAME.player.condition]
+                        + "\n" + GAME.points;
                 break;
             case 1:
                 img = Menu.imgs[7];
@@ -34,7 +35,7 @@ public class StatusMenu {
                 break;
             case 2:
                 img = Menu.imgs[5];
-                text = "LAPS:       " + ((LessonTypeC) GAME.lesson).score +
+                text = "LAPS:       " + ((LessonTypeC) GAME.lesson).laps +
                         "\nTIME:         " + ((LessonTypeC) GAME.lesson).time +
                         "\nDRINKS:       " + GAME.items[0][0] +
                         "\nENERGY:       " + ((LessonTypeC) GAME.lesson).energy;

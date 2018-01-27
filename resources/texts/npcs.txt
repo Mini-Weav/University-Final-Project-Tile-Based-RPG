@@ -1,32 +1,22 @@
 Hey new guy, I'm Jack. #Nice to meetcha.
 Yo, what's up?
-Jack line 3
-Jack line 4
-Jack line pre sports club
+Hey, you're not too bad at#running. Wanna practise#with us?
 ---------------------------------
 Are you the transfer #student? I'm Emily, I hope #you like it here!
 Hiya! Do you like your new #school?"
-Emily line 3
-Emily line 4
 Wow thanks!
 ---------------------------------
 My name is Alexander... #...Bye.
-...Do you want something?
-Alexander line 3
-Alexander line 4
-Alexander line pre chemistry club
+...What is it?
+You're pretty good at#chemistry... Wanna see#something cool? Hehehe...
 ---------------------------------
 My name's Nathan, what's it #to you!?
 What do you want?
-Nathan line 3
-Nathan line 4
-...Thanks. Have an energy#drink, on me.
+Have an energy drink, on#me.
 ---------------------------------
 Hello new guy, I'm Frankie! #Don't be a stranger!
 Oh hey! How's it goin'?
-Frankie line 3
-Frankie line 4
-Frankie line pre turoring
+Oh new guy! Can you help me#study IT!?
 ---------------------------------
 If you want to attend a #class, just talk to the #teacher!
 You can check your grades #or friends by pressing the #'E' or 'F' keys.
