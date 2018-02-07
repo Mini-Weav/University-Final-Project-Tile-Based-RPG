@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class GameObject {
     public int x, y;
     public int gX, gY;
-    public boolean moving, up, down, left, right, flip;
+    public boolean moving, up, down, left, right, flip, spotted;
     public Tile tile;
     public Controller ctrl;
 
@@ -56,7 +56,7 @@ public abstract class GameObject {
 
     public abstract void move();
     public abstract void rotate(int direction);
-    public abstract void update();
+    public abstract void update() throws NullPointerException;
     public abstract void paintComponent(Graphics g);
 
 

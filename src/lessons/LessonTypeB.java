@@ -1,6 +1,6 @@
 package lessons;
 
-import game.Game;
+import utilities.FileReader;
 import utilities.GameAudio;
 import utilities.Menu;
 
@@ -59,7 +59,7 @@ public class LessonTypeB extends Lesson {
                     time -= 10;
                 }
                 else {
-                    feedbackText = "You failed to complete the#task in time.";
+                    feedbackText = FileReader.lessonStrings[21];
                     time -= 5;
 
                 }
@@ -67,11 +67,11 @@ public class LessonTypeB extends Lesson {
             case 2:
                 if (!reread) {
                     reread = true;
-                    feedbackText = "You reread the#instructions... Your#understanding has improved!";
+                    feedbackText = FileReader.lessonStrings[22];
                     time -= 5;
                 }
                 else {
-                    feedbackText = "You've already reread#the instructions!";
+                    feedbackText = FileReader.lessonStrings[23];
                 }
                 break;
         }
@@ -79,14 +79,12 @@ public class LessonTypeB extends Lesson {
         if (time == 0 || tasksLeft == 0) {
             if (tasksLeft == 0) {
                 GameAudio.playSfx(GameAudio.sfx_item);
-                feedbackText = "You finished every task#and made an item!";
-                if (id == 1){
-                    if (GAME.items[1][3] > 0) { GAME.items[id][2]++; }
-                    else { GAME.items[1][grade - 1]++;}
-                } else { GAME.items[2][grade - 1]++; }
+                feedbackText = FileReader.lessonStrings[24];
+                if (GAME.items[id][3] > 0) { GAME.items[id][2]++; }
+                else { GAME.items[id][grade - 1]++;}
             }
-            else { feedbackText = "You're out of time!"; }
-            feedbackText += "#You got a score of "+(int)((score / rounds) * 100) + "!";
+            else { feedbackText = FileReader.lessonStrings[25]; }
+            feedbackText += FileReader.lessonStrings[6] +(int)((score / rounds) * 100) + "!";
             finished = true;
         }
     }
@@ -95,52 +93,52 @@ public class LessonTypeB extends Lesson {
         switch (questionId) {
             case 0:
                 if (meticulous) {
-                    feedbackText = "You completed the task to#an excellent standard!";
+                    feedbackText = FileReader.lessonStrings[26];
                     return 2;
                 }
                 else {
-                    feedbackText = "You completed the task to#a good standard!";
+                    feedbackText = FileReader.lessonStrings[27];
                     return 1;
                 }
             case 1:
                 if (meticulous) {
                     if (reread) {
-                        feedbackText = "You completed the task to#an excellent standard!";
+                        feedbackText = FileReader.lessonStrings[26];
                         return 2;
                     }
                     else {
-                        feedbackText = "You completed the task to#a good standard!";
+                        feedbackText = FileReader.lessonStrings[27];
                         return 1;
                     }
                 }
                 else {
                     if (reread) {
-                        feedbackText = "You completed the task to a#good standard!";
+                        feedbackText = FileReader.lessonStrings[27];
                         return 1;
                     }
                     else {
-                        feedbackText = "You completed the task to a#satisfactory standard.";
+                        feedbackText = FileReader.lessonStrings[28];
                         return 0.5;
                     }
                 }
             case 2:
                 if (meticulous) {
                     if (reread) {
-                        feedbackText = "You completed the task to a#good standard!";
+                        feedbackText = FileReader.lessonStrings[27];
                         return 2;
                     }
                     else {
-                        feedbackText = "You completed the task to a#satisfactory standard.";
+                        feedbackText = FileReader.lessonStrings[28];
                         return 1;
                     }
                 }
                 else {
                     if (reread) {
-                        feedbackText = "You completed the task to a#satisfactory standard.";
+                        feedbackText = FileReader.lessonStrings[28];
                         return 0.5;
                     }
                     else {
-                        feedbackText = "You didn't complete the#task.";
+                        feedbackText = FileReader.lessonStrings[29];
                         return 0;
                     }
                 }

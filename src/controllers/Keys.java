@@ -61,6 +61,12 @@ public class Keys extends KeyAdapter implements Controller {
             case KeyEvent.VK_3:
                 GAME.time = 2;
                 break;
+            case KeyEvent.VK_9:
+                GAME.startHeist(true);
+                break;
+            case KeyEvent.VK_8:
+                GAME.time = 11;
+                break;
         }
     }
 

@@ -1,5 +1,6 @@
 package lessons;
 
+import utilities.FileReader;
 import utilities.GameAudio;
 import utilities.Menu;
 
@@ -51,16 +52,16 @@ public class LessonTypeA extends Lesson {
                 questionId = generateQuestion(id, lv1, lv2);
                 if (questionsLeft == 0) {
                     finished = true;
-                    feedbackText = "The lesson is over!#You got a score of " + (int)((score / rounds) * 100) + "!";
+                    feedbackText = FileReader.lessonStrings[5] + FileReader.lessonStrings[6] + (int)((score / rounds) * 100) + "!";
                 }
                 break;
             case 1:
                 if (attentionSpan > 0) {
                     attentionSpan--;
                     concentration++;
-                    feedbackText = "You stop and think...#Your concentration has#improved!";
+                    feedbackText = FileReader.lessonStrings[7];
                 }
-                else { feedbackText = "You struggle to#concentrate!"; }
+                else { feedbackText = FileReader.lessonStrings[8]; }
                 break;
             case 2:
                 if (GAME.items[0][0] > 0) {
@@ -68,9 +69,9 @@ public class LessonTypeA extends Lesson {
                     attentionSpan++;
                     concentration++;
                     GAME.items[0][0]--;
-                    feedbackText = "You drink a powerful energy#drink...#Your attention and#concentration has improved!";
+                    feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[10];
                 }
-                else { feedbackText = "You're out of energy#drinks!"; }
+                else { feedbackText = FileReader.lessonStrings[11]; }
                 break;
             case 3:
                 if (!toilet && questionsLeft > 1) {
@@ -80,10 +81,10 @@ public class LessonTypeA extends Lesson {
                     toilet = true;
                     questionId = generateQuestion(id, lv1, lv2);
                     questionsLeft--;
-                    feedbackText = "You take a break... Your#attention has improved!#...However, you missed the#last question!";
+                    feedbackText = FileReader.lessonStrings[12];
                 }
-                else if (toilet){ feedbackText = "You've already been to the#toilet! The teacher won't#let you go again."; }
-                else { feedbackText = "You don't have time to go#to the toilet!";}
+                else if (toilet){ feedbackText = FileReader.lessonStrings[13]; }
+                else { feedbackText = FileReader.lessonStrings[14];}
                 break;
         }
         feedback = true;
@@ -93,37 +94,37 @@ public class LessonTypeA extends Lesson {
         switch (questionId) {
             case 0:
                 if (concentration > 0) {
-                    feedbackText = "You have a good feeling#about your answer...";
+                    feedbackText = FileReader.lessonStrings[15];
                     return 1;
                 }
                 else {
-                    feedbackText = "You're not very confident#with your answer...";
+                    feedbackText = FileReader.lessonStrings[17];
                     return 0;
                 }
             case 1:
                 if (concentration == 2) {
-                    feedbackText = "You think you did ok...";
+                    feedbackText = FileReader.lessonStrings[16];
                     return 0.5;
                 }
                 else if (concentration > 2) {
-                    feedbackText = "You have a good feeling#about your answer...";
+                    feedbackText = FileReader.lessonStrings[15];
                     return 1;
                 }
                 else {
-                    feedbackText = "You're not very confident#with your answer...";
+                    feedbackText = FileReader.lessonStrings[17];
                     return 0;
                 }
             case 2:
                 if (concentration == 3) {
-                    feedbackText = "You think you did ok...";
+                    feedbackText = FileReader.lessonStrings[16];
                     return 0.5;
                 }
                 else if (concentration > 3) {
-                    feedbackText = "You have a good feeling#about your answer...";
+                    feedbackText = FileReader.lessonStrings[15];
                     return 1;
                 }
                 else {
-                    feedbackText = "You're not very confident#with your answer...";
+                    feedbackText = FileReader.lessonStrings[17];
                     return 0;
                 }
         }

@@ -139,6 +139,18 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(1, 4), new TextBox(3, FileReader.interactiveStrings[25]));
                 points.put(new Point(4, 2), new TextBox(0, FileReader.interactiveStrings[26]));
                 points.put(new Point(6, 1), new TextBox(0, FileReader.interactiveStrings[27]));
+                break;
+            case 8:
+                points.put(new Point(5, 1), new TextBox(0, FileReader.interactiveStrings[28]));
+                points.put(new Point(6, 2), new TextBox(3, FileReader.interactiveStrings[29]));
+                points.put(new Point(13, 8), new TextBox(0, FileReader.interactiveStrings[30]));
+                points.put(new Point(1, 2), new TextBox(0, FileReader.interactiveStrings[31]));
+                points.put(new Point(2, 2), new TextBox(0, FileReader.interactiveStrings[31]));
+                points.put(new Point(14, 8), new TextBox(0, FileReader.interactiveStrings[31]));
+                points.put(new Point(7, 13), new TextBox(0, FileReader.interactiveStrings[32]));
+                points.put(new Point(5, 13), new TextBox(0, FileReader.interactiveStrings[33]));
+                points.put(new Point(6, 13), new TextBox(0, FileReader.interactiveStrings[34]));
+                points.put(new Point(2, 7), new TextBox(0, FileReader.interactiveStrings[35]));
         }
         return points;
 

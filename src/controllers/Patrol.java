@@ -27,10 +27,12 @@ public class Patrol implements Controller {
     public Action action() {
         Point point = points[index];
         if (object.y != point.y) {
+            action.stop = false;
             if (object.y > point.y) { action.direction = 0; }
             else { action.direction = 1; }
         }
         else if (object.x != point.x){
+            action.stop = false;
             if (object.x > point.x) { action.direction = 2; }
             else { action.direction = 3; }
         }
@@ -40,19 +42,10 @@ public class Patrol implements Controller {
             action.direction = directions[(int) step % 4];
             if (step == 4) {
                 step = 0;
-                action.stop = false;
-                if (goBack) { index--;}
-                else { index++; }
+                index++;
             }
         }
-        if (goBack && index == -1) {
-            goBack = false;
-            index = 1;
-        }
-        if (!goBack && index == points.length) {
-            goBack = true;
-            index = points.length - 2;
-        }
+        if (index == points.length) { index = 0; }
         return action;
     }
 

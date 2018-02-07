@@ -3,15 +3,14 @@ package game;
 import controllers.Keys;
 import lessons.Lesson;
 import objects.GameObject;
-import objects.NPC;
 import objects.Player;
 import utilities.*;
 import utilities.Menu;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,15 +39,14 @@ public class Game {
     public GameObject[][] objectMatrix;
     public int[] friendValues, gradeValues;
     public int[][] items;
-    public boolean transition, isNewGame, isNewDay, isAfterActivity, givenDrink, fullScreen, isTitle = true;
+    public boolean transition, isNewGame, isNewDay, isAfterActivity, givenDrink, isSpotted, fullScreen, isTitle = true;
     public long transitionTime;
     public String newDayText;
     public Clip music;
 
     public static int height, width, cameraHeight, cameraWidth;
 
-    public final static String[] TIME_PERIODS = new String[] { "MORNING", "LUNCH", "AFT SCH", "DT", "FOOD", "PE", "CHEM", "ICT", "NIGHT", "ACTIVITY" },
-            CONDITIONS = new String[] { "NORMAL", "GREAT", "UNWELL"};
+    public static String[] timePeriods, conditions;
 
     private Game() {
         objects = new ArrayList<>();
@@ -68,8 +66,6 @@ public class Game {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-
-
 
     public void update() {
         tileMatrix = new char[map.matrix.size()][map.matrix.get(0).size()];
@@ -111,13 +107,14 @@ public class Game {
             tileMatrix[object.y][object.x] = object.tile.key;
             objectMatrix[object.y][object.x]  = object;
         }
-        for (GameObject object : objects) { object.update(); }
+        for (GameObject object : objects) {  object.update();  }
         camera.update();
         if (transition && System.currentTimeMillis() - transitionTime > 1000 / 5) { transition = false; }
 
         synchronized (Game.class) {
             objects.clear();
-            objects.addAll(TileMapLoader.tileMaps.get(map.currentId).NPCs.get(time));
+            try { objects.addAll(TileMapLoader.tileMaps.get(map.currentId).NPCs.get(time)); }
+            catch (NullPointerException e) {}
             objects.add(GAME.player);
         }
     }
@@ -136,17 +133,11 @@ public class Game {
         return false;
     }
 
-    public boolean hasStinkBomb() {
-        return items[0][1] == 0;
-    }
+    public boolean hasStinkBomb() { return items[0][1] > 0; }
 
-    public boolean hasLockPick() {
-        return items[1][4] == 0;
-    }
+    public boolean hasLockPick() { return items[1][4] > 0; }
 
-    public boolean hasSuperCake() {
-        return items[2][4] == 0;
-    }
+    public boolean hasSuperCake() { return items[2][4] > 0; }
 
     public void doTransition() {
         transition = true;
@@ -193,6 +184,17 @@ public class Game {
             player.setLocation(6, 2);
             player.rotate(1);
             player.condition = 0;
+        }
+        textBox = null;
+        menu = null;
+    }
+
+    public void startHeist(boolean yes) {
+        if (yes) {
+            GameAudio.playSfx(GameAudio.sfx_click);
+            GameAudio.playSfx(GameAudio.sfx_paAnnouncement);
+            time = 10;
+            GameAudio.startMusic(GameAudio.music_heist);
         }
         textBox = null;
         menu = null;
@@ -311,6 +313,8 @@ public class Game {
         GameFont.loadFont();
         GAME.titleScreen = new TitleScreen();
         GAME.createFrame();
+        timePeriods = Arrays.copyOf(FileReader.statusStrings, 12);
+        conditions = Arrays.copyOfRange(FileReader.statusStrings, 12, 14);
 
         GameAudio.startMusic(GameAudio.music_title);
 

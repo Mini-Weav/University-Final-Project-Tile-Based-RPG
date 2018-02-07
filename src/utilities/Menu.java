@@ -1,6 +1,5 @@
 package utilities;
 
-import game.Constants;
 import game.Game;
 
 import javax.imageio.ImageIO;
@@ -38,66 +37,66 @@ public class Menu {
         switch (id) {
             case 0:
                 img = imgs[0];
-                text = "GRADES\nFRIENDS\nMAP\nITEMS";
+                text = FileReader.menuStrings[0];
                 break;
             case 1:
                 img = imgs[1];
                 loadMapImage(GAME.map.minimapId);
-                text = "G\n1F";
+                text = FileReader.menuStrings[1];
                 break;
             case 2:
                 img = imgs[2];
-                text = "ATHLETE\nCLASSMATE\nNERD\nDELINQUENT\nTUTEE";
+                text = FileReader.menuStrings[2];
                 break;
             case 3:
             case 15:
                 img = imgs[2];
-                text = "DT\nFOOD TECH\nPE\nCHEMISTRY\nICT";
+                text = FileReader.menuStrings[3];
                 break;
             case 4:
                 img = imgs[3];
-                text =    "ENERGY DRINK ×" + GAME.items[0][0] + "\nSTINK BOMB   ×" + GAME.items[0][1] +
-                        "\nD GRADE CRAFT×" + GAME.items[1][0] + "\nC GRADE CRAFT×" + GAME.items[1][1] +
-                        "\nB GRADE CRAFT×" + GAME.items[1][2] + "\nSUPER KEY    ×" + GAME.items[1][3] +
-                        "\nD GRADE FOOD ×" + GAME.items[2][0] + "\nC GRADE FOOD ×" + GAME.items[2][1] +
-                        "\nB GRADE FOOD ×" + GAME.items[2][2] + "\nSUPER CAKE   ×" + GAME.items[2][3];
+                text =    FileReader.menuStrings[4] + GAME.items[0][0] + FileReader.menuStrings[5] + GAME.items[0][1] +
+                        FileReader.menuStrings[6] + GAME.items[1][0] + FileReader.menuStrings[7] + GAME.items[1][1] +
+                        FileReader.menuStrings[8] + GAME.items[1][2] + FileReader.menuStrings[9] + GAME.items[1][3] +
+                        FileReader.menuStrings[10] + GAME.items[2][0] + FileReader.menuStrings[11] + GAME.items[2][1] +
+                        FileReader.menuStrings[12] + GAME.items[2][2] + FileReader.menuStrings[13] + GAME.items[2][3];
                 break;
             case 5:
             case 13:
             case 14:
                 img = imgs[1];
-                text = "YES\nNO";
+                text = FileReader.menuStrings[14];
                 break;
             case 6:
                 img = imgs[4];
-                text =    "D GRADE FOOD  ×" + GAME.items[2][0] + "\nC GRADE FOOD  ×" + GAME.items[2][1] +
-                        "\nB GRADE FOOD  ×" + GAME.items[2][2] + "\nSUPER CAKE    ×" + GAME.items[2][3] +
-                        "\nNEVER MIND";
+                text =    FileReader.menuStrings[15] + GAME.items[2][0] + FileReader.menuStrings[11] + GAME.items[2][1] +
+                        FileReader.menuStrings[12] + GAME.items[2][2] + FileReader.menuStrings[13] + GAME.items[2][3] +
+                        FileReader.menuStrings[17];
                 break;
             case 7:
                 img = imgs[5];
-                text =    "D GRADE CRAFT ×" + GAME.items[1][0] + "\nC GRADE CRAFT ×" + GAME.items[1][1] +
-                        "\nB GRADE CRAFT ×" + GAME.items[1][2] + "\nNEVER MIND";
+                text =    FileReader.menuStrings[16] + GAME.items[1][0] + FileReader.menuStrings[7] + GAME.items[1][1] +
+                        FileReader.menuStrings[8] + GAME.items[1][2] + FileReader.menuStrings[17];
                 break;
             case 8:
                 img = imgs[0];
-                text = "ANSWER\nTHINK\nDRINK\nTOILET";
+                text = FileReader.menuStrings[18];
                 break;
             case 9:
                 img = imgs[6];
-                text = "DO TASK\nDO TASK+\nREREAD";
+                text = FileReader.menuStrings[19];
                 break;
             case 10:
                 img = imgs[6];
-                text = "WARM UP\nSTART\nDRINK";
+                text = FileReader.menuStrings[20];
                 break;
             case 11:
                 img = imgs[8];
-                text = "JOG\nRUN\nSPRINT\nREST\nDRINK";
+                text = FileReader.menuStrings[21];
                 break;
             case 12:
                 img = imgs[9];
-                text = "NEW GAME\nCONTINUE\nQUIT";
+                text = FileReader.menuStrings[22];
                 break;
         }
     }
@@ -128,19 +127,19 @@ public class Menu {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (id) {
             case 0:
-                gradeText = "DT";
+                gradeText = FileReader.menuStrings[23];
                 break;
             case 1:
-                gradeText = "Food Tech";
+                gradeText = FileReader.menuStrings[24];
                 break;
             case 2:
-                gradeText = "PE";
+                gradeText = FileReader.menuStrings[25];
                 break;
             case 3:
-                gradeText = "Chemistry";
+                gradeText = FileReader.menuStrings[26];
                 break;
             case 4:
-                gradeText = "ICT";
+                gradeText = FileReader.menuStrings[27];
                 break;
         }
 
@@ -150,10 +149,10 @@ public class Menu {
 
     public static void setFriendValue(int index) {
         int fp = GAME.friendValues[index];
-        if (fp == 0) { friendText = "Don't know"; }
-        if (fp > 0) { friendText = "Acquaintance"; }
-        if (fp > 10) { friendText = "Friend"; }
-        if (fp > 20) { friendText = "Good friend"; }
+        if (fp == 0) { friendText = FileReader.menuStrings[28]; }
+        if (fp > 0) { friendText = FileReader.menuStrings[29]; }
+        if (fp > 10) { friendText = FileReader.menuStrings[30]; }
+        if (fp > 20) { friendText = FileReader.menuStrings[31]; }
     }
 
     public static void setGradeValue(int index) {
@@ -238,7 +237,7 @@ public class Menu {
                 img.getWidth() * 2, img.getHeight() * 2, null);
         g.setFont(GameFont.bigFont);
         int lineIndex = 0;
-        for (String line : text.split("\n")) {
+        for (String line : text.split("#")) {
             g.drawString(line, Game.width - ((img.getWidth() * 2)), 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
             lineIndex++;
         }

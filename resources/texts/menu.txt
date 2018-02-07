@@ -1,0 +1,50 @@
+GRADES#FRIENDS#MAP#ITEMS
+G#1F
+ATHLETE#CLASSMATE#NERD#DELINQUENT#TUTEE
+DT#FOOD TECH#PE#CHEMISTRY#ICT
+ENERGY DRINK ×
+#STINK BOMB   ×
+#D GRADE CRAFT×
+#C GRADE CRAFT×
+#B GRADE CRAFT×
+#SUPER KEY    ×
+#D GRADE FOOD ×
+#C GRADE FOOD ×
+#B GRADE FOOD ×
+#SUPER CAKE   ×
+YES#NO
+D GRADE FOOD  ×
+D GRADE CRAFT ×
+#NEVER MIND
+ANSWER#THINK#DRINK#TOILET
+DO TASK#DO TASK+#REREAD
+WARM UP#START#DRINK
+JOG#RUN#SPRINT#REST#DRINK
+NEW GAME#CONTINUE#QUIT
+DT
+Food Tech
+PE
+Chemistry
+ICT
+Don't know
+Acquaintance
+Friend
+Good friend
+DAY 
+TASKS:        
+#TIME:         
+#REREAD:    
+LAPS:       
+#DRINKS:       
+#ENERGY:       
+QUESTIONS:    
+#ATTENTION:    
+#CONCENTRATION:
+You have an item you can#give to 
+Should I attend 
+Should I eat lunch?
+The lunch is good! You feel #recharged and ready for the #next class!
+The lunch is bad! You don't #feel very well...
+I need to go to the#staffroom!
+Should I go home for today?
+School isn't over yet!

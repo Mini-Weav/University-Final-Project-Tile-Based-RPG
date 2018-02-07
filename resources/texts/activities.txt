@@ -1,0 +1,7 @@
+Your friendship with Jack#increases as you attend#track club.
+Your friendship with#Alexander increases as you#attend chemistry club.
+Your friendship with#Frankie increases as you#tutor her in ICT.
+Track club has finished!#You say goodbye to Jack and#go home.
+You finish your experiment#with Alexander and go home.
+Your tutoring time is over!#You say goodbye to Frankie#and go home.
+You and Alexander made a#potent stink bomb!

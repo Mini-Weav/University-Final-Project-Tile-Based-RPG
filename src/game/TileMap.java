@@ -25,7 +25,7 @@ public class TileMap {
     public HashMap<Point, Pair<Integer, Point>> doorPoints;
     public HashMap<Point, TextBox> interactivePoints;
     public Point iconPoint;
-    public List<List<NPC>> NPCs;
+    public Map<Integer, List<NPC>> NPCs;
 
     public TileMap(int id, int tileSetID, String txtFile, String tileFile, int minimapId, int x, int y) {
         this.id = id;

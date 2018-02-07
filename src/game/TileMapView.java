@@ -376,6 +376,12 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                             }
                                             break;
                                     }
+                                case 8:
+                                    switch (dirTile.key) {
+                                        case 'C':
+                                            GAME.player.hack();
+                                            break;
+                                    }
                             }
                         }
                         if (curX > Game.width - 76 && curX < Game.width - 42

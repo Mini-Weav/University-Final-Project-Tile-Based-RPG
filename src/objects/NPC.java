@@ -23,6 +23,7 @@ import static game.Game.GAME;
  */
 public class NPC extends GameObject{
     public int id, defaultDirection, defaultX, defaultY;
+    public boolean hostile;
     public String name;
 
     public static TreeMap<Integer, List<Tile>> tiles = new TreeMap<>();
@@ -61,7 +62,7 @@ public class NPC extends GameObject{
     }
 
 
-    public NPC(int x, int y, int id, int direction, Controller ctrl) {
+    public NPC(int x, int y, int id, int direction, boolean hostile, Controller ctrl) {
         super(tiles.get(id).get(direction), x, y);
         defaultDirection = direction;
         defaultX = x;
@@ -69,12 +70,13 @@ public class NPC extends GameObject{
         this.id = id;
         name = names[id];
         setSprites(id);
+        this.hostile = hostile;
         this.ctrl = ctrl;
         if (ctrl instanceof Patrol) { ((Patrol) ctrl).object = this; }
         flip = true;
     }
 
-    public NPC(int x, int y, int id, int subId, int direction, Controller ctrl) {
+    public NPC(int x, int y, int id, int subId, int direction, boolean hostile, Controller ctrl) {
         super(tiles.get(id).get(direction), x, y);
         defaultDirection = direction;
         defaultX = x;
@@ -82,6 +84,7 @@ public class NPC extends GameObject{
         this.id = id + subId;
         name = "";
         setSprites(id);
+        this.hostile = hostile;
         this.ctrl = ctrl;
         if (ctrl instanceof Patrol) { ((Patrol) ctrl).object = this; }
         flip = true;
@@ -106,17 +109,17 @@ public class NPC extends GameObject{
                 break;
             case 1:
                 if (GAME.hasFood() && GAME.friendValues[id] > 0) {
-                    GAME.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
+                    GAME.textBox = new TextBox(3, FileReader.menuStrings[42] + name + ".");
                     GAME.menu = new Menu(5);
                 }
                 else { friendTextBox(); }
                 break;
             case 3:
                 if (GAME.hasCraft() && GAME.friendValues[id] > 0) {
-                    GAME.textBox = new TextBox(3, "You have an item you can#give to " + name + ".");
+                    GAME.textBox = new TextBox(3, FileReader.menuStrings[42] + name + ".");
                     GAME.menu = new Menu(5);
                 }
-                else if (GAME.friendValues[id] >= 30 && !GAME.givenDrink) {
+                else if (GAME.friendValues[id] >= 20 && !GAME.givenDrink) {
                     freeDrink();
                 }
                 else { friendTextBox(); }
@@ -126,12 +129,12 @@ public class NPC extends GameObject{
             case 7:
             case 8:
             case 9:
-                GAME.textBox = new TextBox(3, "Should I attend " + lessons[id - 5] + "?");
+                GAME.textBox = new TextBox(3, FileReader.menuStrings[43] + lessons[id - 5] + "?");
                 GAME.menu = new Menu(5);
                 break;
             case 30:
                 if (GAME.player.condition == 0 && time == 1) {
-                    GAME.textBox = new TextBox(3, "Should I eat lunch?");
+                    GAME.textBox = new TextBox(3, FileReader.menuStrings[44]);
                     GAME.menu = new Menu(5);
                 }
                 else { GAME.textBox = new TextBox(NPC.text.get(id)[time], this, true); }
@@ -199,11 +202,11 @@ public class NPC extends GameObject{
             if (r < 0.7) {
                 GameAudio.playSfx(GameAudio.sfx_buff);
                 GAME.player.condition = 1;
-                GAME.textBox = new TextBox(0, "The lunch is good! You feel #recharged and ready for the #next class!");
+                GAME.textBox = new TextBox(0, FileReader.menuStrings[45]);
             } else {
                 GameAudio.playSfx(GameAudio.sfx_debuff);
                 GAME.player.condition = 2;
-                GAME.textBox = new TextBox(0, "The lunch is bad! You don't #feel very well...");
+                GAME.textBox = new TextBox(0, FileReader.menuStrings[46]);
             }
         }
         else { GAME.textBox = null; }
@@ -378,11 +381,80 @@ public class NPC extends GameObject{
             GAME.textBox = null;
             GAME.menu = null;
         }
+    }
 
+    public void lookForPlayer(int direction) {
+        boolean clearPath = false;
+        switch (direction) {
+            case 0:
+                if (y - 1 == GAME.player.y && x == GAME.player.x) { spotted = true; }
+                else {
+                    for (int i = y - 1; i > GAME.player.y; i--) {
+                        if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
+                        if (i == GAME.player.y + 1) { clearPath = true; }
+                    }
+                }
+                if (clearPath && GAME.player.x == x && Math.abs(y - GAME.player.y) < 8) {
+                    GAME.player.spotted = true;
+                    spotted = true;
+                    ctrl = null;
+                }
+                break;
+            case 1:
+                if (y + 1 == GAME.player.y && x == GAME.player.x) { spotted = true; }
+                else {
+                    for (int i = y + 1; i < GAME.player.y; i++) {
+                        if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
+                        if (i == GAME.player.y - 1) { clearPath = true; }
+                    }
+                }
+                if (clearPath && GAME.player.x == x && Math.abs(y - GAME.player.y) < 8) {
+                    GAME.player.spotted = true;
+                    spotted = true;
+                    ctrl = null;
+                }
+                break;
+            case 2:
+                if (x - 1 == GAME.player.x && y == GAME.player.y) { spotted = true; }
+                else {
+                    for (int i = x - 1; i > GAME.player.x; i--) {
+                        if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
+                        if (i == GAME.player.x + 1) { clearPath = true; }
+                    }
+                }
+                if (clearPath && GAME.player.y == y && Math.abs(x - GAME.player.x) < 8) {
+                    GAME.player.spotted = true;
+                    spotted = true;
+                    ctrl = null;
+                }
+                break;
+            case 3:
+                if (x + 1 == GAME.player.x && y == GAME.player.y) { spotted = true; }
+                else {
+                    for (int i = x + 1; i < GAME.player.x; i++) {
+                        if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
+                        if (i == GAME.player.x - 1) { clearPath = true; }
+                    }
+                }
+                if (clearPath && GAME.player.y == y && Math.abs(x - GAME.player.x) < 8) {
+                    GAME.player.spotted = true;
+                    spotted = true;
+                    ctrl = null;
+                }
+                break;
+        }
+    }
+
+    public void walkToPlayer() {
+        if (y < GAME.player.y - 1) { down = true; }
+        else if (y > GAME.player.y + 1) { up = true; }
+        else if (x < GAME.player.x - 1) { right = true; }
+        else if (x > GAME.player.x + 1) { left = true; }
+        move();
     }
 
     public void update() {
-        inPlay = !GAME.transition && GAME.textBox == null && GAME.menu == null;
+        inPlay = !GAME.transition && GAME.textBox == null && GAME.menu == null && (!GAME.isSpotted && !spotted);
         moving = up || down || left || right;
         if (ctrl != null && inPlay) {
             Action action = ctrl.action();
@@ -408,7 +480,28 @@ public class NPC extends GameObject{
                         !TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]).collision &&
                         !(TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]) instanceof DoorTile)){ right = true; }
             }
+            if (hostile) { lookForPlayer(action.direction); }
             move();
+        }
+        if (ctrl == null && hostile) {
+            switch (defaultDirection) {
+                case 0:
+                    lookForPlayer(1);
+                    break;
+                case 3:
+                    lookForPlayer(3);
+                    break;
+                case 5:
+                    lookForPlayer(0);
+                    break;
+                case 8:
+                    lookForPlayer(2);
+                    break;
+            }
+        }
+        if (spotted) {
+            ctrl = null;
+            walkToPlayer();
         }
     }
 

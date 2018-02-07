@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Created by lmweav on 29/11/2017.
  */
 public class FileReader {
-    public static String[] interactiveStrings, npcStrings, newDayStrings, activityStrings,
+    public static String[] interactiveStrings, npcStrings, newDayStrings, activityStrings, lessonStrings, menuStrings, statusStrings,
             jackStrings = new String[3], emilyStrings = new String[3], alexanderStrings = new String[3],
             nathanStrings = new String[3], frankieStrings = new String[3], boyStrings = new String[5],
             girlStrings = new String[5], lunchStrings = new String[3];
@@ -49,5 +49,8 @@ public class FileReader {
         System.arraycopy(npcStrings, 32, lunchStrings, 0, 3);
         newDayStrings = readFile("new_day_feedback");
         activityStrings = readFile("activities");
+        lessonStrings = readFile("lessons");
+        menuStrings = readFile("menu");
+        statusStrings = readFile("status");
     }
 }

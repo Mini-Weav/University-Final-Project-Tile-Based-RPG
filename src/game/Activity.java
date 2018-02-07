@@ -3,6 +3,7 @@ package game;
 
 import objects.NPC;
 import utilities.FileReader;
+import utilities.GameAudio;
 import utilities.TextBox;
 import utilities.TileMapLoader;
 
@@ -18,18 +19,21 @@ public class Activity {
 
     public Activity(int id) {
         this.id = id;
-        duringText = FileReader.activityStrings[id];
+
         if (id == 1 && GAME.gradeValues[3] >= 30 && GAME.items[0][1] == 0) {
-            afterText = FileReader.activityStrings[6];
+            duringText = FileReader.activityStrings[6];
             GAME.items[0][1] = 1;
+            GameAudio.playSfx(GameAudio.sfx_item);
         }
-        else { afterText = FileReader.activityStrings[id + 3]; }
+        else { duringText = FileReader.activityStrings[id]; }
+        afterText = FileReader.activityStrings[id + 3];
         started = false;
     }
 
     public static void startActivity(int id) {
         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
-        for (NPC npc : currentMap.NPCs.get(GAME.time)) { npc.reset(); }
+        try { for (NPC npc : currentMap.NPCs.get(GAME.time)) { npc.reset(); } }
+        catch (NullPointerException e) {}
         GAME.time = 9;
         GAME.activity = new Activity(id);
         GAME.menu = null;

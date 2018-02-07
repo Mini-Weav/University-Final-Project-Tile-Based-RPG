@@ -120,11 +120,13 @@ public class Player extends GameObject {
         Point doorPoints = TileMapLoader.tileMaps.get(GAME.map.currentId).doorPoints.get(new Point(x, y)).s;
 
         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
-        for (NPC npc : currentMap.NPCs.get(GAME.time)) { npc.reset(); }
+        try { for (NPC npc : currentMap.NPCs.get(GAME.time)) { npc.reset(); } }
+        catch (NullPointerException e) {}
         int nextId = currentMap.doorPoints.get(new Point(x, y)).t;
         GAME.map.loadMap(TileMapLoader.tileMaps.get(nextId));
 
         setLocation(doorPoints.x, doorPoints.y);
+        direction.setLocation(x, y - 1);
     }
 
     public void setLocation(int x, int y) {
@@ -162,8 +164,49 @@ public class Player extends GameObject {
         }
     }
 
+    public void hack() {
+
+    }
+
+    public void door() {
+        char key = TileMapView.tiles.get(GAME.tileMatrix[y][x]).key;
+        if (GAME.time == 10 && key != '$' && key != ' ' && key != '^' && key != 'v') {
+            if (key == '£') {
+                y--;
+                gY -= 8;
+                GAME.camera.y--;
+                GAME.camera.gY -= 8;
+            }
+            else {
+                y++;
+                gY += 8;
+                GAME.camera.y++;
+                GAME.camera.gY += 8;
+            }
+            GAME.textBox = new TextBox(0, FileReader.menuStrings[47]);
+        }
+        else if (key == '£') {
+            y--;
+            gY -= 8;
+            GAME.camera.y--;
+            GAME.camera.gY -= 8;
+            if (GAME.time == 2) {
+                GAME.textBox = new TextBox(3, FileReader.menuStrings[48]);
+                GAME.menu = new utilities.Menu(13);
+            }
+            else { GAME.textBox = new TextBox(0, FileReader.menuStrings[49]); }
+        }
+        else if (GAME.time != 10 && key == '$') {
+            y++;
+            gY += 8;
+            GAME.camera.y++;
+            GAME.camera.gY += 8;
+        }
+        else { transition(); }
+    }
+
     public void update() {
-        inPlay = !GAME.transition && GAME.textBox == null && GAME.menu == null;
+        inPlay = !GAME.transition && GAME.textBox == null && GAME.menu == null && !spotted;
         moving = up || down || left || right;
         Action action = ctrl.action();
 
@@ -241,20 +284,7 @@ public class Player extends GameObject {
             if (action.direction >= 0) { rotate(action.direction); }
         }
 
-        if (TileMapView.tiles.get(GAME.tileMatrix[y][x]) instanceof DoorTile) {
-            if (TileMapView.tiles.get(GAME.tileMatrix[y][x]).key == '£') {
-                y--;
-                gY -= 8;
-                GAME.camera.y--;
-                GAME.camera.gY -= 8;
-                if (GAME.time == 2) {
-                    GAME.textBox = new TextBox(3, "Should I go home for today?");
-                    GAME.menu = new utilities.Menu(13);
-                }
-                else { GAME.textBox = new TextBox(0, "School isn't over yet!"); }
-            }
-            else { transition(); }
-        }
+        if (TileMapView.tiles.get(GAME.tileMatrix[y][x]) instanceof DoorTile) { door(); }
     }
 
     public void paintComponent(Graphics g) {

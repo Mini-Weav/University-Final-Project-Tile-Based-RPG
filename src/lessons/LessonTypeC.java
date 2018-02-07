@@ -1,7 +1,7 @@
 package lessons;
 
 import objects.GameObject;
-import objects.Player;
+import utilities.FileReader;
 import utilities.GameAudio;
 import utilities.Menu;
 
@@ -26,7 +26,7 @@ public class LessonTypeC extends Lesson {
         }
         time = 60;
         rounds = 10;
-        questionText = "What will you do?";
+        questionText = FileReader.lessonStrings[30];
         rested = false;
 
         GAME.menu = new Menu(10);
@@ -38,12 +38,12 @@ public class LessonTypeC extends Lesson {
             switch (action) {
                 case 0:
                     energy++;
-                    feedbackText = "You warm up...#Your energy has increased!";
+                    feedbackText = FileReader.lessonStrings[31];
                     time -= 5;
                     break;
                 case 1:
                     GAME.doTransition();
-                    feedbackText = "You start running...";
+                    feedbackText = FileReader.lessonStrings[32];
                     GAME.menu = new Menu(11);
                     started = true;
                     break;
@@ -52,9 +52,9 @@ public class LessonTypeC extends Lesson {
                         GameAudio.playSfx(GameAudio.sfx_buff);
                         energy++;
                         GAME.items[0][0]--;
-                        feedbackText = "You drink a powerful energy#drink... Your energy has#increased!";
+                        feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[33];
                     }
-                    else { feedbackText = "You're out of energy#drinks!"; }
+                    else { feedbackText = FileReader.lessonStrings[11]; }
                     break;
             }
         }
@@ -63,7 +63,7 @@ public class LessonTypeC extends Lesson {
                     case 0:
                         laps += 0.25;
                         consecutiveRun = 0;
-                        feedbackText = "You jogged a quarter of a#lap!";
+                        feedbackText = FileReader.lessonStrings[34];
                         time -= 5;
                         rested = false;
                         break;
@@ -71,14 +71,14 @@ public class LessonTypeC extends Lesson {
                         if (energy > 0) {
                             laps += 0.5;
                             energy--;
-                            feedbackText = "You ran half a lap!";
+                            feedbackText = FileReader.lessonStrings[35];
                             if (consecutiveRun > 0) {
                                 bonusScore += consecutiveRun;
-                                feedbackText = "The teacher noticed your#effort... You got extra#credit!";
+                                feedbackText = FileReader.lessonStrings[37] + FileReader.lessonStrings[38];
                             }
                             consecutiveRun++;
                         }
-                        else { feedbackText = "You try to run...#You don't have enough#energy!"; }
+                        else { feedbackText = FileReader.lessonStrings[40] + FileReader.lessonStrings[42]; }
                         time -= 5;
                         rested = false;
                         break;
@@ -86,15 +86,15 @@ public class LessonTypeC extends Lesson {
                         if (energy > 1) {
                             laps++;
                             energy -= 2;
-                            feedbackText = "You sprinted a full lap!";
+                            feedbackText = FileReader.lessonStrings[36];
                             if (consecutiveRun > 0) {
                                 bonusScore += consecutiveRun * 2;
-                                feedbackText = "The teacher noticed your#effort... You got a lot of#extra credit!";
+                                feedbackText = FileReader.lessonStrings[37] + FileReader.lessonStrings[39];
                             }
                             consecutiveRun++;
 
                         }
-                        else { feedbackText = "You try to sprint...#You don't have enough#energy!"; }
+                        else { feedbackText = FileReader.lessonStrings[41] + FileReader.lessonStrings[42]; }
                         time -= 5;
                         rested = false;
                         break;
@@ -102,29 +102,29 @@ public class LessonTypeC extends Lesson {
                         if (!rested) {
                             GameAudio.playSfx(GameAudio.sfx_buff);
                             GAME.doTransition();
-                            feedbackText = "You take a moment to#rest... You've regained#some energy!";
+                            feedbackText = FileReader.lessonStrings[43];
                             energy++;
                             consecutiveRun = 0;
                             time -= 5;
                             rested = true;
-                        } else { feedbackText = "You just rested a#moment ago! Get moving!"; }
+                        } else { feedbackText = FileReader.lessonStrings[44]; }
                         break;
                     case 4:
                         if (GAME.items[0][0] > 0) {
                             GameAudio.playSfx(GameAudio.sfx_buff);
                             energy++;
                             GAME.items[0][0]--;
-                            feedbackText = "You drink a powerful energy#drink... Your energy has#increased!";
+                            feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[33];
                             consecutiveRun = 0;
                         }
-                        else { feedbackText = "You're out of energy#drinks!"; }
+                        else { feedbackText = FileReader.lessonStrings[11]; }
                         break;
             }
         }
         feedback = true;
         if (time == 0) {
             score = (laps + bonusScore) / 2;
-            feedbackText = "The lesson is over!#You got a score of " + ((laps + bonusScore) * 5) + "!";
+            feedbackText = FileReader.lessonStrings[5] + FileReader.lessonStrings[6] + + ((laps + bonusScore) * 5) + "!";
             finished = true;
         }
     }

@@ -38,6 +38,8 @@ public class DoorTile extends Tile {
                 points.put(new Point(9, 13), new Pair<>(0, new Point(9, 18)));
                 points.put(new Point(10, 13), new Pair<>(0, new Point(10, 18)));
                 points.put(new Point(15, 10), new Pair<>(4, new Point(18, 8)));
+                points.put(new Point(9, 1), new Pair<>(8, new Point(14, 16)));
+                points.put(new Point(10, 1), new Pair<>(8, new Point(15, 16)));
                 break;
 
             /*Design Tech Classroom*/
@@ -73,6 +75,11 @@ public class DoorTile extends Tile {
                 points.put(new Point(30, 29), new Pair<>(0, new Point(10, 2)));
                 points.put(new Point(31, 29), new Pair<>(0, new Point(10, 2)));
                 break;
+
+            /*Staffroom*/
+            case 8:
+                points.put(new Point(14, 17), new Pair<>(1, new Point(9, 2)));
+                points.put(new Point(15, 17), new Pair<>(1, new Point(10, 2)));
         }
         return points;
     }
