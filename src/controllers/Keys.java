@@ -1,4 +1,6 @@
 package controllers;
+import game.Emotion;
+import utilities.FileReader;
 import utilities.Menu;
 
 import java.awt.event.KeyAdapter;
@@ -62,10 +64,18 @@ public class Keys extends KeyAdapter implements Controller {
                 GAME.time = 2;
                 break;
             case KeyEvent.VK_9:
-                GAME.startHeist(true);
+                GAME.startHeist();
                 break;
             case KeyEvent.VK_8:
                 GAME.time = 11;
+                break;
+            case KeyEvent.VK_7:
+                GAME.player.emotion = new Emotion(2);
+                break;
+            case KeyEvent.VK_6:
+                GAME.items[0][1] = 1;
+                GAME.items[1][3] = 1;
+                GAME.gradeValues[4] = 30;
                 break;
         }
     }

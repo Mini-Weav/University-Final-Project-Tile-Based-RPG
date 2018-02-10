@@ -114,6 +114,7 @@ public class Player extends GameObject {
     }
 
     public void transition() {
+        if (GAME.hasQuestions() && GAME.time == 11) { GAME.endHeist(0); }
         GAME.doTransition();
         GameAudio.playSfx(GameAudio.sfx_door);
 
@@ -165,17 +166,25 @@ public class Player extends GameObject {
     }
 
     public void hack() {
-
+        GameAudio.playSfx(GameAudio.sfx_pcHack);
+        GAME.gotAnswers = true;
+        GAME.items[0][2] = 1;
+        GAME.time = 11;
+        GAME.menu = null;
     }
 
     public void door() {
         char key = TileMapView.tiles.get(GAME.tileMatrix[y][x]).key;
-        if (GAME.time == 10 && key != '$' && key != ' ' && key != '^' && key != 'v') {
-            if (key == '£') {
+        if (GAME.time == 10 && key != '$' && key != '^' && key != 'v') {
+            if (key == '£' || key == ' ') {
                 y--;
                 gY -= 8;
                 GAME.camera.y--;
                 GAME.camera.gY -= 8;
+                if (key == ' ') {
+                    GAME.textBox = new TextBox(0, FileReader.menuStrings[57]);
+                    return;
+                }
             }
             else {
                 y++;
@@ -206,7 +215,7 @@ public class Player extends GameObject {
     }
 
     public void update() {
-        inPlay = !GAME.transition && GAME.textBox == null && GAME.menu == null && !spotted;
+        inPlay = !GAME.isTransition && GAME.textBox == null && GAME.menu == null && !spotted;
         moving = up || down || left || right;
         Action action = ctrl.action();
 
@@ -285,9 +294,12 @@ public class Player extends GameObject {
         }
 
         if (TileMapView.tiles.get(GAME.tileMatrix[y][x]) instanceof DoorTile) { door(); }
+
+        if (emotion != null) { displayEmotion(); }
     }
 
     public void paintComponent(Graphics g) {
         g.drawImage(tile.img, gX - GAME.camera.gX, gY - GAME.camera.gY, 32, 32, null);
+        if (emotion != null) { emotion.paintComponent(g, this); }
     }
 }

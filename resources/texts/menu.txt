@@ -13,8 +13,8 @@ ENERGY DRINK ×
 #B GRADE FOOD ×
 #SUPER CAKE   ×
 YES#NO
-D GRADE FOOD  ×
-D GRADE CRAFT ×
+D GRADE FOOD ×
+D GRADE CRAFT×
 #NEVER MIND
 ANSWER#THINK#DRINK#TOILET
 DO TASK#DO TASK+#REREAD
@@ -48,3 +48,11 @@ The lunch is bad! You don't #feel very well...
 I need to go to the#staffroom!
 Should I go home for today?
 School isn't over yet!
+The fire bell is ringing!#All the students and#teachers have gone outside!
+I should pull the heist#during the school day...
+Yes!! I found the exam#questions! But the teachers#are back... I need to get#out of here!
+There's no time to look#around, I need to get out of#here!
+Today is my first day at#Brooklands Academy... I#hope it will be okay...
+The teachers caught me in#the act! I'm suspended from#after school activities and#will get a capped exam mark.
+The heist was a success! I#will leak the questions to#my friends.
+I need to look for the exam#questions!

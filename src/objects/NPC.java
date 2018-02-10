@@ -3,16 +3,12 @@ package objects;
 import controllers.Action;
 import controllers.Controller;
 import controllers.Patrol;
-import controllers.RandomMovement;
-import game.Activity;
-import game.Game;
-import game.TileMapView;
+import game.*;
 import lessons.Lesson;
 import utilities.*;
 import utilities.Menu;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 
@@ -104,7 +100,7 @@ public class NPC extends GameObject{
             case 0:
             case 2:
             case 4:
-                if (GAME.time == 2 && GAME.friendValues[id] > 0) { activityTextBox();}
+                if (GAME.time == 2 && GAME.friendValues[id] > 0 && !GAME.isSuspended) { activityTextBox();}
                 else { friendTextBox(); }
                 break;
             case 1:
@@ -129,8 +125,10 @@ public class NPC extends GameObject{
             case 7:
             case 8:
             case 9:
-                GAME.textBox = new TextBox(3, FileReader.menuStrings[43] + lessons[id - 5] + "?");
-                GAME.menu = new Menu(5);
+                if (GAME.time != 11) {
+                    GAME.textBox = new TextBox(3, FileReader.menuStrings[43] + lessons[id - 5] + "?");
+                    GAME.menu = new Menu(5);
+                } else { GAME.isSpotted = true; }
                 break;
             case 30:
                 if (GAME.player.condition == 0 && time == 1) {
@@ -164,22 +162,26 @@ public class NPC extends GameObject{
             case 1:
                 GAME.items[2][index]--;
                 GAME.textBox = new TextBox(text.get(1)[2], this, true);
+                emotion = new Emotion(2);
                 break;
             case 3:
                 GAME.items[1][index]--;
                 GAME.textBox = new TextBox(text.get(3)[2], this, true);
                 GAME.items[0][0]++;
+                GAME.player.emotion = new Emotion(2);
+                emotion = new Emotion(5);
                 GameAudio.playSfx(GameAudio.sfx_item);
         }
         GAME.menu = null;
         GAME.friendValues[id] += (index + 1);
-        GAME.increasePoints(0, id, index + 1);
+        GAME.increaseValues(0, id, index + 1);
     }
 
     public void freeDrink() {
         GAME.textBox = new TextBox(text.get(3)[2], this, true);
         GAME.items[0][0]++;
         GAME.givenDrink = true;
+        GAME.player.emotion = new Emotion(2);
         GameAudio.playSfx(GameAudio.sfx_item);
     }
 
@@ -203,10 +205,12 @@ public class NPC extends GameObject{
                 GameAudio.playSfx(GameAudio.sfx_buff);
                 GAME.player.condition = 1;
                 GAME.textBox = new TextBox(0, FileReader.menuStrings[45]);
+                GAME.player.emotion = new Emotion(2);
             } else {
                 GameAudio.playSfx(GameAudio.sfx_debuff);
                 GAME.player.condition = 2;
                 GAME.textBox = new TextBox(0, FileReader.menuStrings[46]);
+                GAME.player.emotion = new Emotion(3);
             }
         }
         else { GAME.textBox = null; }
@@ -314,7 +318,7 @@ public class NPC extends GameObject{
         if (GAME.friendValues[id] > 0) { fp = 1; }
         else {
             GAME.friendValues[id]++;
-            GAME.increasePoints(0, id, 1);
+            GAME.increaseValues(0, id, 1);
         }
         GAME.textBox = new TextBox(NPC.text.get(id)[fp], this, true);
     }
@@ -351,20 +355,16 @@ public class NPC extends GameObject{
     public void activity(boolean yes) {
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
-            int activityId;
             int gradeId;
             GAME.doTransition();
             switch (id) {
                 case 0:
-                    activityId = 0;
                     gradeId = 2;
                     break;
                 case 2:
-                    activityId = 1;
                     gradeId = 3;
                     break;
                 case 4:
-                    activityId = 2;
                     gradeId = 4;
                     break;
                 default:
@@ -374,8 +374,8 @@ public class NPC extends GameObject{
             }
             int increase = (GAME.gradeValues[gradeId] / 10) + 1;
             GAME.friendValues[id] += increase;
-            GAME.increasePoints(0, id, increase);
-            Activity.startActivity(activityId);
+            GAME.increaseValues(0, id, increase);
+            Activity.startActivity(id);
         }
         else {
             GAME.textBox = null;
@@ -387,7 +387,10 @@ public class NPC extends GameObject{
         boolean clearPath = false;
         switch (direction) {
             case 0:
-                if (y - 1 == GAME.player.y && x == GAME.player.x) { spotted = true; }
+                if (y - 1 == GAME.player.y && x == GAME.player.x) {
+                    spottedPlayer();
+                    return;
+                }
                 else {
                     for (int i = y - 1; i > GAME.player.y; i--) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
@@ -395,13 +398,14 @@ public class NPC extends GameObject{
                     }
                 }
                 if (clearPath && GAME.player.x == x && Math.abs(y - GAME.player.y) < 8) {
-                    GAME.player.spotted = true;
-                    spotted = true;
-                    ctrl = null;
+                    spottedPlayer();
                 }
                 break;
             case 1:
-                if (y + 1 == GAME.player.y && x == GAME.player.x) { spotted = true; }
+                if (y + 1 == GAME.player.y && x == GAME.player.x) {
+                    spottedPlayer();
+                    return;
+                }
                 else {
                     for (int i = y + 1; i < GAME.player.y; i++) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
@@ -409,13 +413,14 @@ public class NPC extends GameObject{
                     }
                 }
                 if (clearPath && GAME.player.x == x && Math.abs(y - GAME.player.y) < 8) {
-                    GAME.player.spotted = true;
-                    spotted = true;
-                    ctrl = null;
+                    spottedPlayer();
                 }
                 break;
             case 2:
-                if (x - 1 == GAME.player.x && y == GAME.player.y) { spotted = true; }
+                if (x - 1 == GAME.player.x && y == GAME.player.y) {
+                    spottedPlayer();
+                    return;
+                }
                 else {
                     for (int i = x - 1; i > GAME.player.x; i--) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
@@ -423,13 +428,14 @@ public class NPC extends GameObject{
                     }
                 }
                 if (clearPath && GAME.player.y == y && Math.abs(x - GAME.player.x) < 8) {
-                    GAME.player.spotted = true;
-                    spotted = true;
-                    ctrl = null;
+                    spottedPlayer();
                 }
                 break;
             case 3:
-                if (x + 1 == GAME.player.x && y == GAME.player.y) { spotted = true; }
+                if (x + 1 == GAME.player.x && y == GAME.player.y) {
+                    spottedPlayer();
+                    return;
+                }
                 else {
                     for (int i = x + 1; i < GAME.player.x; i++) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
@@ -437,9 +443,7 @@ public class NPC extends GameObject{
                     }
                 }
                 if (clearPath && GAME.player.y == y && Math.abs(x - GAME.player.x) < 8) {
-                    GAME.player.spotted = true;
-                    spotted = true;
-                    ctrl = null;
+                    spottedPlayer();
                 }
                 break;
         }
@@ -453,8 +457,16 @@ public class NPC extends GameObject{
         move();
     }
 
+    public void spottedPlayer() {
+        GAME.isSpotted = true;
+        GAME.player.spotted = true;
+        spotted = true;
+        ctrl = null;
+        emotion = new Emotion(0);
+    }
+
     public void update() {
-        inPlay = !GAME.transition && GAME.textBox == null && GAME.menu == null && (!GAME.isSpotted && !spotted);
+        inPlay = !GAME.isTransition && GAME.textBox == null && GAME.menu == null && (!GAME.isSpotted && !spotted) && !GAME.hasLostHeist;
         moving = up || down || left || right;
         if (ctrl != null && inPlay) {
             Action action = ctrl.action();
@@ -483,7 +495,10 @@ public class NPC extends GameObject{
             if (hostile) { lookForPlayer(action.direction); }
             move();
         }
-        if (ctrl == null && hostile) {
+
+        if (emotion != null) { displayEmotion(); }
+
+        if (ctrl == null && hostile && inPlay && !spotted) {
             switch (defaultDirection) {
                 case 0:
                     lookForPlayer(1);
@@ -499,13 +514,19 @@ public class NPC extends GameObject{
                     break;
             }
         }
+
         if (spotted) {
             ctrl = null;
-            walkToPlayer();
+            if (emotion == null) {
+                walkToPlayer();
+                moving = up || down || left || right;
+                if (!moving && !GAME.hasLostHeist && GAME.isSpotted) { GAME.textBox = new TextBox(0, FileReader.npcStrings[35]); }
+            }
         }
     }
 
     public void paintComponent(Graphics g) {
         g.drawImage(tile.img, gX - GAME.camera.gX, gY - GAME.camera.gY, 32, 32, null);
+        if (emotion != null) { emotion.paintComponent(g, this); }
     }
 }

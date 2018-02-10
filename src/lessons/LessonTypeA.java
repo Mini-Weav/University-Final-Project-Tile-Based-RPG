@@ -1,5 +1,6 @@
 package lessons;
 
+import game.Emotion;
 import utilities.FileReader;
 import utilities.GameAudio;
 import utilities.Menu;
@@ -61,7 +62,10 @@ public class LessonTypeA extends Lesson {
                     concentration++;
                     feedbackText = FileReader.lessonStrings[7];
                 }
-                else { feedbackText = FileReader.lessonStrings[8]; }
+                else {
+                    feedbackText = FileReader.lessonStrings[8];
+                    GAME.player.emotion = new Emotion(3);
+                }
                 break;
             case 2:
                 if (GAME.items[0][0] > 0) {
@@ -70,8 +74,12 @@ public class LessonTypeA extends Lesson {
                     concentration++;
                     GAME.items[0][0]--;
                     feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[10];
+                    GAME.player.emotion = new Emotion(5);
                 }
-                else { feedbackText = FileReader.lessonStrings[11]; }
+                else {
+                    feedbackText = FileReader.lessonStrings[11];
+                    GAME.player.emotion = new Emotion(6);
+                }
                 break;
             case 3:
                 if (!toilet && questionsLeft > 1) {
@@ -82,9 +90,16 @@ public class LessonTypeA extends Lesson {
                     questionId = generateQuestion(id, lv1, lv2);
                     questionsLeft--;
                     feedbackText = FileReader.lessonStrings[12];
+                    GAME.player.emotion = new Emotion(5);
                 }
-                else if (toilet){ feedbackText = FileReader.lessonStrings[13]; }
-                else { feedbackText = FileReader.lessonStrings[14];}
+                else if (toilet){
+                    feedbackText = FileReader.lessonStrings[13];
+                    GAME.player.emotion = new Emotion(6);
+                }
+                else {
+                    feedbackText = FileReader.lessonStrings[14];
+                    GAME.player.emotion = new Emotion(6);
+                }
                 break;
         }
         feedback = true;
@@ -95,36 +110,44 @@ public class LessonTypeA extends Lesson {
             case 0:
                 if (concentration > 0) {
                     feedbackText = FileReader.lessonStrings[15];
+                    GAME.player.emotion = new Emotion(2);
                     return 1;
                 }
                 else {
                     feedbackText = FileReader.lessonStrings[17];
+                    GAME.player.emotion = new Emotion(7);
                     return 0;
                 }
             case 1:
                 if (concentration == 2) {
                     feedbackText = FileReader.lessonStrings[16];
+                    GAME.player.emotion = new Emotion(5);
                     return 0.5;
                 }
                 else if (concentration > 2) {
                     feedbackText = FileReader.lessonStrings[15];
+                    GAME.player.emotion = new Emotion(2);
                     return 1;
                 }
                 else {
                     feedbackText = FileReader.lessonStrings[17];
+                    GAME.player.emotion = new Emotion(7);
                     return 0;
                 }
             case 2:
                 if (concentration == 3) {
                     feedbackText = FileReader.lessonStrings[16];
+                    GAME.player.emotion = new Emotion(5);
                     return 0.5;
                 }
                 else if (concentration > 3) {
                     feedbackText = FileReader.lessonStrings[15];
+                    GAME.player.emotion = new Emotion(2);
                     return 1;
                 }
                 else {
                     feedbackText = FileReader.lessonStrings[17];
+                    GAME.player.emotion = new Emotion(7);
                     return 0;
                 }
         }

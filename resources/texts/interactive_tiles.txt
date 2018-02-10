@@ -3,7 +3,7 @@
 1 Run laps in PE.#2 Try and run as many laps in#  60 minutes.#3 Warming up and resting#  increases your energy.#4 Drinking an energy drink#  increases your energy and#  takes no time!#5 Running and sprinting uses#  energy.#6 Sprinting uses more energy#  than running.#7 Run or sprint consecutively#  to get extra credit!
 The sign says 'SCHOOL#YARD'.
 The sign says 'DESIGN#TECHNOLOGY'.
-It's an air vent...
+It's an air vent... 
 The sign says 'FOOD#TECHNOLOGY'.
 The sign says 'CANTEEN'.
 The sign says 'STAFF ROOM -#STUDENTS NOT PERMITTED#BEYOND THIS POINT!'.
@@ -34,3 +34,5 @@ The exam questions aren't#in the fridge...
 The sink is filled with#dirty mugs. Teachers sure#drink a lot of coffee!
 The exam questions aren't#in the oven...
 The sign says#'HEADTEACHER'S OFFICE'.
+Put#the stinkbomb in it?
+There's nothing here.

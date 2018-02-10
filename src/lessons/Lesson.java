@@ -53,7 +53,7 @@ public abstract class Lesson {
     public void finish() {
         int increase = (int)((score / rounds) * 5);
         GAME.gradeValues[id] += increase;
-        GAME.increasePoints(1, id, increase);
+        GAME.increaseValues(1, id, increase);
         GAME.time = oldTime;
 
         GAME.time++;

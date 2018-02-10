@@ -1,5 +1,6 @@
 package lessons;
 
+import game.Emotion;
 import objects.GameObject;
 import utilities.FileReader;
 import utilities.GameAudio;
@@ -53,8 +54,12 @@ public class LessonTypeC extends Lesson {
                         energy++;
                         GAME.items[0][0]--;
                         feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[33];
+                        GAME.player.emotion = new Emotion(5);
                     }
-                    else { feedbackText = FileReader.lessonStrings[11]; }
+                    else {
+                        feedbackText = FileReader.lessonStrings[11];
+                        GAME.player.emotion = new Emotion(6);
+                    }
                     break;
             }
         }
@@ -75,10 +80,14 @@ public class LessonTypeC extends Lesson {
                             if (consecutiveRun > 0) {
                                 bonusScore += consecutiveRun;
                                 feedbackText = FileReader.lessonStrings[37] + FileReader.lessonStrings[38];
+                                GAME.player.emotion = new Emotion(5);
                             }
                             consecutiveRun++;
                         }
-                        else { feedbackText = FileReader.lessonStrings[40] + FileReader.lessonStrings[42]; }
+                        else {
+                            feedbackText = FileReader.lessonStrings[40] + FileReader.lessonStrings[42];
+                            GAME.player.emotion = new Emotion(3);
+                        }
                         time -= 5;
                         rested = false;
                         break;
@@ -90,11 +99,15 @@ public class LessonTypeC extends Lesson {
                             if (consecutiveRun > 0) {
                                 bonusScore += consecutiveRun * 2;
                                 feedbackText = FileReader.lessonStrings[37] + FileReader.lessonStrings[39];
+                                GAME.player.emotion = new Emotion(2);
                             }
                             consecutiveRun++;
 
                         }
-                        else { feedbackText = FileReader.lessonStrings[41] + FileReader.lessonStrings[42]; }
+                        else {
+                            feedbackText = FileReader.lessonStrings[41] + FileReader.lessonStrings[42];
+                            GAME.player.emotion = new Emotion(3);
+                        }
                         time -= 5;
                         rested = false;
                         break;
@@ -107,7 +120,11 @@ public class LessonTypeC extends Lesson {
                             consecutiveRun = 0;
                             time -= 5;
                             rested = true;
-                        } else { feedbackText = FileReader.lessonStrings[44]; }
+                            GAME.player.emotion = new Emotion(5);
+                        } else {
+                            feedbackText = FileReader.lessonStrings[44];
+                            GAME.player.emotion = new Emotion(6);
+                        }
                         break;
                     case 4:
                         if (GAME.items[0][0] > 0) {
@@ -116,8 +133,12 @@ public class LessonTypeC extends Lesson {
                             GAME.items[0][0]--;
                             feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[33];
                             consecutiveRun = 0;
+                            GAME.player.emotion = new Emotion(5);
                         }
-                        else { feedbackText = FileReader.lessonStrings[11]; }
+                        else {
+                            feedbackText = FileReader.lessonStrings[11];
+                            GAME.player.emotion = new Emotion(6);
+                        }
                         break;
             }
         }

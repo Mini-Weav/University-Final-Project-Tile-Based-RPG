@@ -69,33 +69,35 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
             System.out.println("Cannot read line.");
             e.printStackTrace();
         }
+        if (map.id == 0) { GAME.updateAirVent(); }
+    }
+
+    public boolean paintTransition(Graphics g) {
+        String text = null;
+        if (GAME. isNewGame) { text = utilities.FileReader.menuStrings[54]; }
+        if (GAME.isNewDay) { text = GAME.newDayText; }
+        if (GAME.isAfterActivity) { text = GAME.activity.afterText; }
+        if (GAME.isHeist) { text = utilities.FileReader.menuStrings[50]; }
+        if (GAME.gotAnswers) { text = utilities.FileReader.menuStrings[52]; }
+        if (GAME.hasLostHeist) { text = utilities.FileReader.menuStrings[55]; }
+        if (GAME.hasWonHeist) { text = utilities.FileReader.menuStrings[56]; }
+        if (text != null) {
+            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
+            GAME.textBox = new TextBox(0, text);
+            GAME.textBox.paintComponent(g);
+            return true;
+        }
+        else if (GAME.isTransition) {
+            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
+            return true;
+        }
+        else { return false; }
+
     }
 
     public void paintComponent(Graphics g) {
-        if (GAME.isNewGame) {
-            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
-            GAME.textBox = new TextBox(0, "Today is my first day at#Brooklands Academy... I#hope it will be okay...");
-            GAME.textBox.paintComponent(g);
-            return;
-        }
-        if (GAME.isNewDay) {
-            GAME.menu = null;
-            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
-            GAME.textBox = new TextBox(0, GAME.newDayText);
-            GAME.textBox.paintComponent(g);
-            return;
-        }
-        if (GAME.isAfterActivity) {
-            GAME.menu = null;
-            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
-            GAME.textBox = new TextBox(0, GAME.activity.afterText);
-            GAME.textBox.paintComponent(g);
-            return;
-        }
-        if (GAME.transition) {
-            g.fillRect(0, 0, Game.width * 2, Game.height * 2);
-            return;
-        }
+        if (paintTransition(g)) { return; }
+
         for (int j = -1; j < Game.cameraHeight + 2; j++) {
             for (int i = -1; i < Game.cameraWidth + 2; i++) {
                 try {
@@ -134,7 +136,10 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
             if (GAME.menu == null) {
                 if (!GAME.isTitle) { GameAudio.playSfx(GameAudio.sfx_click); }
                 if (GAME.textBox == null) {
-                    if (dirTile instanceof InteractiveTile) {
+                    if (GAME.time == 11) {
+                        GAME.textBox = new TextBox(0, utilities.FileReader.menuStrings[53]);
+                    }
+                    else if (dirTile instanceof InteractiveTile) {
                         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
                         GAME.textBox = currentMap.interactivePoints.get(new Point(x, y));
                         if ((((InteractiveTile) dirTile).menu)) { GAME.menu = new Menu(14); }
@@ -144,23 +149,38 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         npc.rotate(GAME.player);
                         npc.interaction(GAME.time);
                     }
-                    else { GAME.textBox = new TextBox(0, "There's nothing here.");}
+                    else { GAME.textBox = new TextBox(0, utilities.FileReader.interactiveStrings[37]); }
                 }
                 else if (GAME.textBox.skip) {
                     if (GAME.isNewGame) {
                         GAME.isNewGame = false;
                         GameAudio.startMusic(GameAudio.music_school);}
-                    if (GAME.isNewDay) {
+                    else if (GAME.isNewDay) {
                         GAME.isNewDay = false;
                         GAME.newDay();
                         GameAudio.startMusic(GameAudio.music_school);
                     }
-                    if (GAME.isAfterActivity) {
+                    else if (GAME.isAfterActivity) {
                         GAME.activity = null;
                         GAME.isAfterActivity = false;
                         GAME.goHome(true);
                     }
-                    if (GAME.activity != null) { GAME.activity.finish(); }
+                    else if (GAME.isHeist) {
+                        GAME.isHeist = false;
+                        GameAudio.playSfx(GameAudio.sfx_paAnnouncement);
+                        GameAudio.startMusic(GameAudio.music_heist);
+                    }
+                    else if (GAME.gotAnswers) { GAME.gotAnswers = false; }
+                    else if (GAME.isSpotted) { GAME.endHeist(1); }
+                    else if (GAME.hasLostHeist) {
+                        GAME.hasLostHeist = false;
+                        GameAudio.startMusic(GameAudio.music_school);
+                    }
+                    else if (GAME.hasWonHeist) {
+                        GAME.hasWonHeist = false;
+                        GameAudio.startMusic(GameAudio.music_school);
+                    }
+                    else if (GAME.activity != null) { GAME.activity.finish(); }
                     GAME.textBox = null;
                 }
             }
@@ -352,6 +372,12 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         if (curX > Game.width - 76 && curX < Game.width - 28
                                 && curY > 32 && curY < 48) {
                             switch (GAME.map.currentId) {
+                                case 0:
+                                    switch (dirTile.key) {
+                                        case 'A':
+                                            GAME.startHeist();
+                                            break;
+                                    }
                                 case 7:
                                     switch (dirTile.key) {
                                         case 'C':

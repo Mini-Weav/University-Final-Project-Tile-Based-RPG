@@ -2,6 +2,7 @@ package objects;
 
 import utilities.FileReader;
 import utilities.TextBox;
+import utilities.TileMapLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -153,6 +154,5 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(2, 7), new TextBox(0, FileReader.interactiveStrings[35]));
         }
         return points;
-
     }
 }

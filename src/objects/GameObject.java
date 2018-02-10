@@ -1,6 +1,7 @@
 package objects;
 
 import controllers.Controller;
+import game.Emotion;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ public abstract class GameObject {
     public boolean moving, up, down, left, right, flip, spotted;
     public Tile tile;
     public Controller ctrl;
+    public Emotion emotion;
 
     public List<BufferedImage> upSprites1;
     public List<BufferedImage> upSprites2;
@@ -52,6 +54,11 @@ public abstract class GameObject {
                 tile.img = rightSprites.get(index);
                 break;
         }
+    }
+
+    public void displayEmotion() {
+        if (emotion.lifetime == 0) { emotion = null; }
+        else { emotion.lifetime--; }
     }
 
     public abstract void move();

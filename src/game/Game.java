@@ -2,13 +2,13 @@ package game;
 
 import controllers.Keys;
 import lessons.Lesson;
-import objects.GameObject;
-import objects.Player;
+import objects.*;
 import utilities.*;
 import utilities.Menu;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Game {
     public List<GameObject> objects;
     public JFrame frame;
     public Keys ctrl;
-    public int time, day = 1, points;
+    public int time, day = 1, points, timeBeforeHeist = 0;
     public TileMapView map;
     public Camera camera;
     public TextBox textBox;
@@ -39,7 +39,7 @@ public class Game {
     public GameObject[][] objectMatrix;
     public int[] friendValues, gradeValues;
     public int[][] items;
-    public boolean transition, isNewGame, isNewDay, isAfterActivity, givenDrink, isSpotted, fullScreen, isTitle = true;
+    public boolean isTransition, isNewGame, isNewDay, isAfterActivity, givenDrink, isHeist, gotAnswers, isSpotted, hasLostHeist, hasWonHeist, isSuspended, isFullScreen, isTitle = true;
     public long transitionTime;
     public String newDayText;
     public Clip music;
@@ -65,6 +65,21 @@ public class Game {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void updateAirVent() {
+        if (hasStinkBomb() && hasSuperKey() && gradeValues[4] > 29 && !hasQuestions()) {
+            TileMapLoader.tileMaps.get(0).interactivePoints.put(new Point(7, 5), new TextBox(0, FileReader.interactiveStrings[5] + FileReader.interactiveStrings[36]));
+            Tile oldTile = TileMapLoader.tileMaps.get(0).tiles.get('A');
+            Tile newTile = new InteractiveTile(oldTile.img, true, 'A', true);
+            TileMapLoader.tileMaps.get(0).tiles.put('A', newTile);
+        }
+        else {
+            TileMapLoader.tileMaps.get(0).interactivePoints.put(new Point(7, 5), new TextBox(0, FileReader.interactiveStrings[5]));
+            Tile oldTile = TileMapLoader.tileMaps.get(0).tiles.get('A');
+            Tile newTile = new InteractiveTile(oldTile.img, true, 'A', false);
+            TileMapLoader.tileMaps.get(0).tiles.put('A', newTile);
+        }
     }
 
     public void update() {
@@ -109,7 +124,7 @@ public class Game {
         }
         for (GameObject object : objects) {  object.update();  }
         camera.update();
-        if (transition && System.currentTimeMillis() - transitionTime > 1000 / 5) { transition = false; }
+        if (isTransition && System.currentTimeMillis() - transitionTime > 1000 / 5) { isTransition = false; }
 
         synchronized (Game.class) {
             objects.clear();
@@ -135,12 +150,14 @@ public class Game {
 
     public boolean hasStinkBomb() { return items[0][1] > 0; }
 
-    public boolean hasLockPick() { return items[1][4] > 0; }
+    public boolean hasSuperKey() { return items[1][3] > 0; }
 
-    public boolean hasSuperCake() { return items[2][4] > 0; }
+    public boolean hasSuperCake() { return items[2][3] > 0; }
+
+    public boolean hasQuestions() { return items[0][2] > 0; }
 
     public void doTransition() {
-        transition = true;
+        isTransition = true;
         transitionTime = System.currentTimeMillis();
     }
 
@@ -189,22 +206,52 @@ public class Game {
         menu = null;
     }
 
-    public void startHeist(boolean yes) {
-        if (yes) {
+    public void startHeist() {
+        if (time < 2) {
+            timeBeforeHeist = time;
+            items[0][1] = 0;
             GameAudio.playSfx(GameAudio.sfx_click);
-            GameAudio.playSfx(GameAudio.sfx_paAnnouncement);
+            GameAudio.playSfx(GameAudio.sfx_useStinkbomb);
+            GameAudio.stopMusic();
             time = 10;
-            GameAudio.startMusic(GameAudio.music_heist);
+            isHeist = true;
+            textBox = null;
         }
-        textBox = null;
+        else { textBox = new TextBox(0, FileReader.menuStrings[51]); }
         menu = null;
+    }
+
+    public void endHeist(int outcome) {
+        GameAudio.stopMusic();
+        switch (outcome) {
+            case 0:
+                hasWonHeist = true;
+                time = timeBeforeHeist + 1;
+                points *= 1.5;
+                break;
+            case 1:
+                items[0][2] = 0;
+                isSpotted = false;
+                gotAnswers = false;
+                hasLostHeist = true;
+                isSuspended = true;
+                objects.clear();
+                time = timeBeforeHeist + 1;
+                TileMap nextMap = TileMapLoader.tileMaps.get(1);
+                map.loadMap(nextMap);
+                objects.add(GAME.player);
+                player.spotted = false;
+                player.setLocation(9, 2);
+                player.rotate(1);
+                break;
+        }
     }
 
     public void newGame() {
         player = new Player(Player.TILES.get(Constants.UP), Constants.START_X, Constants.START_Y, ctrl);
 
         items = new int[3][];
-        items[0] = new int[2];
+        items[0] = new int[3];
         items[1] = new int[4];
         items[2] = new int[4];
 
@@ -223,13 +270,17 @@ public class Game {
 
         day = 15;
 
+        points = 1000;
+
         /* start of testing values */
         items = new int[3][];
-        items[0] = new int[2];
+        items[0] = new int[3];
         items[1] = new int[4];
         items[2] = new int[4];
         items[0][0] = 5;
+        items[0][1] = 1;
         items[1][0] = 1;
+        items[1][3] = 1;
         items[2][0] = 0;
         items[2][1] = 0;
         items[2][2] = 0;
@@ -266,7 +317,7 @@ public class Game {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        fullScreen = false;
+        isFullScreen = false;
     }
 
     public void fullScreen() {
@@ -280,11 +331,11 @@ public class Game {
         frame.getContentPane().setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        fullScreen = true;
+        isFullScreen = true;
     }
 
     public void switchScreen() {
-        if (fullScreen) { windowScreen(); }
+        if (isFullScreen) { windowScreen(); }
         else { fullScreen(); }
 
         camera.x = player.x - (Game.width / 64);
@@ -293,7 +344,7 @@ public class Game {
         camera.gY = camera.y * 32;
     }
 
-    public void increasePoints(int id, int index, int increase) {
+    public void increaseValues(int id, int index, int increase) {
         switch(id) {
             case 0:
                 points += 2 * (Math.pow((increase * ((friendValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
