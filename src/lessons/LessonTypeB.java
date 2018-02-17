@@ -11,7 +11,7 @@ import static game.Game.GAME;
  * Created by Luke on 06/12/2017.
  */
 public class LessonTypeB extends Lesson {
-    public int tasksLeft, time;
+    public int tasksLeft, timeLeft;
     int id, questionId;
     public boolean reread;
     double result;
@@ -20,7 +20,7 @@ public class LessonTypeB extends Lesson {
         super(grade);
         rounds = setNumberOfQuestions(grade);
         tasksLeft = rounds;
-        time = 60;
+        timeLeft = 60;
 
         this.id = id;
         if (GAME.player.condition == 1) { grade++; }
@@ -44,10 +44,10 @@ public class LessonTypeB extends Lesson {
                     tasksLeft--;
                     reread = false;
                 }
-                time -= 5;
+                timeLeft -= 5;
                 break;
             case 1:
-                if (time > 5) {
+                if (timeLeft > 5) {
                     result = doTask(true, reread, questionId);
                     score += (result / 2);
                     if (result > 0) {
@@ -57,12 +57,12 @@ public class LessonTypeB extends Lesson {
                         tasksLeft--;
                         reread = false;
                     }
-                    time -= 10;
+                    timeLeft -= 10;
                 }
                 else {
                     feedbackText = FileReader.lessonStrings[21];
                     GAME.player.emotion = new Emotion(3);
-                    time -= 5;
+                    timeLeft -= 5;
 
                 }
                 break;
@@ -70,7 +70,7 @@ public class LessonTypeB extends Lesson {
                 if (!reread) {
                     reread = true;
                     feedbackText = FileReader.lessonStrings[22];
-                    time -= 5;
+                    timeLeft -= 5;
                 }
                 else {
                     feedbackText = FileReader.lessonStrings[23];
@@ -78,7 +78,7 @@ public class LessonTypeB extends Lesson {
                 break;
         }
         feedback = true;
-        if (time == 0 || tasksLeft == 0) {
+        if (timeLeft == 0 || tasksLeft == 0) {
             if (tasksLeft == 0) {
                 GameAudio.playSfx(GameAudio.sfx_item);
                 feedbackText = FileReader.lessonStrings[24];

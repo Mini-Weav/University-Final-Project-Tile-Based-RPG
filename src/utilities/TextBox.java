@@ -56,14 +56,19 @@ public class TextBox {
                 skip = false;
                 img = imgs[0];
                 break;
+            case 5:
+                skip = true;
+                img = imgs[2];
+                break;
         }
     }
 
     public static void loadImages() {
         try {
-            imgs = new BufferedImage[2];
+            imgs = new BufferedImage[3];
             imgs[0] = ImageIO.read(new File("resources/textboxes/textbox.png"));
             imgs[1] = ImageIO.read(new File("resources/textboxes/textbox_big.png"));
+            imgs[2] = ImageIO.read(new File("resources/textboxes/textbox_med.png"));
             npcImgs = new BufferedImage[10];
             npcImgs[0] = ImageIO.read(new File("resources/friendImages/friend1.png"));
             npcImgs[1] = ImageIO.read(new File("resources/friendImages/friend2.png"));
@@ -117,7 +122,16 @@ public class TextBox {
                 g.setFont(GameFont.smallFont);
                 int textWidth = g.getFontMetrics(GameFont.smallFont).stringWidth(npcName);
                 g.drawString(npcName, 10 + (npcImg.getWidth())- (textWidth / 2), Game.height - 137);
-
+                break;
+            case 5:
+                g.drawImage(img, 0, Game.height - 178, img.getWidth() * 2, img.getHeight() * 3, null);
+                g.setFont(GameFont.bigFont);
+                lineIndex = 0;
+                for (String line : text.split("#")) {
+                    g.drawString(line, 24, (Game.height - 132 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
+                    lineIndex++;
+                }
+                break;
 
         }
     }

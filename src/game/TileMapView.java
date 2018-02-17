@@ -1,5 +1,7 @@
 package game;
 
+import lessons.Exam;
+import lessons.Lesson;
 import objects.GameObject;
 import objects.InteractiveTile;
 import objects.NPC;
@@ -74,7 +76,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
 
     public boolean paintTransition(Graphics g) {
         String text = null;
-        if (GAME. isNewGame) { text = utilities.FileReader.menuStrings[54]; }
+        if (GAME.isNewGame) { text = utilities.FileReader.menuStrings[54]; }
         if (GAME.isNewDay) { text = GAME.newDayText; }
         if (GAME.isAfterActivity) { text = GAME.activity.afterText; }
         if (GAME.isHeist) { text = utilities.FileReader.menuStrings[50]; }
@@ -155,10 +157,21 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     if (GAME.isNewGame) {
                         GAME.isNewGame = false;
                         GameAudio.startMusic(GameAudio.music_school);}
-                    else if (GAME.isNewDay) {
+                    else if (GAME.isNewDay && !GAME.preExam) {
+                        if (GAME.daysLeft > 1) {
+                            GAME.isNewDay = false;
+                            GAME.newDay();
+                            GameAudio.startMusic(GameAudio.music_school);
+                        }
+                        else {
+                            GAME.newDayFeedback(3);
+                            GAME.preExam = true;
+                        }
+                    }
+                    else if (GAME.preExam) {
                         GAME.isNewDay = false;
-                        GAME.newDay();
-                        GameAudio.startMusic(GameAudio.music_school);
+                        GAME.preExam = false;
+                        Exam.startExam(GAME.examsLeft - 1);
                     }
                     else if (GAME.isAfterActivity) {
                         GAME.activity = null;
@@ -181,6 +194,10 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         GameAudio.startMusic(GameAudio.music_school);
                     }
                     else if (GAME.activity != null) { GAME.activity.finish(); }
+                    if (GAME.isResult) {
+                        GAME.isResult = false;
+                        GAME.isFinish = true;
+                    }
                     GAME.textBox = null;
                 }
             }
@@ -301,19 +318,22 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                 && curY > 128 && curY < 144) { npc.gift(false); }
                         break;
                     case 8:
-                        if (GAME.lesson.feedback) {
+                        Lesson lesson;
+                        if (GAME.lesson != null) { lesson = GAME.lesson; }
+                        else { lesson = GAME.exam; }
+                        if (lesson.feedback) {
                             GameAudio.playSfx(GameAudio.sfx_click);
-                            GAME.lesson.feedback = false;
+                            lesson.feedback = false;
                         }
                         else {
                             if (curX > Game.width - 152 && curX < Game.width - 56
-                                    && curY > 32 && curY < 48) { GAME.lesson.doAction(0); }
+                                    && curY > 32 && curY < 48) { lesson.doAction(0); }
                             if (curX > Game.width - 152 && curX < Game.width - 72
-                                    && curY > 64 && curY < 80) { GAME.lesson.doAction(1); }
+                                    && curY > 64 && curY < 80) { lesson.doAction(1); }
                             if (curX > Game.width - 152 && curX < Game.width - 72
-                                    && curY > 96 && curY < 116) { GAME.lesson.doAction(2); }
+                                    && curY > 96 && curY < 116) { lesson.doAction(2); }
                             if (curX > Game.width - 152 && curX < Game.width - 56
-                                    && curY > 128 && curY < 146) { GAME.lesson.doAction(3); }
+                                    && curY > 128 && curY < 146) { lesson.doAction(3); }
                         }
                         break;
                     case 9:
@@ -378,6 +398,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                             GAME.startHeist();
                                             break;
                                     }
+                                    break;
                                 case 7:
                                     switch (dirTile.key) {
                                         case 'C':
@@ -402,12 +423,14 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                             }
                                             break;
                                     }
+                                    break;
                                 case 8:
                                     switch (dirTile.key) {
                                         case 'C':
                                             GAME.player.hack();
                                             break;
                                     }
+                                    break;
                             }
                         }
                         if (curX > Game.width - 76 && curX < Game.width - 42
@@ -516,11 +539,14 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             curX > Game.width - 284 && curX < Game.width - 124 && curY > 128 && curY < 144;
                     break;
                 case 8:
+                    Lesson lesson;
+                    if (GAME.lesson != null) { lesson = GAME.lesson; }
+                    else { lesson = GAME.exam; }
                     click = (curX > Game.width - 152 && curX < Game.width - 56 && curY > 32 && curY < 48 ||
                              curX > Game.width - 152 && curX < Game.width - 72 && curY > 64 && curY < 80 ||
                              curX > Game.width - 152 && curX < Game.width - 72 && curY > 96 && curY < 116 ||
                              curX > Game.width - 152 && curX < Game.width - 56 && curY > 128 && curY < 146)
-                            && !GAME.lesson.feedback;
+                            && !lesson.feedback;
                     break;
                 case 9:
                     click = (curX > Game.width - 152 && curX < Game.width - 40 && curY > 32 && curY < 48 ||

@@ -24,13 +24,13 @@ public class StatusMenu {
         switch (id) {
             case 0:
                 img = Menu.imgs[0];
-                text = FileReader.menuStrings[32] + GAME.day + "#" + Game.timePeriods[GAME.time] + "#"
+                text = GAME.daysLeft + FileReader.menuStrings[32] + "#" + Game.timePeriods[GAME.time] + "#"
                         + Game.conditions[GAME.player.condition] + "#" + GAME.points;
                 break;
             case 1:
                 img = Menu.imgs[7];
                 text = FileReader.menuStrings[33] + ((LessonTypeB) GAME.lesson).tasksLeft +
-                        FileReader.menuStrings[34] + ((LessonTypeB) GAME.lesson).time +
+                        FileReader.menuStrings[34] + ((LessonTypeB) GAME.lesson).timeLeft +
                         FileReader.menuStrings[35] + ((LessonTypeB) GAME.lesson).reread;
                 break;
             case 2:
@@ -46,6 +46,13 @@ public class StatusMenu {
                         FileReader.menuStrings[37] + GAME.items[0][0] +
                         FileReader.menuStrings[40] + ((LessonTypeA) GAME.lesson).attentionSpan +
                         FileReader.menuStrings[41] + ((LessonTypeA) GAME.lesson).concentration;
+                break;
+            case 4:
+                img = Menu.imgs[5];
+                text = FileReader.menuStrings[39] + GAME.exam.questionsLeft +
+                        FileReader.menuStrings[34] + GAME.exam.timeLeft +
+                        FileReader.menuStrings[40] + GAME.exam.attentionSpan +
+                        FileReader.menuStrings[41] + GAME.exam.concentration;
                 break;
         }
     }

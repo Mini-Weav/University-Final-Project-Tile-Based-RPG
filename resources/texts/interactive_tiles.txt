@@ -7,28 +7,28 @@ It's an air vent...
 The sign says 'FOOD#TECHNOLOGY'.
 The sign says 'CANTEEN'.
 The sign says 'STAFF ROOM -#STUDENTS NOT PERMITTED#BEYOND THIS POINT!'.
-I can see the school yard#from here.
+You can see the school yard#from here.
 The sign says 'SCIENCE#LAB'.
 The sign says 'COMPUTER#LAB'.
 There are various tools on#this shelf.
-I can craft items here if I#attend DT.
+You can craft items here#if you attend DT.
 This bookcase is filled#with construction manuals.
 This bookcase is filled#with recipe books.
 The fridge is full of#ingredients.
-I should wash up after#cooking.
-I can cook here if I attend#food tech.
+You should wash up after#cooking.
+You can cook here if you#attend food tech.
 This bookcase is filled#with science text books.
-I should remember to wash#my hands after working with#chemicals!
+You should wash your hands#after working with#chemicals!
 This bookcase is filled#with user manuals for#various software.
-I can improve my computer#proficiency if I attend#ICT.
-I can study at my computer#...Should I study tonight?
-If I can play games I could#feel refreshed... Should#I play games tonight?
+Your can improve your#computer proficiency if#you attend#ICT.
+You can study at your#computer...Should you#study tonight?
+If you can play games you#could feel refreshed...#Should you play games#tonight?
 Go to bed early?
-There is a student handbook#for Brooklands Academy...#Should I read it?
-It's late. I should stay in#my room.
+There is a student handbook#for Brooklands Academy...#Should you read it?
+It's late. you should stay#in my room.
 All the students and#teachers are lined up#outside...
-Maybe the exam questions#are stored on this#computer... Should I try#and log in?
-There's no time to watch#TV! I should keep looking.
+Maybe the exam questions#are stored on this#computer... Should you try#and log in?
+There's no time to watch#TV! You should keep looking.
 The exam questions aren't#here.
 The exam questions aren't#in the fridge...
 The sink is filled with#dirty mugs. Teachers sure#drink a lot of coffee!

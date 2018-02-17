@@ -26,7 +26,7 @@ public class Emotion {
     }
 
     public Emotion(int id) {
-        lifetime = 20;
+        lifetime = 30;
         try {
             image = images.get(id);
         } catch (NullPointerException e) {

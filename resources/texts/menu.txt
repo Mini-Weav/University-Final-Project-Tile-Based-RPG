@@ -30,7 +30,7 @@ Don't know
 Acquaintance
 Friend
 Good friend
-DAY 
+ DAYS
 TASKS:        
 #TIME:         
 #REREAD:    
@@ -41,18 +41,18 @@ QUESTIONS:
 #ATTENTION:    
 #CONCENTRATION:
 You have an item you can#give to 
-Should I attend 
-Should I eat lunch?
+Should you attend
+Should you eat lunch?
 The lunch is good! You feel #recharged and ready for the #next class!
 The lunch is bad! You don't #feel very well...
-I need to go to the#staffroom!
-Should I go home for today?
+You need to go to the#staffroom!
+Should you go home for#today?
 School isn't over yet!
 The fire bell is ringing!#All the students and#teachers have gone outside!
-I should pull the heist#during the school day...
-Yes!! I found the exam#questions! But the teachers#are back... I need to get#out of here!
-There's no time to look#around, I need to get out of#here!
-Today is my first day at#Brooklands Academy... I#hope it will be okay...
-The teachers caught me in#the act! I'm suspended from#after school activities and#will get a capped exam mark.
-The heist was a success! I#will leak the questions to#my friends.
-I need to look for the exam#questions!
+You should pull the heist#during the school day...
+Yes!! You found the exam#questions! But the teachers#are back... you need to get#out of here!
+There's no time to look#around, you need to get out#of here!
+Today is your first day at#Brooklands Academy... you#hope it will be okay...
+The teachers caught you in#the act! You're suspended#from after school#activities!
+The heist was a success! you#will leak the questions to#your friends.
+You need to look for the#exam questions!

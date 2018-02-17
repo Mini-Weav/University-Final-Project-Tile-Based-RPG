@@ -43,6 +43,10 @@ public class NPCLoader {
                 new NPC(3, 3, 4, Constants.DOWN, false, null), new NPC(5, 6, 2, Constants.DOWN, false, null),
                 new NPC(3, 7, 3, Constants.RIGHT, false, null), new NPC(5, 4, 5, Constants.DOWN, false, null)));
 
+        NPCs.get(2).put(12, Arrays.asList(new NPC(9, 5, 0, Constants.UP, false, null), new NPC(11, 5, 1, Constants.UP, false, null),
+                new NPC(13, 5, 4, Constants.UP, false, null), new NPC(9, 7, 2, Constants.UP, false, null),
+                new NPC(11, 7, 3, Constants.UP, false, null), new NPC(9, 2, 5, Constants.DOWN, false, null)));
+
         /* Food Tech Classroom */
         NPCs.put(3, new TreeMap<>());
         NPCs.get(3).put(0, Collections.singletonList(new NPC(8, 2, 6, Constants.DOWN, false, null)));
@@ -52,6 +56,10 @@ public class NPCLoader {
         NPCs.get(3).put(4, Arrays.asList(new NPC(13, 5, 0, Constants.UP, false, null), new NPC(13, 7, 1, Constants.UP, false, null),
                 new NPC(14, 5, 4, Constants.UP, false, null), new NPC(14, 9, 2, Constants.UP, false, null),
                 new NPC(13, 3, 6, Constants.DOWN, false, null)));
+
+        NPCs.get(3).put(13, Arrays.asList(new NPC(8, 5, 0, Constants.UP, false, null), new NPC(4, 5, 1, Constants.UP, false, null),
+                new NPC(8, 7, 4, Constants.UP, false, null), new NPC(4, 7, 2, Constants.UP, false, null),
+                new NPC(6, 7, 3, Constants.UP, false, null), new NPC(8, 2, 6, Constants.DOWN, false, null)));
 
         /* 1F Classrooms */
         NPCs.put(4, new TreeMap<>());
@@ -65,6 +73,16 @@ public class NPCLoader {
         NPCs.get(4).put(7, Arrays.asList(new NPC(12, 5, 0, Constants.UP, false, null), new NPC(14, 5, 1, Constants.UP, false, null),
                 new NPC(16, 5, 4, Constants.UP, false, null), new NPC(12, 7, 2, Constants.UP, false, null),
                 new NPC(16, 2, 9, Constants.DOWN, false, null)));
+
+        NPCs.get(4).put(14, Arrays.asList(new NPC(12, 5, 0, Constants.UP, false, null), new NPC(14, 5, 1, Constants.UP, false, null),
+                new NPC(16, 5, 4, Constants.UP, false, null), new NPC(12, 7, 2, Constants.UP, false, null),
+                new NPC(16, 7, 3, Constants.UP, false, null), new NPC(16, 2, 7, Constants.DOWN, false, null)));
+        NPCs.get(4).put(15, Arrays.asList(new NPC(6, 5, 0, Constants.UP, false, null), new NPC(7, 5, 1, Constants.UP, false, null),
+                new NPC(8, 5, 4, Constants.UP, false, null), new NPC(8, 7, 2, Constants.UP, false, null),
+                new NPC(7, 7, 3, Constants.UP, false, null), new NPC(5, 2, 8, Constants.DOWN, false, null)));
+        NPCs.get(4).put(16, Arrays.asList(new NPC(12, 5, 0, Constants.UP, false, null), new NPC(14, 5, 1, Constants.UP, false, null),
+                new NPC(16, 5, 4, Constants.UP, false, null), new NPC(12, 7, 2, Constants.UP, false, null),
+                new NPC(16, 7, 3, Constants.UP, false, null), new NPC(16, 2, 9, Constants.DOWN, false, null)));
 
         NPCs.get(4).put(9, Arrays.asList(new NPC(8, 7, 2, Constants.UP, false, null), new NPC(16, 5, 4, Constants.UP, false, null)));
 

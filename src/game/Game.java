@@ -1,6 +1,7 @@
 package game;
 
 import controllers.Keys;
+import lessons.Exam;
 import lessons.Lesson;
 import objects.*;
 import utilities.*;
@@ -26,7 +27,7 @@ public class Game {
     public List<GameObject> objects;
     public JFrame frame;
     public Keys ctrl;
-    public int time, day = 1, points, timeBeforeHeist = 0;
+    public int time, day = 1, daysLeft = 30, points, timeBeforeHeist, examsLeft = 5;
     public TileMapView map;
     public Camera camera;
     public TextBox textBox;
@@ -35,11 +36,13 @@ public class Game {
     public TitleScreen titleScreen;
     public Lesson lesson;
     public Activity activity;
+    public Exam exam;
     public char[][] tileMatrix;
     public GameObject[][] objectMatrix;
-    public int[] friendValues, gradeValues;
+    public int[] friendValues, gradeValues, examScores;
     public int[][] items;
-    public boolean isTransition, isNewGame, isNewDay, isAfterActivity, givenDrink, isHeist, gotAnswers, isSpotted, hasLostHeist, hasWonHeist, isSuspended, isFullScreen, isTitle = true;
+    public boolean isTransition, isNewGame, isNewDay, isAfterActivity, givenDrink, isHeist, gotAnswers, isSpotted,
+            isResult, isFinish, hasLostHeist, hasWonHeist, isSuspended, isExams, preExam,isFullScreen, isTitle = true;
     public long transitionTime;
     public String newDayText;
     public Clip music;
@@ -69,13 +72,15 @@ public class Game {
 
     public void updateAirVent() {
         if (hasStinkBomb() && hasSuperKey() && gradeValues[4] > 29 && !hasQuestions()) {
-            TileMapLoader.tileMaps.get(0).interactivePoints.put(new Point(7, 5), new TextBox(0, FileReader.interactiveStrings[5] + FileReader.interactiveStrings[36]));
+            TileMapLoader.tileMaps.get(0).interactivePoints.put(new Point(7, 5),
+                    new TextBox(0, FileReader.interactiveStrings[5] + FileReader.interactiveStrings[36]));
             Tile oldTile = TileMapLoader.tileMaps.get(0).tiles.get('A');
             Tile newTile = new InteractiveTile(oldTile.img, true, 'A', true);
             TileMapLoader.tileMaps.get(0).tiles.put('A', newTile);
         }
         else {
-            TileMapLoader.tileMaps.get(0).interactivePoints.put(new Point(7, 5), new TextBox(0, FileReader.interactiveStrings[5]));
+            TileMapLoader.tileMaps.get(0).interactivePoints.put(new Point(7, 5),
+                    new TextBox(0, FileReader.interactiveStrings[5]));
             Tile oldTile = TileMapLoader.tileMaps.get(0).tiles.get('A');
             Tile newTile = new InteractiveTile(oldTile.img, true, 'A', false);
             TileMapLoader.tileMaps.get(0).tiles.put('A', newTile);
@@ -86,11 +91,7 @@ public class Game {
         tileMatrix = new char[map.matrix.size()][map.matrix.get(0).size()];
         objectMatrix = new GameObject[map.matrix.size()][map.matrix.get(0).size()];
 
-        if (lesson == null) {
-            statusMenu.currentId = 0;
-            StatusMenu.setUp(statusMenu.currentId);
-        }
-        else {
+        if (lesson != null) {
             switch (time) {
                 case 3:
                 case 4:
@@ -110,6 +111,19 @@ public class Game {
                 if (lesson.finished) { lesson.finish(); }
                 else { textBox = new TextBox(0, lesson.questionText); }
             }
+        }
+        else if (exam != null) {
+            statusMenu.currentId = 4;
+            StatusMenu.setUp(statusMenu.currentId);
+            if (exam.feedback) { textBox = new TextBox(0, GAME.exam.feedbackText); }
+            else {
+                if (exam.finished) { exam.finish(); }
+                else { textBox = new TextBox(0, exam.questionText); }
+            }
+        }
+        else {
+            statusMenu.currentId = 0;
+            StatusMenu.setUp(statusMenu.currentId);
         }
 
         for (int i = 0; i < map.matrix.size(); i++) {
@@ -169,10 +183,12 @@ public class Game {
         player.setLocation(Constants.START_X, Constants.START_Y);
         player.rotate(0);
         day++;
+        daysLeft--;
     }
 
     public void newDayFeedback(int... id) {
         GameAudio.playSfx(GameAudio.sfx_click);
+        menu = null;
         isNewDay = true;
         switch (id[0]) {
             case 0:
@@ -183,6 +199,12 @@ public class Game {
                 break;
             case 2:
                 newDayText = FileReader.newDayStrings[7];
+                break;
+            case 3:
+                GameAudio.stopMusic();
+                newDayText = FileReader.newDayStrings[8] + FileReader.newDayStrings[8 + examsLeft] +
+                        FileReader.newDayStrings[14] + FileReader.newDayStrings[14 + examsLeft];
+                preExam = true;
                 break;
         }
     }
@@ -201,6 +223,8 @@ public class Game {
             player.setLocation(6, 2);
             player.rotate(1);
             player.condition = 0;
+            player.emotion = null;
+            if (daysLeft < 2) { isExams = true; }
         }
         textBox = null;
         menu = null;
@@ -247,6 +271,17 @@ public class Game {
         }
     }
 
+    public void finishGame() {
+        isResult = true;
+        int totalGradePoints = 0, totalFriendPoints = 0, totalExamPoints = 0;
+        for (int i : gradeValues) { totalGradePoints += i; }
+        for (int i : friendValues) { totalFriendPoints += i; }
+        for (int i : examScores) { totalExamPoints += i; }
+        textBox = new TextBox(5, FileReader.resultStrings[0] + FileReader.resultStrings[1] + totalFriendPoints + "#" +
+                FileReader.resultStrings[2] + totalGradePoints + "#" + FileReader.resultStrings[3] + totalExamPoints + "#" +
+                FileReader.resultStrings[4] + (items[0][2] > 0) + "#" + FileReader.resultStrings[5] + points);
+    }
+
     public void newGame() {
         player = new Player(Player.TILES.get(Constants.UP), Constants.START_X, Constants.START_Y, ctrl);
 
@@ -259,7 +294,13 @@ public class Game {
 
         gradeValues = new int[5];
 
+        examScores = new int[5];
+
+        day = 1;
+        daysLeft = 30;
+
         points = 0;
+        examsLeft = 5;
 
         isNewGame = true;
         isTitle = false;
@@ -268,7 +309,8 @@ public class Game {
     public void load() {
         player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
 
-        day = 15;
+        day = 29;
+        daysLeft = 1;
 
         points = 1000;
 
@@ -278,7 +320,7 @@ public class Game {
         items[1] = new int[4];
         items[2] = new int[4];
         items[0][0] = 5;
-        items[0][1] = 1;
+        items[0][2] = 1;
         items[1][0] = 1;
         items[1][3] = 1;
         items[2][0] = 0;
@@ -299,6 +341,8 @@ public class Game {
         gradeValues[3] = 35;
         gradeValues[4] = 30;
         /* end of testing values */
+
+        examScores = new int[5];
 
         isTitle = false;
     }
@@ -352,6 +396,9 @@ public class Game {
             case 1:
                 points += 2 * (Math.pow((increase * ((gradeValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
                 break;
+            case 2:
+                points += 5 * (Math.pow((increase * ((examScores[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                break;
         }
     }
 
@@ -364,30 +411,42 @@ public class Game {
         GameFont.loadFont();
         GAME.titleScreen = new TitleScreen();
         GAME.createFrame();
-        timePeriods = Arrays.copyOf(FileReader.statusStrings, 12);
-        conditions = Arrays.copyOfRange(FileReader.statusStrings, 12, 14);
+        timePeriods = Arrays.copyOf(FileReader.statusStrings, 17);
+        conditions = Arrays.copyOfRange(FileReader.statusStrings, 17, 20);
 
-        GameAudio.startMusic(GameAudio.music_title);
-
-        while (GAME.isTitle) { GAME.titleScreen.repaint(); }
-
-        GAME.frame.remove(GAME.titleScreen);
-        GAME.time = 0;
-        GAME.map = new TileMapView(TileMapLoader.tileMaps.get(0));
-
-        GAME.camera = new Camera(GAME.player.x - (cameraWidth / 2), GAME.player.y - (cameraHeight / 2),
-                GAME.map.matrix);
-
-        GAME.statusMenu = new StatusMenu(0);
-        GAME.frame.getContentPane().add(GAME.map);
-        GAME.frame.addKeyListener(GAME.ctrl);
-        GAME.frame.revalidate();
-
-        /*Game loop*/
         while (true) {
-            GAME.update();
-            GAME.map.repaint();
-            Thread.sleep(70);
+            GameAudio.startMusic(GameAudio.music_title);
+
+            while (GAME.isTitle) { GAME.titleScreen.repaint(); }
+
+            GAME.frame.remove(GAME.titleScreen);
+            GAME.time = 0;
+            GAME.map = new TileMapView(TileMapLoader.tileMaps.get(0));
+
+            GAME.camera = new Camera(GAME.player.x - (cameraWidth / 2), GAME.player.y - (cameraHeight / 2),
+                    GAME.map.matrix);
+
+            GAME.statusMenu = new StatusMenu(0);
+            GAME.frame.getContentPane().add(GAME.map);
+            GAME.frame.addKeyListener(GAME.ctrl);
+            GAME.frame.revalidate();
+
+            /*Game loop*/
+            while (!GAME.isFinish) {
+                GAME.update();
+                GAME.map.repaint();
+                Thread.sleep(70);
+            }
+            GAME.isFinish = false;
+            GAME.isTitle = true;
+            GAME.titleScreen = new TitleScreen();
+            GAME.frame.removeKeyListener(GAME.ctrl);
+            GAME.frame.remove(GAME.map);
+            GAME.frame.getContentPane().add(GAME.titleScreen);
+            GAME.frame.revalidate();
+
         }
+
+
     }
 }

@@ -249,6 +249,28 @@ public class Player extends GameObject {
             }
         }
 
+        if (GAME.exam != null) {
+            switch (GAME.time) {
+                case 12:
+                    setLocation(13, 7);
+                    rotate(0);
+                    break;
+                case 13:
+                    setLocation(6, 5);
+                    rotate(0);
+                    break;
+                case 14:
+                case 16:
+                    setLocation(14, 7);
+                    rotate(0);
+                    break;
+                case 15:
+                    setLocation(6, 7);
+                    rotate(0);
+                    break;
+            }
+        }
+
         if (GAME.activity != null) {
             switch (GAME.activity.id) {
                 case 0:
