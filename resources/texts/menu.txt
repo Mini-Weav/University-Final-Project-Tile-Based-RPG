@@ -11,7 +11,7 @@ ENERGY DRINK ×
 #D GRADE FOOD ×
 #C GRADE FOOD ×
 #B GRADE FOOD ×
-#SUPER CAKE   ×
+#LOVELY CAKE  ×
 YES#NO
 D GRADE FOOD ×
 D GRADE CRAFT×
@@ -41,7 +41,7 @@ QUESTIONS:
 #ATTENTION:    
 #CONCENTRATION:
 You have an item you can#give to 
-Should you attend
+Should you attend#
 Should you eat lunch?
 The lunch is good! You feel #recharged and ready for the #next class!
 The lunch is bad! You don't #feel very well...

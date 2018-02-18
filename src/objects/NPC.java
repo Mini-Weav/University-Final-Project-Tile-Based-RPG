@@ -104,9 +104,17 @@ public class NPC extends GameObject{
                 else { friendTextBox(); }
                 break;
             case 1:
-                if (GAME.hasFood() && GAME.friendValues[id] > 0) {
+                if (GAME.hasLovelyCake() && GAME.friendValues[id] >= 20) {
                     GAME.textBox = new TextBox(3, FileReader.menuStrings[42] + name + ".");
                     GAME.menu = new Menu(5);
+                }
+                else if (GAME.hasFood() && GAME.friendValues[id] > 0) {
+                    GAME.textBox = new TextBox(3, FileReader.menuStrings[42] + name + ".");
+                    GAME.menu = new Menu(5);
+                }
+                else if (GAME.emilyCrush) {
+                    emotion = new Emotion(4);
+                    GAME.textBox = new TextBox(NPC.text.get(id)[4], this, true);
                 }
                 else { friendTextBox(); }
                 break;
@@ -146,7 +154,10 @@ public class NPC extends GameObject{
     public void gift(boolean yes) {
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
-            if (id == 1) { GAME.menu = new Menu(6); }
+            if (id == 1) {
+                if (GAME.hasLovelyCake() && GAME.friendValues[id] >= 20) { GAME.menu = new Menu(16); }
+                else { GAME.menu = new Menu(6); }
+            }
             if (id == 3) { GAME.menu = new Menu(7); }
         }
         else {
@@ -161,8 +172,17 @@ public class NPC extends GameObject{
         switch (id) {
             case 1:
                 GAME.items[2][index]--;
-                GAME.textBox = new TextBox(text.get(1)[2], this, true);
-                emotion = new Emotion(2);
+                if (index == 3 || GAME.emilyCrush) {
+                    if (!GAME.emilyCrush) { GAME.points *= 1.2;}
+                    GAME.emilyCrush = true;
+                    GAME.textBox = new TextBox(text.get(1)[3], this, true);
+                    emotion = new Emotion(4);
+                    GAME.friendValues[id] += (index + 1);
+                }
+                else {
+                    GAME.textBox = new TextBox(text.get(1)[2], this, true);
+                    emotion = new Emotion(2);
+                }
                 break;
             case 3:
                 GAME.items[1][index]--;
@@ -350,6 +370,7 @@ public class NPC extends GameObject{
                 friendTextBox();
                 break;
         }
+        GAME.daysSince[id / 2] = -1;
     }
 
     public void activity(boolean yes) {

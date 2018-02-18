@@ -17,6 +17,7 @@ public class GameAudio {
     public final static Clip music_lesson = getClip("lesson");
     public final static Clip music_school = getClip("school");
     public final static Clip music_title = getClip("title");
+    public final static Clip music_result = getClip("results");
 
     public final static Clip sfx_buff = getClip("buff");
     public final static Clip sfx_click = getClip("click");
@@ -38,6 +39,7 @@ public class GameAudio {
             music_lesson.open();
             music_school.open();
             music_title.open();
+            music_result.open();
 
             sfx_buff.open();
             sfx_click.open();

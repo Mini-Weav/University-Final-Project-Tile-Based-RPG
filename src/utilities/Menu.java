@@ -68,10 +68,9 @@ public class Menu {
                 text = FileReader.menuStrings[14];
                 break;
             case 6:
-                img = imgs[4];
+                img = imgs[5];
                 text =    FileReader.menuStrings[15] + GAME.items[2][0] + FileReader.menuStrings[11] + GAME.items[2][1] +
-                        FileReader.menuStrings[12] + GAME.items[2][2] + FileReader.menuStrings[13] + GAME.items[2][3] +
-                        FileReader.menuStrings[17];
+                        FileReader.menuStrings[12] + GAME.items[2][2] + FileReader.menuStrings[17];
                 break;
             case 7:
                 img = imgs[5];
@@ -98,6 +97,11 @@ public class Menu {
                 img = imgs[9];
                 text = FileReader.menuStrings[22];
                 break;
+            case 16:
+                img = imgs[4];
+                text =    FileReader.menuStrings[15] + GAME.items[2][0] + FileReader.menuStrings[11] + GAME.items[2][1] +
+                        FileReader.menuStrings[12] + GAME.items[2][2] + FileReader.menuStrings[13] + GAME.items[2][3] +
+                        FileReader.menuStrings[17];
         }
     }
 

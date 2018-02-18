@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class FileReader {
     public static String[] interactiveStrings, npcStrings, newDayStrings, activityStrings, lessonStrings, menuStrings,
             statusStrings, resultStrings,
-            jackStrings = new String[3], emilyStrings = new String[3], alexanderStrings = new String[3],
+            jackStrings = new String[3], emilyStrings = new String[5], alexanderStrings = new String[3],
             nathanStrings = new String[3], frankieStrings = new String[3], boyStrings = new String[5],
             girlStrings = new String[5], lunchStrings = new String[3];
 
@@ -47,6 +47,8 @@ public class FileReader {
             boyStrings[i] = npcStrings[i + 20];
             girlStrings[i] = npcStrings[i + 26];
         }
+        emilyStrings[3] = npcStrings[37];
+        emilyStrings[4] = npcStrings[38];
         System.arraycopy(npcStrings, 32, lunchStrings, 0, 3);
         newDayStrings = readFile("new_day_feedback");
         activityStrings = readFile("activities");

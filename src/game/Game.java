@@ -39,10 +39,11 @@ public class Game {
     public Exam exam;
     public char[][] tileMatrix;
     public GameObject[][] objectMatrix;
-    public int[] friendValues, gradeValues, examScores;
+    public int[] friendValues, gradeValues, examScores, daysSince;
     public int[][] items;
     public boolean isTransition, isNewGame, isNewDay, isAfterActivity, givenDrink, isHeist, gotAnswers, isSpotted,
-            isResult, isFinish, hasLostHeist, hasWonHeist, isSuspended, isExams, preExam,isFullScreen, isTitle = true;
+            isResult, isFinish, hasLostHeist, hasWonHeist, isSuspended, isExams, preExam, emilyCrush, isFullScreen,
+            isTitle = true;
     public long transitionTime;
     public String newDayText;
     public Clip music;
@@ -166,7 +167,7 @@ public class Game {
 
     public boolean hasSuperKey() { return items[1][3] > 0; }
 
-    public boolean hasSuperCake() { return items[2][3] > 0; }
+    public boolean hasLovelyCake() { return items[2][3] > 0; }
 
     public boolean hasQuestions() { return items[0][2] > 0; }
 
@@ -184,6 +185,16 @@ public class Game {
         player.rotate(0);
         day++;
         daysLeft--;
+        for (int i = 0; i < 3; i ++) {
+            if (friendValues[i * 2] >= 10) {
+                daysSince[i]++;
+                if (daysSince[i] > 2) {
+                    int decrease = daysSince[i] - 1;
+                    friendValues[i * 2] -= decrease;
+                    GAME.increaseValues(3, i *2, decrease);
+                }
+            }
+        }
     }
 
     public void newDayFeedback(int... id) {
@@ -272,6 +283,7 @@ public class Game {
     }
 
     public void finishGame() {
+        GameAudio.startMusic(GameAudio.music_result);
         isResult = true;
         int totalGradePoints = 0, totalFriendPoints = 0, totalExamPoints = 0;
         for (int i : gradeValues) { totalGradePoints += i; }
@@ -291,10 +303,10 @@ public class Game {
         items[2] = new int[4];
 
         friendValues = new int[5];
-
         gradeValues = new int[5];
-
         examScores = new int[5];
+
+        daysSince = new int[3];
 
         day = 1;
         daysLeft = 30;
@@ -304,17 +316,22 @@ public class Game {
 
         isNewGame = true;
         isTitle = false;
+
+        isExams = false;
+        isSuspended = false;
+        givenDrink = false;
+        emilyCrush = false;
+
     }
 
     public void load() {
         player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
 
-        day = 29;
+        day = 30;
         daysLeft = 1;
 
         points = 1000;
 
-        /* start of testing values */
         items = new int[3][];
         items[0] = new int[3];
         items[1] = new int[4];
@@ -322,14 +339,15 @@ public class Game {
         items[0][0] = 5;
         items[0][2] = 1;
         items[1][0] = 1;
-        items[1][3] = 1;
-        items[2][0] = 0;
+        items[1][3] = 0;
+        items[2][0] = 1;
         items[2][1] = 0;
         items[2][2] = 0;
+        items[2][3] = 1;
 
         friendValues = new int[5];
-        friendValues[0] = 1;
-        friendValues[1] = 9;
+        friendValues[0] = 11;
+        friendValues[1] = 19;
         friendValues[2]= 22;
         friendValues[3] = 30;
         friendValues[4] = 30;
@@ -338,11 +356,12 @@ public class Game {
         gradeValues[0] = 30;
         gradeValues[1] = 18;
         gradeValues[2] = 22;
-        gradeValues[3] = 35;
+        gradeValues[3] = 20;
         gradeValues[4] = 30;
-        /* end of testing values */
 
         examScores = new int[5];
+
+        daysSince = new int[3];
 
         isTitle = false;
     }
@@ -398,6 +417,9 @@ public class Game {
                 break;
             case 2:
                 points += 5 * (Math.pow((increase * ((examScores[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                break;
+            case 3:
+                points -= 2 * (Math.pow((increase * ((gradeValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
                 break;
         }
     }

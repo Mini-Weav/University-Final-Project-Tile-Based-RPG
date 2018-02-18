@@ -8,7 +8,6 @@ import java.awt.*;
  */
 public class Constants {
     public static final int START_X = 9, START_Y = 24;
-    public static final int DEC_WIDTH = 6, DEC_HEIGHT = 29;
     public static final int FRAME_WIDTH = 480, FRAME_HEIGHT = 480;
     public static final Rectangle SCREEN = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].getDefaultConfiguration().getBounds();
     public static final int FULL_WIDTH = SCREEN.width, FULL_HEIGHT = SCREEN.height;
