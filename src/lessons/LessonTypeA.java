@@ -53,6 +53,7 @@ public class LessonTypeA extends Lesson {
                 questionId = generateQuestion(id, lv1, lv2);
                 if (questionsLeft == 0) {
                     finished = true;
+                    GAME.player.emotion = null;
                     feedbackText = FileReader.lessonStrings[5] + FileReader.lessonStrings[6] + (int)((score / rounds) * 100) + "!";
                 }
                 break;

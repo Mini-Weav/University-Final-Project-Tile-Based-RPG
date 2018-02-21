@@ -29,6 +29,7 @@ public abstract class Lesson {
         try { for (NPC npc : currentMap.NPCs.get(GAME.time)) { npc.reset(); } }
         catch (NullPointerException e) {}
         int grade = (GAME.gradeValues[id] / 10) + 1;
+        if (grade > 4) { grade = 4; }
         oldTime = GAME.time;
         GAME.time = id + 3;
         GameAudio.startMusic(GameAudio.music_lesson);

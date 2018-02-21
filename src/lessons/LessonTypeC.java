@@ -144,6 +144,7 @@ public class LessonTypeC extends Lesson {
         }
         feedback = true;
         if (time == 0) {
+            GAME.player.emotion = null;
             score = (laps + bonusScore) / 2;
             feedbackText = FileReader.lessonStrings[5] + FileReader.lessonStrings[6] + + ((laps + bonusScore) * 5) + "!";
             finished = true;
