@@ -327,37 +327,33 @@ public class Game {
     public void load() {
         player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
 
-        day = 30;
-        daysLeft = 1;
+        day = 5;
+        daysLeft = 25;
 
-        points = 1000;
+        points = 100;
 
         items = new int[3][];
         items[0] = new int[3];
         items[1] = new int[4];
         items[2] = new int[4];
-        items[0][0] = 5;
-        items[0][2] = 1;
-        items[1][0] = 1;
-        items[1][3] = 0;
+        items[0][0] = 3;
+        items[1][2] = 1;
+        items[1][3] = 1;
         items[2][0] = 1;
-        items[2][1] = 0;
-        items[2][2] = 0;
-        items[2][3] = 1;
 
         friendValues = new int[5];
-        friendValues[0] = 11;
-        friendValues[1] = 19;
-        friendValues[2]= 22;
-        friendValues[3] = 30;
-        friendValues[4] = 30;
+        friendValues[0] = 10;
+        friendValues[1] = 10;
+        friendValues[2]= 10;
+        friendValues[3] = 10;
+        friendValues[4] = 10;
 
         gradeValues = new int[5];
-        gradeValues[0] = 30;
-        gradeValues[1] = 18;
-        gradeValues[2] = 22;
-        gradeValues[3] = 20;
-        gradeValues[4] = 30;
+        gradeValues[0] = 10;
+        gradeValues[1] = 10;
+        gradeValues[2] = 10;
+        gradeValues[3] = 10;
+        gradeValues[4] = 10;
 
         examScores = new int[5];
 
