@@ -337,8 +337,7 @@ public class Game {
         items[1] = new int[4];
         items[2] = new int[4];
         items[0][0] = 3;
-        items[1][2] = 1;
-        items[1][3] = 1;
+        items[1][0] = 1;
         items[2][0] = 1;
 
         friendValues = new int[5];
