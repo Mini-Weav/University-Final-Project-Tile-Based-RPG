@@ -5,11 +5,13 @@ import lessons.Exam;
 import lessons.Lesson;
 import objects.*;
 import utilities.*;
+import utilities.FileReader;
 import utilities.Menu;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,25 +22,25 @@ import java.util.List;
 
 
 
-public class Game {
+public class Game implements Serializable {
     public final static Game GAME = new Game();
 
-    public Player player;
-    public List<GameObject> objects;
+    public transient Player player;
+    public transient List<GameObject> objects;
     public JFrame frame;
-    public Keys ctrl;
-    public int time, day = 1, daysLeft = 30, points, timeBeforeHeist, examsLeft = 5;
-    public TileMapView map;
-    public Camera camera;
-    public TextBox textBox;
-    public Menu menu;
-    public StatusMenu statusMenu;
-    public TitleScreen titleScreen;
-    public Lesson lesson;
-    public Activity activity;
-    public Exam exam;
+    public transient Keys ctrl;
+    public int time, day = 1, daysLeft = 30, points, timeBeforeHeist, examsLeft = 5, playerX, playerY, mapId;
+    public transient TileMapView map;
+    public transient Camera camera;
+    public transient TextBox textBox;
+    public transient Menu menu;
+    public transient StatusMenu statusMenu;
+    public transient TitleScreen titleScreen;
+    public transient Lesson lesson;
+    public transient Activity activity;
+    public transient Exam exam;
     public char[][] tileMatrix;
-    public GameObject[][] objectMatrix;
+    public transient GameObject[][] objectMatrix;
     public int[] friendValues, gradeValues, examScores, daysSince;
     public int[][] items;
     public boolean isTransition, isNewGame, isNewDay, isAfterActivity, givenDrink, isHeist, gotAnswers, isSpotted,
@@ -46,7 +48,7 @@ public class Game {
             isTitle = true;
     public long transitionTime;
     public String newDayText;
-    public Clip music;
+    public transient Clip music;
 
     public static int height, width, cameraHeight, cameraWidth;
 
@@ -302,6 +304,13 @@ public class Game {
         items[1] = new int[4];
         items[2] = new int[4];
 
+        map = new TileMapView(TileMapLoader.tileMaps.get(0));
+
+        camera = new Camera(player.x - (cameraWidth / 2), player.y - (cameraHeight / 2),
+                map.matrix);
+
+        time = 0;
+
         friendValues = new int[5];
         gradeValues = new int[5];
         examScores = new int[5];
@@ -325,41 +334,107 @@ public class Game {
     }
 
     public void load() {
-        player = new Player(Player.TILES.get(5), Constants.START_X, Constants.START_Y, ctrl);
+        //load game
 
-        day = 5;
-        daysLeft = 25;
+        Game data = null;
 
-        points = 100;
+        try {
+            FileInputStream saveData = new FileInputStream("sav/game.ser");
+            ObjectInputStream in = new ObjectInputStream(saveData);
+            data = (Game) in.readObject();
+            in.close();
+            saveData.close();
+        } catch (IOException e) {
+            System.out.println("Unable to load data");
+            e.printStackTrace();
+            return;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Unable to find Game class");
+            e.printStackTrace();
+            return;
+        }
+        player = new Player(Player.TILES.get(0), data.playerX, data.playerY, ctrl);
 
-        items = new int[3][];
-        items[0] = new int[3];
-        items[1] = new int[4];
-        items[2] = new int[4];
-        items[0][0] = 3;
-        items[1][0] = 1;
-        items[2][0] = 1;
+        items = data.items;
+        map = new TileMapView(TileMapLoader.tileMaps.get(data.mapId));
+        time = data.time;
 
-        friendValues = new int[5];
-        friendValues[0] = 10;
-        friendValues[1] = 10;
-        friendValues[2]= 10;
-        friendValues[3] = 10;
-        friendValues[4] = 10;
+        camera = new Camera(player.x - (cameraWidth / 2), player.y - (cameraHeight / 2),
+                map.matrix);
 
-        gradeValues = new int[5];
-        gradeValues[0] = 10;
-        gradeValues[1] = 10;
-        gradeValues[2] = 10;
-        gradeValues[3] = 10;
-        gradeValues[4] = 10;
+        friendValues = data.friendValues;
+        gradeValues = data.gradeValues;
+        examScores = data.examScores;
 
-        examScores = new int[5];
+        daysSince = data.daysSince;
 
-        daysSince = new int[3];
+        day = data.day;
+        daysLeft = data.daysLeft;
+
+        points = data.points;
+        examsLeft = data.examsLeft;
+
+        isExams = data.isExams;
+        isSuspended = data.isSuspended;
+        givenDrink = data.givenDrink;
+        emilyCrush = data.emilyCrush;
+
+        isNewGame = false;
+        isTitle = false;
+
+
+//        day = 5;
+//        daysLeft = 25;
+//
+//        points = 100;
+//
+//        items = new int[3][];
+//        items[0] = new int[3];
+//        items[1] = new int[4];
+//        items[2] = new int[4];
+//        items[0][0] = 3;
+//        items[1][0] = 1;
+//        items[2][0] = 1;
+//
+//        friendValues = new int[5];
+//        friendValues[0] = 10;
+//        friendValues[1] = 10;
+//        friendValues[2]= 10;
+//        friendValues[3] = 10;
+//        friendValues[4] = 10;
+//
+//        gradeValues = new int[5];
+//        gradeValues[0] = 10;
+//        gradeValues[1] = 10;
+//        gradeValues[2] = 10;
+//        gradeValues[3] = 10;
+//        gradeValues[4] = 10;
+//
+//        examScores = new int[5];
+//
+//        daysSince = new int[3];
 
         isTitle = false;
     }
+
+    public void save() {
+        playerX = player.x;
+        playerY = player.y;
+        mapId = map.currentId;
+        try {
+            FileOutputStream saveData = new FileOutputStream("sav/game.ser");
+            ObjectOutputStream out = new ObjectOutputStream(saveData);
+            out.writeObject(this);
+            out.close();
+            saveData.close();
+            System.out.println("Save successful");
+        } catch (IOException e) {
+            System.out.println("Unable to save");
+            e.printStackTrace();
+        }
+    }
+
+
 
     public void windowScreen() {
         frame.dispose();
@@ -437,11 +512,6 @@ public class Game {
             while (GAME.isTitle) { GAME.titleScreen.repaint(); }
 
             GAME.frame.remove(GAME.titleScreen);
-            GAME.time = 0;
-            GAME.map = new TileMapView(TileMapLoader.tileMaps.get(0));
-
-            GAME.camera = new Camera(GAME.player.x - (cameraWidth / 2), GAME.player.y - (cameraHeight / 2),
-                    GAME.map.matrix);
 
             GAME.statusMenu = new StatusMenu(0);
             GAME.frame.getContentPane().add(GAME.map);

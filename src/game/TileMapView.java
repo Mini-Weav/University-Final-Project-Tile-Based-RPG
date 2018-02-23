@@ -128,11 +128,11 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
         }
     }
 
-    public void mousePressed(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         int curX = e.getX();
         int curY = e.getY();
         int x = (int)GAME.player.direction.getX();

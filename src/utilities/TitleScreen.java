@@ -31,11 +31,11 @@ public class TitleScreen extends JComponent implements MouseListener, MouseMotio
         textBox.paintComponent(g);
     }
 
-    public void mousePressed(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         int curX = e.getX();
         int curY = e.getY();
 
