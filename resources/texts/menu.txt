@@ -1,4 +1,4 @@
-GRADES#FRIENDS#MAP#ITEMS
+GRADES#FRIENDS#MAP#ITEMS#SAVE#QUIT
 G#1F
 ATHLETE#CLASSMATE#NERD#DELINQUENT#TUTEE
 DT#FOOD TECH#PE#CHEMISTRY#ICT
@@ -56,3 +56,9 @@ Today is your first day at#Brooklands Academy... you#hope it will be okay...
 The teachers caught you in#the act! You're suspended#from after school#activities!
 The heist was a success! you#will leak the questions to#your friends.
 You need to look for the#exam questions!
+You saved the game.
+ERROR: Unable to save the#game.
+Are you sure you want to#quit the game?
+ERROR: Unable to load data.
+ERROR: Unable to find Game#class.
+WELCOME TO BROOKLANDS#ACADEMY.

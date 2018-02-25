@@ -16,11 +16,11 @@ import static game.Game.GAME;
  */
 public class TitleScreen extends JComponent implements MouseListener, MouseMotionListener {
     Menu menu;
-    TextBox textBox;
+    public TextBox textBox;
 
     public TitleScreen() {
         menu = new Menu(12);
-        textBox = new TextBox(0, "WELCOME TO BROOKLANDS#ACADEMY.");
+        textBox = new TextBox(0, FileReader.menuStrings[63]);
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -43,12 +43,10 @@ public class TitleScreen extends JComponent implements MouseListener, MouseMotio
             if (curX > Game.width - 164 && curX < Game.width - 36 && curY > 32 && curY < 48) {
                 GameAudio.playSfx(GameAudio.sfx_click);
                 GAME.newGame();
-                GameAudio.stopMusic();
             }
             if (curX > Game.width - 164 && curX < Game.width - 36 && curY > 64 && curY < 80) {
                 GameAudio.playSfx(GameAudio.sfx_click);
                 GAME.load();
-                GameAudio.startMusic(GameAudio.music_school);
             }
             if (curX > Game.width - 164 && curX < Game.width - 100 && curY > 96 && curY < 116) { System.exit(0); }
         }

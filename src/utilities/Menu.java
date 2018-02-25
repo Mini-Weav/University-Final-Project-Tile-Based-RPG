@@ -36,7 +36,7 @@ public class Menu {
     public static void setUp(int id) {
         switch (id) {
             case 0:
-                img = imgs[0];
+                img = imgs[10];
                 text = FileReader.menuStrings[0];
                 break;
             case 1:
@@ -64,6 +64,7 @@ public class Menu {
             case 5:
             case 13:
             case 14:
+            case 17:
                 img = imgs[1];
                 text = FileReader.menuStrings[14];
                 break;
@@ -169,7 +170,7 @@ public class Menu {
 
     public static void loadImages() {
         try {
-            imgs = new BufferedImage[10];
+            imgs = new BufferedImage[11];
             imgs[0] = ImageIO.read(new File("resources/menus/menu_4row.png"));
             imgs[1] = ImageIO.read(new File("resources/menus/menu_2row_thin.png"));
             imgs[2] = ImageIO.read(new File("resources/menus/menu_5row.png"));
@@ -180,6 +181,7 @@ public class Menu {
             imgs[7] = ImageIO.read(new File("resources/menus/menu_3row_wide.png"));
             imgs[8] = ImageIO.read(new File("resources/menus/menu_5row_medium.png"));
             imgs[9] = ImageIO.read(new File("resources/menus/menu_3row(title).png"));
+            imgs[10] = ImageIO.read(new File("resources/menus/menu_6row.png"));
             mapImgs = new BufferedImage[2];
             mapImgs[0] = ImageIO.read(new File("resources/minimaps/minimap1.png"));
             mapImgs[1] = ImageIO.read(new File("resources/minimaps/minimap2.png"));

@@ -297,6 +297,8 @@ public class Game implements Serializable {
     }
 
     public void newGame() {
+        GameAudio.stopMusic();
+
         player = new Player(Player.TILES.get(Constants.UP), Constants.START_X, Constants.START_Y, ctrl);
 
         items = new int[3][];
@@ -345,19 +347,31 @@ public class Game implements Serializable {
             in.close();
             saveData.close();
         } catch (IOException e) {
-            System.out.println("Unable to load data");
-            e.printStackTrace();
+            titleScreen.textBox = new TextBox(0, FileReader.menuStrings[61]);
             return;
         } catch (ClassNotFoundException e) {
-            System.out.println("Unable to find Game class");
-            e.printStackTrace();
+            titleScreen.textBox = new TextBox(0, FileReader.menuStrings[62]);
             return;
         }
+
         player = new Player(Player.TILES.get(0), data.playerX, data.playerY, ctrl);
 
         items = data.items;
         map = new TileMapView(TileMapLoader.tileMaps.get(data.mapId));
         time = data.time;
+
+        switch (time) {
+            case 8:
+                GameAudio.startMusic(GameAudio.music_bedroom);
+                break;
+            case 10:
+            case 11:
+                GameAudio.startMusic(GameAudio.music_heist);
+                break;
+            default:
+                GameAudio.startMusic(GameAudio.music_school);
+                break;
+        }
 
         camera = new Camera(player.x - (cameraWidth / 2), player.y - (cameraHeight / 2),
                 map.matrix);
@@ -418,20 +432,29 @@ public class Game implements Serializable {
     }
 
     public void save() {
+        GameAudio.playSfx(GameAudio.sfx_click);
         playerX = player.x;
         playerY = player.y;
         mapId = map.currentId;
+        menu = null;
         try {
             FileOutputStream saveData = new FileOutputStream("sav/game.ser");
             ObjectOutputStream out = new ObjectOutputStream(saveData);
             out.writeObject(this);
             out.close();
             saveData.close();
-            System.out.println("Save successful");
+            GameAudio.playSfx(GameAudio.sfx_save);
+            textBox = new TextBox(0, FileReader.menuStrings[58]);
         } catch (IOException e) {
-            System.out.println("Unable to save");
+            textBox = new TextBox(0, FileReader.menuStrings[59]);
             e.printStackTrace();
         }
+    }
+
+    public void quit() {
+        GameAudio.playSfx(GameAudio.sfx_click);
+        textBox = new TextBox(3, FileReader.menuStrings[60]);
+        menu = new Menu(17);
     }
 
 

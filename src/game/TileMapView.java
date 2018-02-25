@@ -210,7 +210,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                 switch (GAME.menu.currentId) {
                     case 0:
                         if (curX > Game.width - 152 && curX < Game.width - 100
-                                && curY > 96 && curY < 116) {
+                                && curY > 96 && curY < 112) {
                             GAME.menu = new Menu(1);
                             GameAudio.playSfx(GameAudio.sfx_click);
                         }
@@ -225,18 +225,22 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             GameAudio.playSfx(GameAudio.sfx_click);
                         }
                         if (curX > Game.width - 152 && curX < Game.width - 72
-                                && curY > 128 && curY < 146) {
+                                && curY > 128 && curY < 144) {
                             GAME.menu = new Menu(4);
                             GameAudio.playSfx(GameAudio.sfx_click);
                         }
+                        if (curX > Game.width - 152 && curX < Game.width - 88
+                                && curY > 160 && curY < 176) { GAME.save(); }
+                        if (curX > Game.width - 152 && curX < Game.width - 88
+                                && curY > 192 && curY < 208) { GAME.quit(); }
                         return;
                     case 1:
                         if (curX > Game.width - 76 && curX < Game.width - 56
-                                && curY > 32 && curY < 52) {
+                                && curY > 32 && curY < 48) {
                             GameAudio.playSfx(GameAudio.sfx_click);
                             Menu.loadMapImage(0); }
                         if (curX > Game.width - 76 && curX < Game.width - 44
-                                && curY > 64 && curY < 84) {
+                                && curY > 64 && curY < 80) {
                             GameAudio.playSfx(GameAudio.sfx_click);
                             Menu.loadMapImage(1); }
                         break;
@@ -246,7 +250,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         if (curX > Game.width - 200 && curX < Game.width - 56
                                 && curY > 64 && curY < 80){ Menu.loadFriend(1); }
                         if (curX > Game.width - 200 && curX < Game.width - 136
-                                && curY > 96 && curY < 116){ Menu.loadFriend(2); }
+                                && curY > 96 && curY < 112){ Menu.loadFriend(2); }
                         if (curX > Game.width - 200 && curX < Game.width - 40
                                 && curY > 128 && curY < 144){ Menu.loadFriend(3); }
                         if (curX > Game.width - 200 && curX < Game.width - 120
@@ -258,7 +262,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         if (curX > Game.width - 200 && curX < Game.width - 56
                                 && curY > 64 && curY < 80){ Menu.loadGrade(1); }
                         if (curX > Game.width - 200 && curX < Game.width - 168
-                                && curY > 96 && curY < 116){ Menu.loadGrade(2); }
+                                && curY > 96 && curY < 112){ Menu.loadGrade(2); }
                         if (curX > Game.width - 200 && curX < Game.width - 56
                                 && curY > 128 && curY < 144){ Menu.loadGrade(3); }
                         if (curX > Game.width - 200 && curX < Game.width - 152
@@ -303,7 +307,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         if (curX > Game.width - 284 && curX < Game.width - 96
                                 && curY > 64 && curY < 80 && GAME.items[2][1] > 0) { npc.giftTextBox(1); }
                         if (curX > Game.width - 284 && curX < Game.width - 96
-                                && curY > 96 && curY < 116 && GAME.items[2][2] > 0) { npc.giftTextBox(2); }
+                                && curY > 96 && curY < 112 && GAME.items[2][2] > 0) { npc.giftTextBox(2); }
                         if (curX > Game.width - 284 && curX < Game.width - 124
                                 && curY > 128 && curY < 144) { npc.gift(false); }
                         break;
@@ -316,7 +320,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         if (curX > Game.width - 284 && curX < Game.width - 76
                                 && curY > 64 && curY < 80 && GAME.items[1][1] > 0) { npc.giftTextBox(1); }
                         if (curX > Game.width - 284 && curX < Game.width - 76
-                                && curY > 96 && curY < 116 && GAME.items[1][2] > 0) { npc.giftTextBox(2); }
+                                && curY > 96 && curY < 112 && GAME.items[1][2] > 0) { npc.giftTextBox(2); }
                         if (curX > Game.width - 284 && curX < Game.width - 124
                                 && curY > 128 && curY < 144) { npc.gift(false); }
                         break;
@@ -334,9 +338,9 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             if (curX > Game.width - 152 && curX < Game.width - 72
                                     && curY > 64 && curY < 80) { lesson.doAction(1); }
                             if (curX > Game.width - 152 && curX < Game.width - 72
-                                    && curY > 96 && curY < 116) { lesson.doAction(2); }
+                                    && curY > 96 && curY < 112) { lesson.doAction(2); }
                             if (curX > Game.width - 152 && curX < Game.width - 56
-                                    && curY > 128 && curY < 146) { lesson.doAction(3); }
+                                    && curY > 128 && curY < 144) { lesson.doAction(3); }
                         }
                         break;
                     case 9:
@@ -350,7 +354,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             if (curX > Game.width - 152 && curX < Game.width - 24
                                     && curY > 64 && curY < 80) { GAME.lesson.doAction(1); }
                             if (curX > Game.width - 152 && curX < Game.width - 52
-                                    && curY > 96 && curY < 116) { GAME.lesson.doAction(2); }
+                                    && curY > 96 && curY < 112) { GAME.lesson.doAction(2); }
                         }
                         break;
                     case 10:
@@ -364,7 +368,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             if (curX > Game.width - 152 && curX < Game.width - 72
                                     && curY > 64 && curY < 80) { GAME.lesson.doAction(1); }
                             if (curX > Game.width - 152 && curX < Game.width - 72
-                                    && curY > 96 && curY < 116) { GAME.lesson.doAction(2); }
+                                    && curY > 96 && curY < 112) { GAME.lesson.doAction(2); }
                         }
                         break;
                     case 11:
@@ -378,7 +382,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             if (curX > Game.width - 152 && curX < Game.width - 104
                                     && curY > 64 && curY < 80) { GAME.lesson.doAction(1); }
                             if (curX > Game.width - 152 && curX < Game.width - 52
-                                    && curY > 96 && curY < 116) { GAME.lesson.doAction(2); }
+                                    && curY > 96 && curY < 112) { GAME.lesson.doAction(2); }
                             if (curX > Game.width - 152 && curX < Game.width - 88
                                     && curY > 128 && curY < 144) { GAME.lesson.doAction(3); }
                             if (curX > Game.width - 152 && curX < Game.width - 72
@@ -456,7 +460,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             GAME.newDayFeedback(0, 1);
                         }
                         if (curX > Game.width - 200 && curX < Game.width - 168
-                                && curY > 96 && curY < 116) {
+                                && curY > 96 && curY < 112) {
                             GAME.gradeValues[2] += score;
                             GAME.newDayFeedback(0, 2);
                         }
@@ -485,6 +489,24 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                 && curY > 128 && curY < 144 && GAME.items[2][3] > 0) { npc.giftTextBox(3); }
                         if (curX > Game.width - 284 && curX < Game.width - 124
                                 && curY > 160 && curY < 176) { npc.gift(false); }
+                        break;
+                    case 17:
+                        if (curX > Game.width - 76 && curX < Game.width - 28
+                                && curY > 32 && curY < 48) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
+                            GAME.menu = null;
+                            GAME.textBox = null;
+                            GAME.isFinish = true;
+                        }
+                        if (curX > Game.width - 76 && curX < Game.width - 42
+                                && curY > 64 && curY < 80) {
+                            GameAudio.playSfx(GameAudio.sfx_click);
+                            GAME.menu = null;
+                            GAME.textBox = null;
+                        }
+                        break;
+
+
                 }
             }
         }
@@ -505,10 +527,12 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
 
             switch (GAME.menu.currentId) {
                 case 0:
-                    click = curX > Game.width - 152 && curX < Game.width - 100 && curY > 96 && curY < 116 ||
+                    click = curX > Game.width - 152 && curX < Game.width - 100 && curY > 96 && curY < 112 ||
                             curX > Game.width - 152 && curX < Game.width - 40 && curY > 64 && curY < 80 ||
                             curX > Game.width - 152 && curX < Game.width - 52 && curY > 32 && curY < 48 ||
-                            curX > Game.width - 152 && curX < Game.width - 72 && curY > 128 && curY < 146;
+                            curX > Game.width - 152 && curX < Game.width - 72 && curY > 128 && curY < 144 ||
+                            curX > Game.width - 152 && curX < Game.width - 88 && curY > 160 && curY < 176 ||
+                            curX > Game.width - 152 && curX < Game.width - 88 && curY > 192 && curY < 208;
                     break;
                 case 1:
                     click = curX > Game.width - 76 && curX < Game.width - 56 && curY > 32 && curY < 52 ||
@@ -517,7 +541,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                 case 2:
                     click = curX > Game.width - 200 && curX < Game.width - 88 && curY > 32 && curY < 48 ||
                             curX > Game.width - 200 && curX < Game.width - 56 && curY > 64 && curY < 80 ||
-                            curX > Game.width - 200 && curX < Game.width - 136 && curY > 96 && curY < 116 ||
+                            curX > Game.width - 200 && curX < Game.width - 136 && curY > 96 && curY < 112 ||
                             curX > Game.width - 200 && curX < Game.width - 40 && curY > 128 && curY < 144 ||
                             curX > Game.width - 200 && curX < Game.width - 120 && curY > 160 && curY < 176;
                     break;
@@ -525,13 +549,14 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                 case 15:
                     click = curX > Game.width - 200 && curX < Game.width - 168 && curY > 32 && curY < 48 ||
                             curX > Game.width - 200 && curX < Game.width - 56 && curY > 64 && curY < 80 ||
-                            curX > Game.width - 200 && curX < Game.width - 168 && curY > 96 && curY < 116 ||
+                            curX > Game.width - 200 && curX < Game.width - 168 && curY > 96 && curY < 112 ||
                             curX > Game.width - 200 && curX < Game.width - 56 && curY > 128 && curY < 144 ||
                             curX > Game.width - 200 && curX < Game.width - 152 && curY > 160 && curY < 176;
                     break;
                 case 5:
                 case 13:
                 case 14:
+                case 17:
                     click = curX > Game.width - 76 && curX < Game.width - 28 && curY > 32 && curY < 48 ||
                             curX > Game.width - 76 && curX < Game.width - 42 && curY > 64 && curY < 80;
                     break;
@@ -540,7 +565,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                     && GAME.items[2][0] > 0 ||
                             curX > Game.width - 284 && curX < Game.width - 96 && curY > 64 && curY < 80
                                     && GAME.items[2][1] > 0 ||
-                            curX > Game.width - 284 && curX < Game.width - 96 && curY > 96 && curY < 116
+                            curX > Game.width - 284 && curX < Game.width - 96 && curY > 96 && curY < 112
                                     && GAME.items[2][2] > 0 ||
                             curX > Game.width - 284 && curX < Game.width - 124 && curY > 128 && curY < 144;
                     break;
@@ -549,7 +574,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                                     && GAME.items[1][0] > 0 ||
                             curX > Game.width - 284 && curX < Game.width - 76 && curY > 64 && curY < 80
                                     && GAME.items[1][1] > 0 ||
-                            curX > Game.width - 284 && curX < Game.width - 76 && curY > 96 && curY < 116
+                            curX > Game.width - 284 && curX < Game.width - 76 && curY > 96 && curY < 112
                                     && GAME.items[1][2] > 0 ||
                             curX > Game.width - 284 && curX < Game.width - 124 && curY > 128 && curY < 144;
                     break;
@@ -559,26 +584,26 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     else { lesson = GAME.exam; }
                     click = (curX > Game.width - 152 && curX < Game.width - 56 && curY > 32 && curY < 48 ||
                              curX > Game.width - 152 && curX < Game.width - 72 && curY > 64 && curY < 80 ||
-                             curX > Game.width - 152 && curX < Game.width - 72 && curY > 96 && curY < 116 ||
+                             curX > Game.width - 152 && curX < Game.width - 72 && curY > 96 && curY < 112 ||
                              curX > Game.width - 152 && curX < Game.width - 56 && curY > 128 && curY < 146)
                             && !lesson.feedback;
                     break;
                 case 9:
                     click = (curX > Game.width - 152 && curX < Game.width - 40 && curY > 32 && curY < 48 ||
                              curX > Game.width - 152 && curX < Game.width - 24 && curY > 64 && curY < 80 ||
-                             curX > Game.width - 152 && curX < Game.width - 52 && curY > 96 && curY < 116)
+                             curX > Game.width - 152 && curX < Game.width - 52 && curY > 96 && curY < 112)
                             && !GAME.lesson.feedback;
                     break;
                 case 10:
                     click = (curX > Game.width - 152 && curX < Game.width - 40 && curY > 32 && curY < 48 ||
                              curX > Game.width - 152 && curX < Game.width - 72 && curY > 64 && curY < 80 ||
-                             curX > Game.width - 152 && curX < Game.width - 72 && curY > 96 && curY < 116)
+                             curX > Game.width - 152 && curX < Game.width - 72 && curY > 96 && curY < 112)
                             && !GAME.lesson.feedback;
                     break;
                 case 11:
                     click = (curX > Game.width - 152 && curX < Game.width - 104 && curY > 32 && curY < 48 ||
                              curX > Game.width - 152 && curX < Game.width - 104 && curY > 64 && curY < 80 ||
-                             curX > Game.width - 152 && curX < Game.width - 52 && curY > 96 && curY < 116 ||
+                             curX > Game.width - 152 && curX < Game.width - 52 && curY > 96 && curY < 112 ||
                              curX > Game.width - 152 && curX < Game.width - 88 && curY > 128 && curY < 144 ||
                              curX > Game.width - 152 && curX < Game.width - 72 && curY > 160 && curY < 176)
                             && !GAME.lesson.feedback;
@@ -588,7 +613,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             && GAME.items[2][0] > 0 ||
                             curX > Game.width - 284 && curX < Game.width - 96 && curY > 64 && curY < 80
                                     && GAME.items[2][1] > 0 ||
-                            curX > Game.width - 284 && curX < Game.width - 96 && curY > 96 && curY < 116
+                            curX > Game.width - 284 && curX < Game.width - 96 && curY > 96 && curY < 112
                                     && GAME.items[2][2] > 0 ||
                             curX > Game.width - 284 && curX < Game.width - 108 && curY > 128 && curY < 144
                                     && GAME.items[2][3] > 0 ||
