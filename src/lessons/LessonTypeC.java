@@ -61,6 +61,9 @@ public class LessonTypeC extends Lesson {
                         GAME.player.emotion = new Emotion(6);
                     }
                     break;
+                case 3:
+                    showRules(id);
+                    return;
             }
         }
         else {
@@ -140,6 +143,9 @@ public class LessonTypeC extends Lesson {
                             GAME.player.emotion = new Emotion(6);
                         }
                         break;
+                case 5:
+                    showRules(id);
+                    return;
             }
         }
         feedback = true;

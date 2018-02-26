@@ -79,19 +79,19 @@ public class Menu {
                         FileReader.menuStrings[8] + GAME.items[1][2] + FileReader.menuStrings[17];
                 break;
             case 8:
-                img = imgs[0];
+                img = imgs[8];
                 text = FileReader.menuStrings[18];
                 break;
             case 9:
-                img = imgs[6];
+                img = imgs[0];
                 text = FileReader.menuStrings[19];
                 break;
             case 10:
-                img = imgs[6];
+                img = imgs[0];
                 text = FileReader.menuStrings[20];
                 break;
             case 11:
-                img = imgs[8];
+                img = imgs[10];
                 text = FileReader.menuStrings[21];
                 break;
             case 12:
@@ -199,7 +199,7 @@ public class Menu {
             titleImg = ImageIO.read(new File("resources/titlescreen.png"));
 
         } catch (IOException e) {
-            System.out.println("Cannot find image.");
+            System.out.println("Cannot menu find image.");
             e.printStackTrace();
         }
 

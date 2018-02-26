@@ -76,6 +76,9 @@ public class LessonTypeB extends Lesson {
                     feedbackText = FileReader.lessonStrings[23];
                 }
                 break;
+            case 3:
+                showRules(id);
+                return;
         }
         feedback = true;
         if (timeLeft == 0 || tasksLeft == 0) {

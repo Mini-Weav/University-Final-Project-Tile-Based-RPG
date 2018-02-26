@@ -102,6 +102,9 @@ public class LessonTypeA extends Lesson {
                     GAME.player.emotion = new Emotion(6);
                 }
                 break;
+            case 4:
+                showRules(id);
+                return;
         }
         feedback = true;
     }

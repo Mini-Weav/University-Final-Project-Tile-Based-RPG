@@ -4,6 +4,7 @@ import game.TileMap;
 import objects.NPC;
 import utilities.FileReader;
 import utilities.GameAudio;
+import utilities.TextBox;
 import utilities.TileMapLoader;
 
 import static game.Game.GAME;
@@ -15,8 +16,8 @@ public abstract class Lesson {
     int grade, rounds, id;
     public static int oldTime;
     double score;
-    public boolean feedback, finished;
-    public String questionText, feedbackText;
+    public boolean feedback, rules, finished;
+    public String questionText, feedbackText, rulesText;
 
     public Lesson(int grade) {
         this.grade = grade;
@@ -112,6 +113,23 @@ public abstract class Lesson {
             else if (lessonId == 1) { questionText = FileReader.lessonStrings[4]; }
             else { questionText = FileReader.lessonStrings[20]; }
             return 2;
+        }
+    }
+
+    public void showRules(int id) {
+        rules = true;
+        switch (id) {
+            case 0:
+            case 1:
+                rulesText = FileReader.interactiveStrings[0];
+                break;
+            case 2:
+                rulesText = FileReader.interactiveStrings[2];
+                break;
+            case 3:
+            case 4:
+                rulesText = FileReader.interactiveStrings[0];
+                break;
         }
     }
 }
