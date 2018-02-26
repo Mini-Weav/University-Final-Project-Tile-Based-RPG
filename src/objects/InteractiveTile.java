@@ -64,9 +64,9 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(5, 7), new TextBox(0, FileReader.interactiveStrings[13]));
                 points.put(new Point(4, 8), new TextBox(0, FileReader.interactiveStrings[13]));
                 points.put(new Point(5, 8), new TextBox(0, FileReader.interactiveStrings[13]));
-                points.put(new Point(10, 1), new TextBox(1, FileReader.interactiveStrings[1]));//2
-                points.put(new Point(11, 1), new TextBox(1, FileReader.interactiveStrings[1]));
-                points.put(new Point(12, 1), new TextBox(1, FileReader.interactiveStrings[1]));
+                points.put(new Point(10, 1), new TextBox(6, FileReader.interactiveStrings[1]));//2
+                points.put(new Point(11, 1), new TextBox(6, FileReader.interactiveStrings[1]));
+                points.put(new Point(12, 1), new TextBox(6, FileReader.interactiveStrings[1]));
                 points.put(new Point(15, 2), new TextBox(0, FileReader.interactiveStrings[14]));//15
                 points.put(new Point(16, 2), new TextBox(0, FileReader.interactiveStrings[14]));
                 break;
@@ -75,9 +75,9 @@ public class InteractiveTile extends Tile {
             case 3:
                 points.put(new Point(1, 2), new TextBox(0, FileReader.interactiveStrings[15]));//16
                 points.put(new Point(2, 2), new TextBox(0, FileReader.interactiveStrings[15]));
-                points.put(new Point(5, 1), new TextBox(1, FileReader.interactiveStrings[1]));//2
-                points.put(new Point(6, 1), new TextBox(1, FileReader.interactiveStrings[1]));
-                points.put(new Point(7, 1), new TextBox(1, FileReader.interactiveStrings[1]));
+                points.put(new Point(5, 1), new TextBox(6, FileReader.interactiveStrings[1]));//2
+                points.put(new Point(6, 1), new TextBox(6, FileReader.interactiveStrings[1]));
+                points.put(new Point(7, 1), new TextBox(6, FileReader.interactiveStrings[1]));
                 points.put(new Point(14, 2), new TextBox(0, FileReader.interactiveStrings[16]));//17
                 points.put(new Point(15, 2), new TextBox(0, FileReader.interactiveStrings[16]));
                 points.put(new Point(12, 4), new TextBox(0, FileReader.interactiveStrings[17]));//18
@@ -129,7 +129,7 @@ public class InteractiveTile extends Tile {
 
             /*Yard*/
             case 6:
-                points.put(new Point(26, 21), new TextBox(1, FileReader.interactiveStrings[2]));//3
+                points.put(new Point(26, 22), new TextBox(7, FileReader.interactiveStrings[2]));//3
                 break;
 
             /*Bedroom*/

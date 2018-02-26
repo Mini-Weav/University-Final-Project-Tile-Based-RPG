@@ -62,7 +62,7 @@ public class LessonTypeC extends Lesson {
                     }
                     break;
                 case 3:
-                    showRules(id);
+                    rules = true;
                     return;
             }
         }
@@ -144,7 +144,7 @@ public class LessonTypeC extends Lesson {
                         }
                         break;
                 case 5:
-                    showRules(id);
+                    rules = true;
                     return;
             }
         }

@@ -71,13 +71,12 @@ public class LessonTypeB extends Lesson {
                     reread = true;
                     feedbackText = FileReader.lessonStrings[22];
                     timeLeft -= 5;
+                    if (questionId > 0) { questionText = FileReader.lessonStrings[questionId + 17]; }
                 }
-                else {
-                    feedbackText = FileReader.lessonStrings[23];
-                }
+                else { feedbackText = FileReader.lessonStrings[23]; }
                 break;
             case 3:
-                showRules(id);
+                rules = true;
                 return;
         }
         feedback = true;

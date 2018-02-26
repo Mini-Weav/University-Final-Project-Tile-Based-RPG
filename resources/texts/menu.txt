@@ -62,3 +62,4 @@ Are you sure you want to#quit the game?
 ERROR: Unable to load data.
 ERROR: Unable to find Game#class.
 WELCOME TO BROOKLANDS#ACADEMY.
+UNTIL EXAMS#TIME OF DAY#  CONDITION#     POINTS

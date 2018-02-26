@@ -116,20 +116,18 @@ public abstract class Lesson {
         }
     }
 
-    public void showRules(int id) {
-        rules = true;
+    public TextBox showRules() {
         switch (id) {
             case 0:
             case 1:
-                rulesText = FileReader.interactiveStrings[0];
-                break;
+                return new TextBox(6, FileReader.interactiveStrings[1]);
             case 2:
-                rulesText = FileReader.interactiveStrings[2];
-                break;
+                return new TextBox(7, FileReader.interactiveStrings[2]);
             case 3:
             case 4:
-                rulesText = FileReader.interactiveStrings[0];
-                break;
+                return new TextBox(1, FileReader.interactiveStrings[0]);
+            default:
+                return null;
         }
     }
 }

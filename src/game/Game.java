@@ -109,11 +109,15 @@ public class Game implements Serializable {
                     break;
             }
             StatusMenu.setUp(statusMenu.currentId);
-            if (lesson.feedback) { textBox = new TextBox(0, GAME.lesson.feedbackText); }
-            else if (lesson.rules) { textBox = new TextBox(1, GAME.lesson.rulesText); }
+            if (lesson.feedback) {
+                menu.visible = false;
+                textBox = new TextBox(0, GAME.lesson.feedbackText); }
+            else if (lesson.rules) { textBox = lesson.showRules(); }
             else {
                 if (lesson.finished) { lesson.finish(); }
-                else { textBox = new TextBox(0, lesson.questionText); }
+                else {
+                    menu.visible = true;
+                    textBox = new TextBox(0, lesson.questionText); }
             }
         }
         else if (exam != null) {

@@ -60,27 +60,31 @@ public class TextBox {
                 skip = true;
                 img = imgs[2];
                 break;
+            case 6:
+                skip = true;
+                img = imgs[3];
+                break;
+            case 7:
+                skip = true;
+                img = imgs[4];
+                break;
         }
     }
 
     public static void loadImages() {
         try {
-            imgs = new BufferedImage[3];
+            imgs = new BufferedImage[5];
             imgs[0] = ImageIO.read(new File("resources/textboxes/textbox.png"));
-            imgs[1] = ImageIO.read(new File("resources/textboxes/textbox_big.png"));
+            imgs[1] = ImageIO.read(new File("resources/textboxes/textbox_whiteboard1.png"));
             imgs[2] = ImageIO.read(new File("resources/textboxes/textbox_med.png"));
-            npcImgs = new BufferedImage[10];
+            imgs[3] = ImageIO.read(new File("resources/textboxes/textbox_whiteboard2.png"));
+            imgs[4] = ImageIO.read(new File("resources/textboxes/textbox_whiteboard3.png"));
+            npcImgs = new BufferedImage[5];
             npcImgs[0] = ImageIO.read(new File("resources/friendImages/friend1.png"));
             npcImgs[1] = ImageIO.read(new File("resources/friendImages/friend2.png"));
             npcImgs[2] = ImageIO.read(new File("resources/friendImages/friend3.png"));
             npcImgs[3] = ImageIO.read(new File("resources/friendImages/friend4.png"));
             npcImgs[4] = ImageIO.read(new File("resources/friendImages/friend5.png"));
-            npcImgs[5] = ImageIO.read(new File("resources/friendImages/teacher1.png"));
-            npcImgs[6] = ImageIO.read(new File("resources/friendImages/teacher2.png"));
-            npcImgs[7] = ImageIO.read(new File("resources/friendImages/teacher3.png"));
-            npcImgs[8] = ImageIO.read(new File("resources/friendImages/teacher4.png"));
-            npcImgs[9] = ImageIO.read(new File("resources/friendImages/teacher5.png"));
-
         } catch (IOException e) {
             System.out.println("Cannot find image.");
         }
@@ -101,6 +105,8 @@ public class TextBox {
                 }
                 break;
             case 1:
+            case 6:
+            case 7:
                 g.drawImage(img, 0, 0, img.getWidth() * 2, img.getHeight() * 3, null);
                 g.setFont(GameFont.medFont);
                 lineIndex = 0;
@@ -112,7 +118,8 @@ public class TextBox {
             case 2:
             case 4:
                 g.drawImage(img, 0, Game.height - 136, img.getWidth() * 2, img.getHeight() * 3, null);
-                g.drawImage(npcImg, 10, Game.height - (126 + npcImg.getHeight() * 2), npcImg.getWidth() * 2, npcImg.getHeight() * 2, null);
+                g.drawImage(npcImg, 10, Game.height - (126 + (int) (npcImg.getHeight() * 2.3)),
+                        (int) (npcImg.getWidth() * 2.3), (int) (npcImg.getHeight() * 2.3), null);
                 g.setFont(GameFont.bigFont);
                 lineIndex = 0;
                 for (String line : text.split("#")) {
@@ -121,7 +128,7 @@ public class TextBox {
                 }
                 g.setFont(GameFont.smallFont);
                 int textWidth = g.getFontMetrics(GameFont.smallFont).stringWidth(npcName);
-                g.drawString(npcName, 10 + (npcImg.getWidth())- (textWidth / 2), Game.height - 137);
+                g.drawString(npcName, 10 + ((int) (npcImg.getWidth() * 1.15)) - (textWidth / 2), Game.height - 137);
                 break;
             case 5:
                 g.drawImage(img, 0, Game.height - 178, img.getWidth() * 2, img.getHeight() * 3, null);

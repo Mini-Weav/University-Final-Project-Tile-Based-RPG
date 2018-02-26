@@ -123,7 +123,11 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     object.paintComponent(g); }
             }
             if (GAME.statusMenu != null) { GAME.statusMenu.paintComponent(g); }
-            if (GAME.menu != null) { GAME.menu.paintComponent(g); }
+            if (GAME.menu != null) {
+                if (GAME.menu.visible) {
+                    GAME.menu.paintComponent(g);
+                }
+            }
             if (GAME.textBox != null) { GAME.textBox.paintComponent(g); }
         }
     }

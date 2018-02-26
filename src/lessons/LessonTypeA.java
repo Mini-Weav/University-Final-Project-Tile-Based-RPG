@@ -103,7 +103,7 @@ public class LessonTypeA extends Lesson {
                 }
                 break;
             case 4:
-                showRules(id);
+                rules = true;
                 return;
         }
         feedback = true;

@@ -15,7 +15,7 @@ import static game.Game.GAME;
  */
 public class Menu {
     public int currentId;
-    public boolean blink;
+    public boolean blink, visible;
     public static Point iconPoint;
     public static int minimapId, tick = 0;
     public static String text, friendText, gradeText;
@@ -29,6 +29,7 @@ public class Menu {
         this.currentId = id;
         friendImg = null;
         gradeImg = null;
+        visible = true;
         setUp(id);
     }
 
@@ -217,12 +218,12 @@ public class Menu {
             subText = gradeText;
         }
         try {
-            int subX = Game.width - (((img.getWidth() + subImg.getWidth()) * 2) + 24);
-            g.drawImage(subImg, subX, 16, subImg.getWidth() * 2, subImg.getHeight() * 2, null);
+            int subX = Game.width - ((int)((img.getWidth() + subImg.getWidth()) * 2.3));
+            g.drawImage(subImg, subX, 16, (int) (subImg.getWidth() * 2.3), (int) (subImg.getHeight() * 2.3), null);
 
             g.setFont(GameFont.smallFont);
-            int textWidth = g.getFontMetrics(GameFont.smallFont).stringWidth(subText);
-            g.drawString(subText, subX + (subImg.getWidth() - textWidth / 2), 166);
+            int textWidth = g.getFontMetrics(GameFont.tinyFont).stringWidth(subText);
+            g.drawString(subText, subX + ((int) (subImg.getWidth() * 1.1) - textWidth / 2), 188);
         } catch (NullPointerException e) {
             //No image
         }
