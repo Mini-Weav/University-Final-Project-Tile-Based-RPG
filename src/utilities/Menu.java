@@ -255,9 +255,9 @@ public class Menu {
                     blink = !blink;
                     tick = 0;
                 }
-                int mapX = (Game.width - (mapImg.getWidth() * 4)) / 2;
-                int mapY = (Game.height - (mapImg.getHeight() * 4)) / 2;
-                g.drawImage(mapImg, mapX, mapY, mapImg.getWidth() * 4, mapImg.getHeight() * 4, null);
+                int mapX = (Game.width - (mapImg.getWidth() * 2)) / 2;
+                int mapY = (Game.height - (mapImg.getHeight() * 2)) / 2;
+                g.drawImage(mapImg, mapX, mapY, mapImg.getWidth() * 2, mapImg.getHeight() * 2, null);
                 if (blink && minimapId == GAME.map.minimapId) {
                     g.drawImage(iconImg, mapX + Menu.iconPoint.x, mapY + Menu.iconPoint.y, iconImg.getWidth() * 2, iconImg.getHeight()* 2, null);
                 }

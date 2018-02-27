@@ -2,12 +2,9 @@ package game;
 
 import lessons.Exam;
 import lessons.Lesson;
-import objects.GameObject;
-import objects.InteractiveTile;
-import objects.NPC;
+import objects.*;
 import utilities.GameAudio;
 import utilities.TextBox;
-import objects.Tile;
 import utilities.Menu;
 import utilities.TileMapLoader;
 
@@ -112,7 +109,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                     Tile tile = tiles.get(matrix.get(GAME.camera.y + j).get(GAME.camera.x + i));
                     g.drawImage(tile.img, i * 32 - GAME.camera.diffX, j * 32 - GAME.camera.diffY, 32, 32, null);
                     if (GAME.badTileMatrix[GAME.camera.y + j][GAME.camera.x + i] == 1) {
-                        g.setColor(new Color(255, 0, 0, 64));
+                        g.setColor(new Color(255, 0, 0, 48));
                         g.fillRect(i * 32 - GAME.camera.diffX, j * 32 - GAME.camera.diffY, 32, 32);
                     }
                 } catch (IndexOutOfBoundsException e) {

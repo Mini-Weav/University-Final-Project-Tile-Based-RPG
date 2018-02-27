@@ -415,7 +415,6 @@ public class NPC extends GameObject{
                 else {
                     for (int i = y - 1; i > GAME.player.y; i--) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
-                        else if (Math.abs(y - GAME.player.y) < 8) { GAME.badTileMatrix[i][x] = 1; }
                         if (i == GAME.player.y + 1) { clearPath = true; }
                     }
                 }
@@ -431,7 +430,6 @@ public class NPC extends GameObject{
                 else {
                     for (int i = y + 1; i < GAME.player.y; i++) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
-                        else if (Math.abs(y - GAME.player.y) < 8) { GAME.badTileMatrix[i][x] = 1; }
                         if (i == GAME.player.y - 1) { clearPath = true; }
                     }
                 }
@@ -447,7 +445,6 @@ public class NPC extends GameObject{
                 else {
                     for (int i = x - 1; i > GAME.player.x; i--) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
-                        else if (Math.abs(x - GAME.player.x) < 8) { GAME.badTileMatrix[y][i] = 1; }
                         if (i == GAME.player.x + 1) { clearPath = true; }
                     }
                 }
@@ -463,7 +460,6 @@ public class NPC extends GameObject{
                 else {
                     for (int i = x + 1; i < GAME.player.x; i++) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
-                        else if (Math.abs(x - GAME.player.x) < 8) { GAME.badTileMatrix[y][i] = 1; }
                         if (i == GAME.player.x - 1) { clearPath = true; }
                     }
                 }
@@ -488,6 +484,55 @@ public class NPC extends GameObject{
         spotted = true;
         ctrl = null;
         emotion = new Emotion(0);
+    }
+
+    public void colourTiles(int direction) {
+        switch (direction) {
+            case 0:
+                for (int i = y - 1; i > y - 8; i--) {
+                    try {
+                        if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision ||
+                                TileMapView.tiles.get(GAME.tileMatrix[i][x]) instanceof DoorTile) { break; }
+                        GAME.badTileMatrix[i][x] = 1;
+                    } catch (NullPointerException e) {
+                        //
+                    }
+                }
+                break;
+            case 1:
+                for (int i = y + 1; i < y + 8; i++) {
+                    try {
+                        if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision ||
+                                TileMapView.tiles.get(GAME.tileMatrix[i][x]) instanceof DoorTile) { break; }
+                        GAME.badTileMatrix[i][x] = 1;
+                    } catch (NullPointerException e) {
+                        //
+                    }
+                }
+                break;
+            case 2:
+                for (int i = x - 1; i > x - 8; i--) {
+                    try {
+                        if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision ||
+                                TileMapView.tiles.get(GAME.tileMatrix[y][i]) instanceof DoorTile) { break; }
+                        GAME.badTileMatrix[y][i] = 1;
+                    } catch (NullPointerException e) {
+                        //
+                    }
+                }
+                break;
+            case 3:
+                for (int i = x + 1; i < x + 8; i++) {
+                    try {
+                        if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision ||
+                                TileMapView.tiles.get(GAME.tileMatrix[y][i]) instanceof DoorTile) { break; }
+                        GAME.badTileMatrix[y][i] = 1;
+                    } catch (NullPointerException e) {
+                        //
+                    }
+                }
+                break;
+        }
     }
 
     public void update() {
@@ -517,7 +562,10 @@ public class NPC extends GameObject{
                         !TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]).collision &&
                         !(TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]) instanceof DoorTile)){ right = true; }
             }
-            if (hostile) { lookForPlayer(action.direction); }
+            if (hostile) {
+                lookForPlayer(action.direction);
+                colourTiles(action.direction);
+            }
             move();
         }
 
@@ -527,15 +575,19 @@ public class NPC extends GameObject{
             switch (defaultDirection) {
                 case 0:
                     lookForPlayer(1);
+                    colourTiles(1);
                     break;
                 case 3:
                     lookForPlayer(3);
+                    colourTiles(3);
                     break;
                 case 5:
                     lookForPlayer(0);
+                    colourTiles(0);
                     break;
                 case 8:
                     lookForPlayer(2);
+                    colourTiles(2);
                     break;
             }
         }
