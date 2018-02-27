@@ -4,6 +4,7 @@ import game.Emotion;
 import utilities.FileReader;
 import utilities.GameAudio;
 import utilities.Menu;
+import utilities.StatusMenu;
 
 import static game.Game.GAME;
 

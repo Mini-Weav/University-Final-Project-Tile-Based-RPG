@@ -3,10 +3,7 @@ package lessons;
 import game.Emotion;
 import game.TileMap;
 import objects.NPC;
-import utilities.FileReader;
-import utilities.GameAudio;
-import utilities.Menu;
-import utilities.TileMapLoader;
+import utilities.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -143,7 +140,7 @@ public class Exam extends Lesson {
                 GAME.player.emotion = new Emotion(6);
                 break;
             case 3:
-                if (!toilet && (timeLeft > 15 && timeLeft < 75)) {
+                if (!toilet && (timeLeft > 15 && timeLeft <= 75)) {
                     GameAudio.playSfx(GameAudio.sfx_buff);
                     GAME.doTransition();
                     attentionSpan++;
@@ -161,6 +158,9 @@ public class Exam extends Lesson {
                     GAME.player.emotion = new Emotion(6);
                 }
                 break;
+            case 4:
+                rules = true;
+                return;
         }
         feedback = true;
     }
@@ -202,5 +202,9 @@ public class Exam extends Lesson {
                 break;
         }
         return questionId;
+    }
+
+    public TextBox showRules() {
+        return new TextBox(1, FileReader.interactiveStrings[38]);
     }
 }

@@ -98,7 +98,7 @@ public class InteractiveTile extends Tile {
             case 4:
                 points.put(new Point(1, 2), new TextBox(0, FileReader.interactiveStrings[19]));//20
                 points.put(new Point(2, 2), new TextBox(0, FileReader.interactiveStrings[19]));
-                points.put(new Point(6, 1), new TextBox(1, FileReader.interactiveStrings[0]));//1
+                points.put(new Point(6, 1), new TextBox(1, FileReader.interactiveStrings[38]));//1
                 points.put(new Point(7, 1), new TextBox(1, FileReader.interactiveStrings[0]));
                 points.put(new Point(8, 1), new TextBox(1, FileReader.interactiveStrings[0]));
                 points.put(new Point(5, 4), new TextBox(0, FileReader.interactiveStrings[20]));//21

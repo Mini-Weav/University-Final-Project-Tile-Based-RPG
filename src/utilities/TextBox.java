@@ -128,7 +128,7 @@ public class TextBox {
                 }
                 g.setFont(GameFont.smallFont);
                 int textWidth = g.getFontMetrics(GameFont.smallFont).stringWidth(npcName);
-                g.drawString(npcName, 10 + ((int) (npcImg.getWidth() * 1.15)) - (textWidth / 2), Game.height - 137);
+                g.drawString(npcName, 10 + ((int) (npcImg.getWidth() * 1.15)) - (textWidth / 2), Game.height - 138);
                 break;
             case 5:
                 g.drawImage(img, 0, Game.height - 178, img.getWidth() * 2, img.getHeight() * 3, null);

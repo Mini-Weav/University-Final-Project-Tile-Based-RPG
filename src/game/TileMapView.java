@@ -338,7 +338,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                         }
                         else if (lesson.rules) {
                             GameAudio.playSfx(GameAudio.sfx_click);
-                            GAME.lesson.rules = false;
+                            lesson.rules = false;
                         }
                         else {
                             if (curX > Game.width - 152 && curX < Game.width - 56
@@ -358,7 +358,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.feedback = false;
                         }
-                        if (GAME.lesson.rules) {
+                        else if (GAME.lesson.rules) {
                             GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.rules = false;
                         }
@@ -378,7 +378,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.feedback = false;
                         }
-                        if (GAME.lesson.rules) {
+                        else if (GAME.lesson.rules) {
                             GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.rules = false;
                         }
@@ -398,7 +398,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                             GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.feedback = false;
                         }
-                        if (GAME.lesson.rules) {
+                        else if (GAME.lesson.rules) {
                             GameAudio.playSfx(GameAudio.sfx_click);
                             GAME.lesson.rules = false;
                         }

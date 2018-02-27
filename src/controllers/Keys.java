@@ -48,9 +48,9 @@ public class Keys extends KeyAdapter implements Controller {
             case KeyEvent.VK_C:
                 Menu.hotKeyAccess(4);
                 break;
-            case KeyEvent.VK_ESCAPE:
-                GAME.switchScreen();
-                break;
+//            case KeyEvent.VK_ESCAPE:
+//                GAME.switchScreen();
+//                break;
             case KeyEvent.VK_0:
                 GAME.goHome(true);
                 break;
@@ -62,6 +62,11 @@ public class Keys extends KeyAdapter implements Controller {
                 break;
             case KeyEvent.VK_3:
                 GAME.time = 2;
+                break;
+            case KeyEvent.VK_8:
+                GAME.time = 2;
+                GAME.day = 30;
+                GAME.daysLeft = 1;
                 break;
             case KeyEvent.VK_9:
                 GAME.startHeist();

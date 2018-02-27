@@ -62,6 +62,8 @@ public class StatusMenu {
         }
     }
 
+    public void setColours() {}
+
     public void paintComponent(Graphics g) {
         g.setColor(Color.black);
         g.drawImage(img, 16, 16, img.getWidth() * 2, img.getHeight() * 2, null);
@@ -73,10 +75,10 @@ public class StatusMenu {
             lineIndex++;
         }
         if (subText != null) {
-            g.setFont(GameFont.smallFont);
+            g.setFont(GameFont.smallUnderline);
             lineIndex = 0;
             for (String line : subText.split("#")) {
-                g.drawString(line, 26, 62 + (height + 16) * lineIndex);
+                g.drawString(line, 26 + ((11 - line.length()) * 12), 62 + (height + 16) * lineIndex);
                 lineIndex++;
             }
         }

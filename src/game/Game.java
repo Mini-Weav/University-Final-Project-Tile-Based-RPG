@@ -123,10 +123,15 @@ public class Game implements Serializable {
         else if (exam != null) {
             statusMenu.currentId = 4;
             StatusMenu.setUp(statusMenu.currentId);
-            if (exam.feedback) { textBox = new TextBox(0, GAME.exam.feedbackText); }
+            if (exam.feedback) {
+                menu.visible = false;
+                textBox = new TextBox(0, GAME.exam.feedbackText);
+            } else if (exam.rules) { textBox = exam.showRules(); }
             else {
                 if (exam.finished) { exam.finish(); }
-                else { textBox = new TextBox(0, exam.questionText); }
+                else {
+                    menu.visible = true;
+                    textBox = new TextBox(0, exam.questionText); }
             }
         }
         else {
@@ -341,9 +346,8 @@ public class Game implements Serializable {
     }
 
     public void load() {
-        //load game
 
-        Game data = null;
+        Game data;
 
         try {
             FileInputStream saveData = new FileInputStream("sav/game.ser");
@@ -401,38 +405,6 @@ public class Game implements Serializable {
         isNewGame = false;
         isTitle = false;
 
-
-//        day = 5;
-//        daysLeft = 25;
-//
-//        points = 100;
-//
-//        items = new int[3][];
-//        items[0] = new int[3];
-//        items[1] = new int[4];
-//        items[2] = new int[4];
-//        items[0][0] = 3;
-//        items[1][0] = 1;
-//        items[2][0] = 1;
-//
-//        friendValues = new int[5];
-//        friendValues[0] = 10;
-//        friendValues[1] = 10;
-//        friendValues[2]= 10;
-//        friendValues[3] = 10;
-//        friendValues[4] = 10;
-//
-//        gradeValues = new int[5];
-//        gradeValues[0] = 10;
-//        gradeValues[1] = 10;
-//        gradeValues[2] = 10;
-//        gradeValues[3] = 10;
-//        gradeValues[4] = 10;
-//
-//        examScores = new int[5];
-//
-//        daysSince = new int[3];
-
         isTitle = false;
     }
 
@@ -481,29 +453,29 @@ public class Game implements Serializable {
         isFullScreen = false;
     }
 
-    public void fullScreen() {
-        frame.dispose();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setUndecorated(true);
-        height = Constants.FULL_HEIGHT;
-        width = Constants.FULL_WIDTH;
-        cameraHeight = height / 32;
-        cameraWidth = width / 32;
-        frame.getContentPane().setSize(width, height);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        isFullScreen = true;
-    }
+//    public void fullScreen() {
+//        frame.dispose();
+//        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        frame.setUndecorated(true);
+//        height = Constants.FULL_HEIGHT;
+//        width = Constants.FULL_WIDTH;
+//        cameraHeight = height / 32;
+//        cameraWidth = width / 32;
+//        frame.getContentPane().setSize(width, height);
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
+//        isFullScreen = true;
+//    }
 
-    public void switchScreen() {
-        if (isFullScreen) { windowScreen(); }
-        else { fullScreen(); }
-
-        camera.x = player.x - (Game.width / 64);
-        camera.y = player.y - (Game.height / 64);
-        camera.gX = camera.x * 32;
-        camera.gY = camera.y * 32;
-    }
+//    public void switchScreen() {
+//        if (isFullScreen) { windowScreen(); }
+//        else { fullScreen(); }
+//
+//        camera.x = player.x - (Game.width / 64);
+//        camera.y = player.y - (Game.height / 64);
+//        camera.gX = camera.x * 32;
+//        camera.gY = camera.y * 32;
+//    }
 
     public void increaseValues(int id, int index, int increase) {
         switch(id) {
