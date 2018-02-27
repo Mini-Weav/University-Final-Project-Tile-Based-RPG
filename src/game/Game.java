@@ -11,9 +11,9 @@ import utilities.Menu;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -42,7 +42,7 @@ public class Game implements Serializable {
     public char[][] tileMatrix;
     public transient GameObject[][] objectMatrix;
     public int[] friendValues, gradeValues, examScores, daysSince;
-    public int[][] items;
+    public int[][] items, badTileMatrix;
     public boolean isTransition, isNewGame, isNewDay, isAfterActivity, givenDrink, isHeist, gotAnswers, isSpotted,
             isResult, isFinish, hasLostHeist, hasWonHeist, isSuspended, isExams, preExam, emilyCrush, isFullScreen,
             isTitle = true;
@@ -92,6 +92,7 @@ public class Game implements Serializable {
 
     public void update() {
         tileMatrix = new char[map.matrix.size()][map.matrix.get(0).size()];
+        badTileMatrix = new int[map.matrix.size()][map.matrix.get(0).size()];
         objectMatrix = new GameObject[map.matrix.size()][map.matrix.get(0).size()];
 
         if (lesson != null) {

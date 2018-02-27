@@ -415,6 +415,7 @@ public class NPC extends GameObject{
                 else {
                     for (int i = y - 1; i > GAME.player.y; i--) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
+                        else if (Math.abs(y - GAME.player.y) < 8) { GAME.badTileMatrix[i][x] = 1; }
                         if (i == GAME.player.y + 1) { clearPath = true; }
                     }
                 }
@@ -430,6 +431,7 @@ public class NPC extends GameObject{
                 else {
                     for (int i = y + 1; i < GAME.player.y; i++) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
+                        else if (Math.abs(y - GAME.player.y) < 8) { GAME.badTileMatrix[i][x] = 1; }
                         if (i == GAME.player.y - 1) { clearPath = true; }
                     }
                 }
@@ -445,6 +447,7 @@ public class NPC extends GameObject{
                 else {
                     for (int i = x - 1; i > GAME.player.x; i--) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
+                        else if (Math.abs(x - GAME.player.x) < 8) { GAME.badTileMatrix[y][i] = 1; }
                         if (i == GAME.player.x + 1) { clearPath = true; }
                     }
                 }
@@ -460,6 +463,7 @@ public class NPC extends GameObject{
                 else {
                     for (int i = x + 1; i < GAME.player.x; i++) {
                         if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
+                        else if (Math.abs(x - GAME.player.x) < 8) { GAME.badTileMatrix[y][i] = 1; }
                         if (i == GAME.player.x - 1) { clearPath = true; }
                     }
                 }

@@ -62,7 +62,80 @@ public class StatusMenu {
         }
     }
 
-    public void setColours() {}
+    public Color setColours(int lineIndex) {
+        switch (GAME.statusMenu.currentId) {
+            case 0:
+                switch (lineIndex) {
+                    case 0:
+                        if (GAME.daysLeft < 2) { return Color.red; }
+                        else { return Color.black; }
+                    case 1:
+                        if (GAME.time == 11) { return Color.red; }
+                        else { return Color.black; }
+                    case 2:
+                        if (GAME.player.condition == 1) { return new Color(0, 128, 0); }
+                        else if (GAME.player.condition == 2) { return Color.red; }
+                        else { return Color.black; }
+                    default:
+                        return Color.black;
+                }
+            case 1:
+                switch (lineIndex) {
+                    case 1:
+                        if (((LessonTypeB) GAME.lesson).timeLeft < 15) { return Color.red; }
+                        else { return Color.black; }
+                    case 2:
+                        if (((LessonTypeB) GAME.lesson).reread) { return new Color(0, 128, 0); }
+                        else { return Color.black; }
+                    default:
+                        return Color.black;
+                }
+            case 2:
+                switch (lineIndex) {
+                    case 1:
+                        if (((LessonTypeC) GAME.lesson).time < 15) { return Color.red; }
+                        else { return Color.black; }
+                    case 2:
+                        if (GAME.items[0][0] < 1) { return Color.red; }
+                        else { return Color.black; }
+                    case 3:
+                        if (((LessonTypeC) GAME.lesson).energy < 1) { return Color.red; }
+                        else { return Color.black; }
+                    default:
+                        return Color.black;
+                }
+            case 3:
+                switch (lineIndex) {
+                    case 1:
+                        if (GAME.items[0][0] < 1) { return Color.red; }
+                        else { return Color.black; }
+                    case 2:
+                        if (((LessonTypeA) GAME.lesson).attentionSpan < 1) { return Color.red; }
+                        else { return Color.black; }
+                    case 3:
+                        if (((LessonTypeA) GAME.lesson).concentration < 1) { return Color.red; }
+                        else { return Color.black; }
+                    default:
+                        return Color.black;
+                }
+            case 4:
+                switch (lineIndex) {
+                    case 1:
+                        if (GAME.exam.timeLeft < 15) { return Color.red; }
+                        else { return Color.black; }
+                    case 2:
+                        if (GAME.exam.attentionSpan < 1) { return Color.red; }
+                        else { return Color.black; }
+                    case 3:
+                        if (GAME.exam.concentration < 1) { return Color.red; }
+                        else { return Color.black; }
+                    default:
+                        return Color.black;
+                }
+            default:
+                return Color.black;
+        }
+    }
 
     public void paintComponent(Graphics g) {
         g.setColor(Color.black);
@@ -71,6 +144,7 @@ public class StatusMenu {
         int height = g.getFontMetrics().getHeight();
         int lineIndex = 0;
         for (String line : text.split("#")) {
+            g.setColor(setColours(lineIndex));
             g.drawString(line, 26, 48 + (height + 16) * lineIndex);
             lineIndex++;
         }
@@ -78,6 +152,7 @@ public class StatusMenu {
             g.setFont(GameFont.smallUnderline);
             lineIndex = 0;
             for (String line : subText.split("#")) {
+                g.setColor(setColours(lineIndex));
                 g.drawString(line, 26 + ((11 - line.length()) * 12), 62 + (height + 16) * lineIndex);
                 lineIndex++;
             }

@@ -62,6 +62,7 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
             currentId = map.id;
             minimapId = map.minimapId;
             GAME.tileMatrix = new char[matrix.size()][matrix.get(0).size()];
+            GAME.badTileMatrix = new int[matrix.size()][matrix.get(0).size()];
             GAME.objectMatrix = new GameObject[matrix.size()][matrix.get(0).size()];
             Menu.iconPoint = new Point(map.iconPoint);
         } catch (FileNotFoundException e) {
@@ -110,9 +111,15 @@ public class TileMapView extends JComponent implements MouseListener, MouseMotio
                 try {
                     Tile tile = tiles.get(matrix.get(GAME.camera.y + j).get(GAME.camera.x + i));
                     g.drawImage(tile.img, i * 32 - GAME.camera.diffX, j * 32 - GAME.camera.diffY, 32, 32, null);
+                    if (GAME.badTileMatrix[GAME.camera.y + j][GAME.camera.x + i] == 1) {
+                        g.setColor(new Color(255, 0, 0, 64));
+                        g.fillRect(i * 32 - GAME.camera.diffX, j * 32 - GAME.camera.diffY, 32, 32);
+                    }
                 } catch (IndexOutOfBoundsException e) {
                     Tile tile = tiles.get('#');
                     g.drawImage(tile.img, i * 32 - GAME.camera.diffX, j * 32 - GAME.camera.diffY, 32, 32, null);
+                } catch (NullPointerException e) {
+                    //
                 }
             }
         }

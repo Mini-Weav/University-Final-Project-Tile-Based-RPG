@@ -124,11 +124,19 @@ public class Exam extends Lesson {
                 }
                 break;
             case 1:
-                timeLeft -= 5;
                 if (attentionSpan > 0) {
+                    timeLeft -= 5;
                     attentionSpan--;
                     concentration++;
-                    feedbackText = FileReader.lessonStrings[7];
+                    if (timeLeft == 0) {
+                        i = (int) (score / 4);
+                        if (i > 2) { i = 2; }
+                        finished = true;
+                        feedbackText = FileReader.lessonStrings[46] + FileReader.lessonStrings[47 + i];
+                    }
+                    else {
+                        feedbackText = FileReader.lessonStrings[7];
+                    }
                 }
                 else {
                     feedbackText = FileReader.lessonStrings[8];
