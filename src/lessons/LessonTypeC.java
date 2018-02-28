@@ -23,7 +23,7 @@ public class LessonTypeC extends Lesson {
         if (GAME.player.condition == 1) { energy += 2; }
         if (GAME.player.condition == 2) {
             if (energy > 1) { energy -= 2; }
-            if (energy == 1) { energy--; }
+            else if (energy == 1) { energy--; }
         }
         time = 60;
         rounds = 10;

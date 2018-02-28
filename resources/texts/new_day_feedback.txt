@@ -1,11 +1,11 @@
-I spent the evening#studying DT... My DT #knowledge has increased!
-I spent the evening#studying Food Tech... My#Food Tech knowledge has#increased!
-I spent the evening#studying PE. My PE #knowledge has increased!
-I spent the evening#studying Chemistry... My#Chemistry knowledge has#increased!
-I spent the evening#studying ICT... My ICT#knowledge has increased!
-I spent the evening playing#games... My condition has#improved!
-I spent the evening playing#games... However, I played#too much! My condition is#worse!
-I went to bed early.
+You spent the evening#studying DT... Your DT #knowledge has increased!
+You spent the evening#studying Food Tech... Your#Food Tech knowledge has#increased!
+You spent the evening#studying PE. Your PE #knowledge has increased!
+You spent the evening#studying Chemistry... Your#Chemistry knowledge has#increased!
+You spent the evening#studying ICT... Your ICT#knowledge has increased!
+You spent the evening#playing games... Your#condition has improved!
+You spent the evening#playing games... However,#you played too much! Your#condition is worse!
+You went to bed early.
 It's the
  final
  fourth
