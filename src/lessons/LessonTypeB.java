@@ -24,7 +24,7 @@ public class LessonTypeB extends Lesson {
 
         this.id = id;
         if (GAME.player.condition == 1) { grade++; }
-        if (GAME.player.condition == 2 && grade > 0) { grade--; }
+        if (GAME.player.condition == 2 && grade > 1) { grade--; }
         questionId = generateInstruction(grade);
 
         GAME.menu = new Menu(9);

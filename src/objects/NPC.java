@@ -123,7 +123,7 @@ public class NPC extends GameObject{
                     GAME.textBox = new TextBox(3, FileReader.menuStrings[42] + name + ".");
                     GAME.menu = new Menu(5);
                 }
-                else if (GAME.friendValues[id] >= 20 && !GAME.givenDrink) {
+                else if (GAME.friendValues[id] > 20 && !GAME.givenDrink) {
                     freeDrink();
                 }
                 else { friendTextBox(); }
