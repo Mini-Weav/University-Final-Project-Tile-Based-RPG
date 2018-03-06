@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 01/11/2017.
+ * Manages the fonts used in the game.
  */
 public class GameFont {
     private static Font bigFont;
@@ -27,6 +27,9 @@ public class GameFont {
 
     static Font getSmallUnderline() { return smallUnderline; }
 
+    /**
+     * Pre-loads all the fonts used in the game.
+     */
     public static void loadFont() {
         Map<TextAttribute, Integer> textAttibutes = new HashMap<>();
         textAttibutes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_TWO_PIXEL);

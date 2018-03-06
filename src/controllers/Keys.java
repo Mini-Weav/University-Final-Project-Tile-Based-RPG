@@ -1,6 +1,6 @@
 package controllers;
+
 import game.Constants;
-import game.TileMap;
 import utilities.GameAudio;
 import utilities.Menu;
 import utilities.TileMapLoader;
@@ -11,18 +11,28 @@ import java.awt.event.KeyEvent;
 import static game.Game.GAME;
 
 /**
- * 25/10/2017.
+ * Handles player input.
  */
 public class Keys extends KeyAdapter implements Controller {
+    private static final int[] konamiCode = { KeyEvent.VK_UP, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_DOWN,
+            KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_B, KeyEvent.VK_A,
+            KeyEvent.VK_ENTER };
+
     private int currentKonami;
     private Action action;
 
-    private int[] konamiCode = { KeyEvent.VK_UP, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
-            KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_B, KeyEvent.VK_A, KeyEvent.VK_ENTER };
-
+    /**
+     * Class constructor.
+     */
     public Keys() { action = new Action(); }
+
     public Action action() { return action; }
 
+    /**
+     * Handles player pressing a key.
+     *
+     * @param e the key pressed
+     */
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (!GAME.isDebug()) { konamiCode(key); }
@@ -95,6 +105,12 @@ public class Keys extends KeyAdapter implements Controller {
                 break;
         }
     }
+
+    /**
+     * Handles player releasing a pressed key.
+     *
+     * @param e the key pressed
+     */
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
@@ -116,14 +132,11 @@ public class Keys extends KeyAdapter implements Controller {
         }
     }
 
-    public Action getAction() {
-        return action;
-    }
-
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
+    /**
+     * Enables debug mode via the 'Konami code'.
+     *
+     * @param keyPressed the current key pressed in a sequence
+     */
     private void konamiCode(int keyPressed) {
         if (keyPressed == konamiCode[currentKonami]) {
             currentKonami++;

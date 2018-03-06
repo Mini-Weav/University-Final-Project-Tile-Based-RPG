@@ -8,7 +8,7 @@ import utilities.Menu;
 import static game.Game.GAME;
 
 /**
- * 06/12/2017.
+ * Manages game flow when in a 'DT/Food Tech Lesson' state.
  */
 public class LessonTypeB extends Lesson {
     private int tasksLeft;
@@ -17,6 +17,12 @@ public class LessonTypeB extends Lesson {
     private int questionId;
     private boolean reread;
 
+    /**
+     * Class constructor.
+     *
+     * @param id the type of lesson (1 = DT, 2 = food tech)
+     * @param grade the player's respective grade
+     */
     LessonTypeB(int id, int grade) {
         super(grade);
 
@@ -40,6 +46,11 @@ public class LessonTypeB extends Lesson {
 
     public boolean isReread() { return reread; }
 
+    /**
+     * Handles the result of the supplied action.
+     *
+     * @param action the action to be done (0 = answer, 1 = think, 2 = drink, 3 = toilet, 4 = rules)
+     */
     public void doAction(int action) {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (action) {
@@ -90,10 +101,19 @@ public class LessonTypeB extends Lesson {
                 GAME.getPlayer().setEmotion(new Emotion(6));
             }
             setFeedbackText(getFeedbackText() + FileReader.getLessonString(6) +
-                    (int) ((getScore() / getRounds()) * 100) + "!");
+                    (int)((getScore() / getRounds()) * 100) + "!");
             setFinished();
         }
     }
+
+    /**
+     * Determines the score the player receives for the task.
+     *
+     * @param meticulous whether or not the player did the task meticulously
+     * @param reread whether or not the player reread the instructions
+     * @param questionId the type of question
+     * @return the points gained from the player's completed task
+     */
     private double doTask(boolean meticulous, boolean reread, int questionId) {
         switch (questionId) {
             case 0:
@@ -142,6 +162,13 @@ public class LessonTypeB extends Lesson {
         }
         return 0;
     }
+
+    /**
+     * Determines the result of a successful task.
+     *
+     * @param excellentStandard whether or not the task is done to an excellent standard
+     * @return the points gained from the player's completed task
+     */
     private double succeedTask(boolean excellentStandard) {
         if (excellentStandard) {
             setFeedbackText(FileReader.getLessonString(26));
@@ -155,6 +182,12 @@ public class LessonTypeB extends Lesson {
         }
     }
 
+    /**
+     * Sets the odds for the task type depending on the player's respective grade.
+     *
+     * @param grade the player's respective grade
+     * @return the type of task's id
+     */
     private int generateInstruction(int grade) {
         double lv1 = 0, lv2 = 0;
         switch (grade) {
@@ -180,6 +213,10 @@ public class LessonTypeB extends Lesson {
         }
         return generateQuestion(3, lv1, lv2);
     }
+
+    /**
+     * Generates the next task and resets values if the player is successful in completing a task.
+     */
     private void completeTask() {
         if (GAME.getPlayer().getCondition() == 1) { questionId = generateInstruction(getGrade() + 1); }
         else if (GAME.getPlayer().getCondition() == 2 && getGrade() > 0) {

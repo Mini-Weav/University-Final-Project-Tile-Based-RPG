@@ -14,7 +14,7 @@ import java.util.List;
 import static game.Game.GAME;
 
 /**
- * 25/10/2017.
+ * Handles actions available to the player
  */
 public class Player extends GameObject {
     public static final List<Tile> TILES = CharacterTileSet.readTileSet("resources/tilesets/player.png", getKEY());
@@ -22,6 +22,14 @@ public class Player extends GameObject {
     private Point direction;
     private int condition;
 
+    /**
+     * Class constructor.
+     *
+     * @param tile the GameObject's tile (for image and key)
+     * @param x the starting x co-ordinate
+     * @param y the starting y co-ordinate
+     * @param ctrl the controller
+     */
     public Player(Tile tile, int x, int y, Controller ctrl) {
         super(tile, x, y);
         setUpSprites1(TILES);
@@ -40,6 +48,9 @@ public class Player extends GameObject {
     public int getCondition() { return condition; }
     public void setCondition(int condition) { this.condition = condition; }
 
+    /**
+     * Moves the Player graphically and logically.
+     */
     public void move() {
         int i;
         if (isUp()) {
@@ -94,6 +105,12 @@ public class Player extends GameObject {
             }
         }
     }
+
+    /**
+     * Changes the Player's tile image.
+     *
+     * @param direction used to determine which image is used
+     */
     public void rotate(int direction) {
         switch (direction) {
             case 0:
@@ -115,6 +132,9 @@ public class Player extends GameObject {
         }
     }
 
+    /**
+     * Determines whether or not the Player can move through a DoorTile.
+     */
     private void door() {
         char key = GAME.getTileFromMatrix(getY(), getX());
         if (GAME.getTime() == 10 && key != '$' && key != '^' && key != 'v') {
@@ -155,6 +175,10 @@ public class Player extends GameObject {
         }
         else { transition(); }
     }
+
+    /**
+     * Loads the map and sets the Player's location based on the DoorTile moved through.
+     */
     private void transition() {
         if (GAME.hasQuestions() && GAME.getTime() == 11) { GAME.endHeist(0); }
         GAME.doTransition();
@@ -175,6 +199,7 @@ public class Player extends GameObject {
         setLocation(doorPoint.x, doorPoint.y);
         direction.setLocation(getX(), getY() - 1);
     }
+
     public void setLocation(int x, int y) {
         this.setX(x);
         this.setY(y);
@@ -186,14 +211,25 @@ public class Player extends GameObject {
         GAME.getCamera().setGY(GAME.getCamera().getY() * 32);
     }
 
+    /**
+     * Sets the Player's condition to 0.
+     */
     public void sleep() {
         condition = 0;
         GAME.newDayFeedback(2);
     }
+
+    /**
+     * Creates a menu for the player to choose a Lesson to study.
+     */
     public void study() {
         GAME.setTextBox(null);
         GAME.setMenu(new Menu(15));
     }
+
+    /**
+     * Gives player a chance to buff or debuff.
+     */
     public void game() {
         double r = Math.random();
         if (r < 0.75) {
@@ -207,6 +243,10 @@ public class Player extends GameObject {
             GAME.newDayFeedback(1, 1);
         }
     }
+
+    /**
+     * Moves the Heist state into the second phase
+     */
     public void hack() {
         GameAudio.playSfx(GameAudio.sfx_pcHack);
         GAME.setGotQuestions(true);
@@ -215,6 +255,9 @@ public class Player extends GameObject {
         GAME.setMenu(null);
     }
 
+    /**
+     * Determines what actions the Player is doing.
+     */
     public void update() {
         setInPlay(!GAME.isTransition() && GAME.getTextBox() == null && GAME.getMenu() == null && !isSpotted());
         setMoving(isUp() || isDown() || isLeft() || isRight());

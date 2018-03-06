@@ -8,7 +8,7 @@ import java.io.File;
 import static game.Game.GAME;
 
 /**
- * 26/01/2018.
+ * Manages audio files for in-game SFX.
  */
 public class GameAudio {
     public final static Clip music_bedroom = getClip("bedroom");
@@ -31,6 +31,9 @@ public class GameAudio {
     public final static Clip sfx_save = getClip("save");
     public final static Clip sfx_useStinkBomb = getClip("use_stinkbomb");
 
+    /**
+     * Pre-loads all the audio files used in the game.
+     */
     public static void loadSounds() {
         try {
             music_bedroom.open();
@@ -69,6 +72,12 @@ public class GameAudio {
         }
         return clip;
     }
+
+    /**
+     * Stops the current clip and loops the specified clip.
+     *
+     * @param clip the music clip to loop
+     */
     public static void startMusic(Clip clip) {
         if (GAME.getMusic() != null) { GAME.getMusic().stop(); }
         GAME.setMusic(clip);
@@ -79,6 +88,11 @@ public class GameAudio {
         GAME.getMusic().stop();
     }
 
+    /**
+     * Play the specified clip once.
+     *
+     * @param clip the clip to play
+     */
     public static void playSfx(Clip clip) {
         clip.setFramePosition(0);
         clip.start();

@@ -8,7 +8,7 @@ import utilities.Menu;
 import static game.Game.GAME;
 
 /**
- * 05/12/2017.
+ * Manages game flow when in a 'Chemistry/ICT Lesson' state.
  */
 public class LessonTypeA extends Lesson {
     private int attentionSpan;
@@ -21,6 +21,12 @@ public class LessonTypeA extends Lesson {
     private double lv2;
     private boolean toilet;
 
+    /**
+     * Class constructor.
+     *
+     * @param id the type of lesson (0 = chemistry, 1 = ICT)
+     * @param grade the player's respective grade
+     */
     LessonTypeA(int id, int grade) {
         super(grade);
 
@@ -55,6 +61,11 @@ public class LessonTypeA extends Lesson {
 
     public int getQuestionsLeft() { return questionsLeft; }
 
+    /**
+     * Handles the result of the supplied action.
+     *
+     * @param action the action to be done (0 = answer, 1 = think, 2 = drink, 3 = toilet, 4 = rules)
+     */
     public void doAction(int action) {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (action) {
@@ -121,6 +132,14 @@ public class LessonTypeA extends Lesson {
         }
         setFeedback(true);
     }
+
+    /**
+     * Determines the score the player receives for their answer.
+     *
+     * @param concentration the player's current concentration level
+     * @param questionId the type of question
+     * @return the points gained from the player's answer
+     */
     private double answer(int concentration, int questionId) {
         switch (questionId) {
             case 0:

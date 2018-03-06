@@ -1,7 +1,6 @@
 package utilities;
 
 import game.Constants;
-import objects.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

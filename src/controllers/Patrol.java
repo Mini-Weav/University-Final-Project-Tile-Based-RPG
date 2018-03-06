@@ -5,7 +5,7 @@ import objects.GameObject;
 import java.awt.*;
 
 /**
- * 20/12/2017.
+ * Handles patrolling NPC steering behaviour.
  */
 public class Patrol implements Controller {
     private int index;
@@ -16,6 +16,11 @@ public class Patrol implements Controller {
     private Point[] points;
     private int[] directions = {0, 3, 1, 2};
 
+    /**
+     * Class constructor.
+     *
+     * @param points the list of co-ordinates that the NPC goes to
+     */
     public Patrol(Point... points) {
         action = new Action();
         this.points = new Point[points.length];
@@ -24,11 +29,17 @@ public class Patrol implements Controller {
         step = 0;
     }
 
-    public Action getAction() { return action; }
-    public void setAction(Action action) { this.action = action; }
-
     public void setObject(GameObject object) { this.object = object; }
 
+    /**
+     * Modifies the GameObject's actions according to the steering behaviour.
+     * The GameObject's direction is set according to its position in relation to the destination point.
+     * When the GameObject's position is equal to the destination point, the GameObject rotates in each direction
+     * for 8 ticks (a total of 32 ticks) and then moves to the next point. When the GameObject has finished
+     * rotating on the last point, it returns to the first point.
+     *
+     * @return the modified action
+     */
     public Action action() {
         Point point = points[index];
         if (object.getY() != point.y) {

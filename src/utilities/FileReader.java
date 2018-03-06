@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * 29/11/2017.
+ * Reads text files for all in-game text.
  */
 public class FileReader {
     private static String[] interactiveStrings;
@@ -60,6 +60,12 @@ public class FileReader {
 
     public static String[] getLunchStrings() { return Arrays.copyOf(lunchStrings, lunchStrings.length); }
 
+    /**
+     * Reads the supplied file and puts the content into an array of Strings.
+     *
+     * @param file the name of the file to be read
+     * @return the array created from the file
+     */
     private static String[] readFile(String file) {
         String s;
         try {
@@ -77,6 +83,10 @@ public class FileReader {
             return null;
         }
     }
+
+    /**
+     * Reads all the text files used in the games and put the content into arrays.
+     */
     public static void readFiles() {
         interactiveStrings = readFile("interactive_tiles");
         npcStrings = readFile("npcs");

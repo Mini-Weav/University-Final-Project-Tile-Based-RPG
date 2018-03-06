@@ -16,6 +16,9 @@ import java.util.TreeMap;
 public class TileMapLoader {
     public static ArrayList<TileMap> tileMaps;
 
+    /**
+     * Pre-loads all the TileMaps used in the game.
+     */
     public static void loadMaps() {
         tileMaps = new ArrayList<>();
         tileMaps.add(new TileMap(0, 0,"hall_g","school_hall", 0, 126, 132));
@@ -29,6 +32,13 @@ public class TileMapLoader {
         tileMaps.add(new TileMap(8, 5, "staff_room", "school_staffroom", 1, 128, 90));
     }
 
+    /**
+     * Reads a supplied tileset image and creates a List of Tiles for a TileMap.
+     *
+     * @param id the identification of the TileMap
+     * @param fname the filename of the tileset
+     * @return the List of Tiles for a TileMap
+     */
     public static TreeMap<Character, Tile> readTileSet(int id, String fname) {
         List<BufferedImage> images;
         TreeMap<Character, Tile> tiles = new TreeMap<>();

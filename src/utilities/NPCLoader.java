@@ -10,11 +10,14 @@ import java.util.*;
 import java.util.List;
 
 /**
- * 25/11/2017.
+ * Manages all the NPC data to be used in the game.
  */
 public class NPCLoader {
     private static TreeMap<Integer, TreeMap<Integer, List<NPC>>> NPCs = new TreeMap<>();
 
+    /**
+     * Loads all NPC data and stores in a map.
+     */
     public static void loadNPCs() {
         /* School Hall G */
         NPCs.put(0, new TreeMap<>());

@@ -11,12 +11,15 @@ import java.awt.event.MouseMotionListener;
 import static game.Game.GAME;
 
 /**
- * 15/12/2017.
+ * Manages initial user input.
  */
 public class TitleScreen extends JComponent implements MouseListener, MouseMotionListener {
     private Menu menu;
     private TextBox textBox;
 
+    /**
+     * Class constructor.
+     */
     public TitleScreen() {
         menu = new Menu(12);
         textBox = new TextBox(0, FileReader.getMenuString(63));
@@ -40,6 +43,12 @@ public class TitleScreen extends JComponent implements MouseListener, MouseMotio
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
+
+    /**
+     * Handles navigating the TitleScreen.
+     *
+     * @param e the mouse event
+     */
     public void mousePressed(MouseEvent e) {
         int curX = e.getX();
         int curY = e.getY();
@@ -60,6 +69,12 @@ public class TitleScreen extends JComponent implements MouseListener, MouseMotio
     }
 
     public void mouseDragged(MouseEvent e) {}
+
+    /**
+     * Changes mouse cursor if co-ordinate is interactive.
+     *
+     * @param e the mouse event
+     */
     public void mouseMoved(MouseEvent e) {
         boolean click = false;
         try {

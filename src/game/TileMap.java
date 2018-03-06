@@ -17,7 +17,7 @@ import java.util.*;
 import static game.Game.GAME;
 
 /**
- * 02/11/2017.
+ * Stores tile map information.
  */
 public class TileMap {
     private int id;
@@ -30,6 +30,17 @@ public class TileMap {
     private HashMap<Point, Pair<Integer, Point>> doorPoints;
     private HashMap<Point, TextBox> interactivePoints;
 
+    /**
+     * Class constructor.
+     *
+     * @param id the identifier for map
+     * @param tileSetID the identifier for the tileset that will be used in TileMapLoader
+     * @param txtFile the text file that will be read for the map layout
+     * @param tileFile the image that will be used in TileMapLoader
+     * @param miniMapId the identifier for the MiniMap icon
+     * @param x the width of the map
+     * @param y the height of the map
+     */
     public TileMap(int id, int tileSetID, String txtFile, String tileFile, int miniMapId, int x, int y) {
         this.id = id;
         this.txtFile = new File("resources/maps/"+txtFile+".txt");

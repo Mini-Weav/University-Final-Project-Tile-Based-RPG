@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 25/10/2017.
+ * Has common methods and fields for different types of GameObjects.
  */
 public abstract class GameObject {
     private static final char KEY = '*';
@@ -37,6 +37,13 @@ public abstract class GameObject {
     private List<BufferedImage> leftSprites;
     private List<BufferedImage> rightSprites;
 
+    /**
+     * Class constructor.
+     *
+     * @param tile the GameObject's tile (for image and key)
+     * @param x the starting x co-ordinate
+     * @param y the starting y co-ordinate
+     */
     GameObject(Tile tile, int x, int y) {
         this.tile = new Tile(tile);
         this.x = x;
@@ -114,6 +121,12 @@ public abstract class GameObject {
     void setRightSprites(List<Tile> tiles) { rightSprites = Arrays.asList(tiles.get(3).getImg(),
             tiles.get(4).getImg()); }
 
+    /**
+     * Changes the GameObject's tile image for a walking animation.
+     *
+     * @param direction the direction the GameObject is walking
+     * @param index the current index of the tile image in the tileset
+     */
     void walkAnimation(int direction, int index) {
         switch (direction) {
             case 0:
@@ -133,6 +146,9 @@ public abstract class GameObject {
         }
     }
 
+    /**
+     * Creates an Emotion object above the GameObject.
+     */
     void displayEmotion() {
         if (emotion.getLifetime() == 0) { emotion = null; }
         else { emotion.decreaseLifetime(); }

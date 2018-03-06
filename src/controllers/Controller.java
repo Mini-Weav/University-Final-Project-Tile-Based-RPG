@@ -1,6 +1,6 @@
 package controllers;
 
 /**
- * 25/10/2017.
+ * Is standard controller interface.
  */
 public interface Controller { Action action(); }

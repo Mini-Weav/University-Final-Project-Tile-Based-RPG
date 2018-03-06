@@ -1,7 +1,8 @@
 package utilities;
 
 /**
- * 02/11/2017.
+ * Pair value Data Structure.
+ * Used for DoorPoint's map id (Integer) and co-ordinate (Point)
  */
 public class Pair<K, V> {
     private final K k;

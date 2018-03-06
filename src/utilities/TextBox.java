@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 01/11/2017.
+ * Manages creating and rendering TextBox shell screens.
  */
 public class TextBox {
     private static BufferedImage[] imgs;
@@ -23,11 +23,27 @@ public class TextBox {
     private BufferedImage img;
     private BufferedImage npcImg;
 
+    /**
+     * Class constructor.
+     * Used for non-NPC TextBoxes.
+     *
+     * @param id the identification number of the TextBox to be created
+     * @param text the text within the TextBox
+     */
     public TextBox(int id, String text) {
         this.id = id;
         setUp(id);
         this.text = text;
     }
+
+    /**
+     * Class constructor.
+     * Used for NPC TextBoxes.
+     *
+     * @param text the text within the TextBox
+     * @param npc the NPC who triggered the TextBox
+     * @param skip whether or not the player can close the TextBox as usual
+     */
     public TextBox(String text, NPC npc, boolean skip) {
         if (npc.getId() >= 10) {
             if (skip) { this.id = 0; }
@@ -48,6 +64,11 @@ public class TextBox {
 
     public boolean isSkip() { return skip; }
 
+    /**
+     * Sets the TextBox images and skip-ability.
+     *
+     * @param id the identification of the TextBox type
+     */
     public void setUp(int id) {
         switch (id) {
             case 0:
@@ -79,6 +100,9 @@ public class TextBox {
         }
     }
 
+    /**
+     * Pre-loads all the TextBox images used in the game.
+     */
     public static void loadImages() {
         try {
             imgs = new BufferedImage[5];

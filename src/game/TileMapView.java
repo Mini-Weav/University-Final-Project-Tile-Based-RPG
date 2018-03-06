@@ -21,7 +21,7 @@ import java.util.TreeMap;
 import static game.Game.GAME;
 
 /**
- * 23/10/2017.
+ * Renders the game and stores current tile map information
  */
 class TileMapView extends JComponent implements MouseListener, MouseMotionListener {
     private int currentId;
@@ -31,6 +31,11 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
     private List<List<Character>> matrix;
     private TreeMap<Character, Tile> tiles;
 
+    /**
+     * Class constructor.
+     *
+     * @param map the current tile map in the game
+     */
     TileMapView(TileMap map) {
         loadMap(map);
         addMouseListener(this);
@@ -51,6 +56,13 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
 
     TreeMap<Character, Tile> getTiles() { return tiles; }
 
+    /**
+     * Reads and stores the current TileMap information from its text file
+     *
+     * @param txtFile the current map's text file
+     * @return a 2-dimensional List of Characters that represent's the current map's text file
+     * @throws IOException if the map's text file cannot be read or found
+     */
     private static List<List<Character>> readMap(File txtFile) throws IOException {
         String line;
         List<List<Character>> matrix = new ArrayList<>();
@@ -64,6 +76,13 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
         }
         return matrix;
     }
+
+    /**
+     * Loads the supplied TileMap into the game.
+     * Updates various fields and the game's matrices to represent the new map.
+     *
+     * @param map the TileMap to be loaded into the game.
+     */
     void loadMap(TileMap map) {
         try {
             this.matrix = readMap(map.getTxtFile());
@@ -86,9 +105,13 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
         if (map.getId() == 0) { GAME.updateAirVent(); }
     }
 
+    /**
+     * Renders the Tiles and GameObjects within range of the game's camera, as well as any active Menu and TextBox.
+     *
+     * @param g the graphics
+     */
     public void paintComponent(Graphics g) {
         if (paintTransition(g)) { return; }
-
         for (int j = -1; j < Game.getCameraHeight() + 2; j++) {
             for (int i = -1; i < Game.getCameraWidth() + 2; i++) {
                 try {
@@ -103,9 +126,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                     Tile tile = tiles.get('#');
                     g.drawImage(tile.getImg(), i * 32 - GAME.getCamera().getDiffX(),
                             j * 32 - GAME.getCamera().getDiffY(), 32, 32, null);
-                } catch (NullPointerException e) {
-                    //
-                }
+                } catch (NullPointerException e) { /* Do nothing */ }
             }
         }
         synchronized (Game.class) {
@@ -127,6 +148,13 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
             if (GAME.getTextBox() != null) { GAME.getTextBox().paintComponent(g); }
         }
     }
+
+    /**
+     * Renders the transition screens between various game states
+     *
+     * @param g the graphics
+     * @return whether or not it is currently a state transition
+     */
     private boolean paintTransition(Graphics g) {
         String text = null;
         if (GAME.isNewGame()) { text = utilities.FileReader.getMenuString(54); }
@@ -159,6 +187,12 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
+
+    /**
+     * Handles navigating Menus and TextBoxes.
+     *
+     * @param e the mouse event
+     */
     public void mousePressed(MouseEvent e) {
         int curX = e.getX();
         int curY = e.getY();
@@ -235,22 +269,27 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
             }
             else {
                 switch (GAME.getMenu().getCurrentId()) {
+                    /* Main Menu */
                     case 0:
+                        /* Go to Map Menu */
                         if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 100
                                 && curY > 96 && curY < 112) {
                             GAME.setMenu(new Menu(1));
                             GameAudio.playSfx(GameAudio.sfx_click);
                         }
+                        /* Go to Friend Menu */
                         if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 40
                                 && curY > 64 && curY < 80) {
                             GAME.setMenu(new Menu(2));
                             GameAudio.playSfx(GameAudio.sfx_click);
                         }
+                        /* Go to Grade Menu */
                         if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 52
                                 && curY > 32 && curY < 48) {
                             GAME.setMenu(new Menu(3));
                             GameAudio.playSfx(GameAudio.sfx_click);
                         }
+                        /* Go to Items Menu */
                         if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                 && curY > 128 && curY < 144) {
                             GAME.setMenu(new Menu(4));
@@ -261,40 +300,57 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                         if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 88
                                 && curY > 192 && curY < 208) { GAME.quit(); }
                         return;
+                    /* Map Menu */
                     case 1:
+                        /* Display Ground Floor Map */
                         if (curX > Game.getWidth() - 76 && curX < Game.getWidth() - 56
                                 && curY > 32 && curY < 48) {
                             GameAudio.playSfx(GameAudio.sfx_click);
-                            Menu.loadMapImage(0); }
+                            Menu.loadMapImage(0);
+                        }
+                        /* Display 1F Map */
                         if (curX > Game.getWidth() - 76 && curX < Game.getWidth() - 44
                                 && curY > 64 && curY < 80) {
                             GameAudio.playSfx(GameAudio.sfx_click);
                             Menu.loadMapImage(1); }
                         break;
+                    /* Friend Menu */
                     case 2:
+                        /* Display Jack info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 88
                                 && curY > 32 && curY < 48 ){ Menu.loadFriend(0); }
+                        /* Display Emily info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 56
                                 && curY > 64 && curY < 80){ Menu.loadFriend(1); }
+                        /* Display Alexander info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 136
                                 && curY > 96 && curY < 112){ Menu.loadFriend(2); }
+                        /* Display Nathan info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 40
                                 && curY > 128 && curY < 144){ Menu.loadFriend(3); }
+                        /* Display Frankie info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 120
                                 && curY > 160 && curY < 176){ Menu.loadFriend(4); }
                         break;
+                    /* Grade Menu */
                     case 3:
+                        /* Display DT grade info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 168
                                 && curY > 32 && curY < 48 ){ Menu.loadGrade(0); }
+                        /* Display Food Tech grade info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 56
                                 && curY > 64 && curY < 80){ Menu.loadGrade(1); }
+                        /* Display PE grade info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 168
                                 && curY > 96 && curY < 112){ Menu.loadGrade(2); }
+                        /* Display Chemistry grade info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 56
                                 && curY > 128 && curY < 144){ Menu.loadGrade(3); }
+                        /* Display ICT grade info */
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 152
                                 && curY > 160 && curY < 176){ Menu.loadGrade(4); }
                         break;
+                    /* NPC interaction Yes/No Menu */
                     case 5:
                         NPC npc = (NPC) GAME.getObjectFromMatrix(y, x);
                         if (npc.getId() < 5) {
@@ -325,6 +381,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                         }
 
                         break;
+                    /* Food Tech Gift Menu */
                     case 6:
                         x = (int) GAME.getPlayer().getDirection().getX();
                         y = (int) GAME.getPlayer().getDirection().getY();
@@ -338,6 +395,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                         if (curX > Game.getWidth() - 284 && curX < Game.getWidth() - 124
                                 && curY > 128 && curY < 144) { npc.gift(false); }
                         break;
+                    /* DT Gift Menu */
                     case 7:
                         x = (int) GAME.getPlayer().getDirection().getX();
                         y = (int) GAME.getPlayer().getDirection().getY();
@@ -351,6 +409,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                         if (curX > Game.getWidth() - 284 && curX < Game.getWidth() - 124
                                 && curY > 128 && curY < 144) { npc.gift(false); }
                         break;
+                    /* Chemistry/ICT Lesson Menu */
                     case 8:
                         Lesson lesson;
                         if (GAME.getLesson() != null) { lesson = GAME.getLesson(); }
@@ -364,18 +423,24 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                             lesson.setRules(false);
                         }
                         else {
+                            /* Answer */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 56
                                     && curY > 32 && curY < 48) { lesson.doAction(0); }
+                            /* Think */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 64 && curY < 80) { lesson.doAction(1); }
+                            /* Drink */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 96 && curY < 112) { lesson.doAction(2); }
+                            /* Toilet */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 56
                                     && curY > 128 && curY < 144) { lesson.doAction(3); }
+                            /* Rules */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 160 && curY < 179) { lesson.doAction(4); }
                         }
                         break;
+                    /* DT/Food Tech Lesson Menu */
                     case 9:
                         if (GAME.getLesson().isFeedback()) {
                             GameAudio.playSfx(GameAudio.sfx_click);
@@ -386,16 +451,21 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                             GAME.getLesson().setRules(false);
                         }
                         else {
+                            /* Do Task */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 40
                                     && curY > 32 && curY < 48) { GAME.getLesson().doAction(0); }
+                            /* Do Task Meticulously */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 24
                                     && curY > 64 && curY < 80) { GAME.getLesson().doAction(1); }
+                            /* Reread Instructions */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 52
                                     && curY > 96 && curY < 112) { GAME.getLesson().doAction(2); }
+                            /* Rules */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 128 && curY < 144) { GAME.getLesson().doAction(3); }
                         }
                         break;
+                    /* PE Lesson Warm-up Menu */
                     case 10:
                         if (GAME.getLesson().isFeedback()) {
                             GameAudio.playSfx(GameAudio.sfx_click);
@@ -406,16 +476,21 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                             GAME.getLesson().setRules(false);
                         }
                         else {
+                            /* Warm Up */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 40
                                     && curY > 32 && curY < 48) { GAME.getLesson().doAction(0); }
+                            /* Start Running */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 64 && curY < 80) { GAME.getLesson().doAction(1); }
+                            /* Drink */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 96 && curY < 112) { GAME.getLesson().doAction(2); }
+                            /* Rules */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 128 && curY < 144) { GAME.getLesson().doAction(3); }
                         }
                         break;
+                    /* PE Lesson Menu */
                     case 11:
                         if (GAME.getLesson().isFeedback()) {
                             GameAudio.playSfx(GameAudio.sfx_click);
@@ -426,26 +501,34 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                             GAME.getLesson().setRules(false);
                         }
                         else {
+                            /* Jog */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 104
                                     && curY > 32 && curY < 48) { GAME.getLesson().doAction(0); }
+                            /* Run */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 104
                                     && curY > 64 && curY < 80) { GAME.getLesson().doAction(1); }
+                            /* Sprint */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 52
                                     && curY > 96 && curY < 112) { GAME.getLesson().doAction(2); }
+                            /* Rest */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 88
                                     && curY > 128 && curY < 144) { GAME.getLesson().doAction(3); }
+                            /* Drink */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 160 && curY < 176) { GAME.getLesson().doAction(4); }
+                            /* Rules */
                             if (curX > Game.getWidth() - 152 && curX < Game.getWidth() - 72
                                     && curY > 192 && curY < 208) { GAME.getLesson().doAction(5); }
                         }
                         break;
+                    /* Go Home Yes/No Menu */
                     case 13:
                         if (curX > Game.getWidth() - 76 && curX < Game.getWidth() - 28
                                 && curY > 32 && curY < 48) { GAME.goHome(true); }
                         if (curX > Game.getWidth() - 76 && curX < Game.getWidth() - 42
                                 && curY > 64 && curY < 80) { GAME.goHome(false); }
                         break;
+                    /* Interactive Tile Yes/No Menu */
                     case 14:
                         if (curX > Game.getWidth() - 76 && curX < Game.getWidth() - 28
                                 && curY > 32 && curY < 48) {
@@ -498,6 +581,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                             GAME.setTextBox(null);
                         }
                         break;
+                    /* Bedroom Study Menu */
                     case 15:
                         int score = (int) ((Math.random() * 2) + 1);
                         if (curX > Game.getWidth() - 200 && curX < Game.getWidth() - 168
@@ -526,6 +610,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                             GAME.newDayFeedback(0, 4);
                         }
                         break;
+                    /* Lovely Cake Gift Menu */
                     case 16:
                         x = (int) GAME.getPlayer().getDirection().getX();
                         y = (int) GAME.getPlayer().getDirection().getY();
@@ -541,6 +626,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                         if (curX > Game.getWidth() - 284 && curX < Game.getWidth() - 124
                                 && curY > 160 && curY < 176) { npc.gift(false); }
                         break;
+                    /* Quit Game Yes/No Menu */
                     case 17:
                         if (curX > Game.getWidth() - 76 && curX < Game.getWidth() - 28
                                 && curY > 32 && curY < 48) {
@@ -556,8 +642,6 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                             GAME.setTextBox(null);
                         }
                         break;
-
-
                 }
             }
         }
@@ -572,6 +656,12 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
     }
 
     public void mouseDragged(MouseEvent e) {}
+
+    /**
+     * Changes mouse cursor if co-ordinate is interactive.
+     *
+     * @param e the mouse event
+     */
     public void mouseMoved(MouseEvent e) {
         boolean click = false;
         try {

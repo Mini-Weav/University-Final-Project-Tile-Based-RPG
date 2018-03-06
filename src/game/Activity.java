@@ -1,6 +1,5 @@
 package game;
 
-
 import objects.NPC;
 import utilities.FileReader;
 import utilities.GameAudio;
@@ -10,7 +9,7 @@ import utilities.TileMapLoader;
 import static game.Game.GAME;
 
 /**
- * 22/01/2018.
+ * Manages game flow when in an 'Activity' state.
  */
 public class Activity {
     private int id;
@@ -18,6 +17,11 @@ public class Activity {
     private String duringText;
     private String afterText;
 
+    /**
+     * Class constructor.
+     *
+     * @param id the identifier for the Activity type (0 = track club, 1 = chemistry club, 2 = tutoring)
+     */
     private Activity(int id) {
         this.id = id;
 
@@ -39,6 +43,12 @@ public class Activity {
     String getAfterText() { return afterText; }
     public boolean isStarted() { return started; }
 
+    /**
+     * Starts an Activity game state.
+     * Sets the player's position and displays a TextBox.
+     *
+     * @param id the identifier for the Activity type (0 = track club, 2 = chemistry club, 4 = tutoring)
+     */
     public static void startActivity(int id) {
         int activityId;
         switch (id) {
@@ -71,5 +81,6 @@ public class Activity {
         GAME.setMenu(null);
         GAME.setTextBox(new TextBox(0, GAME.getActivity().duringText));
     }
+
     void finish() { GAME.setAfterActivity(true); }
 }

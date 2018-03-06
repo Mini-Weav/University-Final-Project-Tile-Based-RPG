@@ -7,14 +7,26 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /**
- * 26/10/2017.
+ * Stores each of the game map's door points.
  */
 public class DoorTile extends Tile {
 
+    /**
+     * Class constructor.
+     *
+     * @param img the image of the DoorTile
+     * @param key the key of the DoorTile (for when stored in a matrix)
+     */
     public DoorTile(BufferedImage img, char key) {
         super(img, false, key);
     }
 
+    /**
+     * Initialises the co-ordinates of a map's door points.
+     *
+     * @param mapID the identifier of the map
+     * @return the map of door points
+     */
     public static HashMap<Point,Pair<Integer, Point>> initialisePoints(int mapID) {
         HashMap<Point, Pair<Integer, Point>> points = new HashMap<>();
 

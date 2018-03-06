@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import static game.Game.GAME;
 
 /**
- * C15/12/2017.
+ * Manages creating and rendering StatusMenu shell screens.
  */
 public class StatusMenu {
     private static String text;
@@ -17,6 +17,12 @@ public class StatusMenu {
 
     private int currentId;
 
+    /**
+     * Class constructor.
+     *
+     * @param id the identification of the StatusMenu to be created (0 = normal, 1 = DT/food tech, 2 = PE,
+     *           3 = chemistry/ICT, 4 = exams)
+     */
     public StatusMenu(int id) {
         this.currentId = id;
         setUp(id);
@@ -26,6 +32,11 @@ public class StatusMenu {
 
     public void setCurrentId(int currentId) { this.currentId = currentId; }
 
+    /**
+     * Sets the StatusMenu images and text.
+     *
+     * @param id the identification of the StatusMenu type
+     */
     public static void setUp(int id) {
         switch (id) {
             case 0:
@@ -70,6 +81,12 @@ public class StatusMenu {
         }
     }
 
+    /**
+     * Change certain lines of text to green or red to indicate a good or bad status, respectively.
+     *
+     * @param lineIndex the index of the line to change
+     * @return the colour to write the text in
+     */
     private Color setColours(int lineIndex) {
         switch (GAME.getStatusMenu().currentId) {
             case 0:

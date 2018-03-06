@@ -6,13 +6,20 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-/* *
- * 25/10/2017.
-  */
+/**
+ * Creates Lists of Tiles for GameObjects.
+ */
 public class CharacterTileSet extends TileSet {
     private static final int ROWS = 2;
     private static final int COLS = 5;
 
+    /**
+     * Reads a supplied tileset image and creates a List of Tiles for a GameObject.
+     *
+     * @param fname the filename of the tileset
+     * @param key the key to be given to the created Tiles
+     * @return the List of Tiles for a GameObject
+     */
     public static List<Tile> readTileSet(String fname, char key) {
         List<BufferedImage> images = TileSet.readTileSet(ROWS, COLS, fname);
         List<Tile> tiles = new ArrayList<>();

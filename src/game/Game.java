@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.List;
 
 /**
- * 23/10/2017.
+ * Stores game data and runs the application
  */
 public class Game implements Serializable {
     public final static Game GAME = new Game();
@@ -86,6 +86,9 @@ public class Game implements Serializable {
     private transient List<GameObject> objects;
     private transient GameObject[][] objectMatrix;
 
+    /**
+     * Class constructor.
+     */
     private Game() {
         objects = new ArrayList<>();
         ctrl = new Keys();
@@ -118,6 +121,15 @@ public class Game implements Serializable {
 
     public int getPoints() { return points; }
     public void setPoints(int points) { this.points = points; }
+
+    /**
+     * Increases the current game score.
+     * Applies a formula that gives more points if the friend/grade value is higher and the current game day is lower.
+     *
+     * @param id the type that triggered the increase (0 = friend, 1 = lesson, 2 = exam, 3 = decrease in friendship)
+     * @param index the index of the type that triggered the increase
+     * @param increase the pre formula increase in value
+     */
     public void increasePoints(int id, int index, int increase) {
         switch(id) {
             case 0:
@@ -130,7 +142,7 @@ public class Game implements Serializable {
                 points += 5 * (Math.pow((increase * ((examScores[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
                 break;
             case 3:
-                points -= 2 * (Math.pow((increase * ((gradeValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                points -= 2 * (Math.pow((increase * ((friendValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
                 break;
         }
     }
@@ -289,6 +301,9 @@ public class Game implements Serializable {
     public boolean isObjectNull(int j, int i) { return objectMatrix[j][i] == null; }
     void setObjectMatrix(int rows, int cols) { objectMatrix = new GameObject[rows][cols]; }
 
+    /**
+     * Updates the logical state of all GameObjects and matrices, and the StatusMenu
+     */
     private void update() {
         int rows = map.getMatrixRows();
         int cols = map.getMatrixCols();
@@ -354,6 +369,10 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Updates the air vent tile in the ground floor school hall map.
+     * This enables the player to trigger the heist if certain conditions are met.
+     */
     void updateAirVent() {
         if (hasStinkBomb() && hasSuperKey() && gradeValues[4] > 29 && !hasQuestions()) {
             TileMapLoader.tileMaps.get(0).putPoint(new Point(7, 5),
@@ -376,6 +395,13 @@ public class Game implements Serializable {
         transitionTime = System.currentTimeMillis();
     }
 
+    /**
+     * Starts a new game day.
+     * Loads the ground floor school hall map and sets the player position to the starting value.
+     * Increments and decrements the day and daysLeft fields respectively.
+     * If a friend NPC is at a certain friendship level and the haven't done an activity with the player for
+     * more than 2 days, their corresponding friend value and the Game's points value is decreased.
+     */
     void newDay() {
         time = 0;
         givenDrink = false;
@@ -396,6 +422,13 @@ public class Game implements Serializable {
             }
         }
     }
+
+    /**
+     * Loads textual feedback depending on the evebt the player triggered in the bedroom map.
+     *
+     * @param id the type of event (0 = study, 1 = game, 2 = sleep, 3= start exams)
+     *           and possible subtype (subject studied, game outcome)
+     */
     public void newDayFeedback(int... id) {
         GameAudio.playSfx(GameAudio.sfx_click);
         menu = null;
@@ -419,6 +452,13 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Ends the school day.
+     * Loads the bedroom map and sets the player position.
+     * Resets the player condition.
+     *
+     * @param yes whether or not the player triggers the event.
+     */
     public void goHome(boolean yes) {
         if (yes) {
             GameAudio.playSfx(GameAudio.sfx_click);
@@ -440,6 +480,10 @@ public class Game implements Serializable {
         menu = null;
     }
 
+    /**
+     * Starts the 'Heist' game state if at a suitable game time.
+     * Removes the stinkbomb item from the player's inventory.
+     */
     public void startHeist() {
         if (time < 2) {
             timeBeforeHeist = time;
@@ -454,6 +498,15 @@ public class Game implements Serializable {
         else { textBox = new TextBox(0, FileReader.getMenuString(51)); }
         menu = null;
     }
+
+    /**
+     * Ends the 'Heist' game state.
+     * If successful, the player keeps the exam questions item and the current game points are multiplied by 1.5.
+     * If not, the player loses the exam questions item and won't be able to trigger 'Activity' game states for the
+     * rest of the game.
+     *
+     * @param outcome the outcome of the heist (0 = win, 1 = lose)
+     */
     public void endHeist(int outcome) {
         GameAudio.stopMusic();
         switch (outcome) {
@@ -481,6 +534,10 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Starts a new game instance.
+     * Sets all game values to their default.
+     */
     public void newGame() {
         GameAudio.stopMusic();
 
@@ -519,6 +576,10 @@ public class Game implements Serializable {
         emilyCrush = false;
 
     }
+
+    /**
+     * Loads a game instance from a file.
+     */
     public void load() {
         Game data;
 
@@ -580,6 +641,10 @@ public class Game implements Serializable {
 
         isTitle = false;
     }
+
+    /**
+     * Saves a game instance to a file.
+     */
     void save() {
         GameAudio.playSfx(GameAudio.sfx_click);
         playerX = player.getX();
@@ -599,6 +664,10 @@ public class Game implements Serializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Quits the game and reloads the TitleScreen.
+     */
     void quit() {
         GameAudio.playSfx(GameAudio.sfx_click);
         textBox = new TextBox(3, FileReader.getMenuString(60));

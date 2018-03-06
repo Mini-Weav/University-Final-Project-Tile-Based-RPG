@@ -1,7 +1,7 @@
 package controllers;
 
 /**
- * 25/10/2017.
+ * Contains actions available to all GameObjects.
  */
 public class Action {
     private int direction = -1;

@@ -9,7 +9,7 @@ import utilities.Menu;
 import static game.Game.GAME;
 
 /**
- * 06/12/2017.
+ * Manages game flow when in a 'PE Lesson' state.
  */
 public class LessonTypeC extends Lesson {
     private int time;
@@ -20,6 +20,11 @@ public class LessonTypeC extends Lesson {
     private boolean started;
     private boolean rested;
 
+    /**
+     * Class constructor.
+     *
+     * @param grade the player's respective grade
+     */
     LessonTypeC(int grade) {
         super(grade);
         energy = setStart(grade);
@@ -44,6 +49,11 @@ public class LessonTypeC extends Lesson {
 
     public boolean isStarted() { return started; }
 
+    /**
+     * Handles the result of the supplied action.
+     *
+     * @param action the action to be done (0 = answer, 1 = think, 2 = drink, 3 = toilet, 4 = rules)
+     */
     public void doAction(int action) {
         GameAudio.playSfx(GameAudio.sfx_click);
         if (!started) {
@@ -168,6 +178,12 @@ public class LessonTypeC extends Lesson {
             setFinished();
         }
     }
+
+    /**
+     * A script that moves the player around the running track
+     *
+     * @param obj the GameObject to apply the script to (typically the player)
+     */
     public static void movingScript(GameObject obj) {
         int lowX = 24, highX = 36, lowY = 13, highY = 20;
         if (obj.getX() == lowX && obj.getY() < highY) {

@@ -8,11 +8,19 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /**
- * 01/11/2017.
+ * Stores each of the game map's interactive points.
  */
 public class InteractiveTile extends Tile {
     private boolean menu;
 
+    /**
+     * Class constructor.
+     *
+     * @param img the image of the InteractiveTile
+     * @param collision whether or not GameObjects can move on top of the tile
+     * @param key the key of the InteractiveTile (for when stored in a matrix)
+     * @param menu whether or not interacting with the tile will create a menu
+     */
     public InteractiveTile(BufferedImage img, boolean collision, char key, boolean menu) {
         super(img, collision, key);
         this.menu = menu;
@@ -20,6 +28,12 @@ public class InteractiveTile extends Tile {
 
     public boolean isMenu() { return menu; }
 
+    /**
+     * Initialises the co-ordinates of a map's interactive points.
+     *
+     * @param mapID the identifier of the map
+     * @return the map of interactive points
+     */
     public static HashMap<Point, TextBox> initialisePoints(int mapID) {
         HashMap<Point, TextBox> points = new HashMap<>();
 

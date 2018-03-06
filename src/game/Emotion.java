@@ -11,7 +11,7 @@ import java.util.Objects;
 import static game.Game.GAME;
 
 /**
- * 07/02/2018.
+ * Displays an emoticon-like symbol above GameObjects for visual feedback.
  */
 public class Emotion {
     private static ArrayList<BufferedImage> images;
@@ -26,6 +26,12 @@ public class Emotion {
         } catch (NullPointerException e) { System.out.println("Unable to read tileset"); }
     }
 
+    /**
+     * Class constructor.
+     *
+     * @param id the identifier for the Emotion type ( 0 = !, 1 = ?, 2 = very happy, 3 = sick, 4 = love, 5 = happy,
+     *           6 = neutral, 7 = unhappy)
+     */
     public Emotion(int id) {
         lifetime = 30;
         try {
@@ -38,6 +44,12 @@ public class Emotion {
     public int getLifetime() { return lifetime; }
     public void decreaseLifetime() { lifetime--; }
 
+    /**
+     * Renders the Emotion one tile above the specified GameObject.
+     *
+     * @param g the graphics
+     * @param character the GameObject that will be drawn above
+     */
     public void paintComponent(Graphics g, GameObject character) {
         g.drawImage(image, character.getGX() - GAME.getCamera().getGX(),
                 character.getGY() - GAME.getCamera().getGY() - 32, 32, 32, null);

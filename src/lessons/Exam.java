@@ -10,7 +10,7 @@ import java.util.Arrays;
 import static game.Game.GAME;
 
 /**
- * 16/02/2018.
+ * Manages game flow when in an 'Exam Lesson' state.
  */
 public class Exam extends Lesson {
     private int attentionSpan;
@@ -24,6 +24,12 @@ public class Exam extends Lesson {
 
     private ArrayList<Integer> questions = new ArrayList<>(Arrays.asList(0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3));
 
+    /**
+     * Class constructor.
+     *
+     * @param id the identifier for the exam subject (0 = DT, 1 = food tech, 2 = PE, 3 = chemistry, 4 = ICT)
+     * @param grade the player's current points in the exam subject
+     */
     private Exam(int id, int grade) {
         super(grade);
         this.id = id;
@@ -52,6 +58,12 @@ public class Exam extends Lesson {
 
     public int getTimeLeft() { return timeLeft; }
 
+    /**
+     * Starts an Exam game state.
+     * Sets the player's position and displays a TextBox and Menu.
+     *
+     * @param id the identifier for the exam subject (0 = DT, 1 = food tech, 2 = PE, 3 = chemistry, 4 = ICT)
+     */
     public static void startExam(int id) {
         GAME.setDay(GAME.getDay() + 1);
         GAME.setDaysLeft(0);
@@ -84,6 +96,12 @@ public class Exam extends Lesson {
         GAME.setExam(new Exam(id, grade));
         GAME.getExam().id = id;
     }
+
+    /**
+     * Ends the Exam state.
+     * Increments the respective exam score and game points.
+     * Closes the Exam shell screens and either ends the game or makes the player go home.
+     */
     public void finish() {
         int increase = (int)((getScore() / getRounds()) * 5);
         GAME.setExamScore(id, increase);
@@ -98,6 +116,11 @@ public class Exam extends Lesson {
         else { GAME.finishGame(); }
     }
 
+    /**
+     * Handles the result of the supplied action.
+     *
+     * @param action the action to be done (0 = answer, 1 = think, 2 = drink, 3 = toilet, 4 = rules)
+     */
     public void doAction(int action) {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (action) {
@@ -182,6 +205,14 @@ public class Exam extends Lesson {
         }
         setFeedback(true);
     }
+
+    /**
+     * Determines the score the player receives for their answer.
+     *
+     * @param concentration the player's current concentration level
+     * @param questionId the type of question
+     * @return the points gained from the player's answer
+     */
     private double answer(int concentration, int questionId) {
             if (concentration < questionId + 1) {
                 setFeedbackText(FileReader.getLessonString(17));
@@ -199,6 +230,12 @@ public class Exam extends Lesson {
                 return 1;
             }
     }
+
+    /**
+     * Determine which type of question is next, from the values left in the questions ArrayList.
+     *
+     * @return the type of question's id
+     */
     private int generateQuestion() {
         int r = (int) (Math.random() * questions.size());
         int questionId = questions.get(r);

@@ -15,7 +15,7 @@ import java.util.List;
 import static game.Game.GAME;
 
 /**
- * 25/11/2017.
+ * Handles actions available to NPC GameObjects.
  */
 public class NPC extends GameObject{
     private int id;
@@ -62,6 +62,16 @@ public class NPC extends GameObject{
         text.put(30, FileReader.getLunchStrings());
     }
 
+    /**
+     * Class constructor for unique NPCs.
+     *
+     * @param x the starting x co-ordinate
+     * @param y the starting y co-ordinate
+     * @param id the identifier of the NPC (0 = Jack, 1 = Emily, 2 = Alexander, 3 = Nathan, 4 = Frankie, 5-9 Teachers)
+     * @param direction the starting direction
+     * @param hostile whether or not the NPC is hostile (true in 'Heist' game state)
+     * @param ctrl the NPC controller (can be null)
+     */
     public NPC(int x, int y, int id, int direction, boolean hostile, Controller ctrl) {
         super(tiles.get(id).get(direction), x, y);
         defaultDirection = direction;
@@ -75,6 +85,18 @@ public class NPC extends GameObject{
         if (ctrl instanceof Patrol) { ((Patrol) ctrl).setObject(this); }
         setFlip(true);
     }
+
+    /**
+     * Class constructor for generic NPCs.
+     *
+     * @param x the starting x co-ordinate
+     * @param y the starting y co-ordinate
+     * @param id the identifier of the NPC (10s = boys, 20 = girls, 30s = dinner ladies)
+     * @param subId the sub-identifier for within ID type
+     * @param direction the starting direction
+     * @param hostile whether or not the NPC is hostile (true in 'Heist' game state)
+     * @param ctrl the NPC controller (can be null)
+     */
     public NPC(int x, int y, int id, int subId, int direction, boolean hostile, Controller ctrl) {
         super(tiles.get(id).get(direction), x, y);
         defaultDirection = direction;
@@ -103,6 +125,11 @@ public class NPC extends GameObject{
         setRightSprites(tiles.get(id));
     }
 
+    /**
+     * Handles the interactions between the NPC and the player/game.
+     *
+     * @param time the game time
+     */
     public void interaction(int time) {
         switch (id) {
             case 0:
@@ -159,6 +186,9 @@ public class NPC extends GameObject{
         }
     }
 
+    /**
+     * Creates a TextBox when the player interacts with an NPC with id 0-4.
+     */
     private void friendTextBox() {
         int fp = 0;
         if (GAME.getFriendValue(id) > 0) { fp = 1; }
@@ -169,6 +199,11 @@ public class NPC extends GameObject{
         GAME.setTextBox(new TextBox(NPC.text.get(id)[fp], this, true));
     }
 
+    /**
+     * Creates a Menu for the player to choose the item to give to the NPC.
+     *
+     * @param yes whether or not the Menu is created
+     */
     public void gift(boolean yes) {
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
@@ -184,6 +219,9 @@ public class NPC extends GameObject{
             else { friendTextBox(); }
         }
     }
+    /**
+     * Creates a TextBox when the player gifts an item to the NPC.
+     */
     public void giftTextBox(int index) {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (id) {
@@ -213,6 +251,10 @@ public class NPC extends GameObject{
         GAME.increaseFriendValue(id, index + 1);
         GAME.increasePoints(0, id, index + 1);
     }
+
+    /**
+     * Adds an energy drink to the player's inventory if interacted with and are 'good friends' with Nathan.
+     */
     private void freeDrink() {
         GAME.setTextBox(new TextBox(text.get(3)[2], this, true));
         GAME.giveEnergyDrink();
@@ -221,6 +263,11 @@ public class NPC extends GameObject{
         GameAudio.playSfx(GameAudio.sfx_item);
     }
 
+    /**
+     * Starts a Lesson game state.
+     *
+     * @param yes whether or not the Lesson is started
+     */
     public void lesson(boolean yes) {
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
@@ -233,6 +280,11 @@ public class NPC extends GameObject{
         }
     }
 
+    /**
+     * Gives player a chance to buff or debuff.
+     *
+     * @param yes whether or not the player takes the chance
+     */
     public void lunch(boolean yes) {
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
@@ -253,6 +305,11 @@ public class NPC extends GameObject{
         GAME.setMenu(null);
     }
 
+    /**
+     * Starts an Activity game state.
+     *
+     * @param yes whether or not the Activity is started
+     */
     public void activity(boolean yes) {
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
@@ -283,6 +340,10 @@ public class NPC extends GameObject{
             GAME.setMenu(null);
         }
     }
+
+    /**
+     * Creates the TextBox shown in the Activity game state.
+     */
     private void activityTextBox() {
         switch (id) {
             case 0:
@@ -313,6 +374,9 @@ public class NPC extends GameObject{
         GAME.resetDaysSince(id / 2);
     }
 
+    /**
+     * Moves the NPC graphically and logically.
+     */
     public void move() {
         int i;
         if (isUp()) {
@@ -355,6 +419,12 @@ public class NPC extends GameObject{
             }
         }
     }
+
+    /**
+     * Changes the NPC's tile image.
+     *
+     * @param direction used to determine which image is used
+     */
     public void rotate(int direction) {
         switch (direction) {
             case 0:
@@ -371,6 +441,12 @@ public class NPC extends GameObject{
                 break;
         }
     }
+
+    /**
+     * Changes the NPC's tile image to face the player.
+     *
+     * @param player the game's Player object
+     */
     public void rotate(Player player) {
         if (player.getX() == getX()) {
             if (player.getY() < getY()) {
@@ -384,6 +460,7 @@ public class NPC extends GameObject{
             else { getTile().setImg(getRightSprite()); }
         }
     }
+
     public void reset() {
         setX(defaultX);
         setY(defaultY);
@@ -406,6 +483,11 @@ public class NPC extends GameObject{
         if (this.getCtrl() instanceof Patrol) { ((Patrol) this.getCtrl()).reset(); }
     }
 
+    /**
+     * Raycasts in the NPCs direct until the player or a collision is spotted.
+     *
+     * @param direction the NPC's direction
+     */
     private void lookForPlayer(int direction) {
         boolean clearPath = false;
         switch (direction) {
@@ -471,6 +553,10 @@ public class NPC extends GameObject{
                 break;
         }
     }
+
+    /**
+     * Sets variables if a hostile NPC raycasts the Player.
+     */
     private void spottedPlayer() {
         GAME.setSpotted(true);
         GAME.getPlayer().setSpotted(true);
@@ -478,6 +564,10 @@ public class NPC extends GameObject{
         setCtrl(null);
         setEmotion(new Emotion(0));
     }
+
+    /**
+     * Moves the NPC to in front of the player.
+     */
     private void walkToPlayer() {
         if (getY() < GAME.getPlayer().getY() - 1) { setDown(true); }
         else if (getY() > GAME.getPlayer().getY() + 1) { setUp(true); }
@@ -485,6 +575,13 @@ public class NPC extends GameObject{
         else if (getX() > GAME.getPlayer().getX() + 1) { setLeft(true); }
         move();
     }
+
+    /**
+     * Colours the raycasted tiles a shade of red.
+     * Used as a visual aid.
+     *
+     * @param direction the NPC's direction
+     */
     private void colourTiles(int direction) {
         switch (direction) {
             case 0:
@@ -526,6 +623,9 @@ public class NPC extends GameObject{
         }
     }
 
+    /**
+     * Determines what actions the NPC is doing.
+     */
     public void update() {
         setInPlay(!GAME.isTransition() && GAME.getTextBox() == null && GAME.getMenu() == null && (!GAME.isSpotted() &&
                 !isSpotted()) && !GAME.hasLostHeist());

@@ -11,7 +11,7 @@ import java.io.IOException;
 import static game.Game.GAME;
 
 /**
- * 03/11/2017.
+ * Manages creating and rendering Menu shell screens.
  */
 public class Menu {
     private static int minimapId;
@@ -36,6 +36,14 @@ public class Menu {
     private boolean blink;
     private boolean visible;
 
+    /**
+     * Class constructor.
+     *
+     * @param id the identification of the Menu to be created (0 = main menu, 1 = map menu, 2 = friend menu,
+     *           3 = grade menu, 4 = item menu, 5 = NPC yes/no menu, 6-7+16 = gift menus, 8-11 = lesson menus,
+     *           12 = title screen, 13 = go home yes/no menu, 14 = interactive tile yes/no menu,
+     *           15 = bedroom study menu, 17 = quit game yes/no menu)
+     */
     public Menu(int id) {
         this.currentId = id;
         friendImg = null;
@@ -46,6 +54,11 @@ public class Menu {
 
     public static void setIconPoint(Point iconPoint) { Menu.iconPoint = iconPoint; }
 
+    /**
+     * Sets the text on the Friends Menu.
+     *
+     * @param index then index of the selected friend
+     */
     private static void setFriendValue(int index) {
         int fp = GAME.getFriendValue(index);
         if (fp == 0) { friendText = FileReader.getMenuString(28); }
@@ -54,6 +67,11 @@ public class Menu {
         if (fp > 20) { friendText = FileReader.getMenuString(31); }
     }
 
+    /**
+     * Sets the image on the Grades Menu.
+     *
+     * @param index then index of the selected lesson
+     */
     private static void setGradeValue(int index) {
         int gp = GAME.getGradeValue(index);
         if (gp >= 0) { gradeImg = gradeImgs[0]; }
@@ -72,6 +90,11 @@ public class Menu {
 
     public void setVisible(boolean visible) { this.visible = visible; }
 
+    /**
+     * Sets the Menu images and text.
+     *
+     * @param id the identification of the Menu type
+     */
     public static void setUp(int id) {
         switch (id) {
             case 0:
@@ -198,6 +221,9 @@ public class Menu {
         setGradeValue(id);
     }
 
+    /**
+     * Pre-loads all the Menu images used in the game.
+     */
     public static void loadImages() {
         try {
             imgs = new BufferedImage[11];
@@ -255,6 +281,11 @@ public class Menu {
         } catch (NullPointerException e) { /* No image */ }
     }
 
+    /**
+     * Hot key shortcuts to access Menus via the keyboard.
+     *
+     * @param id the identification of the Menu to open
+     */
     public static void hotKeyAccess(int id) {
         if (GAME.getTextBox() == null) {
             GameAudio.playSfx(GameAudio.sfx_menu);

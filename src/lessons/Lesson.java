@@ -9,7 +9,8 @@ import utilities.TileMapLoader;
 import static game.Game.GAME;
 
 /**
- * 14/11/2017.
+ * Manages game flow when in any of the Lesson states.
+ * Has shared methods and fields across all lesson types.
  */
 public abstract class Lesson {
     private static int oldTime;
@@ -55,6 +56,12 @@ public abstract class Lesson {
     public String getFeedbackText() { return feedbackText; }
     void setFeedbackText(String feedbackText) { this.feedbackText = feedbackText; }
 
+    /**
+     * Starts a Lesson game state.
+     * Sets the player's position and displays a TextBox and Menu.
+     *
+     * @param id the identifier for the lesson subject (0 = DT, 1 = food tech, 2 = PE, 3 = chemistry, 4 = ICT)
+     */
     public static void startLesson(int id) {
         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.getMapId());
         currentMap.resetNPCs();
@@ -80,6 +87,12 @@ public abstract class Lesson {
         GAME.getLesson().id = id;
 
     }
+
+    /**
+     * Ends the Lesson state.
+     * Increments the respective grade score and game points.
+     * Closes the Lesson shell screens, resets the player's condition and increments the game time.
+     */
     public void finish() {
         int increase = (int)((score / rounds) * 5);
         GAME.increaseGradeValue(id, increase);
@@ -95,6 +108,12 @@ public abstract class Lesson {
         GameAudio.startMusic(GameAudio.music_school);
     }
 
+    /**
+     * Sets the starting concentration/energy in Chemistry/ICT/PE.
+     *
+     * @param grade the player's grade in the respective lesson
+     * @return the starting concentration/energy
+     */
     static int setStart(int grade) {
         switch (grade) {
             case 1:
@@ -108,6 +127,13 @@ public abstract class Lesson {
         }
         return 0;
     }
+
+    /**
+     * Sets the number of questions in Chemistry/ICT lessons
+     *
+     * @param grade the player's respective grade in the lesson
+     * @return the number of questions
+     */
     static int setNumberOfQuestions(int grade) {
         switch (grade) {
             case 1:
@@ -121,6 +147,16 @@ public abstract class Lesson {
         }
         return 5;
     }
+
+    /**
+     * Generates a question/task in Chemistry/ICT or DT/Food Tech lessons
+     *
+     * @param lessonId the identifier for the type of lesson (0 = chemistry, 1 = ICT, else DT/food tech)
+     *
+     * @param lv1 the chance the question type is level 1
+     * @param lv2 the chance the question type is level 2
+     * @return the type of question's id
+     */
     int generateQuestion(int lessonId, double lv1, double lv2) {
         double r = Math.random();
         if (r < lv1) {
@@ -142,6 +178,11 @@ public abstract class Lesson {
         }
     }
 
+    /**
+     * Shows the rules for the respective lesson type
+     *
+     * @return the identifier for the lesson subject (0 = DT, 1 = food tech, 2 = PE, 3 = chemistry, 4 = ICT)
+     */
     public TextBox showRules() {
         switch (id) {
             case 0:
@@ -157,6 +198,9 @@ public abstract class Lesson {
         }
     }
 
+    /**
+     * Checks if the player has answered a question (or equivalent)
+     */
     public void checkFinish() {
         if (finished) { finish(); }
         else {
