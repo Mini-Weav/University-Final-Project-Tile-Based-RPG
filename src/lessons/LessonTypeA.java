@@ -66,7 +66,8 @@ public class LessonTypeA extends Lesson {
                 if (questionsLeft == 0) {
                     setFinished();
                     GAME.getPlayer().setEmotion(null);
-                    setFeedbackText(FileReader.getLessonString(5) + FileReader.getLessonString(6) + (int)((getScore() / getRounds()) * 100) + "!");
+                    setFeedbackText(FileReader.getLessonString(5) + FileReader.getLessonString(6) +
+                            (int)((getScore() / getRounds()) * 100) + "!");
                 }
                 break;
             case 1:
@@ -120,7 +121,6 @@ public class LessonTypeA extends Lesson {
         }
         setFeedback(true);
     }
-
     private double answer(int concentration, int questionId) {
         switch (questionId) {
             case 0:

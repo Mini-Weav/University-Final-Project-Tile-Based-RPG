@@ -71,6 +71,5 @@ public class Activity {
         GAME.setMenu(null);
         GAME.setTextBox(new TextBox(0, GAME.getActivity().duringText));
     }
-
     void finish() { GAME.setAfterActivity(true); }
 }

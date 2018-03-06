@@ -77,7 +77,6 @@ public class FileReader {
             return null;
         }
     }
-
     public static void readFiles() {
         interactiveStrings = readFile("interactive_tiles");
         npcStrings = readFile("npcs");

@@ -24,6 +24,34 @@ public class Exam extends Lesson {
 
     private ArrayList<Integer> questions = new ArrayList<>(Arrays.asList(0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3));
 
+    private Exam(int id, int grade) {
+        super(grade);
+        this.id = id;
+        this.setGrade(grade);
+        startingConcentration = setStart(grade);
+        if (GAME.getPlayer().getCondition() == 1) { startingConcentration++; }
+        if (GAME.hasQuestions()) { startingConcentration++; }
+        if (GAME.getPlayer().getCondition() == 2 && startingConcentration > 0) { startingConcentration--; }
+        concentration = startingConcentration;
+        setRounds(12);
+        questionsLeft = getRounds();
+        timeLeft = 90;
+        attentionSpan = 5;
+        toilet = false;
+
+        questionId = generateQuestion();
+
+        GAME.setMenu(new Menu(8));
+    }
+
+    public int getAttentionSpan() { return attentionSpan; }
+
+    public int getConcentration() { return concentration; }
+
+    public int getQuestionsLeft() { return questionsLeft; }
+
+    public int getTimeLeft() { return timeLeft; }
+
     public static void startExam(int id) {
         GAME.setDay(GAME.getDay() + 1);
         GAME.setDaysLeft(0);
@@ -56,7 +84,6 @@ public class Exam extends Lesson {
         GAME.setExam(new Exam(id, grade));
         GAME.getExam().id = id;
     }
-
     public void finish() {
         int increase = (int)((getScore() / getRounds()) * 5);
         GAME.setExamScore(id, increase);
@@ -69,27 +96,6 @@ public class Exam extends Lesson {
         GAME.getPlayer().setCondition(0);
         if (GAME.getExamsLeft() > 0) { GAME.goHome(true); }
         else { GAME.finishGame(); }
-    }
-
-    private Exam(int id, int grade) {
-        super(grade);
-        this.id = id;
-        this.setGrade(grade);
-        startingConcentration = setStart(grade);
-        if (GAME.getPlayer().getCondition() == 1) { startingConcentration++; }
-        if (GAME.hasQuestions()) { startingConcentration++; }
-        if (GAME.getPlayer().getCondition() == 2 && startingConcentration > 0) { startingConcentration--; }
-        concentration = startingConcentration;
-        setRounds(12);
-        questionsLeft = getRounds();
-        timeLeft = 90;
-        attentionSpan = 5;
-        toilet = false;
-
-        questionId = generateQuestion();
-
-        GAME.setMenu(new Menu(8));
-
     }
 
     public void doAction(int action) {
@@ -109,7 +115,8 @@ public class Exam extends Lesson {
                 else if (questionsLeft == 0) {
                     setScore(getScore() + (getGrade() * 0.25));
                     setFinished();
-                    setFeedbackText(FileReader.getLessonString(50) + FileReader.getLessonString(46) + FileReader.getLessonString(47 + i));
+                    setFeedbackText(FileReader.getLessonString(50) + FileReader.getLessonString(46) +
+                            FileReader.getLessonString(47 + i));
                 }
                 if (isNotFinished()) { questionId = generateQuestion(); }
                 else {
@@ -175,7 +182,6 @@ public class Exam extends Lesson {
         }
         setFeedback(true);
     }
-
     private double answer(int concentration, int questionId) {
             if (concentration < questionId + 1) {
                 setFeedbackText(FileReader.getLessonString(17));
@@ -193,7 +199,6 @@ public class Exam extends Lesson {
                 return 1;
             }
     }
-
     private int generateQuestion() {
         int r = (int) (Math.random() * questions.size());
         int questionId = questions.get(r);
@@ -214,15 +219,6 @@ public class Exam extends Lesson {
         }
         return questionId;
     }
-
     public TextBox showRules() { return new TextBox(1, FileReader.getInteractiveString(38)); }
-
-    public int getAttentionSpan() { return attentionSpan; }
-
-    public int getConcentration() { return concentration; }
-
-    public int getQuestionsLeft() { return questionsLeft; }
-
-    public int getTimeLeft() { return timeLeft; }
 
 }

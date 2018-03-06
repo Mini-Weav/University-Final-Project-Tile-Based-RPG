@@ -39,7 +39,8 @@ public class TileMap {
         interactivePoints = InteractiveTile.initialisePoints(id);
         this.miniMapId = miniMapId;
         iconPoint = new Point(x, y);
-        NPCs = NPCLoader.getNPCs(id);
+        try { NPCs = NPCLoader.getNPCs(id); }
+        catch (NullPointerException e) { /* No NPCs in map */}
     }
 
     public int getId() { return id; }
@@ -56,12 +57,6 @@ public class TileMap {
 
     public List<NPC> getNPCs(Integer key) { return NPCs.get(key); }
     public int getNumberOfNPCs(Integer key) { return NPCs.get(key).size(); }
-
-    public Pair<Integer, Point> getDoorPoint(Point key) { return doorPoints.get(key); }
-
-    TextBox getInteractivePoint(Point key) { return interactivePoints.get(key); }
-    void putPoint(Point key, TextBox textBox) { interactivePoints.put(key, textBox); }
-
     public void resetNPCs() {
         try {
             for (int i = 0; i < getNumberOfNPCs(GAME.getTime()); i++) {
@@ -70,4 +65,9 @@ public class TileMap {
             }
         } catch (NullPointerException e) { /* Do nothing */ }
     }
+
+    public Pair<Integer, Point> getDoorPoint(Point key) { return doorPoints.get(key); }
+
+    TextBox getInteractivePoint(Point key) { return interactivePoints.get(key); }
+    void putPoint(Point key, TextBox textBox) { interactivePoints.put(key, textBox); }
 }

@@ -24,21 +24,19 @@ public class InteractiveTile extends Tile {
         HashMap<Point, TextBox> points = new HashMap<>();
 
         switch (mapID) {
-
             /*School Hall G*/
             case 0:
-                points.put(new Point(11, 1), new TextBox(0, FileReader.getInteractiveString(3))); //4
-                points.put(new Point(4, 5), new TextBox(0, FileReader.getInteractiveString(4))); //5
-                points.put(new Point(7, 5), new TextBox(0, FileReader.getInteractiveString(5))); //6
-                points.put(new Point(18, 5), new TextBox(0, FileReader.getInteractiveString(6))); //7
-                points.put(new Point(6, 17), new TextBox(0, FileReader.getInteractiveString(7))); //8
-                points.put(new Point(16, 17), new TextBox(0, FileReader.getInteractiveString(7))); //8
+                points.put(new Point(11, 1), new TextBox(0, FileReader.getInteractiveString(3)));
+                points.put(new Point(4, 5), new TextBox(0, FileReader.getInteractiveString(4)));
+                points.put(new Point(7, 5), new TextBox(0, FileReader.getInteractiveString(5)));
+                points.put(new Point(18, 5), new TextBox(0, FileReader.getInteractiveString(6)));
+                points.put(new Point(6, 17), new TextBox(0, FileReader.getInteractiveString(7)));
+                points.put(new Point(16, 17), new TextBox(0, FileReader.getInteractiveString(7)));
                 break;
-
             /*School Hall 1F*/
             case 1:
-                points.put(new Point(11, 1), new TextBox(0, FileReader.getInteractiveString(8))); //9
-                points.put(new Point(2, 1), new TextBox(0, FileReader.getInteractiveString(9))); //10
+                points.put(new Point(11, 1), new TextBox(0, FileReader.getInteractiveString(8)));
+                points.put(new Point(2, 1), new TextBox(0, FileReader.getInteractiveString(9)));
                 points.put(new Point(3, 1), new TextBox(0, FileReader.getInteractiveString(9)));
                 points.put(new Point(4, 1), new TextBox(0, FileReader.getInteractiveString(9)));
                 points.put(new Point(5, 1), new TextBox(0, FileReader.getInteractiveString(9)));
@@ -46,15 +44,14 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(15, 1), new TextBox(0, FileReader.getInteractiveString(9)));
                 points.put(new Point(16, 1), new TextBox(0, FileReader.getInteractiveString(9)));
                 points.put(new Point(17, 1), new TextBox(0, FileReader.getInteractiveString(9)));
-                points.put(new Point(5, 10), new TextBox(0, FileReader.getInteractiveString(10))); //11
-                points.put(new Point(16, 10), new TextBox(0, FileReader.getInteractiveString(11)));//12
+                points.put(new Point(5, 10), new TextBox(0, FileReader.getInteractiveString(10)));
+                points.put(new Point(16, 10), new TextBox(0, FileReader.getInteractiveString(11)));
                 break;
-
             /*Design Tech Classroom*/
             case 2:
-                points.put(new Point(2, 2), new TextBox(0, FileReader.getInteractiveString(12)));//13
+                points.put(new Point(2, 2), new TextBox(0, FileReader.getInteractiveString(12)));
                 points.put(new Point(3, 2), new TextBox(0, FileReader.getInteractiveString(12)));
-                points.put(new Point(2, 4), new TextBox(0, FileReader.getInteractiveString(13)));//14
+                points.put(new Point(2, 4), new TextBox(0, FileReader.getInteractiveString(13)));
                 points.put(new Point(3, 4), new TextBox(0, FileReader.getInteractiveString(13)));
                 points.put(new Point(2, 5), new TextBox(0, FileReader.getInteractiveString(13)));
                 points.put(new Point(3, 5), new TextBox(0, FileReader.getInteractiveString(13)));
@@ -62,51 +59,49 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(5, 7), new TextBox(0, FileReader.getInteractiveString(13)));
                 points.put(new Point(4, 8), new TextBox(0, FileReader.getInteractiveString(13)));
                 points.put(new Point(5, 8), new TextBox(0, FileReader.getInteractiveString(13)));
-                points.put(new Point(10, 1), new TextBox(6, FileReader.getInteractiveString(1)));//2
+                points.put(new Point(10, 1), new TextBox(6, FileReader.getInteractiveString(1)));
                 points.put(new Point(11, 1), new TextBox(6, FileReader.getInteractiveString(1)));
                 points.put(new Point(12, 1), new TextBox(6, FileReader.getInteractiveString(1)));
-                points.put(new Point(15, 2), new TextBox(0, FileReader.getInteractiveString(14)));//15
+                points.put(new Point(15, 2), new TextBox(0, FileReader.getInteractiveString(14)));
                 points.put(new Point(16, 2), new TextBox(0, FileReader.getInteractiveString(14)));
                 break;
-
             /*Food Tech Classroom*/
             case 3:
-                points.put(new Point(1, 2), new TextBox(0, FileReader.getInteractiveString(15)));//16
+                points.put(new Point(1, 2), new TextBox(0, FileReader.getInteractiveString(15)));
                 points.put(new Point(2, 2), new TextBox(0, FileReader.getInteractiveString(15)));
-                points.put(new Point(5, 1), new TextBox(6, FileReader.getInteractiveString(1)));//2
+                points.put(new Point(5, 1), new TextBox(6, FileReader.getInteractiveString(1)));
                 points.put(new Point(6, 1), new TextBox(6, FileReader.getInteractiveString(1)));
                 points.put(new Point(7, 1), new TextBox(6, FileReader.getInteractiveString(1)));
-                points.put(new Point(14, 2), new TextBox(0, FileReader.getInteractiveString(16)));//17
+                points.put(new Point(14, 2), new TextBox(0, FileReader.getInteractiveString(16)));
                 points.put(new Point(15, 2), new TextBox(0, FileReader.getInteractiveString(16)));
-                points.put(new Point(12, 4), new TextBox(0, FileReader.getInteractiveString(17)));//18
+                points.put(new Point(12, 4), new TextBox(0, FileReader.getInteractiveString(17)));
                 points.put(new Point(15, 4), new TextBox(0, FileReader.getInteractiveString(17)));
                 points.put(new Point(12, 6), new TextBox(0, FileReader.getInteractiveString(17)));
                 points.put(new Point(15, 6), new TextBox(0, FileReader.getInteractiveString(17)));
                 points.put(new Point(12, 8), new TextBox(0, FileReader.getInteractiveString(17)));
                 points.put(new Point(15, 8), new TextBox(0, FileReader.getInteractiveString(17)));
-                points.put(new Point(13, 4), new TextBox(0, FileReader.getInteractiveString(18)));//19
+                points.put(new Point(13, 4), new TextBox(0, FileReader.getInteractiveString(18)));
                 points.put(new Point(14, 4), new TextBox(0, FileReader.getInteractiveString(18)));
                 points.put(new Point(13, 6), new TextBox(0, FileReader.getInteractiveString(18)));
                 points.put(new Point(14, 6), new TextBox(0, FileReader.getInteractiveString(18)));
                 points.put(new Point(13, 8), new TextBox(0, FileReader.getInteractiveString(18)));
                 points.put(new Point(14, 8), new TextBox(0, FileReader.getInteractiveString(18)));
                 break;
-
             /*1F Classrooms*/
             case 4:
-                points.put(new Point(1, 2), new TextBox(0, FileReader.getInteractiveString(19)));//20
+                points.put(new Point(1, 2), new TextBox(0, FileReader.getInteractiveString(19)));
                 points.put(new Point(2, 2), new TextBox(0, FileReader.getInteractiveString(19)));
-                points.put(new Point(6, 1), new TextBox(1, FileReader.getInteractiveString(38)));//1
+                points.put(new Point(6, 1), new TextBox(1, FileReader.getInteractiveString(38)));
                 points.put(new Point(7, 1), new TextBox(1, FileReader.getInteractiveString(0)));
                 points.put(new Point(8, 1), new TextBox(1, FileReader.getInteractiveString(0)));
-                points.put(new Point(5, 4), new TextBox(0, FileReader.getInteractiveString(20)));//21
+                points.put(new Point(5, 4), new TextBox(0, FileReader.getInteractiveString(20)));
                 points.put(new Point(5, 6), new TextBox(0, FileReader.getInteractiveString(20)));
-                points.put(new Point(13, 1), new TextBox(1, FileReader.getInteractiveString(0)));//1
+                points.put(new Point(13, 1), new TextBox(1, FileReader.getInteractiveString(0)));
                 points.put(new Point(14, 1), new TextBox(1, FileReader.getInteractiveString(0)));
                 points.put(new Point(15, 1), new TextBox(1, FileReader.getInteractiveString(0)));
-                points.put(new Point(19, 2), new TextBox(0, FileReader.getInteractiveString(21)));//22
+                points.put(new Point(19, 2), new TextBox(0, FileReader.getInteractiveString(21)));
                 points.put(new Point(20, 2), new TextBox(0, FileReader.getInteractiveString(21)));
-                points.put(new Point(12, 4), new TextBox(0, FileReader.getInteractiveString(22)));//23
+                points.put(new Point(12, 4), new TextBox(0, FileReader.getInteractiveString(22)));
                 points.put(new Point(13, 4), new TextBox(0, FileReader.getInteractiveString(22)));
                 points.put(new Point(14, 4), new TextBox(0, FileReader.getInteractiveString(22)));
                 points.put(new Point(15, 4), new TextBox(0, FileReader.getInteractiveString(22)));
@@ -119,17 +114,13 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(16, 6), new TextBox(0, FileReader.getInteractiveString(22)));
                 points.put(new Point(17, 6), new TextBox(0, FileReader.getInteractiveString(22)));
                 break;
-
             /*Canteen*/
             case 5:
-
                 break;
-
             /*Yard*/
             case 6:
-                points.put(new Point(26, 22), new TextBox(7, FileReader.getInteractiveString(2)));//3
+                points.put(new Point(26, 22), new TextBox(7, FileReader.getInteractiveString(2)));
                 break;
-
             /*Bedroom*/
             case 7:
                 points.put(new Point(1, 2), new TextBox(3, FileReader.getInteractiveString(23)));

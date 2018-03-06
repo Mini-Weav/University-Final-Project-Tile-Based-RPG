@@ -21,17 +21,19 @@ public class StatusMenu {
         this.currentId = id;
         setUp(id);
     }
+
     public int getCurrentId() { return currentId; }
 
     public void setCurrentId(int currentId) { this.currentId = currentId; }
-
 
     public static void setUp(int id) {
         switch (id) {
             case 0:
                 img = Menu.getImg(0);
-                text = GAME.getDaysLeft() + FileReader.getMenuString(32) + "#" + Game.getTimePeriods()[GAME.getTime()] + "#"
-                        + Game.getConditions()[GAME.getPlayer().getCondition()] + "#" + GAME.getPoints();
+                text = GAME.getDaysLeft() + FileReader.getMenuString(32) +
+                        "#" + Game.getTimePeriods()[GAME.getTime()] +
+                        "#" + Game.getConditions()[GAME.getPlayer().getCondition()] +
+                        "#" + GAME.getPoints();
                 subText = FileReader.getMenuString(64);
                 break;
             case 1:
@@ -142,7 +144,6 @@ public class StatusMenu {
                 return Color.black;
         }
     }
-
     public void paintComponent(Graphics g) {
         g.setColor(Color.black);
         g.drawImage(img, 16, 16, img.getWidth() * 2, img.getHeight() * 2, null);

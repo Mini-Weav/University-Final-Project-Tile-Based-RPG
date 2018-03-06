@@ -95,18 +95,24 @@ public abstract class GameObject {
     public void setEmotion(Emotion emotion) { this.emotion = emotion; }
 
     BufferedImage getUpSprite() { return upSprites1.get(0); }
-    void setUpSprites1(List<Tile> tiles) { upSprites1 = Arrays.asList(tiles.get(5).getImg(), tiles.get(6).getImg(), tiles.get(6).getImg(), tiles.get(5).getImg()); }
-    void setUpSprites2(List<Tile> tiles) { upSprites2 = Arrays.asList(tiles.get(5).getImg(), tiles.get(7).getImg(), tiles.get(7).getImg(), tiles.get(5).getImg()); }
+    void setUpSprites1(List<Tile> tiles) { upSprites1 = Arrays.asList(tiles.get(5).getImg(), tiles.get(6).getImg(),
+            tiles.get(6).getImg(), tiles.get(5).getImg()); }
+    void setUpSprites2(List<Tile> tiles) { upSprites2 = Arrays.asList(tiles.get(5).getImg(), tiles.get(7).getImg(),
+            tiles.get(7).getImg(), tiles.get(5).getImg()); }
 
     BufferedImage getDownSprite() { return downSprites1.get(0); }
-    void setDownSprites1(List<Tile> tiles) { downSprites1 = Arrays.asList(tiles.get(0).getImg(), tiles.get(1).getImg()); }
-    void setDownSprites2(List<Tile> tiles) { downSprites2 = Arrays.asList(tiles.get(0).getImg(), tiles.get(2).getImg()); }
+    void setDownSprites1(List<Tile> tiles) { downSprites1 = Arrays.asList(tiles.get(0).getImg(),
+            tiles.get(1).getImg()); }
+    void setDownSprites2(List<Tile> tiles) { downSprites2 = Arrays.asList(tiles.get(0).getImg(),
+            tiles.get(2).getImg()); }
 
     BufferedImage getLeftSprite() { return leftSprites.get(0); }
-    void setLeftSprites(List<Tile> tiles) { leftSprites = Arrays.asList(tiles.get(8).getImg(), tiles.get(9).getImg(), tiles.get(9).getImg(), tiles.get(8).getImg()); }
+    void setLeftSprites(List<Tile> tiles) { leftSprites = Arrays.asList(tiles.get(8).getImg(),
+            tiles.get(9).getImg(), tiles.get(9).getImg(), tiles.get(8).getImg()); }
 
     BufferedImage getRightSprite() { return rightSprites.get(0); }
-    void setRightSprites(List<Tile> tiles) { rightSprites = Arrays.asList(tiles.get(3).getImg(), tiles.get(4).getImg()); }
+    void setRightSprites(List<Tile> tiles) { rightSprites = Arrays.asList(tiles.get(3).getImg(),
+            tiles.get(4).getImg()); }
 
     void walkAnimation(int direction, int index) {
         switch (direction) {

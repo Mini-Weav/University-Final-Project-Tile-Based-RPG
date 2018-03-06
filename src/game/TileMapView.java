@@ -21,7 +21,7 @@ import java.util.TreeMap;
 import static game.Game.GAME;
 
 /**
- * lmweav on 23/10/2017.
+ * 23/10/2017.
  */
 class TileMapView extends JComponent implements MouseListener, MouseMotionListener {
     private int currentId;
@@ -64,7 +64,6 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
         }
         return matrix;
     }
-
     void loadMap(TileMap map) {
         try {
             this.matrix = readMap(map.getTxtFile());
@@ -94,14 +93,16 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
             for (int i = -1; i < Game.getCameraWidth() + 2; i++) {
                 try {
                     Tile tile = tiles.get(matrix.get(GAME.getCamera().getY() + j).get(GAME.getCamera().getX() + i));
-                    g.drawImage(tile.getImg(), i * 32 - GAME.getCamera().getDiffX(), j * 32 - GAME.getCamera().getDiffY(), 32, 32, null);
+                    g.drawImage(tile.getImg(), i * 32 - GAME.getCamera().getDiffX(),
+                            j * 32 - GAME.getCamera().getDiffY(), 32, 32, null);
                     if (GAME.isBadTile(GAME.getCamera().getY() + j, GAME.getCamera().getX() + i)) {
                         g.setColor(new Color(255, 0, 0, 48));
                         g.fillRect(i * 32 - GAME.getCamera().getDiffX(), j * 32 - GAME.getCamera().getDiffY(), 32, 32);
                     }
                 } catch (IndexOutOfBoundsException e) {
                     Tile tile = tiles.get('#');
-                    g.drawImage(tile.getImg(), i * 32 - GAME.getCamera().getDiffX(), j * 32 - GAME.getCamera().getDiffY(), 32, 32, null);
+                    g.drawImage(tile.getImg(), i * 32 - GAME.getCamera().getDiffX(),
+                            j * 32 - GAME.getCamera().getDiffY(), 32, 32, null);
                 } catch (NullPointerException e) {
                     //
                 }
@@ -110,9 +111,12 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
         synchronized (Game.class) {
             for (int i = 0; i < GAME.getNumberOfObjects(); i++) {
                 GameObject object = GAME.getObject(i);
-                if (object.getX() >= GAME.getCamera().getX() - 1 && object.getX() <= GAME.getCamera().getX() + Game.getCameraWidth() + 1 &&
-                        object.getY() >= GAME.getCamera().getY() - 1 && object.getY() <= GAME.getCamera().getY() + Game.getCameraHeight() + 1) {
-                    object.paintComponent(g); }
+                if (object.getX() >= GAME.getCamera().getX() - 1 &&
+                        object.getX() <= GAME.getCamera().getX() + Game.getCameraWidth() + 1 &&
+                        object.getY() >= GAME.getCamera().getY() - 1 &&
+                        object.getY() <= GAME.getCamera().getY() + Game.getCameraHeight() + 1) {
+                    object.paintComponent(g);
+                }
             }
             if (GAME.getStatusMenu() != null) { GAME.getStatusMenu().paintComponent(g); }
             if (GAME.getMenu() != null) {
@@ -123,7 +127,6 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
             if (GAME.getTextBox() != null) { GAME.getTextBox().paintComponent(g); }
         }
     }
-
     private boolean paintTransition(Graphics g) {
         String text = null;
         if (GAME.isNewGame()) { text = utilities.FileReader.getMenuString(54); }
@@ -561,7 +564,9 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
 
         if (e.getButton() == MouseEvent.BUTTON3 && GAME.getTextBox() == null) {
             GameAudio.playSfx(GameAudio.sfx_menu);
-            if (GAME.getMenu() == null || (GAME.getMenu().getCurrentId() != 0 && GAME.getMenu().getCurrentId() != 15)) { GAME.setMenu(new Menu(0)); }
+            if (GAME.getMenu() == null || (GAME.getMenu().getCurrentId() != 0 && GAME.getMenu().getCurrentId() != 15)) {
+                GAME.setMenu(new Menu(0));
+            }
             else  { GAME.setMenu(null); }
         }
     }

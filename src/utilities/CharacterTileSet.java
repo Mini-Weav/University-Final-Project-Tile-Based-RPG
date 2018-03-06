@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/* *
  * 25/10/2017.
- */
+  */
 public class CharacterTileSet extends TileSet {
     private static final int ROWS = 2;
     private static final int COLS = 5;
@@ -22,53 +22,43 @@ public class CharacterTileSet extends TileSet {
             assert images != null;
             for (int i = 0; i < images.size(); i++) {
                 switch (i) {
-
-                    /*Down0*/
+                    /* Down0 */
                     case 0: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Down1*/
+                    /* Down1 */
                     case 1: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Down2*/
+                    /* Down2 */
                     case 2: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Right0*/
+                    /* Right0 */
                     case 3: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Right1*/
+                    /* Right1 */
                     case 4: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Up0*/
+                    /* Up0 */
                     case 5: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Up1*/
+                    /* Up1 */
                     case 6: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Up2*/
+                    /* Up2 */
                     case 7: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Left1*/
+                    /* Left1 */
                     case 8: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;
-
-                    /*Left2*/
+                    /* Left2 */
                     case 9: tile = new Tile(images.get(i), true, key);
                         tiles.add(tile);
                         break;

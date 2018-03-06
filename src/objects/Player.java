@@ -40,27 +40,6 @@ public class Player extends GameObject {
     public int getCondition() { return condition; }
     public void setCondition(int condition) { this.condition = condition; }
 
-    public void rotate(int direction) {
-        switch (direction) {
-            case 0:
-                getTile().setImg(getUpSprite());
-                this.direction.setLocation(getX(), getY() - 1);
-                break;
-            case 1:
-                getTile().setImg(getDownSprite());
-                this.direction.setLocation(getX(), getY() + 1);
-                break;
-            case 2:
-                getTile().setImg(getLeftSprite());
-                this.direction.setLocation(getX() - 1, getY());
-                break;
-            case 3:
-                getTile().setImg(getRightSprite());
-                this.direction.setLocation(getX() + 1, getY());
-                break;
-        }
-    }
-
     public void move() {
         int i;
         if (isUp()) {
@@ -115,69 +94,25 @@ public class Player extends GameObject {
             }
         }
     }
-
-    private void transition() {
-        if (GAME.hasQuestions() && GAME.getTime() == 11) { GAME.endHeist(0); }
-        GAME.doTransition();
-        GameAudio.playSfx(GameAudio.sfx_door);
-
-        Point doorPoint = TileMapLoader.tileMaps.get(GAME.getMapId()).getDoorPoint(new Point(getX(), getY())).getV();
-
-        TileMap currentMap = TileMapLoader.tileMaps.get(GAME.getMapId());
-        try {
-            for (int i = 0; i < currentMap.getNumberOfNPCs(GAME.getTime()); i++) {
-                NPC npc = currentMap.getNPCs(GAME.getTime()).get(i);
-                npc.reset();
-            }
-        } catch (NullPointerException e) { /* Do nothing */ }
-        int nextId = currentMap.getDoorPoint(new Point(getX(), getY())).getK();
-        GAME.loadMap(TileMapLoader.tileMaps.get(nextId));
-
-        setLocation(doorPoint.x, doorPoint.y);
-        direction.setLocation(getX(), getY() - 1);
-    }
-
-    public void setLocation(int x, int y) {
-        this.setX(x);
-        this.setY(y);
-        setGX(x * 32);
-        setGY(y * 32);
-        GAME.getCamera().setX(x - (Game.getWidth() / 64));
-        GAME.getCamera().setY(y - (Game.getHeight() / 64));
-        GAME.getCamera().setGX(GAME.getCamera().getX() * 32);
-        GAME.getCamera().setGY(GAME.getCamera().getY() * 32);
-    }
-
-    public void sleep() {
-        condition = 0;
-        GAME.newDayFeedback(2);
-    }
-
-    public void study() {
-        GAME.setTextBox(null);
-        GAME.setMenu(new Menu(15));
-    }
-
-    public void game() {
-        double r = Math.random();
-        if (r < 0.75) {
-            GameAudio.playSfx(GameAudio.sfx_buff);
-            condition =  1;
-            GAME.newDayFeedback(1, 0);
+    public void rotate(int direction) {
+        switch (direction) {
+            case 0:
+                getTile().setImg(getUpSprite());
+                this.direction.setLocation(getX(), getY() - 1);
+                break;
+            case 1:
+                getTile().setImg(getDownSprite());
+                this.direction.setLocation(getX(), getY() + 1);
+                break;
+            case 2:
+                getTile().setImg(getLeftSprite());
+                this.direction.setLocation(getX() - 1, getY());
+                break;
+            case 3:
+                getTile().setImg(getRightSprite());
+                this.direction.setLocation(getX() + 1, getY());
+                break;
         }
-        else {
-            GameAudio.playSfx(GameAudio.sfx_debuff);
-            condition = 2;
-            GAME.newDayFeedback(1, 1);
-        }
-    }
-
-    public void hack() {
-        GameAudio.playSfx(GameAudio.sfx_pcHack);
-        GAME.setGotQuestions(true);
-        GAME.giveQuestions();
-        GAME.setTime(11);
-        GAME.setMenu(null);
     }
 
     private void door() {
@@ -220,6 +155,65 @@ public class Player extends GameObject {
         }
         else { transition(); }
     }
+    private void transition() {
+        if (GAME.hasQuestions() && GAME.getTime() == 11) { GAME.endHeist(0); }
+        GAME.doTransition();
+        GameAudio.playSfx(GameAudio.sfx_door);
+
+        Point doorPoint = TileMapLoader.tileMaps.get(GAME.getMapId()).getDoorPoint(new Point(getX(), getY())).getV();
+
+        TileMap currentMap = TileMapLoader.tileMaps.get(GAME.getMapId());
+        try {
+            for (int i = 0; i < currentMap.getNumberOfNPCs(GAME.getTime()); i++) {
+                NPC npc = currentMap.getNPCs(GAME.getTime()).get(i);
+                npc.reset();
+            }
+        } catch (NullPointerException e) { /* Do nothing */ }
+        int nextId = currentMap.getDoorPoint(new Point(getX(), getY())).getK();
+        GAME.loadMap(TileMapLoader.tileMaps.get(nextId));
+
+        setLocation(doorPoint.x, doorPoint.y);
+        direction.setLocation(getX(), getY() - 1);
+    }
+    public void setLocation(int x, int y) {
+        this.setX(x);
+        this.setY(y);
+        setGX(x * 32);
+        setGY(y * 32);
+        GAME.getCamera().setX(x - (Game.getWidth() / 64));
+        GAME.getCamera().setY(y - (Game.getHeight() / 64));
+        GAME.getCamera().setGX(GAME.getCamera().getX() * 32);
+        GAME.getCamera().setGY(GAME.getCamera().getY() * 32);
+    }
+
+    public void sleep() {
+        condition = 0;
+        GAME.newDayFeedback(2);
+    }
+    public void study() {
+        GAME.setTextBox(null);
+        GAME.setMenu(new Menu(15));
+    }
+    public void game() {
+        double r = Math.random();
+        if (r < 0.75) {
+            GameAudio.playSfx(GameAudio.sfx_buff);
+            condition =  1;
+            GAME.newDayFeedback(1, 0);
+        }
+        else {
+            GameAudio.playSfx(GameAudio.sfx_debuff);
+            condition = 2;
+            GAME.newDayFeedback(1, 1);
+        }
+    }
+    public void hack() {
+        GameAudio.playSfx(GameAudio.sfx_pcHack);
+        GAME.setGotQuestions(true);
+        GAME.giveQuestions();
+        GAME.setTime(11);
+        GAME.setMenu(null);
+    }
 
     public void update() {
         setInPlay(!GAME.isTransition() && GAME.getTextBox() == null && GAME.getMenu() == null && !isSpotted());
@@ -255,7 +249,6 @@ public class Player extends GameObject {
                     break;
             }
         }
-
         if (GAME.getExam() != null) {
             switch (GAME.getTime()) {
                 case 12:
@@ -277,7 +270,6 @@ public class Player extends GameObject {
                     break;
             }
         }
-
         if (GAME.getActivity() != null) {
             switch (GAME.getActivity().getId()) {
                 case 0:
@@ -298,7 +290,6 @@ public class Player extends GameObject {
                     break;
             }
         }
-
         if (isNotMoving() && isInPlay() && action.isMoving()) {
             if (action.getDirection() == 0 && getY() > 0 &&
                     GAME.isObjectNull(getY() - 1, getX()) &&
@@ -317,18 +308,15 @@ public class Player extends GameObject {
                     !GAME.isCollideTile(GAME.getTileFromMatrix(getY(), getX() + 1))) { setRight(true); }
         }
         move();
-
         if (this.isNotMoving() && isInPlay()) {
             if (action.getDirection() >= 0) { rotate(action.getDirection()); }
         }
-
         if (GAME.isDoorTile(GAME.getTileFromMatrix(getY(), getX()))) { door(); }
-
         if (getEmotion() != null) { displayEmotion(); }
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(getTile().getImg(), getGX() - GAME.getCamera().getGX(), getGY() - GAME.getCamera().getGY(), 32, 32, null);
+        g.drawImage(getTile().getImg(), getGX() - GAME.getCamera().getGX(), getGY() - GAME.getCamera().getGY(),32, 32, null);
         if (getEmotion() != null) { getEmotion().paintComponent(g, this); }
     }
 }

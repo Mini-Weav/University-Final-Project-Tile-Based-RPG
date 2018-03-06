@@ -21,10 +21,9 @@ public class Emotion {
 
     static {
         try {
-            images = new ArrayList<>(Objects.requireNonNull(TileSet.readTileSet(3, 3, "resources/tilesets/emotions.png")));
-        } catch (NullPointerException e) {
-            System.out.println("Unable to read tileset");
-        }
+            images = new ArrayList<>(Objects.requireNonNull(
+                    TileSet.readTileSet(3, 3, "resources/tilesets/emotions.png")));
+        } catch (NullPointerException e) { System.out.println("Unable to read tileset"); }
     }
 
     public Emotion(int id) {
@@ -39,8 +38,8 @@ public class Emotion {
     public int getLifetime() { return lifetime; }
     public void decreaseLifetime() { lifetime--; }
 
-
     public void paintComponent(Graphics g, GameObject character) {
-        g.drawImage(image, character.getGX() - GAME.getCamera().getGX(), character.getGY() - GAME.getCamera().getGY() - 32, 32, 32, null);
+        g.drawImage(image, character.getGX() - GAME.getCamera().getGX(),
+                character.getGY() - GAME.getCamera().getGY() - 32, 32, 32, null);
     }
 }

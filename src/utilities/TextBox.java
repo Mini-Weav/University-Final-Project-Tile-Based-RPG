@@ -28,7 +28,6 @@ public class TextBox {
         setUp(id);
         this.text = text;
     }
-
     public TextBox(String text, NPC npc, boolean skip) {
         if (npc.getId() >= 10) {
             if (skip) { this.id = 0; }
@@ -48,7 +47,6 @@ public class TextBox {
     public void setId(int id) { this.id = id; }
 
     public boolean isSkip() { return skip; }
-
 
     public void setUp(int id) {
         switch (id) {
@@ -96,7 +94,7 @@ public class TextBox {
             npcImgs[3] = ImageIO.read(new File("resources/friendImages/friend4.png"));
             npcImgs[4] = ImageIO.read(new File("resources/friendImages/friend5.png"));
         } catch (IOException e) {
-            System.out.println("Cannot find image.");
+            System.out.println("Cannot find TextBox image.");
         }
     }
 
@@ -138,7 +136,8 @@ public class TextBox {
                 }
                 g.setFont(GameFont.getSmallFont());
                 int textWidth = g.getFontMetrics(GameFont.getSmallFont()).stringWidth(npcName);
-                g.drawString(npcName, 10 + ((int) (npcImg.getWidth() * 1.15)) - (textWidth / 2), Game.getHeight() - 138);
+                g.drawString(npcName, 10 + ((int) (npcImg.getWidth() * 1.15)) - (textWidth / 2),
+                        Game.getHeight() - 138);
                 break;
             case 5:
                 g.drawImage(img, 0, Game.getHeight() - 178, img.getWidth() * 2, img.getHeight() * 3, null);
@@ -149,7 +148,6 @@ public class TextBox {
                     lineIndex++;
                 }
                 break;
-
         }
     }
 }

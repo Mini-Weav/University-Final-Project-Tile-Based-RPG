@@ -89,11 +89,11 @@ public class LessonTypeB extends Lesson {
                 setFeedbackText(FileReader.getLessonString(25));
                 GAME.getPlayer().setEmotion(new Emotion(6));
             }
-            setFeedbackText(getFeedbackText() + FileReader.getLessonString(6) +(int)((getScore() / getRounds()) * 100) + "!");
+            setFeedbackText(getFeedbackText() + FileReader.getLessonString(6) +
+                    (int) ((getScore() / getRounds()) * 100) + "!");
             setFinished();
         }
     }
-
     private double doTask(boolean meticulous, boolean reread, int questionId) {
         switch (questionId) {
             case 0:
@@ -142,7 +142,6 @@ public class LessonTypeB extends Lesson {
         }
         return 0;
     }
-
     private double succeedTask(boolean excellentStandard) {
         if (excellentStandard) {
             setFeedbackText(FileReader.getLessonString(26));
@@ -181,11 +180,11 @@ public class LessonTypeB extends Lesson {
         }
         return generateQuestion(3, lv1, lv2);
     }
-
     private void completeTask() {
         if (GAME.getPlayer().getCondition() == 1) { questionId = generateInstruction(getGrade() + 1); }
-        else if (GAME.getPlayer().getCondition() == 2 && getGrade() > 0) { questionId = generateInstruction(getGrade() - 1); }
-        else { questionId = generateInstruction(getGrade()); }
+        else if (GAME.getPlayer().getCondition() == 2 && getGrade() > 0) {
+            questionId = generateInstruction(getGrade() - 1);
+        } else { questionId = generateInstruction(getGrade()); }
         tasksLeft--;
         reread = false;
     }

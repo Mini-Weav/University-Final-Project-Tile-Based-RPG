@@ -69,14 +69,12 @@ public class GameAudio {
         }
         return clip;
     }
-
     public static void startMusic(Clip clip) {
         if (GAME.getMusic() != null) { GAME.getMusic().stop(); }
         GAME.setMusic(clip);
         GAME.getMusic().setFramePosition(0);
         GAME.getMusic().loop(-1);
     }
-
     public static void stopMusic() {
         GAME.getMusic().stop();
     }

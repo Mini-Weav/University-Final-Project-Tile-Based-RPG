@@ -53,7 +53,9 @@ public class TitleScreen extends JComponent implements MouseListener, MouseMotio
                 GameAudio.playSfx(GameAudio.sfx_click);
                 GAME.load();
             }
-            if (curX > Game.getWidth() - 164 && curX < Game.getWidth() - 100 && curY > 96 && curY < 116) { Game.setRunning(false); }
+            if (curX > Game.getWidth() - 164 && curX < Game.getWidth() - 100 && curY > 96 && curY < 116) {
+                Game.setRunning(false);
+            }
         }
     }
 

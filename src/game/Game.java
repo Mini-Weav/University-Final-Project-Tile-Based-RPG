@@ -58,6 +58,7 @@ public class Game implements Serializable {
     private boolean preExam;
     private boolean emilyCrush;
     private boolean isTitle = true;
+    private boolean isDebug;
     private String newDayText;
 
     private int[] friendValues;
@@ -183,6 +184,14 @@ public class Game implements Serializable {
 
     boolean isTitle() { return isTitle; }
 
+    public boolean isDebug() { return isDebug; }
+    public void setDebug() {
+        menu = null;
+        textBox = new TextBox(0, FileReader.getMenuString(65));
+        isDebug = true;
+        GameAudio.playSfx(GameAudio.sfx_gotAnswers);
+    }
+
     String getNewDayText() { return newDayText; }
 
     public int getFriendValue(int index) { return friendValues[index]; }
@@ -263,13 +272,6 @@ public class Game implements Serializable {
     public Clip getMusic() { return music; }
     public void setMusic(Clip music) { this.music = music; }
 
-    int getNumberOfObjects() { return objects.size(); }
-    GameObject getObject(int index) { return objects.get(index); }
-
-    GameObject getObjectFromMatrix(int j, int i) { return objectMatrix[j][i]; }
-    public boolean isObjectNull(int j, int i) { return objectMatrix[j][i] == null; }
-    void setObjectMatrix(int rows, int cols) { objectMatrix = new GameObject[rows][cols]; }
-
     private void createFrame() {
         frame = new JFrame("Brooklands Academy");
         frame.getContentPane().add(titleScreen);
@@ -279,6 +281,13 @@ public class Game implements Serializable {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
+
+    int getNumberOfObjects() { return objects.size(); }
+    GameObject getObject(int index) { return objects.get(index); }
+
+    GameObject getObjectFromMatrix(int j, int i) { return objectMatrix[j][i]; }
+    public boolean isObjectNull(int j, int i) { return objectMatrix[j][i] == null; }
+    void setObjectMatrix(int rows, int cols) { objectMatrix = new GameObject[rows][cols]; }
 
     private void update() {
         int rows = map.getMatrixRows();
@@ -387,7 +396,6 @@ public class Game implements Serializable {
             }
         }
     }
-
     public void newDayFeedback(int... id) {
         GameAudio.playSfx(GameAudio.sfx_click);
         menu = null;
@@ -446,7 +454,6 @@ public class Game implements Serializable {
         else { textBox = new TextBox(0, FileReader.getMenuString(51)); }
         menu = null;
     }
-
     public void endHeist(int outcome) {
         GameAudio.stopMusic();
         switch (outcome) {
@@ -472,18 +479,6 @@ public class Game implements Serializable {
                 player.rotate(1);
                 break;
         }
-    }
-
-    public void finishGame() {
-        GameAudio.startMusic(GameAudio.music_result);
-        isResult = true;
-        int totalGradePoints = 0, totalFriendPoints = 0, totalExamPoints = 0;
-        for (int i : gradeValues) { totalGradePoints += i; }
-        for (int i : friendValues) { totalFriendPoints += i; }
-        for (int i : examScores) { totalExamPoints += i; }
-        textBox = new TextBox(5, FileReader.getResultString(0) + FileReader.getResultString(1) + totalFriendPoints + "#" +
-                FileReader.getResultString(2) + totalGradePoints + "#" + FileReader.getResultString(3) + totalExamPoints + "#" +
-                FileReader.getResultString(4) + (items[0][2] > 0) + "#" + FileReader.getResultString(5) + points);
     }
 
     public void newGame() {
@@ -524,9 +519,7 @@ public class Game implements Serializable {
         emilyCrush = false;
 
     }
-
     public void load() {
-
         Game data;
 
         try {
@@ -587,7 +580,6 @@ public class Game implements Serializable {
 
         isTitle = false;
     }
-
     void save() {
         GameAudio.playSfx(GameAudio.sfx_click);
         playerX = player.getX();
@@ -607,11 +599,23 @@ public class Game implements Serializable {
             e.printStackTrace();
         }
     }
-
     void quit() {
         GameAudio.playSfx(GameAudio.sfx_click);
         textBox = new TextBox(3, FileReader.getMenuString(60));
         menu = new Menu(17);
+    }
+    public void finishGame() {
+        GameAudio.startMusic(GameAudio.music_result);
+        isResult = true;
+        int totalGradePoints = 0, totalFriendPoints = 0, totalExamPoints = 0;
+        for (int i : gradeValues) { totalGradePoints += i; }
+        for (int i : friendValues) { totalFriendPoints += i; }
+        for (int i : examScores) { totalExamPoints += i; }
+        textBox = new TextBox(5, FileReader.getResultString(0) + FileReader.getResultString(1) +totalFriendPoints +
+                "#" + FileReader.getResultString(2) + totalGradePoints +
+                "#" + FileReader.getResultString(3) + totalExamPoints +
+                "#" + FileReader.getResultString(4) + (items[0][2] > 0) +
+                "#" + FileReader.getResultString(5) + points);
     }
 
     public static void main(String[] args) throws Exception {
@@ -619,6 +623,7 @@ public class Game implements Serializable {
         FileReader.readFiles();
         TextBox.loadImages();
         Menu.loadImages();
+        NPCLoader.loadNPCs();
         TileMapLoader.loadMaps();
         GameFont.loadFont();
 
@@ -638,7 +643,6 @@ public class Game implements Serializable {
                     return;
                 }
             }
-
             GAME.frame.remove(GAME.titleScreen);
 
             GAME.statusMenu = new StatusMenu(0);
@@ -651,7 +655,6 @@ public class Game implements Serializable {
                 GAME.map.repaint();
                 Thread.sleep(70);
             }
-
             GAME.isFinish = false;
             GAME.isTitle = true;
             GAME.titleScreen = new TitleScreen();

@@ -55,8 +55,6 @@ public abstract class Lesson {
     public String getFeedbackText() { return feedbackText; }
     void setFeedbackText(String feedbackText) { this.feedbackText = feedbackText; }
 
-    public abstract void doAction(int action);
-
     public static void startLesson(int id) {
         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.getMapId());
         currentMap.resetNPCs();
@@ -82,7 +80,6 @@ public abstract class Lesson {
         GAME.getLesson().id = id;
 
     }
-
     public void finish() {
         int increase = (int)((score / rounds) * 5);
         GAME.increaseGradeValue(id, increase);
@@ -111,7 +108,6 @@ public abstract class Lesson {
         }
         return 0;
     }
-
     static int setNumberOfQuestions(int grade) {
         switch (grade) {
             case 1:
@@ -125,7 +121,6 @@ public abstract class Lesson {
         }
         return 5;
     }
-
     int generateQuestion(int lessonId, double lv1, double lv2) {
         double r = Math.random();
         if (r < lv1) {
@@ -169,4 +164,6 @@ public abstract class Lesson {
             GAME.setTextBox( new TextBox(0, questionText));
         }
     }
+
+    public abstract void doAction(int action);
 }

@@ -44,6 +44,33 @@ public class Menu {
         setUp(id);
     }
 
+    public static void setIconPoint(Point iconPoint) { Menu.iconPoint = iconPoint; }
+
+    private static void setFriendValue(int index) {
+        int fp = GAME.getFriendValue(index);
+        if (fp == 0) { friendText = FileReader.getMenuString(28); }
+        if (fp > 0) { friendText = FileReader.getMenuString(29); }
+        if (fp > 10) { friendText = FileReader.getMenuString(30); }
+        if (fp > 20) { friendText = FileReader.getMenuString(31); }
+    }
+
+    private static void setGradeValue(int index) {
+        int gp = GAME.getGradeValue(index);
+        if (gp >= 0) { gradeImg = gradeImgs[0]; }
+        if (gp > 9) { gradeImg = gradeImgs[1]; }
+        if (gp > 19) { gradeImg = gradeImgs[2]; }
+        if (gp > 29) { gradeImg = gradeImgs[3]; }
+    }
+
+    static BufferedImage getTitleImg() { return titleImg; }
+
+    static BufferedImage getImg(int index) { return imgs[index]; }
+
+    public int getCurrentId() { return currentId; }
+
+    public boolean isVisible() { return visible; }
+
+    public void setVisible(boolean visible) { this.visible = visible; }
 
     public static void setUp(int id) {
         switch (id) {
@@ -144,13 +171,11 @@ public class Menu {
             mapImg = mapImgs[0];
         }
     }
-
     public static void loadFriend(int id) {
         GameAudio.playSfx(GameAudio.sfx_click);
         friendImg = friendImgs[id];
         setFriendValue(id);
     }
-
     public static void loadGrade(int id) {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (id) {
@@ -170,25 +195,7 @@ public class Menu {
                 gradeText = FileReader.getMenuString(27);
                 break;
         }
-
         setGradeValue(id);
-
-    }
-
-    private static void setFriendValue(int index) {
-        int fp = GAME.getFriendValue(index);
-        if (fp == 0) { friendText = FileReader.getMenuString(28); }
-        if (fp > 0) { friendText = FileReader.getMenuString(29); }
-        if (fp > 10) { friendText = FileReader.getMenuString(30); }
-        if (fp > 20) { friendText = FileReader.getMenuString(31); }
-    }
-
-    private static void setGradeValue(int index) {
-        int gp = GAME.getGradeValue(index);
-        if (gp >= 0) { gradeImg = gradeImgs[0]; }
-        if (gp > 9) { gradeImg = gradeImgs[1]; }
-        if (gp > 19) { gradeImg = gradeImgs[2]; }
-        if (gp > 29) { gradeImg = gradeImgs[3]; }
     }
 
     public static void loadImages() {
@@ -225,20 +232,7 @@ public class Menu {
             System.out.println("Cannot menu find image.");
             e.printStackTrace();
         }
-
     }
-
-    public static void setIconPoint(Point iconPoint) { Menu.iconPoint = iconPoint; }
-
-    static BufferedImage getTitleImg() { return titleImg; }
-
-    static BufferedImage getImg(int index) { return imgs[index]; }
-
-    public int getCurrentId() { return currentId; }
-
-    public boolean isVisible() { return visible; }
-
-    public void setVisible(boolean visible) { this.visible = visible; }
 
     private void paintSubMenu(Graphics g, int id) {
         BufferedImage subImg;
@@ -277,7 +271,8 @@ public class Menu {
         g.setFont(GameFont.getBigFont());
         int lineIndex = 0;
         for (String line : text.split("#")) {
-            g.drawString(line, Game.getWidth() - ((img.getWidth() * 2)), 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
+            g.drawString(line, Game.getWidth() - ((img.getWidth() * 2)), 48 +
+                    (g.getFontMetrics().getHeight() + 16) * lineIndex);
             lineIndex++;
         }
         switch (currentId) {
@@ -291,7 +286,8 @@ public class Menu {
                 int mapY = (Game.getHeight() - (mapImg.getHeight() * 2)) / 2;
                 g.drawImage(mapImg, mapX, mapY, mapImg.getWidth() * 2, mapImg.getHeight() * 2, null);
                 if (blink && minimapId == GAME.getMiniMapId()) {
-                    g.drawImage(iconImg, mapX + Menu.iconPoint.x, mapY + Menu.iconPoint.y, iconImg.getWidth() * 2, iconImg.getHeight()* 2, null);
+                    g.drawImage(iconImg, mapX + Menu.iconPoint.x, mapY + Menu.iconPoint.y, iconImg.getWidth() * 2,
+                            iconImg.getHeight()* 2, null);
                 }
                 break;
             case 2:

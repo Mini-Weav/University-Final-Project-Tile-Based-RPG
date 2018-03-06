@@ -163,11 +163,11 @@ public class LessonTypeC extends Lesson {
         if (time == 0) {
             GAME.getPlayer().setEmotion(null);
             setScore((laps + bonusScore) / 2);
-            setFeedbackText(FileReader.getLessonString(5) + FileReader.getLessonString(6) + + ((laps + bonusScore) * 5) + "!");
+            setFeedbackText(FileReader.getLessonString(5) + FileReader.getLessonString(6) +
+                    ((laps + bonusScore) * 5) + "!");
             setFinished();
         }
     }
-
     public static void movingScript(GameObject obj) {
         int lowX = 24, highX = 36, lowY = 13, highY = 20;
         if (obj.getX() == lowX && obj.getY() < highY) {

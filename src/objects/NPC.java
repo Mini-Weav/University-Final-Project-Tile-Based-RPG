@@ -45,10 +45,11 @@ public class NPC extends GameObject{
         tiles.put(20, CharacterTileSet.readTileSet("resources/tilesets/student_girl.png", getKEY()));
         tiles.put(30, CharacterTileSet.readTileSet("resources/tilesets/dinner_lady.png", getKEY()));
 
-        names = new String[] { "Jack", "Emily", "Alexander", "Nathan", "Frankie", "Mr Hardman", "Ms Mason", "Mr Rodgers", "Mr Burgess", "Ms McCarthy" };
+        names = new String[] { "Jack", "Emily", "Alexander", "Nathan", "Frankie", "Mr Hardman", "Ms Mason",
+                "Mr Rodgers", "Mr Burgess", "Ms McCarthy" };
         lessons = new String[] { "DT", "food tech", "PE", "chemistry", "ICT" };
 
-        /* Friend students*/
+        /* Friend students */
         text.put(0, FileReader.getJackStrings());
         text.put(1, FileReader.getEmilyStrings());
         text.put(2, FileReader.getAlexanderStrings());
@@ -60,7 +61,6 @@ public class NPC extends GameObject{
         text.put(20, FileReader.getGirlStrings());
         text.put(30, FileReader.getLunchStrings());
     }
-
 
     public NPC(int x, int y, int id, int direction, boolean hostile, Controller ctrl) {
         super(tiles.get(id).get(direction), x, y);
@@ -75,7 +75,6 @@ public class NPC extends GameObject{
         if (ctrl instanceof Patrol) { ((Patrol) ctrl).setObject(this); }
         setFlip(true);
     }
-
     public NPC(int x, int y, int id, int subId, int direction, boolean hostile, Controller ctrl) {
         super(tiles.get(id).get(direction), x, y);
         defaultDirection = direction;
@@ -160,6 +159,16 @@ public class NPC extends GameObject{
         }
     }
 
+    private void friendTextBox() {
+        int fp = 0;
+        if (GAME.getFriendValue(id) > 0) { fp = 1; }
+        else {
+            GAME.increaseFriendValue(id, 1);
+            GAME.increasePoints(0, id, 1);
+        }
+        GAME.setTextBox(new TextBox(NPC.text.get(id)[fp], this, true));
+    }
+
     public void gift(boolean yes) {
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
@@ -175,7 +184,6 @@ public class NPC extends GameObject{
             else { friendTextBox(); }
         }
     }
-
     public void giftTextBox(int index) {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (id) {
@@ -205,7 +213,6 @@ public class NPC extends GameObject{
         GAME.increaseFriendValue(id, index + 1);
         GAME.increasePoints(0, id, index + 1);
     }
-
     private void freeDrink() {
         GAME.setTextBox(new TextBox(text.get(3)[2], this, true));
         GAME.giveEnergyDrink();
@@ -246,35 +253,64 @@ public class NPC extends GameObject{
         GAME.setMenu(null);
     }
 
-    public void rotate(int direction) {
-        switch (direction) {
-            case 0:
-                getTile().setImg(getUpSprite());
-                break;
-            case 1:
-                getTile().setImg(getDownSprite());
-                break;
-            case 2:
-                getTile().setImg(getLeftSprite());
-                break;
-            case 3:
-                getTile().setImg(getRightSprite());
-                break;
+    public void activity(boolean yes) {
+        GameAudio.playSfx(GameAudio.sfx_click);
+        if (yes) {
+            int gradeId;
+            GAME.doTransition();
+            switch (id) {
+                case 0:
+                    gradeId = 2;
+                    break;
+                case 2:
+                    gradeId = 3;
+                    break;
+                case 4:
+                    gradeId = 4;
+                    break;
+                default:
+                    GAME.setTextBox(null);
+                    GAME.setMenu(null);
+                    return;
+            }
+            int increase = (GAME.getGradeValue(gradeId) / 10) + 1;
+            GAME.increaseFriendValue(id, increase);
+            GAME.increasePoints(0, id, increase);
+            Activity.startActivity(id);
+        }
+        else {
+            GAME.setTextBox(null);
+            GAME.setMenu(null);
         }
     }
-
-    public void rotate(Player player) {
-        if (player.getX() == getX()) {
-            if (player.getY() < getY()) {
-                getTile().setImg(getUpSprite());
-            } else {
-                getTile().setImg(getDownSprite());
-            }
+    private void activityTextBox() {
+        switch (id) {
+            case 0:
+                if (GAME.getGradeValue(2) > 9) {
+                    GAME.setTextBox(new TextBox(text.get(0)[2], this, false));
+                    GAME.setMenu(new Menu(5));
+                }
+                else { friendTextBox(); }
+                break;
+            case 2:
+                if (GAME.getGradeValue(3) > 9) {
+                    GAME.setTextBox(new TextBox(text.get(2)[2], this, false));
+                    GAME.setMenu(new Menu(5));
+                }
+                else { friendTextBox(); }
+                break;
+            case 4:
+                if (GAME.getGradeValue(4) > 9) {
+                    GAME.setTextBox(new TextBox(text.get(4)[2], this, false));
+                    GAME.setMenu(new Menu(5));
+                }
+                else { friendTextBox(); }
+                break;
+            default:
+                friendTextBox();
+                break;
         }
-        if (player.getY() == getY()) {
-            if (player.getX() < getX()) { getTile().setImg(getLeftSprite()); }
-            else { getTile().setImg(getRightSprite()); }
-        }
+        GAME.resetDaysSince(id / 2);
     }
 
     public void move() {
@@ -319,7 +355,35 @@ public class NPC extends GameObject{
             }
         }
     }
-
+    public void rotate(int direction) {
+        switch (direction) {
+            case 0:
+                getTile().setImg(getUpSprite());
+                break;
+            case 1:
+                getTile().setImg(getDownSprite());
+                break;
+            case 2:
+                getTile().setImg(getLeftSprite());
+                break;
+            case 3:
+                getTile().setImg(getRightSprite());
+                break;
+        }
+    }
+    public void rotate(Player player) {
+        if (player.getX() == getX()) {
+            if (player.getY() < getY()) {
+                getTile().setImg(getUpSprite());
+            } else {
+                getTile().setImg(getDownSprite());
+            }
+        }
+        if (player.getY() == getY()) {
+            if (player.getX() < getX()) { getTile().setImg(getLeftSprite()); }
+            else { getTile().setImg(getRightSprite()); }
+        }
+    }
     public void reset() {
         setX(defaultX);
         setY(defaultY);
@@ -340,77 +404,6 @@ public class NPC extends GameObject{
                 break;
         }
         if (this.getCtrl() instanceof Patrol) { ((Patrol) this.getCtrl()).reset(); }
-    }
-
-    private void friendTextBox() {
-        int fp = 0;
-        if (GAME.getFriendValue(id) > 0) { fp = 1; }
-        else {
-            GAME.increaseFriendValue(id, 1);
-            GAME.increasePoints(0, id, 1);
-        }
-        GAME.setTextBox(new TextBox(NPC.text.get(id)[fp], this, true));
-    }
-
-    private void activityTextBox() {
-        switch (id) {
-            case 0:
-                if (GAME.getGradeValue(2) > 9) {
-                    GAME.setTextBox(new TextBox(text.get(0)[2], this, false));
-                    GAME.setMenu(new Menu(5));
-                }
-                else { friendTextBox(); }
-                break;
-            case 2:
-                if (GAME.getGradeValue(3) > 9) {
-                    GAME.setTextBox(new TextBox(text.get(2)[2], this, false));
-                    GAME.setMenu(new Menu(5));
-                }
-                else { friendTextBox(); }
-                break;
-            case 4:
-                if (GAME.getGradeValue(4) > 9) {
-                    GAME.setTextBox(new TextBox(text.get(4)[2], this, false));
-                    GAME.setMenu(new Menu(5));
-                }
-                else { friendTextBox(); }
-                break;
-            default:
-                friendTextBox();
-                break;
-        }
-        GAME.resetDaysSince(id / 2);
-    }
-
-    public void activity(boolean yes) {
-        GameAudio.playSfx(GameAudio.sfx_click);
-        if (yes) {
-            int gradeId;
-            GAME.doTransition();
-            switch (id) {
-                case 0:
-                    gradeId = 2;
-                    break;
-                case 2:
-                    gradeId = 3;
-                    break;
-                case 4:
-                    gradeId = 4;
-                    break;
-                default:
-                    GAME.setTextBox(null);
-                    GAME.setMenu(null);
-                    return;
-            }
-            int increase = (GAME.getGradeValue(gradeId) / 10) + 1;
-            GAME.increaseFriendValue(id, increase);
-            GAME.increasePoints(0, id, increase);
-            Activity.startActivity(id);
-        }
-        else {
-            GAME.setTextBox(null);
-            GAME.setMenu(null);
-        }
     }
 
     private void lookForPlayer(int direction) {
@@ -478,15 +471,6 @@ public class NPC extends GameObject{
                 break;
         }
     }
-
-    private void walkToPlayer() {
-        if (getY() < GAME.getPlayer().getY() - 1) { setDown(true); }
-        else if (getY() > GAME.getPlayer().getY() + 1) { setUp(true); }
-        else if (getX() < GAME.getPlayer().getX() - 1) { setRight(true); }
-        else if (getX() > GAME.getPlayer().getX() + 1) { setLeft(true); }
-        move();
-    }
-
     private void spottedPlayer() {
         GAME.setSpotted(true);
         GAME.getPlayer().setSpotted(true);
@@ -494,9 +478,14 @@ public class NPC extends GameObject{
         setCtrl(null);
         setEmotion(new Emotion(0));
     }
-
+    private void walkToPlayer() {
+        if (getY() < GAME.getPlayer().getY() - 1) { setDown(true); }
+        else if (getY() > GAME.getPlayer().getY() + 1) { setUp(true); }
+        else if (getX() < GAME.getPlayer().getX() - 1) { setRight(true); }
+        else if (getX() > GAME.getPlayer().getX() + 1) { setLeft(true); }
+        move();
+    }
     private void colourTiles(int direction) {
-
         switch (direction) {
             case 0:
                 for (int i = getY() - 1; i > getY() - 8; i--) {
@@ -504,9 +493,7 @@ public class NPC extends GameObject{
                         if (GAME.isCollideTile(GAME.getTileFromMatrix(i, getX())) ||
                                 GAME.isDoorTile(GAME.getTileFromMatrix(i, getX()))) { break; }
                         GAME.setBadTile(i, getX());
-                    } catch (NullPointerException e) {
-                        //
-                    }
+                    } catch (NullPointerException e) { /* Do nothing */ }
                 }
                 break;
             case 1:
@@ -515,9 +502,7 @@ public class NPC extends GameObject{
                         if (GAME.isCollideTile(GAME.getTileFromMatrix(i, getX())) ||
                                 GAME.isDoorTile(GAME.getTileFromMatrix(i, getX()))) { break; }
                         GAME.setBadTile(i, getX());
-                    } catch (NullPointerException e) {
-                        //
-                    }
+                    } catch (NullPointerException e) { /* Do nothing */ }
                 }
                 break;
             case 2:
@@ -526,9 +511,7 @@ public class NPC extends GameObject{
                         if (GAME.isCollideTile(GAME.getTileFromMatrix(getY(), i)) ||
                                 GAME.isDoorTile(GAME.getTileFromMatrix(getY(), i))) { break; }
                         GAME.setBadTile(getY(), i);
-                    } catch (NullPointerException e) {
-                        //
-                    }
+                    } catch (NullPointerException e) { /* Do nothing */ }
                 }
                 break;
             case 3:
@@ -537,16 +520,15 @@ public class NPC extends GameObject{
                         if (GAME.isCollideTile(GAME.getTileFromMatrix(getY(), i)) ||
                                 GAME.isDoorTile(GAME.getTileFromMatrix(getY(), i))) { break; }
                         GAME.setBadTile(getY(), i);
-                    } catch (NullPointerException e) {
-                        //
-                    }
+                    } catch (NullPointerException e) { /* Do nothing */ }
                 }
                 break;
         }
     }
 
     public void update() {
-        setInPlay(!GAME.isTransition() && GAME.getTextBox() == null && GAME.getMenu() == null && (!GAME.isSpotted() && !isSpotted()) && !GAME.hasLostHeist());
+        setInPlay(!GAME.isTransition() && GAME.getTextBox() == null && GAME.getMenu() == null && (!GAME.isSpotted() &&
+                !isSpotted()) && !GAME.hasLostHeist());
         setMoving(isUp() || isDown() || isLeft() || isRight());
         if (getCtrl() != null && isInPlay()) {
             Action action = getCtrl().action();
@@ -601,19 +583,21 @@ public class NPC extends GameObject{
                     break;
             }
         }
-
         if (isSpotted()) {
             setCtrl(null);
             if (getEmotion() == null) {
                 walkToPlayer();
                 setMoving(isUp() || isDown() || isLeft() || isRight());
-                if (isNotMoving() && !GAME.hasLostHeist() && GAME.isSpotted()) { GAME.setTextBox(new TextBox(0, FileReader.getNpcString(35))); }
+                if (isNotMoving() && !GAME.hasLostHeist() && GAME.isSpotted()) {
+                    GAME.setTextBox(new TextBox(0, FileReader.getNpcString(35)));
+                }
             }
         }
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(getTile().getImg(), getGX() - GAME.getCamera().getGX(), getGY() - GAME.getCamera().getGY(), 32, 32, null);
+        g.drawImage(getTile().getImg(), getGX() - GAME.getCamera().getGX(),getGY() - GAME.getCamera().getGY(),
+                32, 32, null);
         if (getEmotion() != null) { getEmotion().paintComponent(g, this); }
     }
 }
