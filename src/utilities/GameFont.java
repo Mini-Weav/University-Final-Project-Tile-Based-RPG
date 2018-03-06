@@ -8,10 +8,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by lmweav on 01/11/2017.
+ * 01/11/2017.
  */
 public class GameFont {
-    public static Font bigFont, tinyFont, medFont, smallFont, smallUnderline, titleFont;
+    private static Font bigFont;
+    private static Font tinyFont;
+    private static Font medFont;
+    private static Font smallFont;
+    private static Font smallUnderline;
+
+    static Font getBigFont() { return bigFont; }
+
+    static Font getTinyFont() { return tinyFont; }
+
+    static Font getMedFont() { return medFont; }
+
+    static Font getSmallFont() { return smallFont; }
+
+    static Font getSmallUnderline() { return smallUnderline; }
 
     public static void loadFont() {
         Map<TextAttribute, Integer> textAttibutes = new HashMap<>();
@@ -23,7 +37,6 @@ public class GameFont {
             tinyFont = new Font("Pokemon GB", 0, 11);
             medFont = new Font("Pokemon GB", 0, 14);
             smallFont = new Font("Pokemon GB", 0, 12);
-            titleFont = new Font("Pokemon GB", 0, 28);
             smallUnderline = new Font("Pokemon GB", 0, 12).deriveFont(textAttibutes);
 
         } catch (IOException | FontFormatException e) {

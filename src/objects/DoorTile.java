@@ -7,17 +7,16 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /**
- * Created by lmweav on 26/10/2017.
+ * 26/10/2017.
  */
 public class DoorTile extends Tile {
-    public static HashMap<Point, Pair<Integer,Point>> points;
 
     public DoorTile(BufferedImage img, char key) {
         super(img, false, key);
     }
 
     public static HashMap<Point,Pair<Integer, Point>> initialisePoints(int mapID) {
-        points = new HashMap<>();
+        HashMap<Point, Pair<Integer, Point>> points = new HashMap<>();
 
         switch (mapID) {
 

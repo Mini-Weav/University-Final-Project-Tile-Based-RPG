@@ -1,14 +1,18 @@
 package utilities;
 
 /**
- * Created by lmweav on 02/11/2017.
+ * 02/11/2017.
  */
-public class Pair<T, S> {
-    public final T t;
-    public final S s;
+public class Pair<K, V> {
+    private final K k;
+    private final V v;
 
-    public Pair(T t, S s) {
-        this.t = t;
-        this.s = s;
+    public Pair(K k, V v) {
+        this.k = k;
+        this.v = v;
     }
+
+    public K getK() { return k; }
+
+    public V getV() { return v; }
 }

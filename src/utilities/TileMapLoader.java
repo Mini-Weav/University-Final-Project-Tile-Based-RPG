@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 /**
- * Created by lmweav on 02/11/2017.
+ * 02/11/2017.
  */
 public class TileMapLoader {
     public static ArrayList<TileMap> tileMaps;
@@ -35,949 +35,794 @@ public class TileMapLoader {
         Tile tile;
         try {
             switch (id) {
-
-                /*School Halls*/
+                /* School Halls */
                 case 0:
                     images = TileSet.readTileSet(5, 3, fname);
+                    assert images != null;
                     for (int i = 0; i < images.size(); i++) {
                         switch (i) {
-
-                            /*Black Space*/
+                            /* Black Space */
                             case 0:
                                 tile = new Tile(images.get(i), true, '#');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Wall*/
+                            /* Wall */
                             case 1:
                                 tile = new Tile(images.get(i), true, 'W');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Window*/
+                            /* Window */
                             case 2:
                                 tile = new InteractiveTile(images.get(i), true, 'w', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Floor*/
+                            /* Floor */
                             case 3:
                                 tile = new Tile(images.get(i), false, '-');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat L*/
+                            /* Doormat L */
                             case 4:
                                 tile = new Tile(images.get(i), false, 'L');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat R*/
+                            /* Doormat R */
                             case 5:
                                 tile = new Tile(images.get(i), false, 'R');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Door 1*/
+                            /* Door 1 */
                             case 6:
                                 tile = new DoorTile(images.get(i), 'D');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Door 2*/
+                            /* Door 2 */
                             case 7:
                                 tile = new DoorTile(images.get(i), 'd');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Up Staircase*/
+                            /* Up Staircase */
                             case 8:
                                 tile = new DoorTile(images.get(i), '^');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Down Staircase*/
+                            /* Down Staircase */
                             case 9:
                                 tile = new DoorTile(images.get(i), 'v');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Sign*/
+                            /* Sign */
                             case 10:
                                 tile = new InteractiveTile(images.get(i), true, '?', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Locked Door*/
+                            /* Locked Door */
                             case 11:
                                 tile = new DoorTile(images.get(i), '$');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Air Vent*/
+                            /* Air Vent */
                             case 12:
                                 tile = new InteractiveTile(images.get(i), true, 'A', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Go home door*/
+                            /* Go home door */
                             case 13:
                                 tile = new DoorTile(images.get(i), '£');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
                         }
                     }
                     break;
-
-                /*Classrooms*/
+                /* Classrooms */
                 case 1:
                     images = TileSet.readTileSet(10, 3, fname);
+                    assert images != null;
                     for (int i = 0; i < images.size(); i++) {
                         switch (i) {
-
-                            /*Black Space*/
+                            /* Black Space */
                             case 0:
                                 tile = new Tile(images.get(i), true, '#');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Wall*/
+                            /* Wall */
                             case 1:
                                 tile = new Tile(images.get(i), true, 'W');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Whiteboard 1*/
+                            /* Whiteboard 1 */
                             case 2:
                                 tile = new InteractiveTile(images.get(i), true, '[', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Whiteboard 2*/
+                            /* Whiteboard 2 */
                             case 3:
                                 tile = new InteractiveTile(images.get(i), true, '=', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Whiteboard 3*/
+                            /* Whiteboard 3 */
                             case 4:
                                 tile = new InteractiveTile(images.get(i), true, ']', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Floor*/
+                            /* Floor */
                             case 5:
                                 tile = new Tile(images.get(i), false, '-');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Chair*/
+                            /* Chair */
                             case 6:
                                 tile = new Tile(images.get(i), false, 'n');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat L*/
+                            /* Doormat L */
                             case 7:
                                 tile = new Tile(images.get(i), false, 'L');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat R*/
+                            /* Doormat R */
                             case 8:
                                 tile = new Tile(images.get(i), false, 'R');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Invisible Door*/
+                            /* Invisible Door */
                             case 9:
                                 tile = new DoorTile(images.get(i), ' ');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Desk*/
+                            /* Desk */
                             case 10:
                                 tile = new Tile(images.get(i), true, 'D');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Bookcase Top*/
+                            /* Bookcase Top */
                             case 11:
                                 tile = new Tile(images.get(i), true, 'h');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Bookcase Bottom*/
+                            /* Bookcase Bottom */
                             case 12:
                                 tile = new InteractiveTile(images.get(i), true, 'H', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fridge Top*/
+                            /* Fridge Top */
                             case 13:
                                 tile = new Tile(images.get(i), true, 'f');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fridge Bottom*/
+                            /* Fridge Bottom */
                             case 14:
                                 tile = new InteractiveTile(images.get(i), true, 'F', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Sink*/
+                            /* Sink */
                             case 15:
                                 tile = new InteractiveTile(images.get(i), true, 'S', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Oven*/
+                            /* Oven */
                             case 16:
                                 tile = new InteractiveTile(images.get(i), true, 'O', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Tool Shelf Top L*/
+                            /* Tool Shelf Top L */
                             case 17:
                                 tile = new Tile(images.get(i), true, '1');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Tool Shelf Top R*/
+                            /* Tool Shelf Top R */
                             case 18:
                                 tile = new Tile(images.get(i), true, '2');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Tool Shelf Bottom L*/
+                            /* Tool Shelf Bottom L */
                             case 19:
                                 tile = new InteractiveTile(images.get(i), true, '3', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Tool Shelf Bottom R*/
+                            /* Tool Shelf Bottom R */
                             case 20:
                                 tile = new InteractiveTile(images.get(i), true, '4', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Work Bench Top L*/
+                            /* Work Bench Top L */
                             case 21:
                                 tile = new InteractiveTile(images.get(i), true, '5', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Work Bench Top R*/
+                            /* Work Bench Top R */
                             case 22:
                                 tile = new InteractiveTile(images.get(i), true, '6', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Work Bench Bottom L*/
+                            /* Work Bench Bottom L */
                             case 23:
                                 tile = new InteractiveTile(images.get(i), true, '7', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Work Bench Bottom R*/
+                            /* Work Bench Bottom R */
                             case 24:
                                 tile = new InteractiveTile(images.get(i), true, '8', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Computer Desk Top L*/
+                            /* Computer Desk Top L */
                             case 25:
                                 tile = new InteractiveTile(images.get(i), true, 'p', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Computer Desk Top R*/
+                            /* Computer Desk Top R */
                             case 26:
                                 tile = new InteractiveTile(images.get(i), true, 'c', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Computer Desk Bottom L*/
+                            /* Computer Desk Bottom L */
                             case 27:
                                 tile = new Tile(images.get(i), false, 'P');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Computer Desk Bottom R*/
+                            /* Computer Desk Bottom R */
                             case 28:
                                 tile = new Tile(images.get(i), false, 'C');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
                         }
                     }
                     break;
-
-                /*Canteen*/
+                /* Canteen */
                 case 2:
                     images = TileSet.readTileSet(8, 3, fname);
+                    assert images != null;
                     for (int i = 0; i < images.size(); i++) {
                         switch (i) {
-
-                            /*Black Space*/
+                            /* Black Space */
                             case 0:
                                 tile = new Tile(images.get(i), true, '#');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Wall*/
+                            /* Wall */
                             case 1:
                                 tile = new Tile(images.get(i), true, 'W');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Floor*/
+                            /* Floor */
                             case 2:
                                 tile = new Tile(images.get(i), false, '-');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Chair*/
+                            /* Chair */
                             case 3:
                                 tile = new Tile(images.get(i), false, 'n');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat L*/
+                            /* Doormat L */
                             case 4:
                                 tile = new Tile(images.get(i), false, 'L');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat R*/
+                            /* Doormat R */
                             case 5:
                                 tile = new Tile(images.get(i), false, 'R');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Invisible Door*/
+                            /* Invisible Door */
                             case 6:
                                 tile = new DoorTile(images.get(i), ' ');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Counter 1*/
+                            /* Counter 1 */
                             case 7:
                                 tile = new Tile(images.get(i), true, '1');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Counter 2*/
+                            /* Counter 2 */
                             case 8:
                                 tile = new Tile(images.get(i), true, '2');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Counter 3*/
+                            /* Counter 3 */
                             case 9:
                                 tile = new Tile(images.get(i), true, '3');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Counter 4*/
+                            /* Counter 4 */
                             case 10:
                                 tile = new Tile(images.get(i), true, '4');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table Top L*/
+                            /* Table Top L */
                             case 11:
                                 tile = new Tile(images.get(i), true, '5');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table Top R*/
+                            /* Table Top R */
                             case 12:
                                 tile = new Tile(images.get(i), true, '6');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table Middle L*/
+                            /* Table Middle L */
                             case 13:
                                 tile = new Tile(images.get(i), true, '7');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table Middle R*/
+                            /* Table Middle R */
                             case 14:
                                 tile = new Tile(images.get(i), true, '8');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table Bottom L*/
+                            /* Table Bottom L */
                             case 15:
                                 tile = new Tile(images.get(i), true, '9');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table Middle R*/
+                            /* Table Middle R */
                             case 16:
                                 tile = new Tile(images.get(i), true, '0');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fridge Top*/
+                            /* Fridge Top */
                             case 17:
                                 tile = new Tile(images.get(i), true, 'f');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fridge Bottom*/
+                            /* Fridge Bottom */
                             case 18:
                                 tile = new InteractiveTile(images.get(i), true, 'F', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Sink*/
+                            /* Sink */
                             case 19:
                                 tile = new InteractiveTile(images.get(i), true, 'S', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Oven*/
+                            /* Oven */
                             case 20:
                                 tile = new InteractiveTile(images.get(i), true, 'O', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Counter 5*/
+                            /* Counter 5 */
                             case 21:
                                 tile = new Tile(images.get(i), true, '!');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
                         }
                     }
                     break;
-
-                /*Yard*/
+                /* Yard */
                 case 3:
                     images = TileSet.readTileSet(11, 3, fname);
+                    assert images != null;
                     for (int i = 0; i < images.size(); i++) {
                         switch (i) {
-
-                            /*Black Space*/
+                            /* Black Space */
                             case 0:
                                 tile = new Tile(images.get(i), true, '#');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Tree Top*/
+                            /* Tree Top */
                             case 1:
                                 tile = new Tile(images.get(i), true, 't');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Tree Bottom*/
+                            /* Tree Bottom */
                             case 2:
                                 tile = new Tile(images.get(i), true, 'T');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Floor*/
+                            /* Floor */
                             case 3:
                                 tile = new Tile(images.get(i), false, '-');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Running Track*/
+                            /* Running Track */
                             case 4:
                                 tile = new Tile(images.get(i), false, '~');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Grass*/
+                            /* Grass */
                             case 5:
                                 tile = new Tile(images.get(i), false, 'G');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-
-                            /*Doormat L*/
+                            /* Doormat L */
                             case 6:
                                 tile = new Tile(images.get(i), false, 'L');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat R*/
+                            /* Doormat R */
                             case 7:
                                 tile = new Tile(images.get(i), false, 'R');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Invisible Door*/
+                            /* Invisible Door */
                             case 8:
                                 tile = new DoorTile(images.get(i), ' ');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fence Top L*/
+                            /* Fence Top L */
                             case 9:
                                 tile = new Tile(images.get(i), true, '[');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fence Top M*/
+                            /* Fence Top M */
                             case 10:
                                 tile = new Tile(images.get(i), true, '+');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fence Top R*/
+                            /* Fence Top R */
                             case 11:
                                 tile = new Tile(images.get(i), true, ']');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fence Down L*/
+                            /* Fence Down L */
                             case 12:
                                 tile = new Tile(images.get(i), true, '(');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fence Down R*/
+                            /* Fence Down R */
                             case 13:
                                 tile = new Tile(images.get(i), true, ')');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Sign*/
+                            /* Sign */
                             case 14:
                                 tile = new InteractiveTile(images.get(i), true, '?', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Roof Top L*/
+                            /* Roof Top L */
                             case 15:
                                 tile = new Tile(images.get(i), true, '<');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Roof Top M*/
+                            /* Roof Top M */
                             case 16:
                                 tile = new Tile(images.get(i), true, '=');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Roof Top R*/
+                            /* Roof Top R */
                             case 17:
                                 tile = new Tile(images.get(i), true, '>');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Roof Bottom L*/
+                            /* Roof Bottom L */
                             case 18:
                                 tile = new Tile(images.get(i), true, '/');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Roof Bottom C*/
+                            /* Roof Bottom C */
                             case 19:
                                 tile = new Tile(images.get(i), true, '_');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Roof Bottom R*/
+                            /* Roof Bottom R */
                             case 20:
                                 tile = new Tile(images.get(i), true, '\\');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Building Top L*/
+                            /* Building Top L */
                             case 21:
                                 tile = new Tile(images.get(i), true, '1');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Building Top M*/
+                            /* Building Top M */
                             case 22:
                                 tile = new Tile(images.get(i), true, '2');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Building Top R*/
+                            /* Building Top R */
                             case 23:
                                 tile = new Tile(images.get(i), true, '3');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Building Middle L*/
+                            /* Building Middle L */
                             case 24:
                                 tile = new Tile(images.get(i), true, '4');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Building Middle M*/
+                            /* Building Middle M */
                             case 25:
                                 tile = new Tile(images.get(i), true, '5');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Building Middle R*/
+                            /* Building Middle R */
                             case 26:
                                 tile = new Tile(images.get(i), true, '6');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-
-                            /*Building Bottom L*/
+                            /* Building Bottom L */
                             case 27:
                                 tile = new Tile(images.get(i), true, '7');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Building Bottom M*/
+                            /* Building Bottom M */
                             case 28:
                                 tile = new Tile(images.get(i), true, '8');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Building Bottom R*/
+                            /* Building Bottom R */
                             case 29:
                                 tile = new Tile(images.get(i), true, '9');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Door*/
+                            /* Door */
                             case 30:
                                 tile = new Tile(images.get(i), true, 'D');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
                         }
                     }
                     break;
-
-                /*Bedroom*/
+                /* Bedroom */
                 case 4:
                     images = TileSet.readTileSet(5, 3, fname);
+                    assert images != null;
                     for (int i = 0; i < images.size(); i++) {
                         switch (i) {
-
-                            /*Black Space*/
+                            /* Black Space */
                             case 0:
                                 tile = new Tile(images.get(i), true, '#');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Wall*/
+                            /* Wall */
                             case 1:
                                 tile = new Tile(images.get(i), true, 'W');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Computer Top*/
+                            /* Computer Top */
                             case 2:
                                 tile = new Tile(images.get(i), true, 'P');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*TV top*/
+                            /* TV top */
                             case 3:
                                 tile = new Tile(images.get(i), true, 'T');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Bookcase Top*/
+                            /* Bookcase Top */
                             case 4:
                                 tile = new Tile(images.get(i), true, 'B');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Floor*/
+                            /* Floor */
                             case 5:
                                 tile = new Tile(images.get(i), false, '-');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Computer Bottom*/
+                            /* Computer Bottom */
                             case 6:
                                 tile = new InteractiveTile(images.get(i), true, 'C', true);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Chair*/
+                            /* Chair */
                             case 7:
                                 tile = new Tile(images.get(i), false, 'h');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Game*/
+                            /* Game */
                             case 8:
                                 tile = new InteractiveTile(images.get(i), true, 'G', true);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*TV Bottom*/
+                            /* TV Bottom */
                             case 9:
                                 tile = new Tile(images.get(i), true, 'V');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Bookcase Bottom*/
+                            /* Bookcase Bottom */
                             case 10:
                                 tile = new InteractiveTile(images.get(i), true, 'c', true);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Door*/
+                            /* Door */
                             case 11:
                                 tile = new InteractiveTile(images.get(i), true, 'D', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Bed Top*/
+                            /* Bed Top */
                             case 12:
                                 tile = new InteractiveTile(images.get(i), true, 'n', true);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Bed Bottom*/
+                            /* Bed Bottom */
                             case 13:
                                 tile = new InteractiveTile(images.get(i), true, 'U', true);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
                         }
                     }
                     break;
-
                 case 5:
                     images = TileSet.readTileSet(13, 3, fname);
+                    assert images != null;
                     for (int i = 0; i < images.size(); i++) {
                         switch (i) {
-
-                            /*Black Space*/
+                            /* Black Space */
                             case 0:
                                 tile = new Tile(images.get(i), true, '#');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Wall*/
+                            /* Wall */
                             case 1:
                                 tile = new Tile(images.get(i), true, 'W');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Computer Top*/
+                            /* Computer Top */
                             case 2:
                                 tile = new Tile(images.get(i), true, 'P');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*TV top*/
+                            /* TV top */
                             case 3:
                                 tile = new Tile(images.get(i), true, 'T');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Bookcase Top*/
+                            /* Bookcase Top */
                             case 4:
                                 tile = new Tile(images.get(i), true, 'h');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fridge Top*/
+                            /* Fridge Top */
                             case 5:
                                 tile = new Tile(images.get(i), true, 'f');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Room Divider bottom*/
+                            /* Room Divider bottom */
                             case 6:
                                 tile = new Tile(images.get(i), true, '8');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Room Divider Top*/
+                            /* Room Divider Top */
                             case 7:
                                 tile = new Tile(images.get(i), true, '7');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Window*/
+                            /* Window */
                             case 8:
                                 tile = new InteractiveTile(images.get(i), true, 'w', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Floor*/
+                            /* Floor */
                             case 9:
                                 tile = new Tile(images.get(i), false, '-');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat L*/
+                            /* Doormat L */
                             case 10:
                                 tile = new Tile(images.get(i), false, 'L');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Doormat R*/
+                            /* Doormat R */
                             case 11:
                                 tile = new Tile(images.get(i), false, 'R');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Chair*/
+                            /* Chair */
                             case 12:
                                 tile = new Tile(images.get(i), false, 'n');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Computer Bottom*/
+                            /* Computer Bottom */
                             case 13:
                                 tile = new InteractiveTile(images.get(i), true, 'C', true);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*TV Bottom*/
+                            /* TV Bottom */
                             case 14:
                                 tile = new InteractiveTile(images.get(i), true, 'V', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Bookcase Bottom*/
+                            /* Bookcase Bottom */
                             case 15:
                                 tile = new InteractiveTile(images.get(i), true, 'H', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Fridge Bottom*/
+                            /* Fridge Bottom */
                             case 16:
                                 tile = new InteractiveTile(images.get(i), true, 'F', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Sink*/
+                            /* Sink */
                             case 17:
                                 tile = new InteractiveTile(images.get(i), true, 'S', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Chest*/
+                            /* Chest */
                             case 18:
                                 tile = new InteractiveTile(images.get(i), true, 'B', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Stool*/
+                            /* Stool */
                             case 19:
                                 tile = new Tile(images.get(i), true, 'o');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Oven*/
+                            /* Oven */
                             case 20:
                                 tile = new InteractiveTile(images.get(i), true, 'O', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table top L*/
+                            /* Table top L */
                             case 21:
                                 tile = new Tile(images.get(i), true, '1');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table top R*/
+                            /* Table top R */
                             case 22:
                                 tile = new Tile(images.get(i), true, '2');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table middle L*/
+                            /* Table middle L */
                             case 23:
                                 tile = new Tile(images.get(i), true, '3');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table middle R*/
+                            /* Table middle R */
                             case 24:
                                 tile = new Tile(images.get(i), true, '4');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table bottom L*/
+                            /* Table bottom L */
                             case 25:
                                 tile = new Tile(images.get(i), true, '5');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Table bottom R*/
+                            /* Table bottom R */
                             case 26:
                                 tile = new Tile(images.get(i), true, '6');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Desk top L*/
+                            /* Desk top L */
                             case 27:
                                 tile = new Tile(images.get(i), true, '<');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Desk top R*/
+                            /* Desk top R */
                             case 28:
                                 tile = new Tile(images.get(i), true, '>');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Desk bottom L*/
+                            /* Desk bottom L */
                             case 29:
                                 tile = new Tile(images.get(i), false, '\\');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Desk bottom R*/
+                            /* Desk bottom R */
                             case 30:
                                 tile = new Tile(images.get(i), false, '/');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Plant top*/
+                            /* Plant top */
                             case 31:
                                 tile = new Tile(images.get(i), true, '^');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Plant bottom*/
+                            /* Plant bottom */
                             case 32:
                                 tile = new Tile(images.get(i), true, 'X');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Invisible Door*/
+                            /* Invisible Door */
                             case 33:
                                 tile = new DoorTile(images.get(i), ' ');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Sign*/
+                            /* Sign */
                             case 34:
                                 tile = new InteractiveTile(images.get(i), true, '?', false);
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Couch left*/
+                            /* Couch left */
                             case 35:
                                 tile = new Tile(images.get(i), true, '(');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
-                            /*Couch right*/
+                            /* Couch right */
                             case 36:
                                 tile = new Tile(images.get(i), true, ')');
-                                tiles.put(tile.key, tile);
+                                tiles.put(tile.getKey(), tile);
                                 break;
-
                         }
                     }
                     break;
-
-
             }
             return tiles;
         }

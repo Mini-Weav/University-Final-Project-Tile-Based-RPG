@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Luke on 25/10/2017.
+ * 25/10/2017.
  */
 public class CharacterTileSet extends TileSet {
-    public static final int ROWS = 2, COLS = 5;
+    private static final int ROWS = 2;
+    private static final int COLS = 5;
 
     public static List<Tile> readTileSet(String fname, char key) {
         List<BufferedImage> images = TileSet.readTileSet(ROWS, COLS, fname);
@@ -18,6 +19,7 @@ public class CharacterTileSet extends TileSet {
         Tile tile;
 
         try {
+            assert images != null;
             for (int i = 0; i < images.size(); i++) {
                 switch (i) {
 

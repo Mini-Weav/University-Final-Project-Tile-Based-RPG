@@ -8,73 +8,79 @@ import java.awt.image.BufferedImage;
 import static game.Game.GAME;
 
 /**
- * Created by Luke on 15/12/2017.
+ * C15/12/2017.
  */
 public class StatusMenu {
-    public int currentId;
-    public static String text, subText;
-    public static BufferedImage img;
+    private static String text;
+    private static String subText;
+    private static BufferedImage img;
+
+    private int currentId;
 
     public StatusMenu(int id) {
         this.currentId = id;
         setUp(id);
     }
+    public int getCurrentId() { return currentId; }
+
+    public void setCurrentId(int currentId) { this.currentId = currentId; }
+
 
     public static void setUp(int id) {
         switch (id) {
             case 0:
-                img = Menu.imgs[0];
-                text = GAME.daysLeft + FileReader.menuStrings[32] + "#" + Game.timePeriods[GAME.time] + "#"
-                        + Game.conditions[GAME.player.condition] + "#" + GAME.points;
-                subText = FileReader.menuStrings[64];
+                img = Menu.getImg(0);
+                text = GAME.getDaysLeft() + FileReader.getMenuString(32) + "#" + Game.getTimePeriods()[GAME.getTime()] + "#"
+                        + Game.getConditions()[GAME.getPlayer().getCondition()] + "#" + GAME.getPoints();
+                subText = FileReader.getMenuString(64);
                 break;
             case 1:
-                img = Menu.imgs[7];
-                text = FileReader.menuStrings[33] + ((LessonTypeB) GAME.lesson).tasksLeft +
-                        FileReader.menuStrings[34] + ((LessonTypeB) GAME.lesson).timeLeft +
-                        FileReader.menuStrings[35] + ((LessonTypeB) GAME.lesson).reread;
+                img = Menu.getImg(7);
+                text = FileReader.getMenuString(33) + ((LessonTypeB) GAME.getLesson()).getTasksLeft() +
+                        FileReader.getMenuString(34) + ((LessonTypeB) GAME.getLesson()).getTimeLeft() +
+                        FileReader.getMenuString(35) + ((LessonTypeB) GAME.getLesson()).isReread();
                 subText = null;
                 break;
             case 2:
-                img = Menu.imgs[5];
-                text = FileReader.menuStrings[36] + ((LessonTypeC) GAME.lesson).laps +
-                        FileReader.menuStrings[34] + ((LessonTypeC) GAME.lesson).time +
-                        FileReader.menuStrings[37] + GAME.items[0][0] +
-                        FileReader.menuStrings[38] + ((LessonTypeC) GAME.lesson).energy;
+                img = Menu.getImg(5);
+                text = FileReader.getMenuString(36) + ((LessonTypeC) GAME.getLesson()).getLaps() +
+                        FileReader.getMenuString(34) + ((LessonTypeC) GAME.getLesson()).getTime() +
+                        FileReader.getMenuString(37) + GAME.getItem(0, 0) +
+                        FileReader.getMenuString(38) + ((LessonTypeC) GAME.getLesson()).getEnergy();
                 subText = null;
                 break;
             case 3:
-                img = Menu.imgs[5];
-                text = FileReader.menuStrings[39] + ((LessonTypeA) GAME.lesson).questionsLeft +
-                        FileReader.menuStrings[37] + GAME.items[0][0] +
-                        FileReader.menuStrings[40] + ((LessonTypeA) GAME.lesson).attentionSpan +
-                        FileReader.menuStrings[41] + ((LessonTypeA) GAME.lesson).concentration;
+                img = Menu.getImg(5);
+                text = FileReader.getMenuString(39) + ((LessonTypeA) GAME.getLesson()).getQuestionsLeft() +
+                        FileReader.getMenuString(37) + GAME.getItem(0, 0) +
+                        FileReader.getMenuString(40) + ((LessonTypeA) GAME.getLesson()).getAttentionSpan() +
+                        FileReader.getMenuString(41) + ((LessonTypeA) GAME.getLesson()).getConcentration();
                 subText = null;
                 break;
             case 4:
-                img = Menu.imgs[5];
-                text = FileReader.menuStrings[39] + GAME.exam.questionsLeft +
-                        FileReader.menuStrings[34] + GAME.exam.timeLeft +
-                        FileReader.menuStrings[40] + GAME.exam.attentionSpan +
-                        FileReader.menuStrings[41] + GAME.exam.concentration;
+                img = Menu.getImg(5);
+                text = FileReader.getMenuString(39) + GAME.getExam().getQuestionsLeft() +
+                        FileReader.getMenuString(34) + GAME.getExam().getTimeLeft() +
+                        FileReader.getMenuString(40) + GAME.getExam().getAttentionSpan() +
+                        FileReader.getMenuString(41) + GAME.getExam().getConcentration();
                 subText = null;
                 break;
         }
     }
 
-    public Color setColours(int lineIndex) {
-        switch (GAME.statusMenu.currentId) {
+    private Color setColours(int lineIndex) {
+        switch (GAME.getStatusMenu().currentId) {
             case 0:
                 switch (lineIndex) {
                     case 0:
-                        if (GAME.daysLeft < 2) { return Color.red; }
+                        if (GAME.getDaysLeft() < 2) { return Color.red; }
                         else { return Color.black; }
                     case 1:
-                        if (GAME.time == 11) { return Color.red; }
+                        if (GAME.getTime() == 11) { return Color.red; }
                         else { return Color.black; }
                     case 2:
-                        if (GAME.player.condition == 1) { return new Color(0, 128, 0); }
-                        else if (GAME.player.condition == 2) { return Color.red; }
+                        if (GAME.getPlayer().getCondition() == 1) { return new Color(0, 128, 0); }
+                        else if (GAME.getPlayer().getCondition() == 2) { return Color.red; }
                         else { return Color.black; }
                     default:
                         return Color.black;
@@ -82,10 +88,10 @@ public class StatusMenu {
             case 1:
                 switch (lineIndex) {
                     case 1:
-                        if (((LessonTypeB) GAME.lesson).timeLeft < 15) { return Color.red; }
+                        if (((LessonTypeB) GAME.getLesson()).getTimeLeft() < 15) { return Color.red; }
                         else { return Color.black; }
                     case 2:
-                        if (((LessonTypeB) GAME.lesson).reread) { return new Color(0, 128, 0); }
+                        if (((LessonTypeB) GAME.getLesson()).isReread()) { return new Color(0, 128, 0); }
                         else { return Color.black; }
                     default:
                         return Color.black;
@@ -93,13 +99,13 @@ public class StatusMenu {
             case 2:
                 switch (lineIndex) {
                     case 1:
-                        if (((LessonTypeC) GAME.lesson).time < 15) { return Color.red; }
+                        if (((LessonTypeC) GAME.getLesson()).getTime() < 15) { return Color.red; }
                         else { return Color.black; }
                     case 2:
-                        if (GAME.items[0][0] < 1) { return Color.red; }
+                        if (!GAME.hasEnergyDrink()) { return Color.red; }
                         else { return Color.black; }
                     case 3:
-                        if (((LessonTypeC) GAME.lesson).energy < 1) { return Color.red; }
+                        if (((LessonTypeC) GAME.getLesson()).getEnergy() < 1) { return Color.red; }
                         else { return Color.black; }
                     default:
                         return Color.black;
@@ -107,13 +113,13 @@ public class StatusMenu {
             case 3:
                 switch (lineIndex) {
                     case 1:
-                        if (GAME.items[0][0] < 1) { return Color.red; }
+                        if (!GAME.hasEnergyDrink()) { return Color.red; }
                         else { return Color.black; }
                     case 2:
-                        if (((LessonTypeA) GAME.lesson).attentionSpan < 1) { return Color.red; }
+                        if (((LessonTypeA) GAME.getLesson()).getAttentionSpan() < 1) { return Color.red; }
                         else { return Color.black; }
                     case 3:
-                        if (((LessonTypeA) GAME.lesson).concentration < 1) { return Color.red; }
+                        if (((LessonTypeA) GAME.getLesson()).getConcentration() < 1) { return Color.red; }
                         else { return Color.black; }
                     default:
                         return Color.black;
@@ -121,13 +127,13 @@ public class StatusMenu {
             case 4:
                 switch (lineIndex) {
                     case 1:
-                        if (GAME.exam.timeLeft < 15) { return Color.red; }
+                        if (GAME.getExam().getTimeLeft() < 15) { return Color.red; }
                         else { return Color.black; }
                     case 2:
-                        if (GAME.exam.attentionSpan < 1) { return Color.red; }
+                        if (GAME.getExam().getAttentionSpan() < 1) { return Color.red; }
                         else { return Color.black; }
                     case 3:
-                        if (GAME.exam.concentration < 1) { return Color.red; }
+                        if (GAME.getExam().getConcentration() < 1) { return Color.red; }
                         else { return Color.black; }
                     default:
                         return Color.black;
@@ -140,7 +146,7 @@ public class StatusMenu {
     public void paintComponent(Graphics g) {
         g.setColor(Color.black);
         g.drawImage(img, 16, 16, img.getWidth() * 2, img.getHeight() * 2, null);
-        g.setFont(GameFont.bigFont);
+        g.setFont(GameFont.getBigFont());
         int height = g.getFontMetrics().getHeight();
         int lineIndex = 0;
         for (String line : text.split("#")) {
@@ -149,7 +155,7 @@ public class StatusMenu {
             lineIndex++;
         }
         if (subText != null) {
-            g.setFont(GameFont.smallUnderline);
+            g.setFont(GameFont.getSmallUnderline());
             lineIndex = 0;
             for (String line : subText.split("#")) {
                 g.setColor(setColours(lineIndex));

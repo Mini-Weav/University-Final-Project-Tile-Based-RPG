@@ -8,7 +8,7 @@ import java.io.File;
 import static game.Game.GAME;
 
 /**
- * Created by lmweav on 26/01/2018.
+ * 26/01/2018.
  */
 public class GameAudio {
     public final static Clip music_bedroom = getClip("bedroom");
@@ -29,7 +29,7 @@ public class GameAudio {
     public final static Clip sfx_paAnnouncement = getClip("pa_announcement");
     public final static Clip sfx_pcHack = getClip("pc_hack");
     public final static Clip sfx_save = getClip("save");
-    public final static Clip sfx_useStinkbomb = getClip("use_stinkbomb");
+    public final static Clip sfx_useStinkBomb = getClip("use_stinkbomb");
 
     public static void loadSounds() {
         try {
@@ -51,13 +51,13 @@ public class GameAudio {
             sfx_paAnnouncement.open();
             sfx_pcHack.open();
             sfx_save.open();
-            sfx_useStinkbomb.open();
+            sfx_useStinkBomb.open();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static Clip getClip(String name) {
+    private static Clip getClip(String name) {
         Clip clip = null;
         try {
             clip = AudioSystem.getClip();
@@ -71,14 +71,14 @@ public class GameAudio {
     }
 
     public static void startMusic(Clip clip) {
-        if (GAME.music != null) { GAME.music.stop(); }
-        GAME.music = clip;
-        GAME.music.setFramePosition(0);
-        GAME.music.loop(-1);
+        if (GAME.getMusic() != null) { GAME.getMusic().stop(); }
+        GAME.setMusic(clip);
+        GAME.getMusic().setFramePosition(0);
+        GAME.getMusic().loop(-1);
     }
 
     public static void stopMusic() {
-        GAME.music.stop();
+        GAME.getMusic().stop();
     }
 
     public static void playSfx(Clip clip) {

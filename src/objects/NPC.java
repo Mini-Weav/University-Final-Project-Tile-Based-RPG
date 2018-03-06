@@ -15,46 +15,50 @@ import java.util.List;
 import static game.Game.GAME;
 
 /**
- * Created by lmweav on 25/11/2017.
+ * 25/11/2017.
  */
 public class NPC extends GameObject{
-    public int id, defaultDirection, defaultX, defaultY;
-    public boolean hostile;
-    public String name;
+    private int id;
+    private int defaultDirection;
+    private int defaultX;
+    private int defaultY;
+    private boolean hostile;
+    private String name;
 
-    public static TreeMap<Integer, List<Tile>> tiles = new TreeMap<>();
-    public static TreeMap<Integer, String[]> text = new TreeMap<>();
-    public static String[] names, lessons;
+    private static TreeMap<Integer, List<Tile>> tiles = new TreeMap<>();
+    private static TreeMap<Integer, String[]> text = new TreeMap<>();
+    private static String[] names;
+    private static String[] lessons;
 
     static {
-        tiles.put(0, CharacterTileSet.readTileSet("resources/tilesets/friend_athlete.png", KEY));
-        tiles.put(1, CharacterTileSet.readTileSet("resources/tilesets/friend_classmate.png", KEY));
-        tiles.put(2, CharacterTileSet.readTileSet("resources/tilesets/friend_nerd.png", KEY));
-        tiles.put(3, CharacterTileSet.readTileSet("resources/tilesets/friend_delinquent.png", KEY));
-        tiles.put(4, CharacterTileSet.readTileSet("resources/tilesets/friend_tutee.png", KEY));
-        tiles.put(5, CharacterTileSet.readTileSet("resources/tilesets/teacher_dt.png", KEY));
-        tiles.put(6, CharacterTileSet.readTileSet("resources/tilesets/teacher_ft.png", KEY));
-        tiles.put(7, CharacterTileSet.readTileSet("resources/tilesets/teacher_pe.png", KEY));
-        tiles.put(8, CharacterTileSet.readTileSet("resources/tilesets/teacher_science.png", KEY));
-        tiles.put(9, CharacterTileSet.readTileSet("resources/tilesets/teacher_ict.png", KEY));
-        tiles.put(10, CharacterTileSet.readTileSet("resources/tilesets/student_boy.png", KEY));
-        tiles.put(20, CharacterTileSet.readTileSet("resources/tilesets/student_girl.png", KEY));
-        tiles.put(30, CharacterTileSet.readTileSet("resources/tilesets/dinner_lady.png", KEY));
+        tiles.put(0, CharacterTileSet.readTileSet("resources/tilesets/friend_athlete.png", getKEY()));
+        tiles.put(1, CharacterTileSet.readTileSet("resources/tilesets/friend_classmate.png", getKEY()));
+        tiles.put(2, CharacterTileSet.readTileSet("resources/tilesets/friend_nerd.png", getKEY()));
+        tiles.put(3, CharacterTileSet.readTileSet("resources/tilesets/friend_delinquent.png", getKEY()));
+        tiles.put(4, CharacterTileSet.readTileSet("resources/tilesets/friend_tutee.png", getKEY()));
+        tiles.put(5, CharacterTileSet.readTileSet("resources/tilesets/teacher_dt.png", getKEY()));
+        tiles.put(6, CharacterTileSet.readTileSet("resources/tilesets/teacher_ft.png", getKEY()));
+        tiles.put(7, CharacterTileSet.readTileSet("resources/tilesets/teacher_pe.png", getKEY()));
+        tiles.put(8, CharacterTileSet.readTileSet("resources/tilesets/teacher_science.png", getKEY()));
+        tiles.put(9, CharacterTileSet.readTileSet("resources/tilesets/teacher_ict.png", getKEY()));
+        tiles.put(10, CharacterTileSet.readTileSet("resources/tilesets/student_boy.png", getKEY()));
+        tiles.put(20, CharacterTileSet.readTileSet("resources/tilesets/student_girl.png", getKEY()));
+        tiles.put(30, CharacterTileSet.readTileSet("resources/tilesets/dinner_lady.png", getKEY()));
 
         names = new String[] { "Jack", "Emily", "Alexander", "Nathan", "Frankie", "Mr Hardman", "Ms Mason", "Mr Rodgers", "Mr Burgess", "Ms McCarthy" };
         lessons = new String[] { "DT", "food tech", "PE", "chemistry", "ICT" };
 
         /* Friend students*/
-        text.put(0, FileReader.jackStrings);
-        text.put(1, FileReader.emilyStrings);
-        text.put(2, FileReader.alexanderStrings);
-        text.put(3, FileReader.nathanStrings);
-        text.put(4, FileReader.frankieStrings);
+        text.put(0, FileReader.getJackStrings());
+        text.put(1, FileReader.getEmilyStrings());
+        text.put(2, FileReader.getAlexanderStrings());
+        text.put(3, FileReader.getNathanStrings());
+        text.put(4, FileReader.getFrankieStrings());
         /* Generic boy students */
-        text.put(10, FileReader.boyStrings);
+        text.put(10, FileReader.getBoyStrings());
         /* Generic girl students */
-        text.put(20, FileReader.girlStrings);
-        text.put(30, FileReader.lunchStrings);
+        text.put(20, FileReader.getGirlStrings());
+        text.put(30, FileReader.getLunchStrings());
     }
 
 
@@ -67,9 +71,9 @@ public class NPC extends GameObject{
         name = names[id];
         setSprites(id);
         this.hostile = hostile;
-        this.ctrl = ctrl;
-        if (ctrl instanceof Patrol) { ((Patrol) ctrl).object = this; }
-        flip = true;
+        this.setCtrl(ctrl);
+        if (ctrl instanceof Patrol) { ((Patrol) ctrl).setObject(this); }
+        setFlip(true);
     }
 
     public NPC(int x, int y, int id, int subId, int direction, boolean hostile, Controller ctrl) {
@@ -81,18 +85,23 @@ public class NPC extends GameObject{
         name = "";
         setSprites(id);
         this.hostile = hostile;
-        this.ctrl = ctrl;
-        if (ctrl instanceof Patrol) { ((Patrol) ctrl).object = this; }
-        flip = true;
+        this.setCtrl(ctrl);
+        if (ctrl instanceof Patrol) { ((Patrol) ctrl).setObject(this); }
+        setFlip(true);
     }
 
-    public void setSprites(int id) {
-        upSprites1 = Arrays.asList(tiles.get(id).get(5).img, tiles.get(id).get(6).img, tiles.get(id).get(6).img, tiles.get(id).get(5).img);
-        upSprites2 = Arrays.asList(tiles.get(id).get(5).img, tiles.get(id).get(7).img, tiles.get(id).get(7).img, tiles.get(id).get(5).img);
-        downSprites1 = Arrays.asList(tiles.get(id).get(0).img, tiles.get(id).get(1).img);
-        downSprites2 = Arrays.asList(tiles.get(id).get(0).img, tiles.get(id).get(2).img);
-        leftSprites = Arrays.asList(tiles.get(id).get(8).img, tiles.get(id).get(9).img, tiles.get(id).get(9).img, tiles.get(id).get(8).img);
-        rightSprites = Arrays.asList(tiles.get(id).get(3).img, tiles.get(id).get(4).img);
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getName() { return name; }
+
+    private void setSprites(int id) {
+        setUpSprites1(tiles.get(id));
+        setUpSprites2(tiles.get(id));
+        setDownSprites1(tiles.get(id));
+        setDownSprites2(tiles.get(id));
+        setLeftSprites(tiles.get(id));
+        setRightSprites(tiles.get(id));
     }
 
     public void interaction(int time) {
@@ -100,30 +109,30 @@ public class NPC extends GameObject{
             case 0:
             case 2:
             case 4:
-                if (GAME.time == 2 && GAME.friendValues[id] > 0 && !GAME.isSuspended) { activityTextBox();}
+                if (GAME.getTime() == 2 && GAME.getFriendValue(id) > 0 && !GAME.isSuspended()) { activityTextBox();}
                 else { friendTextBox(); }
                 break;
             case 1:
-                if (GAME.hasLovelyCake() && GAME.friendValues[id] >= 20) {
-                    GAME.textBox = new TextBox(3, FileReader.menuStrings[42] + name + ".");
-                    GAME.menu = new Menu(5);
+                if (GAME.hasLovelyCake() && GAME.getFriendValue(id) > 20) {
+                    GAME.setTextBox(new TextBox(3, FileReader.getMenuString(42) + name + "."));
+                    GAME.setMenu(new Menu(5));
                 }
-                else if (GAME.hasFood() && GAME.friendValues[id] > 0) {
-                    GAME.textBox = new TextBox(3, FileReader.menuStrings[42] + name + ".");
-                    GAME.menu = new Menu(5);
+                else if (GAME.hasFood() && GAME.getFriendValue(id) > 0) {
+                    GAME.setTextBox(new TextBox(3, FileReader.getMenuString(42) + name + "."));
+                    GAME.setMenu(new Menu(5));
                 }
-                else if (GAME.emilyCrush) {
-                    emotion = new Emotion(4);
-                    GAME.textBox = new TextBox(NPC.text.get(id)[4], this, true);
+                else if (GAME.isEmilyCrush()) {
+                    setEmotion(new Emotion(4));
+                    GAME.setTextBox(new TextBox(NPC.text.get(id)[4], this, true));
                 }
                 else { friendTextBox(); }
                 break;
             case 3:
-                if (GAME.hasCraft() && GAME.friendValues[id] > 0) {
-                    GAME.textBox = new TextBox(3, FileReader.menuStrings[42] + name + ".");
-                    GAME.menu = new Menu(5);
+                if (GAME.hasCraft() && GAME.getFriendValue(id) > 0) {
+                    GAME.setTextBox(new TextBox(3, FileReader.getMenuString(42) + name + "."));
+                    GAME.setMenu(new Menu(5));
                 }
-                else if (GAME.friendValues[id] > 20 && !GAME.givenDrink) {
+                else if (GAME.getFriendValue(id) > 20 && GAME.canGetDrink()) {
                     freeDrink();
                 }
                 else { friendTextBox(); }
@@ -133,20 +142,20 @@ public class NPC extends GameObject{
             case 7:
             case 8:
             case 9:
-                if (GAME.time != 11) {
-                    GAME.textBox = new TextBox(3, FileReader.menuStrings[43] + lessons[id - 5] + "?");
-                    GAME.menu = new Menu(5);
-                } else { GAME.isSpotted = true; }
+                if (GAME.getTime() != 11) {
+                    GAME.setTextBox(new TextBox(3, FileReader.getMenuString(43) + lessons[id - 5] + "?"));
+                    GAME.setMenu(new Menu(5));
+                } else { GAME.setSpotted(true); }
                 break;
             case 30:
-                if (GAME.player.condition == 0 && time == 1) {
-                    GAME.textBox = new TextBox(3, FileReader.menuStrings[44]);
-                    GAME.menu = new Menu(5);
+                if (GAME.getPlayer().getCondition() == 0 && time == 1) {
+                    GAME.setTextBox(new TextBox(3, FileReader.getMenuString(44)));
+                    GAME.setMenu(new Menu(5));
                 }
-                else { GAME.textBox = new TextBox(NPC.text.get(id)[time], this, true); }
+                else { GAME.setTextBox(new TextBox(NPC.text.get(id)[time], this, true)); }
                 break;
             default:
-                GAME.textBox = new TextBox(NPC.text.get((id / 10) * 10)[id % 10], this, true);
+                GAME.setTextBox(new TextBox(NPC.text.get((id / 10) * 10)[id % 10], this, true));
                 break;
         }
     }
@@ -155,14 +164,14 @@ public class NPC extends GameObject{
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
             if (id == 1) {
-                if (GAME.hasLovelyCake() && GAME.friendValues[id] >= 20) { GAME.menu = new Menu(16); }
-                else { GAME.menu = new Menu(6); }
+                if (GAME.hasLovelyCake() && GAME.getFriendValue(id) >= 20) { GAME.setMenu(new Menu(16)); }
+                else { GAME.setMenu(new Menu(6)); }
             }
-            if (id == 3) { GAME.menu = new Menu(7); }
+            if (id == 3) { GAME.setMenu(new Menu(7)); }
         }
         else {
-            GAME.menu = null;
-            if (id == 3 && GAME.friendValues[id] >= 30 && !GAME.givenDrink) { freeDrink(); }
+            GAME.setMenu(null);
+            if (id == 3 && GAME.getFriendValue(id) >= 30 && GAME.canGetDrink()) { freeDrink(); }
             else { friendTextBox(); }
         }
     }
@@ -171,37 +180,37 @@ public class NPC extends GameObject{
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (id) {
             case 1:
-                GAME.items[2][index]--;
-                if (index == 3 || GAME.emilyCrush) {
-                    if (!GAME.emilyCrush) { GAME.points *= 1.2;}
-                    GAME.emilyCrush = true;
-                    GAME.textBox = new TextBox(text.get(1)[3], this, true);
-                    emotion = new Emotion(4);
-                    GAME.friendValues[id] += (index + 1);
+                GAME.takeItem(2, index);
+                if (index == 3 || GAME.isEmilyCrush()) {
+                    if (!GAME.isEmilyCrush()) { GAME.setPoints((int) (GAME.getPoints() * 1.2));}
+                    GAME.setEmilyCrush(true);
+                    GAME.setTextBox(new TextBox(text.get(1)[3], this, true));
+                    setEmotion(new Emotion(4));
+                    GAME.increaseFriendValue(id, index + 1);
                 }
                 else {
-                    GAME.textBox = new TextBox(text.get(1)[2], this, true);
-                    emotion = new Emotion(2);
+                    GAME.setTextBox(new TextBox(text.get(1)[2], this, true));
+                    setEmotion(new Emotion(2));
                 }
                 break;
             case 3:
-                GAME.items[1][index]--;
-                GAME.textBox = new TextBox(text.get(3)[2], this, true);
-                GAME.items[0][0]++;
-                GAME.player.emotion = new Emotion(2);
-                emotion = new Emotion(5);
+                GAME.takeItem(1, index);
+                GAME.setTextBox(new TextBox(text.get(3)[2], this, true));
+                GAME.giveEnergyDrink();
+                GAME.getPlayer().setEmotion(new Emotion(2));
+                setEmotion(new Emotion(5));
                 GameAudio.playSfx(GameAudio.sfx_item);
         }
-        GAME.menu = null;
-        GAME.friendValues[id] += (index + 1);
-        GAME.increaseValues(0, id, index + 1);
+        GAME.setMenu(null);
+        GAME.increaseFriendValue(id, index + 1);
+        GAME.increasePoints(0, id, index + 1);
     }
 
-    public void freeDrink() {
-        GAME.textBox = new TextBox(text.get(3)[2], this, true);
-        GAME.items[0][0]++;
-        GAME.givenDrink = true;
-        GAME.player.emotion = new Emotion(2);
+    private void freeDrink() {
+        GAME.setTextBox(new TextBox(text.get(3)[2], this, true));
+        GAME.giveEnergyDrink();
+        GAME.setGivenDrink(true);
+        GAME.getPlayer().setEmotion(new Emotion(2));
         GameAudio.playSfx(GameAudio.sfx_item);
     }
 
@@ -212,8 +221,8 @@ public class NPC extends GameObject{
             Lesson.startLesson(id - 5);
         }
         else {
-            GAME.menu = null;
-            GAME.textBox = null;
+            GAME.setMenu(null);
+            GAME.setTextBox(null);
         }
     }
 
@@ -223,146 +232,146 @@ public class NPC extends GameObject{
             double r = Math.random();
             if (r < 0.7) {
                 GameAudio.playSfx(GameAudio.sfx_buff);
-                GAME.player.condition = 1;
-                GAME.textBox = new TextBox(0, FileReader.menuStrings[45]);
-                GAME.player.emotion = new Emotion(2);
+                GAME.getPlayer().setCondition(1);
+                GAME.setTextBox(new TextBox(0, FileReader.getMenuString(45)));
+                GAME.getPlayer().setEmotion(new Emotion(2));
             } else {
                 GameAudio.playSfx(GameAudio.sfx_debuff);
-                GAME.player.condition = 2;
-                GAME.textBox = new TextBox(0, FileReader.menuStrings[46]);
-                GAME.player.emotion = new Emotion(3);
+                GAME.getPlayer().setCondition(2);
+                GAME.setTextBox(new TextBox(0, FileReader.getMenuString(46)));
+                GAME.getPlayer().setEmotion(new Emotion(3));
             }
         }
-        else { GAME.textBox = null; }
-        GAME.menu = null;
+        else { GAME.setTextBox(null); }
+        GAME.setMenu(null);
     }
 
     public void rotate(int direction) {
         switch (direction) {
             case 0:
-                tile.img = upSprites1.get(0);
+                getTile().setImg(getUpSprite());
                 break;
             case 1:
-                tile.img = downSprites1.get(0);
+                getTile().setImg(getDownSprite());
                 break;
             case 2:
-                tile.img = leftSprites.get(0);
+                getTile().setImg(getLeftSprite());
                 break;
             case 3:
-                tile.img = rightSprites.get(0);
+                getTile().setImg(getRightSprite());
                 break;
         }
     }
 
     public void rotate(Player player) {
-        if (player.x == x) {
-            if (player.y < y) {
-                tile.img = upSprites1.get(0);
+        if (player.getX() == getX()) {
+            if (player.getY() < getY()) {
+                getTile().setImg(getUpSprite());
             } else {
-                tile.img = downSprites1.get(0);
+                getTile().setImg(getDownSprite());
             }
         }
-        if (player.y == y) {
-            if (player.x < x) { tile.img = leftSprites.get(0); }
-            else { tile.img = rightSprites.get(0); }
+        if (player.getY() == getY()) {
+            if (player.getX() < getX()) { getTile().setImg(getLeftSprite()); }
+            else { getTile().setImg(getRightSprite()); }
         }
     }
 
     public void move() {
         int i;
-        if (up) {
-            if (y * 32 == gY) { y--; }
-            gY -= 8;
-            i = (gY % 32) / 8;
+        if (isUp()) {
+            if (getY() * 32 == getGY()) { setY(getY() - 1); }
+            setGY(getGY() - 8);
+            i = (getGY() % 32) / 8;
             walkAnimation(0, i);
-            if (gY % 32 == 0) {
-                up = false;
-                flip = !flip;
+            if (getGY() % 32 == 0) {
+                setUp(false);
+                setFlip(isNotFlip());
             }
         }
-        if (down) {
-            if (y * 32 == gY) { y++; }
-            gY += 8;
-            i = (gY % 32) / 16;
+        if (isDown()) {
+            if (getY() * 32 == getGY()) { setY(getY() + 1); }
+            setGY(getGY() + 8);
+            i = (getGY() % 32) / 16;
             walkAnimation(1, i);
-            if (gY % 32 == 0) {
-                down = false;
-                flip = !flip;
+            if (getGY() % 32 == 0) {
+                setDown(false);
+                setFlip(isNotFlip());
 
             }
         }
-        if (left) {
-            if (x * 32 == gX) { x--; }
-            gX -= 8;
-            i = (gX % 32) / 8;
+        if (isLeft()) {
+            if (getX() * 32 == getGX()) { setX(getX() - 1); }
+            setGX(getGX() - 8);
+            i = (getGX() % 32) / 8;
             walkAnimation(2, i);
-            if (gX % 32 == 0) {
-                left = false;
+            if (getGX() % 32 == 0) {
+                setLeft(false);
             }
         }
-        if (right) {
-            if (x * 32 == gX) { x++; }
-            gX += 8;
-            i = (gX % 32)/16;
+        if (isRight()) {
+            if (getX() * 32 == getGX()) { setX(getX() + 1); }
+            setGX(getGX() + 8);
+            i = (getGX() % 32)/16;
             walkAnimation(3, i);
-            if (gX % 32 == 0) {
-                right = false;
+            if (getGX() % 32 == 0) {
+                setRight(false);
             }
         }
     }
 
     public void reset() {
-        x = defaultX;
-        y = defaultY;
-        this.gX = x * 32;
-        this.gY = y * 32;
+        setX(defaultX);
+        setY(defaultY);
+        this.setGX(getX() * 32);
+        this.setGY(getY() * 32);
         switch (defaultDirection) {
             case 0:
-                tile.img = downSprites1.get(0);
+                getTile().setImg(getDownSprite());
                 break;
             case 3:
-                tile.img = rightSprites.get(0);
+                getTile().setImg(getRightSprite());
                 break;
             case 5:
-                tile.img = upSprites1.get(0);
+                getTile().setImg(getUpSprite());
                 break;
             case 8:
-                tile.img = leftSprites.get(0);
+                getTile().setImg(getLeftSprite());
                 break;
         }
-        if (this.ctrl instanceof Patrol) { ((Patrol) this.ctrl).reset(); }
+        if (this.getCtrl() instanceof Patrol) { ((Patrol) this.getCtrl()).reset(); }
     }
 
-    public void friendTextBox() {
+    private void friendTextBox() {
         int fp = 0;
-        if (GAME.friendValues[id] > 0) { fp = 1; }
+        if (GAME.getFriendValue(id) > 0) { fp = 1; }
         else {
-            GAME.friendValues[id]++;
-            GAME.increaseValues(0, id, 1);
+            GAME.increaseFriendValue(id, 1);
+            GAME.increasePoints(0, id, 1);
         }
-        GAME.textBox = new TextBox(NPC.text.get(id)[fp], this, true);
+        GAME.setTextBox(new TextBox(NPC.text.get(id)[fp], this, true));
     }
 
-    public void activityTextBox() {
+    private void activityTextBox() {
         switch (id) {
             case 0:
-                if (GAME.gradeValues[2] > 9) {
-                    GAME.textBox = new TextBox(text.get(0)[2], this, false);
-                    GAME.menu = new Menu(5);
+                if (GAME.getGradeValue(2) > 9) {
+                    GAME.setTextBox(new TextBox(text.get(0)[2], this, false));
+                    GAME.setMenu(new Menu(5));
                 }
                 else { friendTextBox(); }
                 break;
             case 2:
-                if (GAME.gradeValues[3] > 9) {
-                    GAME.textBox = new TextBox(text.get(2)[2], this, false);
-                    GAME.menu = new Menu(5);
+                if (GAME.getGradeValue(3) > 9) {
+                    GAME.setTextBox(new TextBox(text.get(2)[2], this, false));
+                    GAME.setMenu(new Menu(5));
                 }
                 else { friendTextBox(); }
                 break;
             case 4:
-                if (GAME.gradeValues[4] > 9) {
-                    GAME.textBox = new TextBox(text.get(4)[2], this, false);
-                    GAME.menu = new Menu(5);
+                if (GAME.getGradeValue(4) > 9) {
+                    GAME.setTextBox(new TextBox(text.get(4)[2], this, false));
+                    GAME.setMenu(new Menu(5));
                 }
                 else { friendTextBox(); }
                 break;
@@ -370,7 +379,7 @@ public class NPC extends GameObject{
                 friendTextBox();
                 break;
         }
-        GAME.daysSince[id / 2] = -1;
+        GAME.resetDaysSince(id / 2);
     }
 
     public void activity(boolean yes) {
@@ -389,144 +398,145 @@ public class NPC extends GameObject{
                     gradeId = 4;
                     break;
                 default:
-                    GAME.textBox = null;
-                    GAME.menu = null;
+                    GAME.setTextBox(null);
+                    GAME.setMenu(null);
                     return;
             }
-            int increase = (GAME.gradeValues[gradeId] / 10) + 1;
-            GAME.friendValues[id] += increase;
-            GAME.increaseValues(0, id, increase);
+            int increase = (GAME.getGradeValue(gradeId) / 10) + 1;
+            GAME.increaseFriendValue(id, increase);
+            GAME.increasePoints(0, id, increase);
             Activity.startActivity(id);
         }
         else {
-            GAME.textBox = null;
-            GAME.menu = null;
+            GAME.setTextBox(null);
+            GAME.setMenu(null);
         }
     }
 
-    public void lookForPlayer(int direction) {
+    private void lookForPlayer(int direction) {
         boolean clearPath = false;
         switch (direction) {
             case 0:
-                if (y - 1 == GAME.player.y && x == GAME.player.x) {
+                if (getY() - 1 == GAME.getPlayer().getY() && getX() == GAME.getPlayer().getX()) {
                     spottedPlayer();
                     return;
                 }
                 else {
-                    for (int i = y - 1; i > GAME.player.y; i--) {
-                        if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
-                        if (i == GAME.player.y + 1) { clearPath = true; }
+                    for (int i = getY() - 1; i > GAME.getPlayer().getY(); i--) {
+                        if (GAME.isCollideTile(GAME.getTileFromMatrix(i, getX()))) { break; }
+                        if (i == GAME.getPlayer().getY() + 1) { clearPath = true; }
                     }
                 }
-                if (clearPath && GAME.player.x == x && Math.abs(y - GAME.player.y) < 8) {
+                if (clearPath && GAME.getPlayer().getX() == getX() && Math.abs(getY() - GAME.getPlayer().getY()) < 8) {
                     spottedPlayer();
                 }
                 break;
             case 1:
-                if (y + 1 == GAME.player.y && x == GAME.player.x) {
+                if (getY() + 1 == GAME.getPlayer().getY() && getX() == GAME.getPlayer().getX()) {
                     spottedPlayer();
                     return;
                 }
                 else {
-                    for (int i = y + 1; i < GAME.player.y; i++) {
-                        if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision) { break; }
-                        if (i == GAME.player.y - 1) { clearPath = true; }
+                    for (int i = getY() + 1; i < GAME.getPlayer().getY(); i++) {
+                        if (GAME.isCollideTile(GAME.getTileFromMatrix(i, getX()))) { break; }
+                        if (i == GAME.getPlayer().getY() - 1) { clearPath = true; }
                     }
                 }
-                if (clearPath && GAME.player.x == x && Math.abs(y - GAME.player.y) < 8) {
+                if (clearPath && GAME.getPlayer().getX() == getX() && Math.abs(getY() - GAME.getPlayer().getY()) < 8) {
                     spottedPlayer();
                 }
                 break;
             case 2:
-                if (x - 1 == GAME.player.x && y == GAME.player.y) {
+                if (getX() - 1 == GAME.getPlayer().getX() && getY() == GAME.getPlayer().getY()) {
                     spottedPlayer();
                     return;
                 }
                 else {
-                    for (int i = x - 1; i > GAME.player.x; i--) {
-                        if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
-                        if (i == GAME.player.x + 1) { clearPath = true; }
+                    for (int i = getX() - 1; i > GAME.getPlayer().getX(); i--) {
+                        if (GAME.isCollideTile(GAME.getTileFromMatrix(getY(), i))) { break; }
+                        if (i == GAME.getPlayer().getX() + 1) { clearPath = true; }
                     }
                 }
-                if (clearPath && GAME.player.y == y && Math.abs(x - GAME.player.x) < 8) {
+                if (clearPath && GAME.getPlayer().getY() == getY() && Math.abs(getX() - GAME.getPlayer().getX()) < 8) {
                     spottedPlayer();
                 }
                 break;
             case 3:
-                if (x + 1 == GAME.player.x && y == GAME.player.y) {
+                if (getX() + 1 == GAME.getPlayer().getX() && getY() == GAME.getPlayer().getY()) {
                     spottedPlayer();
                     return;
                 }
                 else {
-                    for (int i = x + 1; i < GAME.player.x; i++) {
-                        if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision) { break; }
-                        if (i == GAME.player.x - 1) { clearPath = true; }
+                    for (int i = getX() + 1; i < GAME.getPlayer().getX(); i++) {
+                        if (GAME.isCollideTile(GAME.getTileFromMatrix(getY(), i))) { break; }
+                        if (i == GAME.getPlayer().getX() - 1) { clearPath = true; }
                     }
                 }
-                if (clearPath && GAME.player.y == y && Math.abs(x - GAME.player.x) < 8) {
+                if (clearPath && GAME.getPlayer().getY() == getY() && Math.abs(getX() - GAME.getPlayer().getX()) < 8) {
                     spottedPlayer();
                 }
                 break;
         }
     }
 
-    public void walkToPlayer() {
-        if (y < GAME.player.y - 1) { down = true; }
-        else if (y > GAME.player.y + 1) { up = true; }
-        else if (x < GAME.player.x - 1) { right = true; }
-        else if (x > GAME.player.x + 1) { left = true; }
+    private void walkToPlayer() {
+        if (getY() < GAME.getPlayer().getY() - 1) { setDown(true); }
+        else if (getY() > GAME.getPlayer().getY() + 1) { setUp(true); }
+        else if (getX() < GAME.getPlayer().getX() - 1) { setRight(true); }
+        else if (getX() > GAME.getPlayer().getX() + 1) { setLeft(true); }
         move();
     }
 
-    public void spottedPlayer() {
-        GAME.isSpotted = true;
-        GAME.player.spotted = true;
-        spotted = true;
-        ctrl = null;
-        emotion = new Emotion(0);
+    private void spottedPlayer() {
+        GAME.setSpotted(true);
+        GAME.getPlayer().setSpotted(true);
+        setSpotted(true);
+        setCtrl(null);
+        setEmotion(new Emotion(0));
     }
 
-    public void colourTiles(int direction) {
+    private void colourTiles(int direction) {
+
         switch (direction) {
             case 0:
-                for (int i = y - 1; i > y - 8; i--) {
+                for (int i = getY() - 1; i > getY() - 8; i--) {
                     try {
-                        if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision ||
-                                TileMapView.tiles.get(GAME.tileMatrix[i][x]) instanceof DoorTile) { break; }
-                        GAME.badTileMatrix[i][x] = 1;
+                        if (GAME.isCollideTile(GAME.getTileFromMatrix(i, getX())) ||
+                                GAME.isDoorTile(GAME.getTileFromMatrix(i, getX()))) { break; }
+                        GAME.setBadTile(i, getX());
                     } catch (NullPointerException e) {
                         //
                     }
                 }
                 break;
             case 1:
-                for (int i = y + 1; i < y + 8; i++) {
+                for (int i = getY() + 1; i < getY() + 8; i++) {
                     try {
-                        if (TileMapView.tiles.get(GAME.tileMatrix[i][x]).collision ||
-                                TileMapView.tiles.get(GAME.tileMatrix[i][x]) instanceof DoorTile) { break; }
-                        GAME.badTileMatrix[i][x] = 1;
+                        if (GAME.isCollideTile(GAME.getTileFromMatrix(i, getX())) ||
+                                GAME.isDoorTile(GAME.getTileFromMatrix(i, getX()))) { break; }
+                        GAME.setBadTile(i, getX());
                     } catch (NullPointerException e) {
                         //
                     }
                 }
                 break;
             case 2:
-                for (int i = x - 1; i > x - 8; i--) {
+                for (int i = getX() - 1; i > getX() - 8; i--) {
                     try {
-                        if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision ||
-                                TileMapView.tiles.get(GAME.tileMatrix[y][i]) instanceof DoorTile) { break; }
-                        GAME.badTileMatrix[y][i] = 1;
+                        if (GAME.isCollideTile(GAME.getTileFromMatrix(getY(), i)) ||
+                                GAME.isDoorTile(GAME.getTileFromMatrix(getY(), i))) { break; }
+                        GAME.setBadTile(getY(), i);
                     } catch (NullPointerException e) {
                         //
                     }
                 }
                 break;
             case 3:
-                for (int i = x + 1; i < x + 8; i++) {
+                for (int i = getX() + 1; i < getX() + 8; i++) {
                     try {
-                        if (TileMapView.tiles.get(GAME.tileMatrix[y][i]).collision ||
-                                TileMapView.tiles.get(GAME.tileMatrix[y][i]) instanceof DoorTile) { break; }
-                        GAME.badTileMatrix[y][i] = 1;
+                        if (GAME.isCollideTile(GAME.getTileFromMatrix(getY(), i)) ||
+                                GAME.isDoorTile(GAME.getTileFromMatrix(getY(), i))) { break; }
+                        GAME.setBadTile(getY(), i);
                     } catch (NullPointerException e) {
                         //
                     }
@@ -536,42 +546,42 @@ public class NPC extends GameObject{
     }
 
     public void update() {
-        inPlay = !GAME.isTransition && GAME.textBox == null && GAME.menu == null && (!GAME.isSpotted && !spotted) && !GAME.hasLostHeist;
-        moving = up || down || left || right;
-        if (ctrl != null && inPlay) {
-            Action action = ctrl.action();
-            rotate(action.direction);
-            if (!moving && !action.stop) {
-                if (action.direction == 0 && y > 0 &&
-                        GAME.objectMatrix[y - 1][x] == null &&
-                        !TileMapView.tiles.get(GAME.tileMatrix[y - 1][x]).collision &&
-                        !(TileMapView.tiles.get(GAME.tileMatrix[y - 1][x]) instanceof DoorTile)){ up = true; }
+        setInPlay(!GAME.isTransition() && GAME.getTextBox() == null && GAME.getMenu() == null && (!GAME.isSpotted() && !isSpotted()) && !GAME.hasLostHeist());
+        setMoving(isUp() || isDown() || isLeft() || isRight());
+        if (getCtrl() != null && isInPlay()) {
+            Action action = getCtrl().action();
+            rotate(action.getDirection());
+            if (isNotMoving() && action.isMoving()) {
+                if (action.getDirection() == 0 && getY() > 0 &&
+                        GAME.isObjectNull(getY() - 1, getX()) &&
+                        !GAME.isCollideTile(GAME.getTileFromMatrix(getY() - 1, getX())) &&
+                        !(GAME.isDoorTile(GAME.getTileFromMatrix(getY() - 1, getX())))){ setUp(true); }
 
-                if (action.direction == 1 && y < GAME.map.maxY &&
-                        GAME.objectMatrix[y + 1][x] == null &&
-                        !TileMapView.tiles.get(GAME.tileMatrix[y + 1][x]).collision &&
-                        !(TileMapView.tiles.get(GAME.tileMatrix[y + 1][x]) instanceof DoorTile)){ down = true; }
+                if (action.getDirection() == 1 && getY() < GAME.getMapMaxY() &&
+                        GAME.isObjectNull(getY() + 1, getX()) &&
+                        !GAME.isCollideTile(GAME.getTileFromMatrix(getY() + 1, getX())) &&
+                        !(GAME.isDoorTile(GAME.getTileFromMatrix(getY() + 1, getX())))){ setDown(true); }
 
-                if (action.direction == 2 && x > 0 &&
-                        GAME.objectMatrix[y][x - 1] == null &&
-                        !TileMapView.tiles.get(GAME.tileMatrix[y][x - 1]).collision &&
-                        !(TileMapView.tiles.get(GAME.tileMatrix[y][x - 1]) instanceof DoorTile)){ left = true; }
+                if (action.getDirection() == 2 && getX() > 0 &&
+                        GAME.isObjectNull(getY(), getX() - 1) &&
+                        !GAME.isCollideTile(GAME.getTileFromMatrix(getY(), getX() - 1)) &&
+                        !(GAME.isDoorTile(GAME.getTileFromMatrix(getY(), getX() - 1)))){ setLeft(true); }
 
-                if (action.direction == 3 && x < GAME.map.maxX &&
-                        GAME.objectMatrix[y][x + 1] == null &&
-                        !TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]).collision &&
-                        !(TileMapView.tiles.get(GAME.tileMatrix[y][x + 1]) instanceof DoorTile)){ right = true; }
+                if (action.getDirection() == 3 && getX() < GAME.getMapMaxX() &&
+                        GAME.isObjectNull(getY(), getX() + 1) &&
+                        !GAME.isCollideTile(GAME.getTileFromMatrix(getY(), getX() + 1)) &&
+                        !(GAME.isDoorTile(GAME.getTileFromMatrix(getY(), getX() + 1)))){ setRight(true); }
             }
             if (hostile) {
-                lookForPlayer(action.direction);
-                colourTiles(action.direction);
+                lookForPlayer(action.getDirection());
+                colourTiles(action.getDirection());
             }
             move();
         }
 
-        if (emotion != null) { displayEmotion(); }
+        if (getEmotion() != null) { displayEmotion(); }
 
-        if (ctrl == null && hostile && inPlay && !spotted) {
+        if (getCtrl() == null && hostile && isInPlay() && !isSpotted()) {
             switch (defaultDirection) {
                 case 0:
                     lookForPlayer(1);
@@ -592,18 +602,18 @@ public class NPC extends GameObject{
             }
         }
 
-        if (spotted) {
-            ctrl = null;
-            if (emotion == null) {
+        if (isSpotted()) {
+            setCtrl(null);
+            if (getEmotion() == null) {
                 walkToPlayer();
-                moving = up || down || left || right;
-                if (!moving && !GAME.hasLostHeist && GAME.isSpotted) { GAME.textBox = new TextBox(0, FileReader.npcStrings[35]); }
+                setMoving(isUp() || isDown() || isLeft() || isRight());
+                if (isNotMoving() && !GAME.hasLostHeist() && GAME.isSpotted()) { GAME.setTextBox(new TextBox(0, FileReader.getNpcString(35))); }
             }
         }
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(tile.img, gX - GAME.camera.gX, gY - GAME.camera.gY, 32, 32, null);
-        if (emotion != null) { emotion.paintComponent(g, this); }
+        g.drawImage(getTile().getImg(), getGX() - GAME.getCamera().getGX(), getGY() - GAME.getCamera().getGY(), 32, 32, null);
+        if (getEmotion() != null) { getEmotion().paintComponent(g, this); }
     }
 }

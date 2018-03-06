@@ -2,23 +2,25 @@ package controllers;
 
 
 /**
- * Created by Luke on 20/12/2017.
+ * 20/12/2017.
  */
 public class RandomMovement implements Controller {
-    public Action action;
-    public double chance;
+    private double chance;
+    private Action action;
 
     public RandomMovement(boolean stop) {
         action = new Action();
         if (stop) { chance = 0.05; }
         else { chance = 0.01; }
-        action.stop = stop;
+        action.setStop(stop);
     }
+
+    public Action getAction() { return action; }
+    public void setAction(Action action) { this.action = action; }
 
     public Action action() {
-        action.direction = -1;
-        if (Math.random() < chance) { action.direction = (int) (Math.random() * 4); }
+        action.setDirection(-1);
+        if (Math.random() < chance) { action.setDirection((int) (Math.random() * 4)); }
         return action;
     }
-
 }

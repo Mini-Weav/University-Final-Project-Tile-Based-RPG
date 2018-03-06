@@ -10,14 +10,18 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by lmweav on 01/11/2017.
+ * 01/11/2017.
  */
 public class TextBox {
-    public int id;
-    public boolean skip;
-    public String text, npcName;
-    public static BufferedImage[] imgs, npcImgs;
-    public BufferedImage img, npcImg;
+    private static BufferedImage[] imgs;
+    private static BufferedImage[] npcImgs;
+
+    private int id;
+    private boolean skip;
+    private String text;
+    private String npcName;
+    private BufferedImage img;
+    private BufferedImage npcImg;
 
     public TextBox(int id, String text) {
         this.id = id;
@@ -26,19 +30,25 @@ public class TextBox {
     }
 
     public TextBox(String text, NPC npc, boolean skip) {
-        if (npc.id >= 10) {
+        if (npc.getId() >= 10) {
             if (skip) { this.id = 0; }
             else { this.id = 3;}
         }
         else {
             if (skip) { this.id = 2; }
             else { this.id = 4; }
-            npcImg = npcImgs[npc.id];
-            npcName = npc.name;
+            npcImg = npcImgs[npc.getId()];
+            npcName = npc.getName();
         }
         setUp(id);
         this.text = text;
     }
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
+    public boolean isSkip() { return skip; }
+
 
     public void setUp(int id) {
         switch (id) {
@@ -96,11 +106,11 @@ public class TextBox {
         switch (id) {
             case 0:
             case 3:
-                g.drawImage(img, 0, Game.height - 136, img.getWidth() * 2, img.getHeight() * 3, null);
-                g.setFont(GameFont.bigFont);
+                g.drawImage(img, 0, Game.getHeight() - 136, img.getWidth() * 2, img.getHeight() * 3, null);
+                g.setFont(GameFont.getBigFont());
                 lineIndex = 0;
                 for (String line : text.split("#")) {
-                    g.drawString(line, 24, (Game.height - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
+                    g.drawString(line, 24, (Game.getHeight() - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
                     lineIndex++;
                 }
                 break;
@@ -108,7 +118,7 @@ public class TextBox {
             case 6:
             case 7:
                 g.drawImage(img, 0, 0, img.getWidth() * 2, img.getHeight() * 3, null);
-                g.setFont(GameFont.medFont);
+                g.setFont(GameFont.getMedFont());
                 lineIndex = 0;
                 for (String line : text.split("#")) {
                     g.drawString(line, 24, (26 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
@@ -117,25 +127,25 @@ public class TextBox {
                 break;
             case 2:
             case 4:
-                g.drawImage(img, 0, Game.height - 136, img.getWidth() * 2, img.getHeight() * 3, null);
-                g.drawImage(npcImg, 10, Game.height - (126 + (int) (npcImg.getHeight() * 2.3)),
+                g.drawImage(img, 0, Game.getHeight() - 136, img.getWidth() * 2, img.getHeight() * 3, null);
+                g.drawImage(npcImg, 10, Game.getHeight() - (126 + (int) (npcImg.getHeight() * 2.3)),
                         (int) (npcImg.getWidth() * 2.3), (int) (npcImg.getHeight() * 2.3), null);
-                g.setFont(GameFont.bigFont);
+                g.setFont(GameFont.getBigFont());
                 lineIndex = 0;
                 for (String line : text.split("#")) {
-                    g.drawString(line, 24, (Game.height - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
+                    g.drawString(line, 24, (Game.getHeight() - 90 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
                     lineIndex++;
                 }
-                g.setFont(GameFont.smallFont);
-                int textWidth = g.getFontMetrics(GameFont.smallFont).stringWidth(npcName);
-                g.drawString(npcName, 10 + ((int) (npcImg.getWidth() * 1.15)) - (textWidth / 2), Game.height - 138);
+                g.setFont(GameFont.getSmallFont());
+                int textWidth = g.getFontMetrics(GameFont.getSmallFont()).stringWidth(npcName);
+                g.drawString(npcName, 10 + ((int) (npcImg.getWidth() * 1.15)) - (textWidth / 2), Game.getHeight() - 138);
                 break;
             case 5:
-                g.drawImage(img, 0, Game.height - 178, img.getWidth() * 2, img.getHeight() * 3, null);
-                g.setFont(GameFont.bigFont);
+                g.drawImage(img, 0, Game.getHeight() - 178, img.getWidth() * 2, img.getHeight() * 3, null);
+                g.setFont(GameFont.getBigFont());
                 lineIndex = 0;
                 for (String line : text.split("#")) {
-                    g.drawString(line, 24, (Game.height - 132 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
+                    g.drawString(line, 24, (Game.getHeight() - 132 + (g.getFontMetrics().getHeight() + 4) * lineIndex));
                     lineIndex++;
                 }
                 break;

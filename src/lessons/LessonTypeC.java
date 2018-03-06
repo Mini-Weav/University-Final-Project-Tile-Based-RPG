@@ -9,29 +9,40 @@ import utilities.Menu;
 import static game.Game.GAME;
 
 /**
- * Created by Luke on 06/12/2017.
+ * 06/12/2017.
  */
 public class LessonTypeC extends Lesson {
-    public int time, energy;
-    public double laps = 0;
-    double bonusScore = 0, consecutiveRun = 0;
-    public boolean started, rested;
+    private int time;
+    private int energy;
+    private double laps = 0;
+    private double bonusScore = 0;
+    private double consecutiveRun = 0;
+    private boolean started;
+    private boolean rested;
 
-    public LessonTypeC(int grade) {
+    LessonTypeC(int grade) {
         super(grade);
         energy = setStart(grade);
-        if (GAME.player.condition == 1) { energy += 2; }
-        if (GAME.player.condition == 2) {
+        if (GAME.getPlayer().getCondition() == 1) { energy += 2; }
+        if (GAME.getPlayer().getCondition() == 2) {
             if (energy > 1) { energy -= 2; }
             else if (energy == 1) { energy--; }
         }
         time = 60;
-        rounds = 10;
-        questionText = FileReader.lessonStrings[30];
+        setRounds(10);
+        setQuestionText(FileReader.getLessonString(30));
         rested = false;
 
-        GAME.menu = new Menu(10);
+        GAME.setMenu(new Menu(10));
     }
+
+    public int getTime() { return time; }
+
+    public int getEnergy() { return energy; }
+
+    public double getLaps() { return laps; }
+
+    public boolean isStarted() { return started; }
 
     public void doAction(int action) {
         GameAudio.playSfx(GameAudio.sfx_click);
@@ -39,30 +50,30 @@ public class LessonTypeC extends Lesson {
             switch (action) {
                 case 0:
                     energy++;
-                    feedbackText = FileReader.lessonStrings[31];
+                    setFeedbackText(FileReader.getLessonString(31));
                     time -= 5;
                     break;
                 case 1:
                     GAME.doTransition();
-                    feedbackText = FileReader.lessonStrings[32];
-                    GAME.menu = new Menu(11);
+                    setFeedbackText(FileReader.getLessonString(32));
+                    GAME.setMenu(new Menu(11));
                     started = true;
                     break;
                 case 2:
-                    if (GAME.items[0][0] > 0) {
+                    if (GAME.hasEnergyDrink()) {
                         GameAudio.playSfx(GameAudio.sfx_buff);
                         energy++;
-                        GAME.items[0][0]--;
-                        feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[33];
-                        GAME.player.emotion = new Emotion(5);
+                        GAME.drinkEnergyDrink();
+                        setFeedbackText(FileReader.getLessonString(9) + FileReader.getLessonString(33));
+                        GAME.getPlayer().setEmotion(new Emotion(5));
                     }
                     else {
-                        feedbackText = FileReader.lessonStrings[11];
-                        GAME.player.emotion = new Emotion(6);
+                        setFeedbackText(FileReader.getLessonString(11));
+                        GAME.getPlayer().setEmotion(new Emotion(6));
                     }
                     break;
                 case 3:
-                    rules = true;
+                    setRules(true);
                     return;
             }
         }
@@ -71,7 +82,7 @@ public class LessonTypeC extends Lesson {
                     case 0:
                         laps += 0.25;
                         consecutiveRun = 0;
-                        feedbackText = FileReader.lessonStrings[34];
+                        setFeedbackText(FileReader.getLessonString(34));
                         time -= 5;
                         rested = false;
                         break;
@@ -79,17 +90,17 @@ public class LessonTypeC extends Lesson {
                         if (energy > 0) {
                             laps += 0.5;
                             energy--;
-                            feedbackText = FileReader.lessonStrings[35];
+                            setFeedbackText(FileReader.getLessonString(35));
                             if (consecutiveRun > 0) {
                                 bonusScore += consecutiveRun;
-                                feedbackText = FileReader.lessonStrings[37] + FileReader.lessonStrings[38];
-                                GAME.player.emotion = new Emotion(5);
+                                setFeedbackText(FileReader.getLessonString(37) + FileReader.getLessonString(38));
+                                GAME.getPlayer().setEmotion(new Emotion(5));
                             }
                             consecutiveRun++;
                         }
                         else {
-                            feedbackText = FileReader.lessonStrings[40] + FileReader.lessonStrings[42];
-                            GAME.player.emotion = new Emotion(3);
+                            setFeedbackText(FileReader.getLessonString(40) + FileReader.getLessonString(42));
+                            GAME.getPlayer().setEmotion(new Emotion(3));
                         }
                         time -= 5;
                         rested = false;
@@ -98,18 +109,18 @@ public class LessonTypeC extends Lesson {
                         if (energy > 1) {
                             laps++;
                             energy -= 2;
-                            feedbackText = FileReader.lessonStrings[36];
+                            setFeedbackText(FileReader.getLessonString(36));
                             if (consecutiveRun > 0) {
                                 bonusScore += consecutiveRun * 2;
-                                feedbackText = FileReader.lessonStrings[37] + FileReader.lessonStrings[39];
-                                GAME.player.emotion = new Emotion(2);
+                                setFeedbackText(FileReader.getLessonString(37) + FileReader.getLessonString(39));
+                                GAME.getPlayer().setEmotion(new Emotion(2));
                             }
                             consecutiveRun++;
 
                         }
                         else {
-                            feedbackText = FileReader.lessonStrings[41] + FileReader.lessonStrings[42];
-                            GAME.player.emotion = new Emotion(3);
+                            setFeedbackText(FileReader.getLessonString(41) + FileReader.getLessonString(42));
+                            GAME.getPlayer().setEmotion(new Emotion(3));
                         }
                         time -= 5;
                         rested = false;
@@ -118,65 +129,62 @@ public class LessonTypeC extends Lesson {
                         if (!rested) {
                             GameAudio.playSfx(GameAudio.sfx_buff);
                             GAME.doTransition();
-                            feedbackText = FileReader.lessonStrings[43];
+                            setFeedbackText(FileReader.getLessonString(43));
                             energy++;
                             consecutiveRun = 0;
                             time -= 5;
                             rested = true;
-                            GAME.player.emotion = new Emotion(5);
+                            GAME.getPlayer().setEmotion(new Emotion(5));
                         } else {
-                            feedbackText = FileReader.lessonStrings[44];
-                            GAME.player.emotion = new Emotion(6);
+                            setFeedbackText(FileReader.getLessonString(44));
+                            GAME.getPlayer().setEmotion(new Emotion(6));
                         }
                         break;
                     case 4:
-                        if (GAME.items[0][0] > 0) {
+                        if (GAME.hasEnergyDrink()) {
                             GameAudio.playSfx(GameAudio.sfx_buff);
                             energy++;
-                            GAME.items[0][0]--;
-                            feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[33];
+                            GAME.drinkEnergyDrink();
+                            setFeedbackText(FileReader.getLessonString(9) + FileReader.getLessonString(33));
                             consecutiveRun = 0;
-                            GAME.player.emotion = new Emotion(5);
+                            GAME.getPlayer().setEmotion(new Emotion(5));
                         }
                         else {
-                            feedbackText = FileReader.lessonStrings[11];
-                            GAME.player.emotion = new Emotion(6);
+                            setFeedbackText(FileReader.getLessonString(11));
+                            GAME.getPlayer().setEmotion(new Emotion(6));
                         }
                         break;
                 case 5:
-                    rules = true;
+                    setRules(true);
                     return;
             }
         }
-        feedback = true;
+        setFeedback(true);
         if (time == 0) {
-            GAME.player.emotion = null;
-            score = (laps + bonusScore) / 2;
-            feedbackText = FileReader.lessonStrings[5] + FileReader.lessonStrings[6] + + ((laps + bonusScore) * 5) + "!";
-            finished = true;
+            GAME.getPlayer().setEmotion(null);
+            setScore((laps + bonusScore) / 2);
+            setFeedbackText(FileReader.getLessonString(5) + FileReader.getLessonString(6) + + ((laps + bonusScore) * 5) + "!");
+            setFinished();
         }
     }
 
     public static void movingScript(GameObject obj) {
         int lowX = 24, highX = 36, lowY = 13, highY = 20;
-        if (obj.x == lowX && obj.y < highY) {
-            obj.down = true;
+        if (obj.getX() == lowX && obj.getY() < highY) {
+            obj.setDown(true);
             obj.move();
         }
-        if (obj.x == highX && obj.y > lowY) {
-            obj.up = true;
+        if (obj.getX() == highX && obj.getY() > lowY) {
+            obj.setUp(true);
             obj.move();
         }
-        if (obj.y == lowY && obj.x > lowX) {
-            obj.left = true;
+        if (obj.getY() == lowY && obj.getX() > lowX) {
+            obj.setLeft(true);
             obj.move();
         }
-        if (obj.y== highY && obj.x < highX) {
-            obj.right = true;
+        if (obj.getY() == highY && obj.getX() < highX) {
+            obj.setRight(true);
             obj.move();
         }
-
     }
-
-
 }

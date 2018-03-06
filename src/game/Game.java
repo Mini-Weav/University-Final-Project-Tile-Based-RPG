@@ -11,48 +11,79 @@ import utilities.Menu;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.io.*;
 import java.util.*;
 import java.util.List;
 
 /**
- * Created by Luke on 23/10/2017.
+ * 23/10/2017.
  */
-
-
-
 public class Game implements Serializable {
     public final static Game GAME = new Game();
 
-    public transient Player player;
-    public transient List<GameObject> objects;
-    public JFrame frame;
-    public transient Keys ctrl;
-    public int time, day = 1, daysLeft = 30, points, timeBeforeHeist, examsLeft = 5, playerX, playerY, mapId;
-    public transient TileMapView map;
-    public transient Camera camera;
-    public transient TextBox textBox;
-    public transient Menu menu;
-    public transient StatusMenu statusMenu;
-    public transient TitleScreen titleScreen;
-    public transient Lesson lesson;
-    public transient Activity activity;
-    public transient Exam exam;
-    public char[][] tileMatrix;
-    public transient GameObject[][] objectMatrix;
-    public int[] friendValues, gradeValues, examScores, daysSince;
-    public int[][] items, badTileMatrix;
-    public boolean isTransition, isNewGame, isNewDay, isAfterActivity, givenDrink, isHeist, gotAnswers, isSpotted,
-            isResult, isFinish, hasLostHeist, hasWonHeist, isSuspended, isExams, preExam, emilyCrush, isFullScreen,
-            isTitle = true;
-    public long transitionTime;
-    public String newDayText;
-    public transient Clip music;
+    private static int height;
+    private static int width;
+    private static int cameraHeight;
+    private static int cameraWidth;
 
-    public static int height, width, cameraHeight, cameraWidth;
+    private static boolean running = true;
 
-    public static String[] timePeriods, conditions;
+    private static String[] timePeriods;
+    private static String[] conditions;
+
+    private int time;
+    private int day = 1;
+    private int daysLeft = 30;
+    private int points;
+    private int timeBeforeHeist;
+    private int examsLeft = 5;
+    private int playerX;
+    private int playerY;
+    private int mapId;
+    private long transitionTime;
+    private boolean isTransition;
+    private boolean isNewGame;
+    private boolean isNewDay;
+    private boolean isAfterActivity;
+    private boolean givenDrink;
+    private boolean isHeist;
+    private boolean gotQuestions;
+    private boolean isSpotted;
+    private boolean isResult;
+    private boolean isFinish;
+    private boolean hasLostHeist;
+    private boolean hasWonHeist;
+    private boolean isSuspended;
+    private boolean isExams;
+    private boolean preExam;
+    private boolean emilyCrush;
+    private boolean isTitle = true;
+    private String newDayText;
+
+    private int[] friendValues;
+    private int[] gradeValues;
+    private int[] examScores;
+    private int[] daysSince;
+    private int[][] items;
+
+    private transient Player player;
+    private transient Keys ctrl;
+    private transient TileMapView map;
+    private transient Camera camera;
+    private transient TitleScreen titleScreen;
+    private transient TextBox textBox;
+    private transient Menu menu;
+    private transient StatusMenu statusMenu;
+    private transient Lesson lesson;
+    private transient Activity activity;
+    private transient Exam exam;
+    private transient Clip music;
+    private transient JFrame frame;
+
+    private transient int[][] badTileMatrix;
+    private transient char[][] tileMatrix;
+    private transient List<GameObject> objects;
+    private transient GameObject[][] objectMatrix;
 
     private Game() {
         objects = new ArrayList<>();
@@ -63,7 +94,183 @@ public class Game implements Serializable {
         cameraWidth = width / 32;
     }
 
-    public void createFrame() {
+    public static int getHeight() { return height; }
+    public static int getWidth() { return width; }
+
+    static int getCameraHeight() { return cameraHeight; }
+    static int getCameraWidth() { return cameraWidth; }
+
+    public static void setRunning(boolean running) { Game.running = running; }
+
+    public static String[] getTimePeriods() { return timePeriods; }
+
+    public static String[] getConditions() { return conditions; }
+
+    public int getTime() { return time; }
+    public void setTime(int time) { this.time = time; }
+
+    public int getDay() { return day; }
+    public void setDay(int day) { this.day = day; }
+
+    public int getDaysLeft() { return daysLeft; }
+    public void setDaysLeft(int daysLeft) { this.daysLeft = daysLeft; }
+
+    public int getPoints() { return points; }
+    public void setPoints(int points) { this.points = points; }
+    public void increasePoints(int id, int index, int increase) {
+        switch(id) {
+            case 0:
+                points += 2 * (Math.pow((increase * ((friendValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                break;
+            case 1:
+                points += 2 * (Math.pow((increase * ((gradeValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                break;
+            case 2:
+                points += 5 * (Math.pow((increase * ((examScores[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                break;
+            case 3:
+                points -= 2 * (Math.pow((increase * ((gradeValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
+                break;
+        }
+    }
+
+    public int getExamsLeft() { return examsLeft; }
+    public void setExamsLeft(int examsLeft) { this.examsLeft = examsLeft; }
+
+    public boolean isTransition() { return isTransition; }
+
+    boolean isNewGame() { return isNewGame; }
+    void setNewGame() { isNewGame = false; }
+
+    boolean isNewDay() { return isNewDay; }
+    void setNewDay() { isNewDay = false; }
+
+    public boolean isAfterActivity() { return isAfterActivity; }
+    void setAfterActivity(boolean afterActivity) { isAfterActivity = afterActivity; }
+
+    public boolean canGetDrink() { return !givenDrink; }
+    public void setGivenDrink(boolean givenDrink) { this.givenDrink = givenDrink; }
+
+    boolean isHeist() { return isHeist; }
+    void setHeist() { isHeist = false; }
+
+    boolean hasGotAnswers() { return gotQuestions; }
+    public void setGotQuestions(boolean gotQuestions) { this.gotQuestions = gotQuestions; }
+
+    public boolean isSpotted() { return isSpotted; }
+    public void setSpotted(boolean spotted) { isSpotted = spotted; }
+
+    boolean isResult() { return isResult; }
+    void setResult() { isResult = false; }
+
+    void setFinish() { isFinish = true; }
+
+    public boolean hasLostHeist() { return hasLostHeist; }
+    void setHasLostHeist() { this.hasLostHeist = false; }
+
+    boolean hasWonHeist() { return hasWonHeist; }
+    void setHasWonHeist() { this.hasWonHeist = false; }
+
+    public boolean isSuspended() { return isSuspended; }
+
+    public void setExams(boolean exams) { isExams = exams; }
+
+    boolean isPreExam() { return preExam; }
+    void setPreExam(boolean preExam) { this.preExam = preExam; }
+
+    public boolean isEmilyCrush() { return emilyCrush; }
+    public void setEmilyCrush(boolean emilyCrush) { this.emilyCrush = emilyCrush; }
+
+    boolean isTitle() { return isTitle; }
+
+    String getNewDayText() { return newDayText; }
+
+    public int getFriendValue(int index) { return friendValues[index]; }
+    public void increaseFriendValue(int index, int increase) { friendValues[index] += increase; }
+
+    public int getGradeValue(int index) { return gradeValues[index]; }
+    public void increaseGradeValue(int index, int increase) { gradeValues[index] += increase; }
+
+    public void setExamScore(int index, int increase) { examScores[index] += increase; }
+
+    public void resetDaysSince(int index) { daysSince[index] = -1; }
+
+    public int getItem(int type, int index) { return items[type][index]; }
+
+    public void giveEnergyDrink() { items[0][0]++; }
+    public void drinkEnergyDrink() { items[0][0]--; }
+    public void giveItem(int type, int index) { items[type][index]++; }
+    public void takeItem(int type, int index) { items[type][index]--; }
+    void giveStinkBomb() { items[0][1] = 1; }
+    public void giveQuestions() { items[0][2] = 1; }
+
+    public boolean hasEnergyDrink() { return items[0][0] > 0; }
+    public boolean hasItem(int type, int index) { return items[type][index] > 0; }
+    public boolean hasCraft() {
+        for (int i = 0; i < items[1].length - 1; i++) {
+            if (items[1][i] != 0) { return true;}
+        }
+        return false;
+    }
+    public boolean hasFood() {
+        for (int i = 0; i < items[2].length - 1; i++) {
+            if (items[2][i] != 0) { return true;}
+        }
+        return false;
+    }
+    private boolean hasSuperKey() { return items[1][3] > 0; }
+    public boolean hasLovelyCake() { return items[2][3] > 0; }
+    boolean hasStinkBomb() { return items[0][1] > 0; }
+    public boolean hasQuestions() { return items[0][2] > 0; }
+
+    public void setBadTile(int j, int i) { badTileMatrix[j][i] = 1; }
+    boolean isBadTile(int j, int i) { return badTileMatrix[j][i] == 1; }
+    void setBadTileMatrix(int rows, int cols) { badTileMatrix = new int[rows][cols]; }
+
+    boolean isTileNPC(int y, int x) { return tileMatrix[y][x] == '*'; }
+    public char getTileFromMatrix(int y, int x) { return tileMatrix[y][x]; }
+    void setTileMatrix(int rows, int cols) { tileMatrix = new char[rows][cols]; }
+
+    public Player getPlayer() { return player; }
+
+    public int getMapId() { return map.getCurrentId(); }
+    public int getMapMaxX() { return map.getMaxX(); }
+    public int getMapMaxY() { return map.getMaxY(); }
+    public int getMiniMapId() { return map.getMiniMapId(); }
+    public boolean isCollideTile(Character key) { return map.getTiles().get(key).isCollision(); }
+    public boolean isDoorTile(Character key) { return map.getTiles().get(key)instanceof DoorTile; }
+    public void loadMap(TileMap map) { this.map.loadMap(map);}
+
+    public Camera getCamera() { return camera; }
+
+    public TextBox getTextBox() { return textBox; }
+    public void setTextBox(TextBox textBox) { this.textBox = textBox; }
+
+    public Menu getMenu() { return menu; }
+    public void setMenu(Menu menu) { this.menu = menu; }
+
+    public StatusMenu getStatusMenu() { return statusMenu; }
+
+    public Lesson getLesson() { return lesson; }
+    public void setLesson(Lesson lesson) { this.lesson = lesson; }
+
+    public Activity getActivity() { return activity; }
+    void setActivity(Activity activity) { this.activity = activity; }
+
+    public Exam getExam() { return exam; }
+    public void setExam(Exam exam) { this.exam = exam; }
+
+    public Clip getMusic() { return music; }
+    public void setMusic(Clip music) { this.music = music; }
+
+    int getNumberOfObjects() { return objects.size(); }
+    GameObject getObject(int index) { return objects.get(index); }
+
+    GameObject getObjectFromMatrix(int j, int i) { return objectMatrix[j][i]; }
+    public boolean isObjectNull(int j, int i) { return objectMatrix[j][i] == null; }
+    void setObjectMatrix(int rows, int cols) { objectMatrix = new GameObject[rows][cols]; }
+
+    private void createFrame() {
         frame = new JFrame("Brooklands Academy");
         frame.getContentPane().add(titleScreen);
         frame.setResizable(false);
@@ -73,82 +280,58 @@ public class Game implements Serializable {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void updateAirVent() {
-        if (hasStinkBomb() && hasSuperKey() && gradeValues[4] > 29 && !hasQuestions()) {
-            TileMapLoader.tileMaps.get(0).interactivePoints.put(new Point(7, 5),
-                    new TextBox(0, FileReader.interactiveStrings[5] + FileReader.interactiveStrings[36]));
-            Tile oldTile = TileMapLoader.tileMaps.get(0).tiles.get('A');
-            Tile newTile = new InteractiveTile(oldTile.img, true, 'A', true);
-            TileMapLoader.tileMaps.get(0).tiles.put('A', newTile);
-        }
-        else {
-            TileMapLoader.tileMaps.get(0).interactivePoints.put(new Point(7, 5),
-                    new TextBox(0, FileReader.interactiveStrings[5]));
-            Tile oldTile = TileMapLoader.tileMaps.get(0).tiles.get('A');
-            Tile newTile = new InteractiveTile(oldTile.img, true, 'A', false);
-            TileMapLoader.tileMaps.get(0).tiles.put('A', newTile);
-        }
-    }
+    private void update() {
+        int rows = map.getMatrixRows();
+        int cols = map.getMatrixCols();
 
-    public void update() {
-        tileMatrix = new char[map.matrix.size()][map.matrix.get(0).size()];
-        badTileMatrix = new int[map.matrix.size()][map.matrix.get(0).size()];
-        objectMatrix = new GameObject[map.matrix.size()][map.matrix.get(0).size()];
+        tileMatrix = new char[rows][cols];
+        badTileMatrix = new int[rows][cols];
+        objectMatrix = new GameObject[rows][cols];
 
         if (lesson != null) {
             switch (time) {
                 case 3:
                 case 4:
-                    statusMenu.currentId = 1;
+                    statusMenu.setCurrentId(1);
                     break;
                 case 5:
-                    statusMenu.currentId = 2;
+                    statusMenu.setCurrentId(2);
                     break;
                 case 6:
                 case 7:
-                    statusMenu.currentId = 3;
+                    statusMenu.setCurrentId(3);
                     break;
             }
-            StatusMenu.setUp(statusMenu.currentId);
-            if (lesson.feedback) {
-                menu.visible = false;
-                textBox = new TextBox(0, GAME.lesson.feedbackText); }
-            else if (lesson.rules) { textBox = lesson.showRules(); }
-            else {
-                if (lesson.finished) { lesson.finish(); }
-                else {
-                    menu.visible = true;
-                    textBox = new TextBox(0, lesson.questionText); }
-            }
+            StatusMenu.setUp(statusMenu.getCurrentId());
+            if (lesson.isFeedback()) {
+                menu.setVisible(false);
+                textBox = new TextBox(0, GAME.lesson.getFeedbackText());
+            } else if (lesson.isRules()) { textBox = lesson.showRules(); }
+            else { lesson.checkFinish(); }
         }
         else if (exam != null) {
-            statusMenu.currentId = 4;
-            StatusMenu.setUp(statusMenu.currentId);
-            if (exam.feedback) {
-                menu.visible = false;
-                textBox = new TextBox(0, GAME.exam.feedbackText);
-            } else if (exam.rules) { textBox = exam.showRules(); }
-            else {
-                if (exam.finished) { exam.finish(); }
-                else {
-                    menu.visible = true;
-                    textBox = new TextBox(0, exam.questionText); }
-            }
+            statusMenu.setCurrentId(4);
+            StatusMenu.setUp(statusMenu.getCurrentId());
+            if (exam.isFeedback()) {
+                menu.setVisible(false);
+                textBox = new TextBox(0, GAME.exam.getFeedbackText());
+            } else if (exam.isRules()) { textBox = exam.showRules(); }
+            else { exam.checkFinish(); }
         }
         else {
-            statusMenu.currentId = 0;
-            StatusMenu.setUp(statusMenu.currentId);
+            statusMenu.setCurrentId(0);
+            StatusMenu.setUp(statusMenu.getCurrentId());
         }
 
-        for (int i = 0; i < map.matrix.size(); i++) {
-            List<Character> line = map.matrix.get(i);
-            for (int j = 0; j < map.matrix.get(0).size(); j++) {
+        for (int i = 0; i < rows; i++) {
+            List<Character> line = map.getMatrixLine(i);
+            for (int j = 0; j < cols; j++) {
                 tileMatrix[i][j] = line.get(j);
             }
         }
         for (GameObject object : objects) {
-            tileMatrix[object.y][object.x] = object.tile.key;
-            objectMatrix[object.y][object.x]  = object;
+            tileMatrix[object.getY()][object.getX()] = object.getTile().getKey();
+            objectMatrix[object.getY()][object.getX()]  = object;
         }
         for (GameObject object : objects) {  object.update();  }
         camera.update();
@@ -156,40 +339,35 @@ public class Game implements Serializable {
 
         synchronized (Game.class) {
             objects.clear();
-            try { objects.addAll(TileMapLoader.tileMaps.get(map.currentId).NPCs.get(time)); }
-            catch (NullPointerException e) {}
+            try { objects.addAll(TileMapLoader.tileMaps.get(map.getCurrentId()).getNPCs(time)); }
+            catch (NullPointerException e) { /* Do nothing */}
             objects.add(GAME.player);
         }
     }
 
-    public boolean hasCraft() {
-        for (int i = 0; i < items[1].length - 1; i++) {
-            if (items[1][i] != 0) { return true;}
+    void updateAirVent() {
+        if (hasStinkBomb() && hasSuperKey() && gradeValues[4] > 29 && !hasQuestions()) {
+            TileMapLoader.tileMaps.get(0).putPoint(new Point(7, 5),
+                    new TextBox(0, FileReader.getInteractiveString(5) + FileReader.getInteractiveString(36)));
+            Tile oldTile = TileMapLoader.tileMaps.get(0).getTile('A');
+            Tile newTile = new InteractiveTile(oldTile.getImg(), true, 'A', true);
+            TileMapLoader.tileMaps.get(0).putTile('A', newTile);
         }
-        return false;
-    }
-
-    public boolean hasFood() {
-        for (int i = 0; i < items[2].length - 1; i++) {
-            if (items[2][i] != 0) { return true;}
+        else {
+            TileMapLoader.tileMaps.get(0).putPoint(new Point(7, 5),
+                    new TextBox(0, FileReader.getInteractiveString(5)));
+            Tile oldTile = TileMapLoader.tileMaps.get(0).getTile('A');
+            Tile newTile = new InteractiveTile(oldTile.getImg(), true, 'A', false);
+            TileMapLoader.tileMaps.get(0).putTile('A', newTile);
         }
-        return false;
     }
-
-    public boolean hasStinkBomb() { return items[0][1] > 0; }
-
-    public boolean hasSuperKey() { return items[1][3] > 0; }
-
-    public boolean hasLovelyCake() { return items[2][3] > 0; }
-
-    public boolean hasQuestions() { return items[0][2] > 0; }
 
     public void doTransition() {
         isTransition = true;
         transitionTime = System.currentTimeMillis();
     }
 
-    public void newDay() {
+    void newDay() {
         time = 0;
         givenDrink = false;
         TileMap nextMap = TileMapLoader.tileMaps.get(0);
@@ -204,7 +382,7 @@ public class Game implements Serializable {
                 if (daysSince[i] > 2) {
                     int decrease = daysSince[i] - 1;
                     friendValues[i * 2] -= decrease;
-                    GAME.increaseValues(3, i *2, decrease);
+                    increasePoints(3, i *2, decrease);
                 }
             }
         }
@@ -216,18 +394,18 @@ public class Game implements Serializable {
         isNewDay = true;
         switch (id[0]) {
             case 0:
-                newDayText = FileReader.newDayStrings[id[1]];
+                newDayText = FileReader.getNewDayString(id[1]);
                 break;
             case 1:
-                newDayText = FileReader.newDayStrings[id[1] + 5];
+                newDayText = FileReader.getNewDayString(id[1] + 5);
                 break;
             case 2:
-                newDayText = FileReader.newDayStrings[7];
+                newDayText = FileReader.getNewDayString(7);
                 break;
             case 3:
                 GameAudio.stopMusic();
-                newDayText = FileReader.newDayStrings[8] + FileReader.newDayStrings[8 + examsLeft] +
-                        FileReader.newDayStrings[14] + FileReader.newDayStrings[14 + examsLeft];
+                newDayText = FileReader.getNewDayString(8) + FileReader.getNewDayString(8 + examsLeft) +
+                        FileReader.getNewDayString(14) + FileReader.getNewDayString(14 + examsLeft);
                 preExam = true;
                 break;
         }
@@ -246,8 +424,8 @@ public class Game implements Serializable {
             objects.add(GAME.player);
             player.setLocation(6, 2);
             player.rotate(1);
-            player.condition = 0;
-            player.emotion = null;
+            player.setCondition(0);
+            player.setEmotion(null);
             if (daysLeft < 2) { isExams = true; }
         }
         textBox = null;
@@ -259,13 +437,13 @@ public class Game implements Serializable {
             timeBeforeHeist = time;
             items[0][1] = 0;
             GameAudio.playSfx(GameAudio.sfx_click);
-            GameAudio.playSfx(GameAudio.sfx_useStinkbomb);
+            GameAudio.playSfx(GameAudio.sfx_useStinkBomb);
             GameAudio.stopMusic();
             time = 10;
             isHeist = true;
             textBox = null;
         }
-        else { textBox = new TextBox(0, FileReader.menuStrings[51]); }
+        else { textBox = new TextBox(0, FileReader.getMenuString(51)); }
         menu = null;
     }
 
@@ -273,6 +451,7 @@ public class Game implements Serializable {
         GameAudio.stopMusic();
         switch (outcome) {
             case 0:
+                GameAudio.playSfx(GameAudio.sfx_gotAnswers);
                 hasWonHeist = true;
                 time = timeBeforeHeist + 1;
                 points *= 1.5;
@@ -280,7 +459,7 @@ public class Game implements Serializable {
             case 1:
                 items[0][2] = 0;
                 isSpotted = false;
-                gotAnswers = false;
+                gotQuestions = false;
                 hasLostHeist = true;
                 isSuspended = true;
                 objects.clear();
@@ -288,7 +467,7 @@ public class Game implements Serializable {
                 TileMap nextMap = TileMapLoader.tileMaps.get(1);
                 map.loadMap(nextMap);
                 objects.add(GAME.player);
-                player.spotted = false;
+                player.setSpotted(false);
                 player.setLocation(9, 2);
                 player.rotate(1);
                 break;
@@ -302,15 +481,16 @@ public class Game implements Serializable {
         for (int i : gradeValues) { totalGradePoints += i; }
         for (int i : friendValues) { totalFriendPoints += i; }
         for (int i : examScores) { totalExamPoints += i; }
-        textBox = new TextBox(5, FileReader.resultStrings[0] + FileReader.resultStrings[1] + totalFriendPoints + "#" +
-                FileReader.resultStrings[2] + totalGradePoints + "#" + FileReader.resultStrings[3] + totalExamPoints + "#" +
-                FileReader.resultStrings[4] + (items[0][2] > 0) + "#" + FileReader.resultStrings[5] + points);
+        textBox = new TextBox(5, FileReader.getResultString(0) + FileReader.getResultString(1) + totalFriendPoints + "#" +
+                FileReader.getResultString(2) + totalGradePoints + "#" + FileReader.getResultString(3) + totalExamPoints + "#" +
+                FileReader.getResultString(4) + (items[0][2] > 0) + "#" + FileReader.getResultString(5) + points);
     }
 
     public void newGame() {
         GameAudio.stopMusic();
 
-        player = new Player(Player.TILES.get(Constants.UP), Constants.START_X, Constants.START_Y, ctrl);
+        assert Player.TILES != null;
+        player = new Player(Player.TILES.get(Constants.UP_TILE), Constants.START_X, Constants.START_Y, ctrl);
 
         items = new int[3][];
         items[0] = new int[3];
@@ -319,8 +499,7 @@ public class Game implements Serializable {
 
         map = new TileMapView(TileMapLoader.tileMaps.get(0));
 
-        camera = new Camera(player.x - (cameraWidth / 2), player.y - (cameraHeight / 2),
-                map.matrix);
+        camera = new Camera(player.getX() - (cameraWidth / 2), player.getY() - (cameraHeight / 2));
 
         time = 0;
 
@@ -357,13 +536,14 @@ public class Game implements Serializable {
             in.close();
             saveData.close();
         } catch (IOException e) {
-            titleScreen.textBox = new TextBox(0, FileReader.menuStrings[61]);
+            titleScreen.setTextBox(new TextBox(0, FileReader.getMenuString(61)));
             return;
         } catch (ClassNotFoundException e) {
-            titleScreen.textBox = new TextBox(0, FileReader.menuStrings[62]);
+            titleScreen.setTextBox(new TextBox(0, FileReader.getMenuString(62)));
             return;
         }
 
+        assert Player.TILES != null;
         player = new Player(Player.TILES.get(0), data.playerX, data.playerY, ctrl);
 
         items = data.items;
@@ -383,8 +563,7 @@ public class Game implements Serializable {
                 break;
         }
 
-        camera = new Camera(player.x - (cameraWidth / 2), player.y - (cameraHeight / 2),
-                map.matrix);
+        camera = new Camera(player.getX() - (cameraWidth / 2), player.getY() - (cameraHeight / 2));
 
         friendValues = data.friendValues;
         gradeValues = data.gradeValues;
@@ -409,11 +588,11 @@ public class Game implements Serializable {
         isTitle = false;
     }
 
-    public void save() {
+    void save() {
         GameAudio.playSfx(GameAudio.sfx_click);
-        playerX = player.x;
-        playerY = player.y;
-        mapId = map.currentId;
+        playerX = player.getX();
+        playerY = player.getY();
+        mapId = map.getCurrentId();
         menu = null;
         try {
             FileOutputStream saveData = new FileOutputStream("sav/game.ser");
@@ -422,77 +601,17 @@ public class Game implements Serializable {
             out.close();
             saveData.close();
             GameAudio.playSfx(GameAudio.sfx_save);
-            textBox = new TextBox(0, FileReader.menuStrings[58]);
+            textBox = new TextBox(0, FileReader.getMenuString(58));
         } catch (IOException e) {
-            textBox = new TextBox(0, FileReader.menuStrings[59]);
+            textBox = new TextBox(0, FileReader.getMenuString(59));
             e.printStackTrace();
         }
     }
 
-    public void quit() {
+    void quit() {
         GameAudio.playSfx(GameAudio.sfx_click);
-        textBox = new TextBox(3, FileReader.menuStrings[60]);
+        textBox = new TextBox(3, FileReader.getMenuString(60));
         menu = new Menu(17);
-    }
-
-
-
-    public void windowScreen() {
-        frame.dispose();
-        frame.setUndecorated(false);
-        height = Constants.FRAME_HEIGHT;
-        width = Constants.FRAME_WIDTH;
-        cameraHeight = height / 32;
-        cameraWidth = width / 32;
-        frame.getContentPane().setSize(width, height);
-        frame.setSize(width, height);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        isFullScreen = false;
-    }
-
-//    public void fullScreen() {
-//        frame.dispose();
-//        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        frame.setUndecorated(true);
-//        height = Constants.FULL_HEIGHT;
-//        width = Constants.FULL_WIDTH;
-//        cameraHeight = height / 32;
-//        cameraWidth = width / 32;
-//        frame.getContentPane().setSize(width, height);
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//        isFullScreen = true;
-//    }
-
-//    public void switchScreen() {
-//        if (isFullScreen) { windowScreen(); }
-//        else { fullScreen(); }
-//
-//        camera.x = player.x - (Game.width / 64);
-//        camera.y = player.y - (Game.height / 64);
-//        camera.gX = camera.x * 32;
-//        camera.gY = camera.y * 32;
-//    }
-
-    public void increaseValues(int id, int index, int increase) {
-        switch(id) {
-            case 0:
-                points += 2 * (Math.pow((increase * ((friendValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
-                break;
-            case 1:
-                points += 2 * (Math.pow((increase * ((gradeValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
-                break;
-            case 2:
-                points += 5 * (Math.pow((increase * ((examScores[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
-                break;
-            case 3:
-                points -= 2 * (Math.pow((increase * ((gradeValues[index] / 10) + 1)), 2) / Math.pow(day, 1 / 3));
-                break;
-        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -502,15 +621,23 @@ public class Game implements Serializable {
         Menu.loadImages();
         TileMapLoader.loadMaps();
         GameFont.loadFont();
+
         GAME.titleScreen = new TitleScreen();
         GAME.createFrame();
-        timePeriods = Arrays.copyOf(FileReader.statusStrings, 17);
-        conditions = Arrays.copyOfRange(FileReader.statusStrings, 17, 20);
+
+        timePeriods = FileReader.getTimeStrings();
+        conditions = FileReader.getConditionStrings();
 
         while (true) {
             GameAudio.startMusic(GameAudio.music_title);
 
-            while (GAME.isTitle) { GAME.titleScreen.repaint(); }
+            while (GAME.isTitle) {
+                GAME.titleScreen.repaint();
+                if (!running) {
+                    System.exit(0);
+                    return;
+                }
+            }
 
             GAME.frame.remove(GAME.titleScreen);
 
@@ -519,22 +646,20 @@ public class Game implements Serializable {
             GAME.frame.addKeyListener(GAME.ctrl);
             GAME.frame.revalidate();
 
-            /*Game loop*/
             while (!GAME.isFinish) {
                 GAME.update();
                 GAME.map.repaint();
                 Thread.sleep(70);
             }
+
             GAME.isFinish = false;
             GAME.isTitle = true;
             GAME.titleScreen = new TitleScreen();
+
             GAME.frame.removeKeyListener(GAME.ctrl);
             GAME.frame.remove(GAME.map);
             GAME.frame.getContentPane().add(GAME.titleScreen);
             GAME.frame.revalidate();
-
         }
-
-
     }
 }

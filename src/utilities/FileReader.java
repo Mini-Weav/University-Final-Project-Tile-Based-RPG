@@ -3,19 +3,64 @@ package utilities;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * Created by lmweav on 29/11/2017.
+ * 29/11/2017.
  */
 public class FileReader {
-    public static String[] interactiveStrings, npcStrings, newDayStrings, activityStrings, lessonStrings, menuStrings,
-            statusStrings, resultStrings,
-            jackStrings = new String[3], emilyStrings = new String[5], alexanderStrings = new String[3],
-            nathanStrings = new String[3], frankieStrings = new String[3], boyStrings = new String[5],
-            girlStrings = new String[5], lunchStrings = new String[3];
+    private static String[] interactiveStrings;
+    private static String[] npcStrings;
+    private static String[] newDayStrings;
+    private static String[] activityStrings;
+    private static String[] lessonStrings;
+    private static String[] menuStrings;
+    private static String[] statusStrings;
+    private static String[] resultStrings;
+    private static String[] jackStrings = new String[3];
+    private static String[] emilyStrings = new String[5];
+    private static String[] alexanderStrings = new String[3];
+    private static String[] nathanStrings = new String[3];
+    private static String[] frankieStrings = new String[3];
+    private static String[] boyStrings = new String[5];
+    private static String[] girlStrings = new String[5];
+    private static String[] lunchStrings = new String[3];
 
-    public static String[] readFile(String file) {
+    public static String getInteractiveString(int index) { return interactiveStrings[index]; }
+
+    public static String getNpcString(int index) { return npcStrings[index]; }
+
+    public static String getNewDayString(int index) { return newDayStrings[index]; }
+
+    public static String getActivityString(int index) { return activityStrings[index]; }
+
+    public static String getLessonString(int index) { return lessonStrings[index]; }
+
+    public static String getMenuString(int index) { return menuStrings[index]; }
+
+    public static String[] getTimeStrings() { return Arrays.copyOf(statusStrings, 17); }
+    public static String[] getConditionStrings() { return Arrays.copyOfRange(statusStrings, 17, 20); }
+
+    public static String getResultString(int index) { return resultStrings[index]; }
+
+    public static String[] getJackStrings() { return Arrays.copyOf(jackStrings, jackStrings.length); }
+
+    public static String[] getEmilyStrings() { return Arrays.copyOf(emilyStrings, emilyStrings.length); }
+
+    public static String[] getAlexanderStrings() { return Arrays.copyOf(alexanderStrings, alexanderStrings.length); }
+
+    public static String[] getNathanStrings() { return Arrays.copyOf(nathanStrings, nathanStrings.length); }
+
+    public static String[] getFrankieStrings() { return Arrays.copyOf(frankieStrings, frankieStrings.length); }
+
+    public static String[] getBoyStrings() { return Arrays.copyOf(boyStrings, boyStrings.length); }
+
+    public static String[] getGirlStrings() { return Arrays.copyOf(girlStrings, girlStrings.length); }
+
+    public static String[] getLunchStrings() { return Arrays.copyOf(lunchStrings, lunchStrings.length); }
+
+    private static String[] readFile(String file) {
         String s;
         try {
             Scanner in = new Scanner(new File("resources/texts/" + file + ".txt"));
@@ -37,6 +82,7 @@ public class FileReader {
         interactiveStrings = readFile("interactive_tiles");
         npcStrings = readFile("npcs");
         for (int i = 0; i < 3; i++) {
+            assert npcStrings != null;
             jackStrings[i] = npcStrings[i];
             emilyStrings[i] = npcStrings[i + 4];
             alexanderStrings[i] = npcStrings[i + 8];

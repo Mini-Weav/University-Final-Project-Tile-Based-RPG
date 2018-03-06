@@ -4,28 +4,35 @@ import game.Emotion;
 import utilities.FileReader;
 import utilities.GameAudio;
 import utilities.Menu;
-import utilities.StatusMenu;
 
 import static game.Game.GAME;
 
 /**
- * Created by Luke on 05/12/2017.
+ * 05/12/2017.
  */
 public class LessonTypeA extends Lesson {
-    public int attentionSpan, concentration, questionsLeft;
-    int id, startingConcentration, questionId;
-    double lv1, lv2;
-    boolean toilet;
+    private int attentionSpan;
+    private int concentration;
+    private int questionsLeft;
+    private int id;
+    private int startingConcentration;
+    private int questionId;
+    private double lv1;
+    private double lv2;
+    private boolean toilet;
 
-    public LessonTypeA(int id, int grade) {
+    LessonTypeA(int id, int grade) {
         super(grade);
+
         this.id = id;
+
         startingConcentration = setStart(grade);
-        if (GAME.player.condition == 1) { startingConcentration++; }
-        if (GAME.player.condition == 2 && startingConcentration > 0) { startingConcentration--; }
+        if (GAME.getPlayer().getCondition() == 1) { startingConcentration++; }
+        if (GAME.getPlayer().getCondition() == 2 && startingConcentration > 0) { startingConcentration--; }
         concentration = startingConcentration;
-        rounds = setNumberOfQuestions(grade);
-        questionsLeft = rounds;
+
+        setRounds(setNumberOfQuestions(grade));
+        questionsLeft = getRounds();
         attentionSpan = 5;
         toilet = false;
 
@@ -34,53 +41,57 @@ public class LessonTypeA extends Lesson {
         if (id == 0 ) {
             lv1 = 0.2;
             lv2 = 0.7;
-        }
-        else {
+        } else {
             lv1 = 0.3;
             lv2 = 0.6;
         }
 
-        GAME.menu = new Menu(8);
-
+        GAME.setMenu(new Menu(8));
     }
+
+    public int getAttentionSpan() { return attentionSpan; }
+
+    public int getConcentration() { return concentration; }
+
+    public int getQuestionsLeft() { return questionsLeft; }
 
     public void doAction(int action) {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (action) {
             case 0:
-                score += answer(concentration, questionId);
+                setScore(getScore() + answer(concentration, questionId));
                 questionsLeft--;
                 concentration = startingConcentration;
                 questionId = generateQuestion(id, lv1, lv2);
                 if (questionsLeft == 0) {
-                    finished = true;
-                    GAME.player.emotion = null;
-                    feedbackText = FileReader.lessonStrings[5] + FileReader.lessonStrings[6] + (int)((score / rounds) * 100) + "!";
+                    setFinished();
+                    GAME.getPlayer().setEmotion(null);
+                    setFeedbackText(FileReader.getLessonString(5) + FileReader.getLessonString(6) + (int)((getScore() / getRounds()) * 100) + "!");
                 }
                 break;
             case 1:
                 if (attentionSpan > 0) {
                     attentionSpan--;
                     concentration++;
-                    feedbackText = FileReader.lessonStrings[7];
+                    setFeedbackText(FileReader.getLessonString(7));
                 }
                 else {
-                    feedbackText = FileReader.lessonStrings[8];
-                    GAME.player.emotion = new Emotion(3);
+                    setFeedbackText(FileReader.getLessonString(8));
+                    GAME.getPlayer().setEmotion(new Emotion(3));
                 }
                 break;
             case 2:
-                if (GAME.items[0][0] > 0) {
+                if (GAME.hasEnergyDrink()) {
                     GameAudio.playSfx(GameAudio.sfx_buff);
                     attentionSpan++;
                     concentration++;
-                    GAME.items[0][0]--;
-                    feedbackText = FileReader.lessonStrings[9] + FileReader.lessonStrings[10];
-                    GAME.player.emotion = new Emotion(5);
+                    GAME.drinkEnergyDrink();
+                    setFeedbackText(FileReader.getLessonString(9) + FileReader.getLessonString(10));
+                    GAME.getPlayer().setEmotion(new Emotion(5));
                 }
                 else {
-                    feedbackText = FileReader.lessonStrings[11];
-                    GAME.player.emotion = new Emotion(6);
+                    setFeedbackText(FileReader.getLessonString(11));
+                    GAME.getPlayer().setEmotion(new Emotion(6));
                 }
                 break;
             case 3:
@@ -91,68 +102,68 @@ public class LessonTypeA extends Lesson {
                     toilet = true;
                     questionId = generateQuestion(id, lv1, lv2);
                     questionsLeft--;
-                    feedbackText = FileReader.lessonStrings[12];
-                    GAME.player.emotion = new Emotion(5);
+                    setFeedbackText(FileReader.getLessonString(12));
+                    GAME.getPlayer().setEmotion(new Emotion(5));
                 }
                 else if (toilet){
-                    feedbackText = FileReader.lessonStrings[13];
-                    GAME.player.emotion = new Emotion(6);
+                    setFeedbackText(FileReader.getLessonString(13));
+                    GAME.getPlayer().setEmotion(new Emotion(6));
                 }
                 else {
-                    feedbackText = FileReader.lessonStrings[14];
-                    GAME.player.emotion = new Emotion(6);
+                    setFeedbackText(FileReader.getLessonString(14));
+                    GAME.getPlayer().setEmotion(new Emotion(6));
                 }
                 break;
             case 4:
-                rules = true;
+                setRules(true);
                 return;
         }
-        feedback = true;
+        setFeedback(true);
     }
 
-    public double answer(int concentration, int questionId) {
+    private double answer(int concentration, int questionId) {
         switch (questionId) {
             case 0:
                 if (concentration > 0) {
-                    feedbackText = FileReader.lessonStrings[15];
-                    GAME.player.emotion = new Emotion(2);
+                    setFeedbackText(FileReader.getLessonString(15));
+                    GAME.getPlayer().setEmotion(new Emotion(2));
                     return 1;
                 }
                 else {
-                    feedbackText = FileReader.lessonStrings[17];
-                    GAME.player.emotion = new Emotion(7);
+                    setFeedbackText(FileReader.getLessonString(17));
+                    GAME.getPlayer().setEmotion(new Emotion(7));
                     return 0;
                 }
             case 1:
                 if (concentration == 2) {
-                    feedbackText = FileReader.lessonStrings[16];
-                    GAME.player.emotion = new Emotion(5);
+                    setFeedbackText(FileReader.getLessonString(16));
+                    GAME.getPlayer().setEmotion(new Emotion(5));
                     return 0.5;
                 }
                 else if (concentration > 2) {
-                    feedbackText = FileReader.lessonStrings[15];
-                    GAME.player.emotion = new Emotion(2);
+                    setFeedbackText(FileReader.getLessonString(15));
+                    GAME.getPlayer().setEmotion(new Emotion(2));
                     return 1;
                 }
                 else {
-                    feedbackText = FileReader.lessonStrings[17];
-                    GAME.player.emotion = new Emotion(7);
+                    setFeedbackText(FileReader.getLessonString(17));
+                    GAME.getPlayer().setEmotion(new Emotion(7));
                     return 0;
                 }
             case 2:
                 if (concentration == 3) {
-                    feedbackText = FileReader.lessonStrings[16];
-                    GAME.player.emotion = new Emotion(5);
+                    setFeedbackText(FileReader.getLessonString(16));
+                    GAME.getPlayer().setEmotion(new Emotion(5));
                     return 0.5;
                 }
                 else if (concentration > 3) {
-                    feedbackText = FileReader.lessonStrings[15];
-                    GAME.player.emotion = new Emotion(2);
+                    setFeedbackText(FileReader.getLessonString(15));
+                    GAME.getPlayer().setEmotion(new Emotion(2));
                     return 1;
                 }
                 else {
-                    feedbackText = FileReader.lessonStrings[17];
-                    GAME.player.emotion = new Emotion(7);
+                    setFeedbackText(FileReader.getLessonString(17));
+                    GAME.getPlayer().setEmotion(new Emotion(7));
                     return 0;
                 }
         }

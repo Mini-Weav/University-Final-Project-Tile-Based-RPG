@@ -10,25 +10,34 @@ import utilities.TileMapLoader;
 import static game.Game.GAME;
 
 /**
- * Created by Luke on 22/01/2018.
+ * 22/01/2018.
  */
 public class Activity {
-    public int id;
-    public String duringText, afterText;
-    public boolean started;
+    private int id;
+    private boolean started;
+    private String duringText;
+    private String afterText;
 
-    public Activity(int id) {
+    private Activity(int id) {
         this.id = id;
 
-        if (id == 1 && GAME.gradeValues[3] >= 30 && GAME.items[0][1] == 0 && !GAME.hasQuestions()) {
-            duringText = FileReader.activityStrings[6];
-            GAME.items[0][1] = 1;
+        if (id == 1 && GAME.getGradeValue(3) > 29 && !GAME.hasStinkBomb() && !GAME.hasQuestions()) {
+            duringText = FileReader.getActivityString(6);
+            GAME.giveStinkBomb();
             GameAudio.playSfx(GameAudio.sfx_item);
         }
-        else { duringText = FileReader.activityStrings[id]; }
-        afterText = FileReader.activityStrings[id + 3];
+        else { duringText = FileReader.getActivityString(id); }
+        afterText = FileReader.getActivityString(id + 3);
         started = false;
     }
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public void setStarted(boolean started) { this.started = started; }
+
+    String getAfterText() { return afterText; }
+    public boolean isStarted() { return started; }
 
     public static void startActivity(int id) {
         int activityId;
@@ -45,19 +54,23 @@ public class Activity {
             default:
                 return;
         }
-        TileMap currentMap = TileMapLoader.tileMaps.get(GAME.map.currentId);
-        try { for (NPC npc : currentMap.NPCs.get(GAME.time)) { npc.reset(); } }
-        catch (NullPointerException e) {}
-        GAME.time = 9;
-        for (NPC npc : currentMap.NPCs.get(9)) { if (npc.id == id) { npc.emotion = new Emotion(2); }}
-        GAME.player.emotion = new Emotion(2);
-        GAME.activity = new Activity(activityId);
-        GAME.menu = null;
-        GAME.textBox = new TextBox(0, GAME.activity.duringText);
+        TileMap currentMap = TileMapLoader.tileMaps.get(GAME.getMapId());
+        try {
+            for (int i = 0; i < currentMap.getNumberOfNPCs(GAME.getTime()); i++) {
+                NPC npc = currentMap.getNPCs(GAME.getTime()).get(i);
+                npc.reset();
+            }
+        } catch (NullPointerException e) { /* Do nothing */ }
+        GAME.setTime(9);
+        for (int i = 0; i < currentMap.getNumberOfNPCs(9); i++) {
+            NPC npc = currentMap.getNPCs(9).get(i);
+            npc.setEmotion(new Emotion(2));
+        }
+        GAME.getPlayer().setEmotion(new Emotion(2));
+        GAME.setActivity(new Activity(activityId));
+        GAME.setMenu(null);
+        GAME.setTextBox(new TextBox(0, GAME.getActivity().duringText));
     }
 
-    public void finish() {
-        GAME.isAfterActivity = true;
-    }
-
+    void finish() { GAME.setAfterActivity(true); }
 }

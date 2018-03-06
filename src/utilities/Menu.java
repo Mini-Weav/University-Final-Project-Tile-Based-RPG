@@ -11,19 +11,30 @@ import java.io.IOException;
 import static game.Game.GAME;
 
 /**
- * Created by lmweav on 03/11/2017.
+ * 03/11/2017.
  */
 public class Menu {
-    public int currentId;
-    public boolean blink, visible;
-    public static Point iconPoint;
-    public static int minimapId, tick = 0;
-    public static String text, friendText, gradeText;
-    public static BufferedImage[] imgs, mapImgs, friendImgs, gradeImgs;
-    public static BufferedImage img, mapImg, iconImg, friendImg, gradeImg, titleImg;
+    private static int minimapId;
+    private static int tick = 0;
+    private static String text;
+    private static String friendText;
+    private static String gradeText;
+    private static Point iconPoint;
+    private static BufferedImage img;
+    private static BufferedImage mapImg;
+    private static BufferedImage iconImg;
+    private static BufferedImage friendImg;
+    private static BufferedImage gradeImg;
+    private static BufferedImage titleImg;
 
+    private static BufferedImage[] imgs;
+    private static BufferedImage[] mapImgs;
+    private static BufferedImage[] friendImgs;
+    private static BufferedImage[] gradeImgs;
 
-
+    private int currentId;
+    private boolean blink;
+    private boolean visible;
 
     public Menu(int id) {
         this.currentId = id;
@@ -38,72 +49,83 @@ public class Menu {
         switch (id) {
             case 0:
                 img = imgs[10];
-                text = FileReader.menuStrings[0];
+                text = FileReader.getMenuString(0);
                 break;
             case 1:
                 img = imgs[1];
-                loadMapImage(GAME.map.minimapId);
-                text = FileReader.menuStrings[1];
+                loadMapImage(GAME.getMiniMapId());
+                text = FileReader.getMenuString(1);
                 break;
             case 2:
                 img = imgs[2];
-                text = FileReader.menuStrings[2];
+                text = FileReader.getMenuString(2);
                 break;
             case 3:
             case 15:
                 img = imgs[2];
-                text = FileReader.menuStrings[3];
+                text = FileReader.getMenuString(3);
                 break;
             case 4:
                 img = imgs[3];
-                text =    FileReader.menuStrings[4] + GAME.items[0][0] + FileReader.menuStrings[5] + GAME.items[0][1] +
-                        FileReader.menuStrings[6] + GAME.items[1][0] + FileReader.menuStrings[7] + GAME.items[1][1] +
-                        FileReader.menuStrings[8] + GAME.items[1][2] + FileReader.menuStrings[9] + GAME.items[1][3] +
-                        FileReader.menuStrings[10] + GAME.items[2][0] + FileReader.menuStrings[11] + GAME.items[2][1] +
-                        FileReader.menuStrings[12] + GAME.items[2][2] + FileReader.menuStrings[13] + GAME.items[2][3];
+                text =  FileReader.getMenuString(4) + GAME.getItem(0, 0) +
+                        FileReader.getMenuString(5) + GAME.getItem(0, 1) +
+                        FileReader.getMenuString(6) + GAME.getItem(1, 0) +
+                        FileReader.getMenuString(7) + GAME.getItem(1, 1) +
+                        FileReader.getMenuString(8) + GAME.getItem(1, 2) +
+                        FileReader.getMenuString(9) + GAME.getItem(1, 3) +
+                        FileReader.getMenuString(10) + GAME.getItem(2, 0) +
+                        FileReader.getMenuString(11) + GAME.getItem(2, 1) +
+                        FileReader.getMenuString(12) + GAME.getItem(2, 2) +
+                        FileReader.getMenuString(13) + GAME.getItem(2, 3);
                 break;
             case 5:
             case 13:
             case 14:
             case 17:
                 img = imgs[1];
-                text = FileReader.menuStrings[14];
+                text = FileReader.getMenuString(14);
                 break;
             case 6:
                 img = imgs[5];
-                text =    FileReader.menuStrings[15] + GAME.items[2][0] + FileReader.menuStrings[11] + GAME.items[2][1] +
-                        FileReader.menuStrings[12] + GAME.items[2][2] + FileReader.menuStrings[17];
+                text =  FileReader.getMenuString(15) + GAME.getItem(2, 0) +
+                        FileReader.getMenuString(11) + GAME.getItem(2, 1) +
+                        FileReader.getMenuString(12) + GAME.getItem(2, 2) +
+                        FileReader.getMenuString(17);
                 break;
             case 7:
                 img = imgs[5];
-                text =    FileReader.menuStrings[16] + GAME.items[1][0] + FileReader.menuStrings[7] + GAME.items[1][1] +
-                        FileReader.menuStrings[8] + GAME.items[1][2] + FileReader.menuStrings[17];
+                text =  FileReader.getMenuString(16) + GAME.getItem(1, 0) +
+                        FileReader.getMenuString(7) + GAME.getItem(1, 1) +
+                        FileReader.getMenuString(8) + GAME.getItem(1, 1) +
+                        FileReader.getMenuString(17);
                 break;
             case 8:
                 img = imgs[8];
-                text = FileReader.menuStrings[18];
+                text = FileReader.getMenuString(18);
                 break;
             case 9:
                 img = imgs[0];
-                text = FileReader.menuStrings[19];
+                text = FileReader.getMenuString(19);
                 break;
             case 10:
                 img = imgs[0];
-                text = FileReader.menuStrings[20];
+                text = FileReader.getMenuString(20);
                 break;
             case 11:
                 img = imgs[10];
-                text = FileReader.menuStrings[21];
+                text = FileReader.getMenuString(21);
                 break;
             case 12:
                 img = imgs[9];
-                text = FileReader.menuStrings[22];
+                text = FileReader.getMenuString(22);
                 break;
             case 16:
                 img = imgs[4];
-                text =    FileReader.menuStrings[15] + GAME.items[2][0] + FileReader.menuStrings[11] + GAME.items[2][1] +
-                        FileReader.menuStrings[12] + GAME.items[2][2] + FileReader.menuStrings[13] + GAME.items[2][3] +
-                        FileReader.menuStrings[17];
+                text =  FileReader.getMenuString(15) + GAME.getItem(2, 0) +
+                        FileReader.getMenuString(11) + GAME.getItem(2, 1) +
+                        FileReader.getMenuString(12) + GAME.getItem(2, 2) +
+                        FileReader.getMenuString(13) + GAME.getItem(2, 3) +
+                        FileReader.getMenuString(17);
         }
     }
 
@@ -133,19 +155,19 @@ public class Menu {
         GameAudio.playSfx(GameAudio.sfx_click);
         switch (id) {
             case 0:
-                gradeText = FileReader.menuStrings[23];
+                gradeText = FileReader.getMenuString(23);
                 break;
             case 1:
-                gradeText = FileReader.menuStrings[24];
+                gradeText = FileReader.getMenuString(24);
                 break;
             case 2:
-                gradeText = FileReader.menuStrings[25];
+                gradeText = FileReader.getMenuString(25);
                 break;
             case 3:
-                gradeText = FileReader.menuStrings[26];
+                gradeText = FileReader.getMenuString(26);
                 break;
             case 4:
-                gradeText = FileReader.menuStrings[27];
+                gradeText = FileReader.getMenuString(27);
                 break;
         }
 
@@ -153,16 +175,16 @@ public class Menu {
 
     }
 
-    public static void setFriendValue(int index) {
-        int fp = GAME.friendValues[index];
-        if (fp == 0) { friendText = FileReader.menuStrings[28]; }
-        if (fp > 0) { friendText = FileReader.menuStrings[29]; }
-        if (fp > 10) { friendText = FileReader.menuStrings[30]; }
-        if (fp > 20) { friendText = FileReader.menuStrings[31]; }
+    private static void setFriendValue(int index) {
+        int fp = GAME.getFriendValue(index);
+        if (fp == 0) { friendText = FileReader.getMenuString(28); }
+        if (fp > 0) { friendText = FileReader.getMenuString(29); }
+        if (fp > 10) { friendText = FileReader.getMenuString(30); }
+        if (fp > 20) { friendText = FileReader.getMenuString(31); }
     }
 
-    public static void setGradeValue(int index) {
-        int gp = GAME.gradeValues[index];
+    private static void setGradeValue(int index) {
+        int gp = GAME.getGradeValue(index);
         if (gp >= 0) { gradeImg = gradeImgs[0]; }
         if (gp > 9) { gradeImg = gradeImgs[1]; }
         if (gp > 19) { gradeImg = gradeImgs[2]; }
@@ -206,7 +228,19 @@ public class Menu {
 
     }
 
-    public void paintSubMenu(Graphics g, int id) {
+    public static void setIconPoint(Point iconPoint) { Menu.iconPoint = iconPoint; }
+
+    static BufferedImage getTitleImg() { return titleImg; }
+
+    static BufferedImage getImg(int index) { return imgs[index]; }
+
+    public int getCurrentId() { return currentId; }
+
+    public boolean isVisible() { return visible; }
+
+    public void setVisible(boolean visible) { this.visible = visible; }
+
+    private void paintSubMenu(Graphics g, int id) {
         BufferedImage subImg;
         String subText;
         if (id == 0) {
@@ -218,34 +252,32 @@ public class Menu {
             subText = gradeText;
         }
         try {
-            int subX = Game.width - ((int)((img.getWidth() + subImg.getWidth()) * 2.3));
+            int subX = Game.getWidth() - ((int)((img.getWidth() + subImg.getWidth()) * 2.3));
             g.drawImage(subImg, subX, 16, (int) (subImg.getWidth() * 2.3), (int) (subImg.getHeight() * 2.3), null);
 
-            g.setFont(GameFont.smallFont);
-            int textWidth = g.getFontMetrics(GameFont.tinyFont).stringWidth(subText);
+            g.setFont(GameFont.getSmallFont());
+            int textWidth = g.getFontMetrics(GameFont.getTinyFont()).stringWidth(subText);
             g.drawString(subText, subX + ((int) (subImg.getWidth() * 1.1) - textWidth / 2), 188);
-        } catch (NullPointerException e) {
-            //No image
-        }
+        } catch (NullPointerException e) { /* No image */ }
     }
 
     public static void hotKeyAccess(int id) {
-        if (GAME.textBox == null) {
+        if (GAME.getTextBox() == null) {
             GameAudio.playSfx(GameAudio.sfx_menu);
-            if (GAME.menu == null) { GAME.menu = new Menu(id); }
-            else if (GAME.menu.currentId != id) { GAME.menu = new Menu(id); }
-            else  { GAME.menu = null; }
+            if (GAME.getMenu() == null) { GAME.setMenu(new Menu(id)); }
+            else if (GAME.getMenu().currentId != id) { GAME.setMenu(new Menu(id)); }
+            else  { GAME.setMenu(null); }
         }
     }
 
     public void paintComponent(Graphics g) {
         g.setColor(Color.black);
-        g.drawImage(img, Game.width - ((img.getWidth() * 2) + 16), 16,
+        g.drawImage(img, Game.getWidth() - ((img.getWidth() * 2) + 16), 16,
                 img.getWidth() * 2, img.getHeight() * 2, null);
-        g.setFont(GameFont.bigFont);
+        g.setFont(GameFont.getBigFont());
         int lineIndex = 0;
         for (String line : text.split("#")) {
-            g.drawString(line, Game.width - ((img.getWidth() * 2)), 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
+            g.drawString(line, Game.getWidth() - ((img.getWidth() * 2)), 48 + (g.getFontMetrics().getHeight() + 16) * lineIndex);
             lineIndex++;
         }
         switch (currentId) {
@@ -255,10 +287,10 @@ public class Menu {
                     blink = !blink;
                     tick = 0;
                 }
-                int mapX = (Game.width - (mapImg.getWidth() * 2)) / 2;
-                int mapY = (Game.height - (mapImg.getHeight() * 2)) / 2;
+                int mapX = (Game.getWidth() - (mapImg.getWidth() * 2)) / 2;
+                int mapY = (Game.getHeight() - (mapImg.getHeight() * 2)) / 2;
                 g.drawImage(mapImg, mapX, mapY, mapImg.getWidth() * 2, mapImg.getHeight() * 2, null);
-                if (blink && minimapId == GAME.map.minimapId) {
+                if (blink && minimapId == GAME.getMiniMapId()) {
                     g.drawImage(iconImg, mapX + Menu.iconPoint.x, mapY + Menu.iconPoint.y, iconImg.getWidth() * 2, iconImg.getHeight()* 2, null);
                 }
                 break;
@@ -269,7 +301,5 @@ public class Menu {
                 paintSubMenu(g, 1);
                 break;
         }
-
     }
-
 }

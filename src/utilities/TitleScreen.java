@@ -1,6 +1,5 @@
 package utilities;
 
-import game.Constants;
 import game.Game;
 
 import javax.swing.*;
@@ -12,21 +11,27 @@ import java.awt.event.MouseMotionListener;
 import static game.Game.GAME;
 
 /**
- * Created by Luke on 15/12/2017.
+ * 15/12/2017.
  */
 public class TitleScreen extends JComponent implements MouseListener, MouseMotionListener {
-    Menu menu;
-    public TextBox textBox;
+    private Menu menu;
+    private TextBox textBox;
 
     public TitleScreen() {
         menu = new Menu(12);
-        textBox = new TextBox(0, FileReader.menuStrings[63]);
+        textBox = new TextBox(0, FileReader.getMenuString(63));
         addMouseListener(this);
         addMouseMotionListener(this);
     }
 
+    public Menu getMenu() { return menu; }
+
+    public void setMenu(Menu menu) { this.menu = menu; }
+
+    public void setTextBox(TextBox textBox) { this.textBox = textBox; }
+
     public void paintComponent(Graphics g) {
-        g.drawImage(Menu.titleImg, 0, 0, null);
+        g.drawImage(Menu.getTitleImg(), 0, 0, null);
         menu.paintComponent(g);
         textBox.paintComponent(g);
     }
@@ -40,15 +45,15 @@ public class TitleScreen extends JComponent implements MouseListener, MouseMotio
         int curY = e.getY();
 
         if (e.getButton() == MouseEvent.BUTTON1) {
-            if (curX > Game.width - 164 && curX < Game.width - 36 && curY > 32 && curY < 48) {
+            if (curX > Game.getWidth() - 164 && curX < Game.getWidth() - 36 && curY > 32 && curY < 48) {
                 GameAudio.playSfx(GameAudio.sfx_click);
                 GAME.newGame();
             }
-            if (curX > Game.width - 164 && curX < Game.width - 36 && curY > 64 && curY < 80) {
+            if (curX > Game.getWidth() - 164 && curX < Game.getWidth() - 36 && curY > 64 && curY < 80) {
                 GameAudio.playSfx(GameAudio.sfx_click);
                 GAME.load();
             }
-            if (curX > Game.width - 164 && curX < Game.width - 100 && curY > 96 && curY < 116) { System.exit(0); }
+            if (curX > Game.getWidth() - 164 && curX < Game.getWidth() - 100 && curY > 96 && curY < 116) { Game.setRunning(false); }
         }
     }
 
@@ -59,17 +64,15 @@ public class TitleScreen extends JComponent implements MouseListener, MouseMotio
             int curX = e.getX();
             int curY = e.getY();
 
-            click = curX > Game.width - 164 && curX < Game.width - 36 && curY > 32 && curY < 48 ||
-                    curX > Game.width - 164 && curX < Game.width - 36 && curY > 64 && curY < 80 ||
-                    curX > Game.width - 164 && curX < Game.width - 100 && curY > 96 && curY < 116;
+            click = curX > Game.getWidth() - 164 && curX < Game.getWidth() - 36 && curY > 32 && curY < 48 ||
+                    curX > Game.getWidth() - 164 && curX < Game.getWidth() - 36 && curY > 64 && curY < 80 ||
+                    curX > Game.getWidth() - 164 && curX < Game.getWidth() - 100 && curY > 96 && curY < 116;
 
-        } catch (NullPointerException e1) {
-            //out of frame
-        }
+        } catch (NullPointerException e1) { /* Mouse is out of frame */ }
 
         if (click) { this.setCursor(new Cursor(Cursor.HAND_CURSOR)); }
         else { this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); }
     }
 
-    public Dimension getPreferredSize() { return new Dimension(Game.width, Game.height); }
+    public Dimension getPreferredSize() { return new Dimension(Game.getWidth(), Game.getHeight()); }
 }

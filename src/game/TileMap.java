@@ -14,29 +14,60 @@ import java.util.List;
 import java.io.File;
 import java.util.*;
 
+import static game.Game.GAME;
+
 /**
- * Created by lmweav on 02/11/2017.
+ * 02/11/2017.
  */
 public class TileMap {
-    public int id, tileSetID, minimapId;
-    public File txtFile;
-    public String tileFile;
-    public TreeMap<Character, Tile> tiles;
-    public HashMap<Point, Pair<Integer, Point>> doorPoints;
-    public HashMap<Point, TextBox> interactivePoints;
-    public Point iconPoint;
-    public Map<Integer, List<NPC>> NPCs;
+    private int id;
+    private int miniMapId;
+    private File txtFile;
+    private Point iconPoint;
 
-    public TileMap(int id, int tileSetID, String txtFile, String tileFile, int minimapId, int x, int y) {
+    private TreeMap<Character, Tile> tiles;
+    private TreeMap<Integer, List<NPC>> NPCs;
+    private HashMap<Point, Pair<Integer, Point>> doorPoints;
+    private HashMap<Point, TextBox> interactivePoints;
+
+    public TileMap(int id, int tileSetID, String txtFile, String tileFile, int miniMapId, int x, int y) {
         this.id = id;
-        this.tileSetID = tileSetID;
         this.txtFile = new File("resources/maps/"+txtFile+".txt");
-        this.tileFile = "resources/tilesets/"+tileFile+".png";
-        tiles = TileMapLoader.readTileSet(this.tileSetID, this.tileFile);
+        String tileFile1 = "resources/tilesets/" + tileFile + ".png";
+        tiles = TileMapLoader.readTileSet(tileSetID, tileFile1);
         doorPoints = DoorTile.initialisePoints(id);
         interactivePoints = InteractiveTile.initialisePoints(id);
-        this.minimapId = minimapId;
+        this.miniMapId = miniMapId;
         iconPoint = new Point(x, y);
-        NPCs = NPCLoader.NPCs.get(id);
+        NPCs = NPCLoader.getNPCs(id);
+    }
+
+    public int getId() { return id; }
+
+    int getMiniMapId() { return miniMapId; }
+
+    File getTxtFile() { return txtFile; }
+
+    Point getIconPoint() { return iconPoint; }
+
+    TreeMap<Character, Tile> copyTiles() { return new TreeMap<>(tiles); }
+    Tile getTile(Character key) { return tiles.get(key); }
+    void putTile(Character key, Tile tile) { tiles.put(key, tile); }
+
+    public List<NPC> getNPCs(Integer key) { return NPCs.get(key); }
+    public int getNumberOfNPCs(Integer key) { return NPCs.get(key).size(); }
+
+    public Pair<Integer, Point> getDoorPoint(Point key) { return doorPoints.get(key); }
+
+    TextBox getInteractivePoint(Point key) { return interactivePoints.get(key); }
+    void putPoint(Point key, TextBox textBox) { interactivePoints.put(key, textBox); }
+
+    public void resetNPCs() {
+        try {
+            for (int i = 0; i < getNumberOfNPCs(GAME.getTime()); i++) {
+                NPC npc = getNPCs(GAME.getTime()).get(i);
+                npc.reset();
+            }
+        } catch (NullPointerException e) { /* Do nothing */ }
     }
 }
