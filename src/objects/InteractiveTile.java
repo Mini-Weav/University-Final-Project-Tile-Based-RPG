@@ -38,7 +38,7 @@ public class InteractiveTile extends Tile {
         HashMap<Point, TextBox> points = new HashMap<>();
 
         switch (mapID) {
-            /*School Hall G*/
+            /* School Hall G */
             case 0:
                 points.put(new Point(11, 1), new TextBox(0, FileReader.getInteractiveString(3)));
                 points.put(new Point(4, 5), new TextBox(0, FileReader.getInteractiveString(4)));
@@ -47,7 +47,7 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(6, 17), new TextBox(0, FileReader.getInteractiveString(7)));
                 points.put(new Point(16, 17), new TextBox(0, FileReader.getInteractiveString(7)));
                 break;
-            /*School Hall 1F*/
+            /* School Hall 1F */
             case 1:
                 points.put(new Point(11, 1), new TextBox(0, FileReader.getInteractiveString(8)));
                 points.put(new Point(2, 1), new TextBox(0, FileReader.getInteractiveString(9)));
@@ -61,7 +61,7 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(5, 10), new TextBox(0, FileReader.getInteractiveString(10)));
                 points.put(new Point(16, 10), new TextBox(0, FileReader.getInteractiveString(11)));
                 break;
-            /*Design Tech Classroom*/
+            /* Design Tech Classroom */
             case 2:
                 points.put(new Point(2, 2), new TextBox(0, FileReader.getInteractiveString(12)));
                 points.put(new Point(3, 2), new TextBox(0, FileReader.getInteractiveString(12)));
@@ -79,7 +79,7 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(15, 2), new TextBox(0, FileReader.getInteractiveString(14)));
                 points.put(new Point(16, 2), new TextBox(0, FileReader.getInteractiveString(14)));
                 break;
-            /*Food Tech Classroom*/
+            /* Food Tech Classroom */
             case 3:
                 points.put(new Point(1, 2), new TextBox(0, FileReader.getInteractiveString(15)));
                 points.put(new Point(2, 2), new TextBox(0, FileReader.getInteractiveString(15)));
@@ -101,7 +101,7 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(13, 8), new TextBox(0, FileReader.getInteractiveString(18)));
                 points.put(new Point(14, 8), new TextBox(0, FileReader.getInteractiveString(18)));
                 break;
-            /*1F Classrooms*/
+            /* 1F Classrooms */
             case 4:
                 points.put(new Point(1, 2), new TextBox(0, FileReader.getInteractiveString(19)));
                 points.put(new Point(2, 2), new TextBox(0, FileReader.getInteractiveString(19)));
@@ -128,14 +128,14 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(16, 6), new TextBox(0, FileReader.getInteractiveString(22)));
                 points.put(new Point(17, 6), new TextBox(0, FileReader.getInteractiveString(22)));
                 break;
-            /*Canteen*/
+            /* Canteen */
             case 5:
                 break;
-            /*Yard*/
+            /* Yard */
             case 6:
                 points.put(new Point(26, 22), new TextBox(7, FileReader.getInteractiveString(2)));
                 break;
-            /*Bedroom*/
+            /* Bedroom */
             case 7:
                 points.put(new Point(1, 2), new TextBox(3, FileReader.getInteractiveString(23)));
                 points.put(new Point(3, 3), new TextBox(3, FileReader.getInteractiveString(24)));
@@ -144,6 +144,7 @@ public class InteractiveTile extends Tile {
                 points.put(new Point(4, 2), new TextBox(0, FileReader.getInteractiveString(26)));
                 points.put(new Point(6, 1), new TextBox(0, FileReader.getInteractiveString(27)));
                 break;
+            /* Staffroom */
             case 8:
                 points.put(new Point(5, 1), new TextBox(0, FileReader.getInteractiveString(28)));
                 points.put(new Point(6, 2), new TextBox(3, FileReader.getInteractiveString(29)));

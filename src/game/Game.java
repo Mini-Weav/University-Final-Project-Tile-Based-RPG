@@ -39,6 +39,7 @@ public class Game implements Serializable {
     private int examsLeft = 5;
     private int playerX;
     private int playerY;
+    private int playerCondition;
     private int mapId;
     private long transitionTime;
     private boolean isTransition;
@@ -340,7 +341,10 @@ public class Game implements Serializable {
                 menu.setVisible(false);
                 textBox = new TextBox(0, GAME.exam.getFeedbackText());
             } else if (exam.isRules()) { textBox = exam.showRules(); }
-            else { exam.checkFinish(); }
+            else {
+                exam.checkFinish();
+                if (exam == null) { return; }
+            }
         }
         else {
             statusMenu.setCurrentId(0);
@@ -599,6 +603,7 @@ public class Game implements Serializable {
 
         assert Player.TILES != null;
         player = new Player(Player.TILES.get(0), data.playerX, data.playerY, ctrl);
+        player.setCondition(data.playerCondition);
 
         items = data.items;
         map = new TileMapView(TileMapLoader.tileMaps.get(data.mapId));
@@ -649,6 +654,7 @@ public class Game implements Serializable {
         GameAudio.playSfx(GameAudio.sfx_click);
         playerX = player.getX();
         playerY = player.getY();
+        playerCondition = player.getCondition();
         mapId = map.getCurrentId();
         menu = null;
         try {
@@ -692,8 +698,6 @@ public class Game implements Serializable {
         FileReader.readFiles();
         TextBox.loadImages();
         Menu.loadImages();
-        NPCLoader.loadNPCs();
-        TileMapLoader.loadMaps();
         GameFont.loadFont();
 
         GAME.titleScreen = new TitleScreen();
@@ -703,6 +707,8 @@ public class Game implements Serializable {
         conditions = FileReader.getConditionStrings();
 
         while (true) {
+            NPCLoader.loadNPCs();
+            TileMapLoader.loadMaps();
             GameAudio.startMusic(GameAudio.music_title);
 
             while (GAME.isTitle) {

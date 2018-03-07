@@ -146,7 +146,7 @@ public class Menu {
                 img = imgs[5];
                 text =  FileReader.getMenuString(16) + GAME.getItem(1, 0) +
                         FileReader.getMenuString(7) + GAME.getItem(1, 1) +
-                        FileReader.getMenuString(8) + GAME.getItem(1, 1) +
+                        FileReader.getMenuString(8) + GAME.getItem(1, 2) +
                         FileReader.getMenuString(17);
                 break;
             case 8:

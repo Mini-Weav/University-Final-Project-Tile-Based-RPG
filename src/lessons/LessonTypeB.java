@@ -28,12 +28,12 @@ public class LessonTypeB extends Lesson {
 
         this.id = id;
 
-        if (GAME.getPlayer().getCondition() == 1) { grade++; }
-        if (GAME.getPlayer().getCondition() == 2 && grade > 1) { grade--; }
-
         setRounds(setNumberOfQuestions(grade));
         tasksLeft = getRounds();
         timeLeft = 60;
+
+        if (GAME.getPlayer().getCondition() == 1) { grade++; }
+        if (GAME.getPlayer().getCondition() == 2 && grade > 1) { grade--; }
 
         questionId = generateInstruction(grade);
 
@@ -210,6 +210,7 @@ public class LessonTypeB extends Lesson {
             case 5:
                 lv1 = 0.6;
                 lv2 = 1.0;
+                break;
         }
         return generateQuestion(3, lv1, lv2);
     }

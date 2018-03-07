@@ -32,7 +32,7 @@ public class DoorTile extends Tile {
 
         switch (mapID) {
 
-            /*School Hall G*/
+            /* School Hall G */
             case 0:
                 points.put(new Point(10, 1), new Pair<>(6, new Point(30, 28)));
                 points.put(new Point(3, 5), new Pair<>(2, new Point(13, 9)));
@@ -43,7 +43,7 @@ public class DoorTile extends Tile {
                 points.put(new Point(15, 17), new Pair<>(5, new Point(22, 9)));
                 break;
 
-            /*School Hall 1F*/
+            /* School Hall 1F */
             case 1:
                 points.put(new Point(4, 10), new Pair<>(4, new Point(2, 8)));
                 points.put(new Point(9, 13), new Pair<>(0, new Point(9, 18)));
@@ -53,19 +53,19 @@ public class DoorTile extends Tile {
                 points.put(new Point(10, 1), new Pair<>(8, new Point(15, 16)));
                 break;
 
-            /*Design Tech Classroom*/
+            /* Design Tech Classroom */
             case 2:
                 points.put(new Point(12, 10), new Pair<>(0, new Point(3, 6)));
                 points.put(new Point(13, 10), new Pair<>(0, new Point(3, 6)));
                 break;
 
-            /*Food Tech Classroom*/
+            /* Food Tech Classroom */
             case 3:
                 points.put(new Point(5, 10), new Pair<>(0, new Point(17, 6)));
                 points.put(new Point(6, 10), new Pair<>(0, new Point(17, 6)));
                 break;
 
-            /*1F Classrooms*/
+            /* 1F Classrooms */
             case 4:
                 points.put(new Point(2, 9), new Pair<>(1, new Point(4, 11)));
                 points.put(new Point(3, 9), new Pair<>(1, new Point(4, 11)));
@@ -73,7 +73,7 @@ public class DoorTile extends Tile {
                 points.put(new Point(19, 9), new Pair<>(1, new Point(15, 11)));
                 break;
 
-            /*Canteen*/
+            /* Canteen */
             case 5:
                 points.put(new Point(3, 10), new Pair<>(0, new Point(5, 18)));
                 points.put(new Point(4, 10), new Pair<>(0, new Point(5, 18)));
@@ -81,13 +81,13 @@ public class DoorTile extends Tile {
                 points.put(new Point(22, 10), new Pair<>(0, new Point(15, 18)));
                 break;
 
-            /*Yard*/
+            /* Yard */
             case 6:
                 points.put(new Point(30, 29), new Pair<>(0, new Point(10, 2)));
                 points.put(new Point(31, 29), new Pair<>(0, new Point(10, 2)));
                 break;
 
-            /*Staffroom*/
+            /* Staffroom */
             case 8:
                 points.put(new Point(14, 17), new Pair<>(1, new Point(9, 2)));
                 points.put(new Point(15, 17), new Pair<>(1, new Point(10, 2)));

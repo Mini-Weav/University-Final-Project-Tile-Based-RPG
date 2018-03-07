@@ -187,12 +187,7 @@ public class Player extends GameObject {
         Point doorPoint = TileMapLoader.tileMaps.get(GAME.getMapId()).getDoorPoint(new Point(getX(), getY())).getV();
 
         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.getMapId());
-        try {
-            for (int i = 0; i < currentMap.getNumberOfNPCs(GAME.getTime()); i++) {
-                NPC npc = currentMap.getNPCs(GAME.getTime()).get(i);
-                npc.reset();
-            }
-        } catch (NullPointerException e) { /* Do nothing */ }
+        currentMap.resetNPCs();
         int nextId = currentMap.getDoorPoint(new Point(getX(), getY())).getK();
         GAME.loadMap(TileMapLoader.tileMaps.get(nextId));
 
