@@ -3,7 +3,6 @@ package utilities;
 import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CyclicBarrier;

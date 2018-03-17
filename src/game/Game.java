@@ -593,7 +593,7 @@ public class Game implements Serializable {
         Game data;
 
         try {
-            FileInputStream saveData = new FileInputStream("sav/game.ser");
+            FileInputStream saveData = new FileInputStream("resources/sav/game.ser");
             ObjectInputStream in = new ObjectInputStream(saveData);
             data = (Game) in.readObject();
             in.close();
@@ -663,7 +663,7 @@ public class Game implements Serializable {
         mapId = map.getCurrentId();
         menu = null;
         try {
-            FileOutputStream saveData = new FileOutputStream("sav/game.ser");
+            FileOutputStream saveData = new FileOutputStream("resources/sav/game.ser");
             ObjectOutputStream out = new ObjectOutputStream(saveData);
             out.writeObject(this);
             out.close();
