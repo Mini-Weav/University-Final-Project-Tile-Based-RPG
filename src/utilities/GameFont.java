@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * Manages the fonts used in the game.
@@ -30,7 +31,7 @@ public class GameFont {
     /**
      * Pre-loads all the fonts used in the game.
      */
-    public static void loadFont() {
+    public static void loadFont(CyclicBarrier barrier) {
         Map<TextAttribute, Integer> textAttibutes = new HashMap<>();
         textAttibutes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_TWO_PIXEL);
         try {
@@ -41,8 +42,9 @@ public class GameFont {
             medFont = new Font("Pokemon GB", 0, 14);
             smallFont = new Font("Pokemon GB", 0, 12);
             smallUnderline = new Font("Pokemon GB", 0, 12).deriveFont(textAttibutes);
-
-        } catch (IOException | FontFormatException e) {
+            System.out.println("font loaded");
+            barrier.await();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

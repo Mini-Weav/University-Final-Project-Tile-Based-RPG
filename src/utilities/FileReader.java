@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * Reads text files for all in-game text.
@@ -87,29 +89,35 @@ public class FileReader {
     /**
      * Reads all the text files used in the games and put the content into arrays.
      */
-    public static void readFiles() {
-        interactiveStrings = readFile("interactive_tiles");
-        npcStrings = readFile("npcs");
-        for (int i = 0; i < 3; i++) {
-            assert npcStrings != null;
-            jackStrings[i] = npcStrings[i];
-            emilyStrings[i] = npcStrings[i + 4];
-            alexanderStrings[i] = npcStrings[i + 8];
-            nathanStrings[i] = npcStrings[i + 12];
-            frankieStrings[i] = npcStrings[i + 16];
+    public static void readFiles(CyclicBarrier barrier) {
+        try {
+            interactiveStrings = readFile("interactive_tiles");
+            npcStrings = readFile("npcs");
+            for (int i = 0; i < 3; i++) {
+                assert npcStrings != null;
+                jackStrings[i] = npcStrings[i];
+                emilyStrings[i] = npcStrings[i + 4];
+                alexanderStrings[i] = npcStrings[i + 8];
+                nathanStrings[i] = npcStrings[i + 12];
+                frankieStrings[i] = npcStrings[i + 16];
+            }
+            for (int i = 0; i < 5; i++) {
+                boyStrings[i] = npcStrings[i + 20];
+                girlStrings[i] = npcStrings[i + 26];
+            }
+            emilyStrings[3] = npcStrings[37];
+            emilyStrings[4] = npcStrings[38];
+            System.arraycopy(npcStrings, 32, lunchStrings, 0, 3);
+            newDayStrings = readFile("new_day_feedback");
+            activityStrings = readFile("activities");
+            lessonStrings = readFile("lessons");
+            menuStrings = readFile("menu");
+            statusStrings = readFile("status");
+            resultStrings = readFile("results");
+            System.out.println("files loaded");
+            barrier.await();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        for (int i = 0; i < 5; i++) {
-            boyStrings[i] = npcStrings[i + 20];
-            girlStrings[i] = npcStrings[i + 26];
-        }
-        emilyStrings[3] = npcStrings[37];
-        emilyStrings[4] = npcStrings[38];
-        System.arraycopy(npcStrings, 32, lunchStrings, 0, 3);
-        newDayStrings = readFile("new_day_feedback");
-        activityStrings = readFile("activities");
-        lessonStrings = readFile("lessons");
-        menuStrings = readFile("menu");
-        statusStrings = readFile("status");
-        resultStrings = readFile("results");
     }
 }

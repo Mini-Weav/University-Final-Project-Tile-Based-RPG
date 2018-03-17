@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * Manages creating and rendering TextBox shell screens.
@@ -103,7 +104,7 @@ public class TextBox {
     /**
      * Pre-loads all the TextBox images used in the game.
      */
-    public static void loadImages() {
+    public static void loadImages(CyclicBarrier barrier) {
         try {
             imgs = new BufferedImage[5];
             imgs[0] = ImageIO.read(new File("resources/textboxes/textbox.png"));
@@ -117,8 +118,10 @@ public class TextBox {
             npcImgs[2] = ImageIO.read(new File("resources/friendImages/friend3.png"));
             npcImgs[3] = ImageIO.read(new File("resources/friendImages/friend4.png"));
             npcImgs[4] = ImageIO.read(new File("resources/friendImages/friend5.png"));
-        } catch (IOException e) {
-            System.out.println("Cannot find TextBox image.");
+            System.out.println("text boxes loaded");
+            barrier.await();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

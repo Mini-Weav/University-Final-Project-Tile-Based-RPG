@@ -7,6 +7,7 @@ import objects.*;
 import utilities.*;
 import utilities.FileReader;
 import utilities.Menu;
+import utilities.SplashScreen;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -14,6 +15,9 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Stores game data and runs the application
@@ -73,6 +77,7 @@ public class Game implements Serializable {
     private transient TileMapView map;
     private transient Camera camera;
     private transient TitleScreen titleScreen;
+    private transient SplashScreen splashScreen;
     private transient TextBox textBox;
     private transient Menu menu;
     private transient StatusMenu statusMenu;
@@ -287,7 +292,7 @@ public class Game implements Serializable {
 
     private void createFrame() {
         frame = new JFrame("Brooklands Academy");
-        frame.getContentPane().add(titleScreen);
+        frame.getContentPane().add(splashScreen);
         frame.setResizable(false);
         frame.setVisible(true);
         frame.pack();
@@ -694,21 +699,48 @@ public class Game implements Serializable {
     }
 
     public static void main(String[] args) throws Exception {
-        GameAudio.loadSounds();
-        FileReader.readFiles();
-        TextBox.loadImages();
-        Menu.loadImages();
-        GameFont.loadFont();
+        GAME.splashScreen = new SplashScreen();
+        GAME.createFrame();
+
+        CyclicBarrier barrier = new CyclicBarrier(6);
+        Thread soundThread = new Thread(() -> GameAudio.loadSounds(barrier));
+        Thread fileThread = new Thread(() -> FileReader.readFiles(barrier));
+        Thread textboxThread = new Thread(() -> TextBox.loadImages(barrier));
+        Thread menuThread = new Thread(() -> Menu.loadImages(barrier));
+        Thread fontThread = new Thread(() -> GameFont.loadFont(barrier));
+
+        ExecutorService e = Executors.newFixedThreadPool(6);
+
+        e.submit(soundThread);
+        e.submit(fileThread);
+        e.submit(textboxThread);
+        e.submit(menuThread);
+        e.submit(fontThread);
+
+        barrier.await();
 
         GAME.titleScreen = new TitleScreen();
-        GAME.createFrame();
 
         timePeriods = FileReader.getTimeStrings();
         conditions = FileReader.getConditionStrings();
 
         while (true) {
-            NPCLoader.loadNPCs();
-            TileMapLoader.loadMaps();
+            CyclicBarrier barrier2 = new CyclicBarrier(3);
+            Thread npcThread = new Thread(() -> NPCLoader.loadNPCs(barrier2));
+            Thread mapThread = new Thread(() -> TileMapLoader.loadMaps(barrier2));
+
+            ExecutorService e1 = Executors.newFixedThreadPool(3);
+
+            e1.submit(npcThread);
+            e1.submit(mapThread);
+
+            barrier2.await();
+
+            GAME.frame.remove(GAME.splashScreen);
+
+            GAME.frame.getContentPane().add(GAME.titleScreen);
+            GAME.frame.revalidate();
+
             GameAudio.startMusic(GameAudio.music_title);
 
             while (GAME.isTitle) {
@@ -736,7 +768,7 @@ public class Game implements Serializable {
 
             GAME.frame.removeKeyListener(GAME.ctrl);
             GAME.frame.remove(GAME.map);
-            GAME.frame.getContentPane().add(GAME.titleScreen);
+            GAME.frame.getContentPane().add(GAME.splashScreen);
             GAME.frame.revalidate();
         }
     }

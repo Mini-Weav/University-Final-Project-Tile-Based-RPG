@@ -4,6 +4,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.util.concurrent.CyclicBarrier;
 
 import static game.Game.GAME;
 
@@ -34,7 +35,7 @@ public class GameAudio {
     /**
      * Pre-loads all the audio files used in the game.
      */
-    public static void loadSounds() {
+    public static void loadSounds(CyclicBarrier barrier) {
         try {
             music_bedroom.open();
             music_exam.open();
@@ -55,6 +56,8 @@ public class GameAudio {
             sfx_pcHack.open();
             sfx_save.open();
             sfx_useStinkBomb.open();
+            System.out.println("music loaded");
+            barrier.await();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,7 +88,7 @@ public class GameAudio {
         GAME.getMusic().loop(-1);
     }
     public static void stopMusic() {
-        GAME.getMusic().stop();
+        if (GAME.getMusic() != null) { GAME.getMusic().stop(); }
     }
 
     /**

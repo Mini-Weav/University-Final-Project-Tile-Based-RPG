@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * 02/11/2017.
@@ -19,17 +20,24 @@ public class TileMapLoader {
     /**
      * Pre-loads all the TileMaps used in the game.
      */
-    public static void loadMaps() {
-        tileMaps = new ArrayList<>();
-        tileMaps.add(new TileMap(0, 0,"hall_g","school_hall", 0, 126, 132));
-        tileMaps.add(new TileMap(1, 0,"hall_1f","school_hall", 1, 128, 180));
-        tileMaps.add(new TileMap(2, 1,"classroom_dt","school_classroom", 0, 88, 132));
-        tileMaps.add(new TileMap(3, 1,"classroom_ft","school_classroom", 0, 164, 132));
-        tileMaps.add(new TileMap(4, 1,"classroom_1f","school_classroom", 1, 128, 160));
-        tileMaps.add(new TileMap(5, 2,"canteen","school_canteen", 0, 126, 176));
-        tileMaps.add(new TileMap(6, 3,"yard","school_yard", 0, 126, 80));
-        tileMaps.add(new TileMap(7, 4, "bedroom", "bedroom", 2, 0, 0));
-        tileMaps.add(new TileMap(8, 5, "staff_room", "school_staffroom", 1, 128, 90));
+    public static void loadMaps(CyclicBarrier barrier) {
+        try {
+            tileMaps = new ArrayList<>();
+            tileMaps.add(new TileMap(0, 0,"hall_g","school_hall", 0, 126, 132));
+            tileMaps.add(new TileMap(1, 0,"hall_1f","school_hall", 1, 128, 180));
+            tileMaps.add(new TileMap(2, 1,"classroom_dt","school_classroom", 0, 88, 132));
+            tileMaps.add(new TileMap(3, 1,"classroom_ft","school_classroom", 0, 164, 132));
+            tileMaps.add(new TileMap(4, 1,"classroom_1f","school_classroom", 1, 128, 160));
+            tileMaps.add(new TileMap(5, 2,"canteen","school_canteen", 0, 126, 176));
+            tileMaps.add(new TileMap(6, 3,"yard","school_yard", 0, 126, 80));
+            tileMaps.add(new TileMap(7, 4, "bedroom", "bedroom", 2, 0, 0));
+            tileMaps.add(new TileMap(8, 5, "staff_room", "school_staffroom", 1, 128, 90));
+            System.out.println("maps loaded");
+            barrier.await();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**

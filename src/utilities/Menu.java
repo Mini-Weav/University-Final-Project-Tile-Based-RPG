@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CyclicBarrier;
 
 import static game.Game.GAME;
 
@@ -224,7 +225,7 @@ public class Menu {
     /**
      * Pre-loads all the Menu images used in the game.
      */
-    public static void loadImages() {
+    public static void loadImages(CyclicBarrier barrier) {
         try {
             imgs = new BufferedImage[11];
             imgs[0] = ImageIO.read(new File("resources/menus/menu_4row.png"));
@@ -253,9 +254,9 @@ public class Menu {
             gradeImgs[2] = ImageIO.read(new File("resources/gradeImages/grade_b.png"));
             gradeImgs[3] = ImageIO.read(new File("resources/gradeImages/grade_a.png"));
             titleImg = ImageIO.read(new File("resources/titlescreen.png"));
-
-        } catch (IOException e) {
-            System.out.println("Cannot menu find image.");
+            System.out.println("menus loaded");
+            barrier.await();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
