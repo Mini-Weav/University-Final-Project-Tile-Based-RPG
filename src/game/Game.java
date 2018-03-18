@@ -9,6 +9,7 @@ import utilities.FileReader;
 import utilities.Menu;
 import utilities.SplashScreen;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
@@ -293,6 +294,11 @@ public class Game implements Serializable {
     private void createFrame() {
         frame = new JFrame("Brooklands Academy");
         frame.getContentPane().add(splashScreen);
+        try {
+            frame.setIconImage(ImageIO.read(getClass().getResourceAsStream("/icon.ico")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         frame.setResizable(false);
         frame.setVisible(true);
         frame.pack();
