@@ -31,19 +31,19 @@ public class NPC extends GameObject{
     private static String[] lessons;
 
     static {
-        tiles.put(0, CharacterTileSet.readTileSet("resources/tilesets/friend_athlete.png", getKEY()));
-        tiles.put(1, CharacterTileSet.readTileSet("resources/tilesets/friend_classmate.png", getKEY()));
-        tiles.put(2, CharacterTileSet.readTileSet("resources/tilesets/friend_nerd.png", getKEY()));
-        tiles.put(3, CharacterTileSet.readTileSet("resources/tilesets/friend_delinquent.png", getKEY()));
-        tiles.put(4, CharacterTileSet.readTileSet("resources/tilesets/friend_tutee.png", getKEY()));
-        tiles.put(5, CharacterTileSet.readTileSet("resources/tilesets/teacher_dt.png", getKEY()));
-        tiles.put(6, CharacterTileSet.readTileSet("resources/tilesets/teacher_ft.png", getKEY()));
-        tiles.put(7, CharacterTileSet.readTileSet("resources/tilesets/teacher_pe.png", getKEY()));
-        tiles.put(8, CharacterTileSet.readTileSet("resources/tilesets/teacher_science.png", getKEY()));
-        tiles.put(9, CharacterTileSet.readTileSet("resources/tilesets/teacher_ict.png", getKEY()));
-        tiles.put(10, CharacterTileSet.readTileSet("resources/tilesets/student_boy.png", getKEY()));
-        tiles.put(20, CharacterTileSet.readTileSet("resources/tilesets/student_girl.png", getKEY()));
-        tiles.put(30, CharacterTileSet.readTileSet("resources/tilesets/dinner_lady.png", getKEY()));
+        tiles.put(0, CharacterTileSet.readTileSet("/tilesets/friend_athlete.png", getKEY()));
+        tiles.put(1, CharacterTileSet.readTileSet("/tilesets/friend_classmate.png", getKEY()));
+        tiles.put(2, CharacterTileSet.readTileSet("/tilesets/friend_nerd.png", getKEY()));
+        tiles.put(3, CharacterTileSet.readTileSet("/tilesets/friend_delinquent.png", getKEY()));
+        tiles.put(4, CharacterTileSet.readTileSet("/tilesets/friend_tutee.png", getKEY()));
+        tiles.put(5, CharacterTileSet.readTileSet("/tilesets/teacher_dt.png", getKEY()));
+        tiles.put(6, CharacterTileSet.readTileSet("/tilesets/teacher_ft.png", getKEY()));
+        tiles.put(7, CharacterTileSet.readTileSet("/tilesets/teacher_pe.png", getKEY()));
+        tiles.put(8, CharacterTileSet.readTileSet("/tilesets/teacher_science.png", getKEY()));
+        tiles.put(9, CharacterTileSet.readTileSet("/tilesets/teacher_ict.png", getKEY()));
+        tiles.put(10, CharacterTileSet.readTileSet("/tilesets/student_boy.png", getKEY()));
+        tiles.put(20, CharacterTileSet.readTileSet("/tilesets/student_girl.png", getKEY()));
+        tiles.put(30, CharacterTileSet.readTileSet("/tilesets/dinner_lady.png", getKEY()));
 
         names = new String[] { "Jack", "Emily", "Alexander", "Nathan", "Frankie", "Mr Hardman", "Ms Mason",
                 "Mr Rodgers", "Mr Burgess", "Ms McCarthy" };

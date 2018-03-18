@@ -17,6 +17,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.concurrent.CyclicBarrier;
 
 import static game.Game.GAME;
 
@@ -59,22 +60,15 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
     /**
      * Reads and stores the current TileMap information from its text file
      *
-     * @param txtFile the current map's text file
+     * @param matrix the current map's 2d List
      * @return a 2-dimensional List of Characters that represent's the current map's text file
      * @throws IOException if the map's text file cannot be read or found
      */
-    private static List<List<Character>> readMap(File txtFile) throws IOException {
-        String line;
-        List<List<Character>> matrix = new ArrayList<>();
-        FileReader fr = new FileReader(txtFile);
-        BufferedReader br = new BufferedReader(fr);
+    private static List<List<Character>> readMap(List<List<Character>> matrix) throws IOException {
+        List<List<Character>> newMatrix = new ArrayList<>();
+        newMatrix.addAll(matrix);
 
-        while ( (line = br.readLine()) != null ) {
-            List<Character> row = new ArrayList<>();
-            for (char ch : line.toCharArray()) { row.add(ch); }
-            matrix.add(row);
-        }
-        return matrix;
+        return newMatrix;
     }
 
     /**
@@ -85,7 +79,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
      */
     void loadMap(TileMap map) {
         try {
-            this.matrix = readMap(map.getTxtFile());
+            matrix = readMap(map.getMatrix());
             maxX = matrix.get(0).size() - 1;
             maxY = matrix.size() - 1;
             tiles = map.copyTiles();
@@ -95,11 +89,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
             GAME.setBadTileMatrix(matrix.size(), matrix.get(0).size());
             GAME.setObjectMatrix(matrix.size(), matrix.get(0).size());
             Menu.setIconPoint(new Point(map.getIconPoint()));
-        } catch (FileNotFoundException e) {
-            System.out.println("Cannot find map txt file.");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("Cannot read line.");
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (map.getId() == 0) { GAME.updateAirVent(); }
@@ -557,7 +547,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                                             GAME.setMenu(null);
                                             GAME.setTextBox(null);
                                             try {
-                                                File manual = new File("resources/manual.pdf");
+                                                File manual = new File("manual.pdf");
                                                 Desktop.getDesktop().open(manual);
                                             } catch (IOException e1) {
                                                 System.out.println("Unable to open manual");

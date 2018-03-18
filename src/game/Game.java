@@ -593,7 +593,7 @@ public class Game implements Serializable {
         Game data;
 
         try {
-            FileInputStream saveData = new FileInputStream("resources/sav/game.ser");
+            FileInputStream saveData = new FileInputStream("sav/game.ser");
             ObjectInputStream in = new ObjectInputStream(saveData);
             data = (Game) in.readObject();
             in.close();
@@ -663,7 +663,7 @@ public class Game implements Serializable {
         mapId = map.getCurrentId();
         menu = null;
         try {
-            FileOutputStream saveData = new FileOutputStream("resources/sav/game.ser");
+            FileOutputStream saveData = new FileOutputStream("sav/game.ser");
             ObjectOutputStream out = new ObjectOutputStream(saveData);
             out.writeObject(this);
             out.close();
@@ -725,15 +725,19 @@ public class Game implements Serializable {
         conditions = FileReader.getConditionStrings();
 
         while (true) {
-            CyclicBarrier barrier2 = new CyclicBarrier(3);
+            CyclicBarrier barrier2 = new CyclicBarrier(2);
             Thread npcThread = new Thread(() -> NPCLoader.loadNPCs(barrier2));
-            Thread mapThread = new Thread(() -> TileMapLoader.loadMaps(barrier2));
 
-            ExecutorService e1 = Executors.newFixedThreadPool(3);
+            ExecutorService e1 = Executors.newFixedThreadPool(2);
 
             e1.submit(npcThread);
-            e1.submit(mapThread);
+            barrier2.await();
 
+            barrier2.reset();
+
+            Thread mapThread = new Thread(() -> TileMapLoader.loadMaps(barrier2));
+
+            e1.submit(mapThread);
             barrier2.await();
 
             GAME.frame.remove(GAME.splashScreen);

@@ -1,11 +1,8 @@
 package utilities;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 /**
@@ -70,20 +67,15 @@ public class FileReader {
      */
     private static String[] readFile(String file) {
         String s;
-        try {
-            Scanner in = new Scanner(new File("resources/texts/" + file + ".txt"));
+        Scanner in = new Scanner(FileReader.class.getResourceAsStream("/texts/" + file + ".txt"));
 
-            ArrayList<String> temp = new ArrayList<>();
-            while (in.hasNext()) {
-                s = in.nextLine();
-                temp.add(s);
-            }
-            in.close();
-            return temp.toArray(new String[0]);
-        } catch (IOException e) {
-            System.out.println("Cannot open text file");
-            return null;
+        ArrayList<String> temp = new ArrayList<>();
+        while (in.hasNext()) {
+            s = in.nextLine();
+            temp.add(s);
         }
+        in.close();
+        return temp.toArray(new String[0]);
     }
 
     /**
@@ -94,7 +86,6 @@ public class FileReader {
             interactiveStrings = readFile("interactive_tiles");
             npcStrings = readFile("npcs");
             for (int i = 0; i < 3; i++) {
-                assert npcStrings != null;
                 jackStrings[i] = npcStrings[i];
                 emilyStrings[i] = npcStrings[i + 4];
                 alexanderStrings[i] = npcStrings[i + 8];
@@ -114,7 +105,6 @@ public class FileReader {
             menuStrings = readFile("menu");
             statusStrings = readFile("status");
             resultStrings = readFile("results");
-            System.out.println("files loaded");
             barrier.await();
         } catch (Exception e) {
             e.printStackTrace();

@@ -17,7 +17,7 @@ import static game.Game.GAME;
  * Handles actions available to the player
  */
 public class Player extends GameObject {
-    public static final List<Tile> TILES = CharacterTileSet.readTileSet("resources/tilesets/player.png", getKEY());
+    public static final List<Tile> TILES = CharacterTileSet.readTileSet("/tilesets/player.png", getKEY());
 
     private Point direction;
     private int condition;
@@ -138,7 +138,7 @@ public class Player extends GameObject {
     private void door() {
         char key = GAME.getTileFromMatrix(getY(), getX());
         if (GAME.getTime() == 10 && key != '$' && key != '^' && key != 'v') {
-            if (key == '£' || key == ' ') {
+            if (key == ':' || key == ' ') {
                 setY(getY() - 1);
                 setGY(getGY() - 8);
                 GAME.getCamera().setY(GAME.getCamera().getY() - 1);
@@ -156,7 +156,7 @@ public class Player extends GameObject {
             }
             GAME.setTextBox(new TextBox(0, FileReader.getMenuString(47)));
         }
-        else if (key == '£') {
+        else if (key == ':') {
             setY(getY() - 1);
             setGY(getGY() - 8);
             GAME.getCamera().setY(GAME.getCamera().getY() - 1);

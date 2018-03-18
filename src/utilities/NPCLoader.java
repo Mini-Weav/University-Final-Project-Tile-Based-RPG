@@ -135,7 +135,6 @@ public class NPCLoader {
                     new NPC(9, 11, 7, Constants.RIGHT_TILE, true, new Patrol(new Point(9, 11), new Point(14, 11))),
                     new NPC(10, 12, 9, Constants.DOWN_TILE, true, null),
                     new NPC(2, 9, 8, Constants.UP_TILE, true, new Patrol(new Point(2, 9)))));
-            System.out.println("NPCs loaded");
             barrier.await();
         } catch (Exception e) {
             e.printStackTrace();

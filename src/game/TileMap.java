@@ -10,8 +10,8 @@ import utilities.TextBox;
 import utilities.TileMapLoader;
 
 import java.awt.*;
+import java.io.*;
 import java.util.List;
-import java.io.File;
 import java.util.*;
 
 import static game.Game.GAME;
@@ -22,9 +22,10 @@ import static game.Game.GAME;
 public class TileMap {
     private int id;
     private int miniMapId;
-    private File txtFile;
+    private InputStream txtFile;
     private Point iconPoint;
 
+    private List<List<Character>> matrix;
     private TreeMap<Character, Tile> tiles;
     private TreeMap<Integer, List<NPC>> NPCs;
     private HashMap<Point, Pair<Integer, Point>> doorPoints;
@@ -43,8 +44,20 @@ public class TileMap {
      */
     public TileMap(int id, int tileSetID, String txtFile, String tileFile, int miniMapId, int x, int y) {
         this.id = id;
-        this.txtFile = new File("resources/maps/"+txtFile+".txt");
-        String tileFile1 = "resources/tilesets/" + tileFile + ".png";
+        this.txtFile = getClass().getResourceAsStream("/maps/"+txtFile+".txt");
+        String line;
+        matrix = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(this.txtFile));
+        try {
+            while ((line = br.readLine()) != null ) {
+                List<Character> row = new ArrayList<>();
+                for (char ch : line.toCharArray()) { row.add(ch); }
+                matrix.add(row);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String tileFile1 = "/tilesets/" + tileFile + ".png";
         tiles = TileMapLoader.readTileSet(tileSetID, tileFile1);
         doorPoints = DoorTile.initialisePoints(id);
         interactivePoints = InteractiveTile.initialisePoints(id);
@@ -58,9 +71,11 @@ public class TileMap {
 
     int getMiniMapId() { return miniMapId; }
 
-    File getTxtFile() { return txtFile; }
+    InputStream getTxtFile() { return txtFile; }
 
     Point getIconPoint() { return iconPoint; }
+
+    public List<List<Character>> getMatrix() { return matrix; }
 
     TreeMap<Character, Tile> copyTiles() { return new TreeMap<>(tiles); }
     Tile getTile(Character key) { return tiles.get(key); }

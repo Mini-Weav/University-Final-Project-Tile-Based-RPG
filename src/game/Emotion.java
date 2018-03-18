@@ -22,7 +22,7 @@ public class Emotion {
     static {
         try {
             images = new ArrayList<>(Objects.requireNonNull(
-                    TileSet.readTileSet(3, 3, "resources/tilesets/emotions.png")));
+                    TileSet.readTileSet(3, 3, "/tilesets/emotions.png")));
         } catch (NullPointerException e) { System.out.println("Unable to read tileset"); }
     }
 

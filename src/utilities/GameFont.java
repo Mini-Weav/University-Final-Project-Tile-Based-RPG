@@ -2,7 +2,6 @@ package utilities;
 
 import java.awt.*;
 import java.awt.font.TextAttribute;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CyclicBarrier;
@@ -35,13 +34,12 @@ public class GameFont {
         textAttibutes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_TWO_PIXEL);
         try {
             GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            e.registerFont(java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, new File("resources/Pokemon GB.ttf")));
+            e.registerFont(java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, GameFont.class.getResourceAsStream("/Pokemon GB.ttf")));
             bigFont = new Font("Pokemon GB", 0, 16);
             tinyFont = new Font("Pokemon GB", 0, 11);
             medFont = new Font("Pokemon GB", 0, 14);
             smallFont = new Font("Pokemon GB", 0, 12);
             smallUnderline = new Font("Pokemon GB", 0, 12).deriveFont(textAttibutes);
-            System.out.println("font loaded");
             barrier.await();
         } catch (Exception e) {
             e.printStackTrace();

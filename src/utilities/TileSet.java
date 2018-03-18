@@ -15,7 +15,7 @@ public class TileSet {
     public static List<BufferedImage> readTileSet(int rows, int cols, String fname) {
         List<BufferedImage> images = new ArrayList<>();
         BufferedImage ts;
-        try { ts = ImageIO.read(new File(fname)); }
+        try { ts = ImageIO.read(TileSet.class.getResourceAsStream(fname)); }
         catch (IOException e) {
             System.out.println("Cannot find TileSet file.");
             e.printStackTrace();

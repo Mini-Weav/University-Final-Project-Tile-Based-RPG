@@ -6,7 +6,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -14,7 +13,7 @@ import java.io.IOException;
  */
 public class SplashScreen extends JComponent {
 
-    private final BufferedImage img = ImageIO.read(new File("resources/loadingscreen.png"));
+    private final BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/loadingscreen.png"));
 
     public SplashScreen() throws IOException {
     }

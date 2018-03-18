@@ -3,7 +3,7 @@ package utilities;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.util.concurrent.CyclicBarrier;
 
 import static game.Game.GAME;
@@ -56,7 +56,6 @@ public class GameAudio {
             sfx_pcHack.open();
             sfx_save.open();
             sfx_useStinkBomb.open();
-            System.out.println("music loaded");
             barrier.await();
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,8 +66,8 @@ public class GameAudio {
         Clip clip = null;
         try {
             clip = AudioSystem.getClip();
-            AudioInputStream sample = AudioSystem.getAudioInputStream(new File(
-                    "resources/sounds/" + name + ".wav"));
+            AudioInputStream sample = AudioSystem.getAudioInputStream(new BufferedInputStream(GameAudio.class.getResourceAsStream((
+                    "/sounds/" + name + ".wav"))));
             clip.open(sample);
         } catch (Exception e) {
             e.printStackTrace();

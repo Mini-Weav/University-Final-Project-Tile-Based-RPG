@@ -182,7 +182,7 @@ public class Menu {
 
     public static void loadMapImage(int id) {
         try {
-            iconImg = ImageIO.read(new File("resources/minimaps/minimap_icon.png"));
+            iconImg = ImageIO.read(Menu.class.getResourceAsStream("/minimaps/minimap_icon.png"));
             minimapId = id;
             mapImg = mapImgs[id];
         }
@@ -228,33 +228,32 @@ public class Menu {
     public static void loadImages(CyclicBarrier barrier) {
         try {
             imgs = new BufferedImage[11];
-            imgs[0] = ImageIO.read(new File("resources/menus/menu_4row.png"));
-            imgs[1] = ImageIO.read(new File("resources/menus/menu_2row_thin.png"));
-            imgs[2] = ImageIO.read(new File("resources/menus/menu_5row.png"));
-            imgs[3] = ImageIO.read(new File("resources/menus/menu_10row_wide.png"));
-            imgs[4] = ImageIO.read(new File("resources/menus/menu_5row_wide.png"));
-            imgs[5] = ImageIO.read(new File("resources/menus/menu_4row_wide.png"));
-            imgs[6] = ImageIO.read(new File("resources/menus/menu_3row.png"));
-            imgs[7] = ImageIO.read(new File("resources/menus/menu_3row_wide.png"));
-            imgs[8] = ImageIO.read(new File("resources/menus/menu_5row_medium.png"));
-            imgs[9] = ImageIO.read(new File("resources/menus/menu_3row(title).png"));
-            imgs[10] = ImageIO.read(new File("resources/menus/menu_6row.png"));
+            imgs[0] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_4row.png"));
+            imgs[1] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_2row_thin.png"));
+            imgs[2] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_5row.png"));
+            imgs[3] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_10row_wide.png"));
+            imgs[4] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_5row_wide.png"));
+            imgs[5] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_4row_wide.png"));
+            imgs[6] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_3row.png"));
+            imgs[7] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_3row_wide.png"));
+            imgs[8] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_5row_medium.png"));
+            imgs[9] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_3row(title).png"));
+            imgs[10] = ImageIO.read(Menu.class.getResourceAsStream("/menus/menu_6row.png"));
             mapImgs = new BufferedImage[2];
-            mapImgs[0] = ImageIO.read(new File("resources/minimaps/minimap1.png"));
-            mapImgs[1] = ImageIO.read(new File("resources/minimaps/minimap2.png"));
+            mapImgs[0] = ImageIO.read(Menu.class.getResourceAsStream("/minimaps/minimap1.png"));
+            mapImgs[1] = ImageIO.read(Menu.class.getResourceAsStream("/minimaps/minimap2.png"));
             friendImgs = new BufferedImage[5];
-            friendImgs[0] = ImageIO.read(new File("resources/friendImages/friend1.png"));
-            friendImgs[1] = ImageIO.read(new File("resources/friendImages/friend2.png"));
-            friendImgs[2] = ImageIO.read(new File("resources/friendImages/friend3.png"));
-            friendImgs[3] = ImageIO.read(new File("resources/friendImages/friend4.png"));
-            friendImgs[4] = ImageIO.read(new File("resources/friendImages/friend5.png"));
+            friendImgs[0] = ImageIO.read(Menu.class.getResourceAsStream("/friendImages/friend1.png"));
+            friendImgs[1] = ImageIO.read(Menu.class.getResourceAsStream("/friendImages/friend2.png"));
+            friendImgs[2] = ImageIO.read(Menu.class.getResourceAsStream("/friendImages/friend3.png"));
+            friendImgs[3] = ImageIO.read(Menu.class.getResourceAsStream("/friendImages/friend4.png"));
+            friendImgs[4] = ImageIO.read(Menu.class.getResourceAsStream("/friendImages/friend5.png"));
             gradeImgs = new BufferedImage[4];
-            gradeImgs[0] = ImageIO.read(new File("resources/gradeImages/grade_d.png"));
-            gradeImgs[1] = ImageIO.read(new File("resources/gradeImages/grade_c.png"));
-            gradeImgs[2] = ImageIO.read(new File("resources/gradeImages/grade_b.png"));
-            gradeImgs[3] = ImageIO.read(new File("resources/gradeImages/grade_a.png"));
-            titleImg = ImageIO.read(new File("resources/titlescreen.png"));
-            System.out.println("menus loaded");
+            gradeImgs[0] = ImageIO.read(Menu.class.getResourceAsStream("/gradeImages/grade_d.png"));
+            gradeImgs[1] = ImageIO.read(Menu.class.getResourceAsStream("/gradeImages/grade_c.png"));
+            gradeImgs[2] = ImageIO.read(Menu.class.getResourceAsStream("/gradeImages/grade_b.png"));
+            gradeImgs[3] = ImageIO.read(Menu.class.getResourceAsStream("/gradeImages/grade_a.png"));
+            titleImg = ImageIO.read(Menu.class.getResourceAsStream("/titlescreen.png"));
             barrier.await();
         } catch (Exception e) {
             e.printStackTrace();

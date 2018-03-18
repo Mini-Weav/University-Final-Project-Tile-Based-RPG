@@ -107,18 +107,17 @@ public class TextBox {
     public static void loadImages(CyclicBarrier barrier) {
         try {
             imgs = new BufferedImage[5];
-            imgs[0] = ImageIO.read(new File("resources/textboxes/textbox.png"));
-            imgs[1] = ImageIO.read(new File("resources/textboxes/textbox_whiteboard1.png"));
-            imgs[2] = ImageIO.read(new File("resources/textboxes/textbox_med.png"));
-            imgs[3] = ImageIO.read(new File("resources/textboxes/textbox_whiteboard2.png"));
-            imgs[4] = ImageIO.read(new File("resources/textboxes/textbox_whiteboard3.png"));
+            imgs[0] = ImageIO.read(TextBox.class.getResourceAsStream("/textboxes/textbox.png"));
+            imgs[1] = ImageIO.read(TextBox.class.getResourceAsStream("/textboxes/textbox_whiteboard1.png"));
+            imgs[2] = ImageIO.read(TextBox.class.getResourceAsStream("/textboxes/textbox_med.png"));
+            imgs[3] = ImageIO.read(TextBox.class.getResourceAsStream("/textboxes/textbox_whiteboard2.png"));
+            imgs[4] = ImageIO.read(TextBox.class.getResourceAsStream("/textboxes/textbox_whiteboard3.png"));
             npcImgs = new BufferedImage[5];
-            npcImgs[0] = ImageIO.read(new File("resources/friendImages/friend1.png"));
-            npcImgs[1] = ImageIO.read(new File("resources/friendImages/friend2.png"));
-            npcImgs[2] = ImageIO.read(new File("resources/friendImages/friend3.png"));
-            npcImgs[3] = ImageIO.read(new File("resources/friendImages/friend4.png"));
-            npcImgs[4] = ImageIO.read(new File("resources/friendImages/friend5.png"));
-            System.out.println("text boxes loaded");
+            npcImgs[0] = ImageIO.read(TextBox.class.getResourceAsStream("/friendImages/friend1.png"));
+            npcImgs[1] = ImageIO.read(TextBox.class.getResourceAsStream("/friendImages/friend2.png"));
+            npcImgs[2] = ImageIO.read(TextBox.class.getResourceAsStream("/friendImages/friend3.png"));
+            npcImgs[3] = ImageIO.read(TextBox.class.getResourceAsStream("/friendImages/friend4.png"));
+            npcImgs[4] = ImageIO.read(TextBox.class.getResourceAsStream("/friendImages/friend5.png"));
             barrier.await();
         } catch (Exception e) {
             e.printStackTrace();
