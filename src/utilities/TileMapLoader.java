@@ -32,6 +32,7 @@ public class TileMapLoader {
             tileMaps.add(new TileMap(6, 3,"yard","school_yard", 0, 126, 80));
             tileMaps.add(new TileMap(7, 4, "bedroom", "bedroom", 2, 0, 0));
             tileMaps.add(new TileMap(8, 5, "staff_room", "school_staffroom", 1, 128, 90));
+            while (tileMaps.size() != 9) { /* Do nothing */ }
             System.out.println("maps loaded");
             barrier.await();
         } catch (Exception e) {
