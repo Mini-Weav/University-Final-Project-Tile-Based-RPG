@@ -93,6 +93,7 @@ public class LessonTypeB extends Lesson {
                 GameAudio.playSfx(GameAudio.sfx_item);
                 setFeedbackText(FileReader.getLessonString(24));
                 GAME.getPlayer().setEmotion(new Emotion(2));
+                setScore(getScore() * 2);
                 if (GAME.hasItem(id, 3)) { GAME.giveItem(id, 2); }
                 else { GAME.giveItem(id, getGrade() - 1); }
             }
@@ -123,29 +124,11 @@ public class LessonTypeB extends Lesson {
                     return succeedTask(reread);
                 }
                 else {
-                    if (reread) {
-                        setFeedbackText(FileReader.getLessonString(27));
-                        GAME.getPlayer().setEmotion(new Emotion(5));
-                        return 1;
-                    }
-                    else {
-                        setFeedbackText(FileReader.getLessonString(28));
-                        GAME.getPlayer().setEmotion(new Emotion(6));
-                        return 0.5;
-                    }
+                    return okScore(reread);
                 }
             case 2:
                 if (meticulous) {
-                    if (reread) {
-                        setFeedbackText(FileReader.getLessonString(27));
-                        GAME.getPlayer().setEmotion(new Emotion(5));
-                        return 2;
-                    }
-                    else {
-                        setFeedbackText(FileReader.getLessonString(28));
-                        GAME.getPlayer().setEmotion(new Emotion(6));
-                        return 1;
-                    }
+                    return okScore(reread);
                 }
                 else {
                     if (reread) {
@@ -161,6 +144,25 @@ public class LessonTypeB extends Lesson {
                 }
         }
         return 0;
+    }
+
+    /**
+     * Determines the result of a task done to at least a nok standard.
+     *
+     * @param goodStandard whether or not the task is done to an excellent standard
+     * @return the points gained from the player's completed task
+     */
+    private double okScore(boolean goodStandard) {
+        if (goodStandard) {
+            setFeedbackText(FileReader.getLessonString(27));
+            GAME.getPlayer().setEmotion(new Emotion(5));
+            return 1;
+        }
+        else {
+            setFeedbackText(FileReader.getLessonString(28));
+            GAME.getPlayer().setEmotion(new Emotion(6));
+            return 0.5;
+        }
     }
 
     /**
