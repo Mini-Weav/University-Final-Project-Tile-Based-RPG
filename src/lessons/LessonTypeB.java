@@ -146,6 +146,12 @@ public class LessonTypeB extends Lesson {
         return 0;
     }
 
+    /**
+     * Determines the result of a task done to at least a nok standard.
+     *
+     * @param goodStandard whether or not the task is done to an excellent standard
+     * @return the points gained from the player's completed task
+     */
     private double okScore(boolean goodStandard) {
         if (goodStandard) {
             setFeedbackText(FileReader.getLessonString(27));
@@ -160,7 +166,7 @@ public class LessonTypeB extends Lesson {
     }
 
     /**
-     * Determines the result of a successful task.
+     * Determines the result of a task done to at least a good standard.
      *
      * @param excellentStandard whether or not the task is done to an excellent standard
      * @return the points gained from the player's completed task
