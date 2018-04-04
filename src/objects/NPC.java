@@ -208,14 +208,14 @@ public class NPC extends GameObject{
         GameAudio.playSfx(GameAudio.sfx_click);
         if (yes) {
             if (id == 1) {
-                if (GAME.hasLovelyCake() && GAME.getFriendValue(id) >= 20) { GAME.setMenu(new Menu(16)); }
+                if (GAME.hasLovelyCake() && GAME.getFriendValue(id) > 20) { GAME.setMenu(new Menu(16)); }
                 else { GAME.setMenu(new Menu(6)); }
             }
             if (id == 3) { GAME.setMenu(new Menu(7)); }
         }
         else {
             GAME.setMenu(null);
-            if (id == 3 && GAME.getFriendValue(id) >= 30 && GAME.canGetDrink()) { freeDrink(); }
+            if (id == 3 && GAME.getFriendValue(id) > 20 && GAME.canGetDrink()) { freeDrink(); }
             else { friendTextBox(); }
         }
     }
