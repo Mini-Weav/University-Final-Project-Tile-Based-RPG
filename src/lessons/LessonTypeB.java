@@ -147,7 +147,7 @@ public class LessonTypeB extends Lesson {
     }
 
     /**
-     * Determines the result of a task done to at least a nok standard.
+     * Determines the result of a task done to at least an ok standard.
      *
      * @param goodStandard whether or not the task is done to an excellent standard
      * @return the points gained from the player's completed task
