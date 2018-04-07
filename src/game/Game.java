@@ -384,11 +384,13 @@ public class Game implements Serializable {
      */
     void updateAirVent() {
         if (hasStinkBomb() && hasSuperKey() && gradeValues[4] > 29 && !hasQuestions()) {
+            System.out.println("hello");
             TileMapLoader.tileMaps.get(0).putPoint(new Point(7, 5),
                     new TextBox(0, FileReader.getInteractiveString(5) + FileReader.getInteractiveString(36)));
             Tile oldTile = TileMapLoader.tileMaps.get(0).getTile('A');
-            Tile newTile = new InteractiveTile(oldTile.getImg(), true, 'A', true);
+            Tile newTile = new InteractiveTile(oldTile.getImg(), true, 'A', false);
             TileMapLoader.tileMaps.get(0).putTile('A', newTile);
+            ((InteractiveTile) (TileMapLoader.tileMaps.get(0).getTile('A'))).changeMenu();
         }
         else {
             TileMapLoader.tileMaps.get(0).putPoint(new Point(7, 5),
@@ -396,6 +398,7 @@ public class Game implements Serializable {
             Tile oldTile = TileMapLoader.tileMaps.get(0).getTile('A');
             Tile newTile = new InteractiveTile(oldTile.getImg(), true, 'A', false);
             TileMapLoader.tileMaps.get(0).putTile('A', newTile);
+            ((InteractiveTile) (TileMapLoader.tileMaps.get(0).getTile('A'))).changeMenu();
         }
     }
 
