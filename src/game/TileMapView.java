@@ -210,7 +210,6 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
                     else if (dirTile instanceof InteractiveTile) {
                         TileMap currentMap = TileMapLoader.tileMaps.get(GAME.getMapId());
                         GAME.setTextBox(currentMap.getInteractivePoint(new Point(x, y)));
-                        System.out.println(((InteractiveTile) dirTile).isMenu());
                         if ((((InteractiveTile) dirTile).isMenu())) {
                             GAME.setMenu(new Menu(14)); }
                     }

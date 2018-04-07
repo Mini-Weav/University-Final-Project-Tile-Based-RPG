@@ -384,7 +384,6 @@ public class Game implements Serializable {
      */
     void updateAirVent() {
         if (hasStinkBomb() && hasSuperKey() && gradeValues[4] > 29 && !hasQuestions()) {
-            System.out.println("hello");
             TileMapLoader.tileMaps.get(0).putPoint(new Point(7, 5),
                     new TextBox(0, FileReader.getInteractiveString(5) + FileReader.getInteractiveString(36)));
             Tile oldTile = TileMapLoader.tileMaps.get(0).getTile('A');
