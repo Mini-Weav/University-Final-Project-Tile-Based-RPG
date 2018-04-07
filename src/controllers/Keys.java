@@ -103,6 +103,20 @@ public class Keys extends KeyAdapter implements Controller {
                     GAME.goHome(true);
                 }
                 break;
+            case KeyEvent.VK_7:
+                if (GAME.isDebug()) {
+                    GAME.giveItem(0, 1);
+                    GAME.giveItem(1, 3);
+                    GAME.increaseGradeValue(4, 30);
+                }
+                break;
+            case KeyEvent.VK_8:
+                if (GAME.isDebug()) {
+                    GAME.increaseGradeValue(2, 10);
+                    GAME.increaseGradeValue(3, 10);
+                    GAME.increaseGradeValue(4, 10);
+                }
+                break;
         }
     }
 
