@@ -333,6 +333,7 @@ public class NPC extends GameObject{
             int increase = (GAME.getGradeValue(gradeId) / 10) + 1;
             GAME.increaseFriendValue(id, increase);
             GAME.increasePoints(0, id, increase);
+            GAME.resetDaysSince(id / 2);
             Activity.startActivity(id);
         }
         else {
