@@ -351,25 +351,34 @@ public class NPC extends GameObject{
                     GAME.setTextBox(new TextBox(text.get(0)[2], this, false));
                     GAME.setMenu(new Menu(5));
                 }
-                else { friendTextBox(); }
+                else {
+                    friendTextBox();
+                    return;
+                }
                 break;
             case 2:
                 if (GAME.getGradeValue(3) > 9) {
                     GAME.setTextBox(new TextBox(text.get(2)[2], this, false));
                     GAME.setMenu(new Menu(5));
                 }
-                else { friendTextBox(); }
+                else {
+                    friendTextBox();
+                    return;
+                }
                 break;
             case 4:
                 if (GAME.getGradeValue(4) > 9) {
                     GAME.setTextBox(new TextBox(text.get(4)[2], this, false));
                     GAME.setMenu(new Menu(5));
                 }
-                else { friendTextBox(); }
+                else {
+                    friendTextBox();
+                    return;
+                }
                 break;
             default:
                 friendTextBox();
-                break;
+                return;
         }
         GAME.resetDaysSince(id / 2);
     }
