@@ -84,6 +84,7 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
      * @param map the TileMap to be loaded into the game.
      */
     void loadMap(TileMap map) {
+        GAME.updateAirVent();
         try {
             this.matrix = readMap(map.getTxtFile());
             maxX = matrix.get(0).size() - 1;
@@ -102,7 +103,6 @@ class TileMapView extends JComponent implements MouseListener, MouseMotionListen
             System.out.println("Cannot read line.");
             e.printStackTrace();
         }
-        if (map.getId() == 0) { GAME.updateAirVent(); }
     }
 
     /**

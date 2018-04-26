@@ -28,7 +28,7 @@ public class InteractiveTile extends Tile {
 
     public boolean isMenu() { return menu; }
 
-    public void changeMenu() { menu = !menu; }
+    public void setMenu(boolean menu) { this.menu = menu; }
 
     /**
      * Initialises the co-ordinates of a map's interactive points.

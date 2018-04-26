@@ -387,9 +387,8 @@ public class Game implements Serializable {
             TileMapLoader.tileMaps.get(0).putPoint(new Point(7, 5),
                     new TextBox(0, FileReader.getInteractiveString(5) + FileReader.getInteractiveString(36)));
             Tile oldTile = TileMapLoader.tileMaps.get(0).getTile('A');
-            Tile newTile = new InteractiveTile(oldTile.getImg(), true, 'A', false);
+            Tile newTile = new InteractiveTile(oldTile.getImg(), true, 'A', true);
             TileMapLoader.tileMaps.get(0).putTile('A', newTile);
-            ((InteractiveTile) (TileMapLoader.tileMaps.get(0).getTile('A'))).changeMenu();
         }
         else {
             TileMapLoader.tileMaps.get(0).putPoint(new Point(7, 5),
@@ -397,7 +396,6 @@ public class Game implements Serializable {
             Tile oldTile = TileMapLoader.tileMaps.get(0).getTile('A');
             Tile newTile = new InteractiveTile(oldTile.getImg(), true, 'A', false);
             TileMapLoader.tileMaps.get(0).putTile('A', newTile);
-            ((InteractiveTile) (TileMapLoader.tileMaps.get(0).getTile('A'))).changeMenu();
         }
     }
 
